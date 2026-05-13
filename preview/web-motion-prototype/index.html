@@ -119,7 +119,7 @@
     }
 
     .hero {
-      padding: 88px 0 56px;
+      padding: 54px 0 56px;
       display: grid;
       grid-template-columns: 1.1fr .9fr;
       align-items: center;
@@ -544,24 +544,44 @@
     .build-progress {
       position: relative;
       overflow: hidden;
-      margin-top: 26px;
-      max-width: 620px;
-      border: 1px solid rgba(66,232,255,.2);
-      border-radius: 24px;
-      padding: 16px;
+      margin: 14px auto 0;
+      max-width: 760px;
+      border: 1px solid rgba(66,232,255,.22);
+      border-radius: 28px;
+      padding: 18px 20px;
       background:
-        radial-gradient(circle at 8% 0%, rgba(66,232,255,.18), transparent 34%),
-        rgba(255,255,255,.06);
-      box-shadow: 0 18px 50px rgba(0,30,80,.22);
+        radial-gradient(circle at 12% 0%, rgba(66,232,255,.2), transparent 32%),
+        radial-gradient(circle at 92% 20%, rgba(0,109,255,.18), transparent 30%),
+        rgba(255,255,255,.062);
+      box-shadow: 0 22px 70px rgba(0,30,80,.24);
+      isolation: isolate;
     }
 
     .build-progress::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,.12) 42%, transparent 62%);
+      background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,.13) 42%, transparent 62%);
       transform: translateX(-100%);
       animation: progress-sheen 4.8s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    .build-progress::after {
+      content: "";
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      right: 76px;
+      top: 24px;
+      border-radius: 999px;
+      background: var(--cyan);
+      box-shadow:
+        -26px 28px 0 rgba(66,232,255,.35),
+        -78px 8px 0 rgba(25,168,255,.3),
+        18px 42px 0 rgba(66,232,255,.24);
+      animation: spark-rise 3.4s ease-in-out infinite;
+      opacity: .85;
     }
 
     .progress-top {
@@ -571,40 +591,97 @@
       justify-content: space-between;
       align-items: center;
       gap: 14px;
-      margin-bottom: 11px;
+      margin-bottom: 13px;
       color: #dff5ff;
-      font-weight: 800;
+      font-weight: 900;
       font-size: .92rem;
+      letter-spacing: .01em;
     }
 
-    .progress-top span:last-child { color: var(--cyan); }
+    .progress-top span:first-child {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-    .progress-track {
+    .progress-top span:first-child::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--cyan);
+      box-shadow: 0 0 18px var(--cyan);
+    }
+
+    .progress-top span:last-child {
+      color: var(--cyan);
+      font-size: 1.08rem;
+      text-shadow: 0 0 18px rgba(66,232,255,.42);
+    }
+
+    .battery-wrap {
       position: relative;
       z-index: 1;
-      height: 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.11);
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,.08);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .progress-fill {
-      height: 100%;
-      width: 68%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, var(--blue-2), var(--blue), var(--cyan));
-      box-shadow: 0 0 24px rgba(66,232,255,.48);
-      transform-origin: left;
-      animation: progress-breathe 3.6s ease-in-out infinite;
+    .battery-shell {
+      position: relative;
+      flex: 1;
+      min-width: 0;
+      height: 38px;
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 5px;
+      padding: 6px;
+      border-radius: 14px;
+      border: 2px solid rgba(207,239,255,.62);
+      background: rgba(3,10,22,.55);
+      box-shadow:
+        inset 0 0 24px rgba(0,0,0,.3),
+        0 0 28px rgba(66,232,255,.14);
     }
+
+    .battery-shell::after {
+      content: "";
+      position: absolute;
+      right: -10px;
+      top: 10px;
+      width: 7px;
+      height: 16px;
+      border-radius: 0 5px 5px 0;
+      background: rgba(207,239,255,.62);
+      box-shadow: 0 0 14px rgba(66,232,255,.22);
+    }
+
+    .battery-cell {
+      border-radius: 7px;
+      background: rgba(255,255,255,.09);
+      border: 1px solid rgba(255,255,255,.08);
+      overflow: hidden;
+    }
+
+    .battery-cell.filled {
+      background: linear-gradient(180deg, #8cffd2, var(--cyan) 45%, var(--blue));
+      box-shadow: 0 0 18px rgba(66,232,255,.42);
+      animation: cell-charge 2.6s ease-in-out infinite;
+    }
+
+    .battery-cell:nth-child(2) { animation-delay: .08s; }
+    .battery-cell:nth-child(3) { animation-delay: .16s; }
+    .battery-cell:nth-child(4) { animation-delay: .24s; }
+    .battery-cell:nth-child(5) { animation-delay: .32s; }
+    .battery-cell:nth-child(6) { animation-delay: .40s; }
+    .battery-cell:nth-child(7) { animation-delay: .48s; }
 
     .progress-note {
       position: relative;
       z-index: 1;
-      margin: 10px 0 0;
-      color: var(--muted);
-      font-size: .88rem;
+      margin: 11px 0 0;
+      color: #c4d3e5;
+      font-size: .9rem;
     }
 
     .motion-orb {
@@ -637,9 +714,15 @@
       70%, 100% { transform: translateX(120%); }
     }
 
-    @keyframes progress-breathe {
-      0%, 100% { filter: saturate(1); transform: scaleX(.985); }
-      50% { filter: saturate(1.25); transform: scaleX(1); }
+    @keyframes cell-charge {
+      0%, 100% { filter: brightness(1) saturate(1); transform: scaleY(.96); }
+      50% { filter: brightness(1.22) saturate(1.18); transform: scaleY(1); }
+    }
+
+    @keyframes spark-rise {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(.85); opacity: .35; }
+      35% { transform: translate3d(-8px, -10px, 0) scale(1); opacity: .95; }
+      70% { transform: translate3d(8px, -22px, 0) scale(.72); opacity: .2; }
     }
 
     @keyframes orb-route {
@@ -687,7 +770,9 @@
       }
       .logo-ghost { width: 64px; right: 10px; bottom: 12px; opacity: .075; }
       .motion-orb { opacity: .55; }
-      .hero { grid-template-columns: 1fr; padding-top: 56px; }
+      .build-progress { margin-top: 12px; padding: 15px; }
+      .battery-shell { height: 34px; gap: 4px; }
+      .hero { grid-template-columns: 1fr; padding-top: 34px; }
       .hero-card { min-height: 320px; }
       .grid-3, .about, .projects { grid-template-columns: 1fr; }
       .section-head, .cta { align-items: flex-start; flex-direction: column; }
@@ -720,16 +805,29 @@
   </header>
 
   <main id="inicio" class="page">
+    <section class="build-progress" aria-label="Estado de construcción de la web">
+      <div class="progress-top"><span>Web en construcción</span><span>68%</span></div>
+      <div class="battery-wrap">
+        <div class="battery-shell" aria-hidden="true">
+          <span class="battery-cell filled"></span>
+          <span class="battery-cell filled"></span>
+          <span class="battery-cell filled"></span>
+          <span class="battery-cell filled"></span>
+          <span class="battery-cell filled"></span>
+          <span class="battery-cell filled"></span>
+          <span class="battery-cell filled"></span>
+          <span class="battery-cell"></span>
+          <span class="battery-cell"></span>
+          <span class="battery-cell"></span>
+        </div>
+      </div>
+      <p class="progress-note">Primera versión online. Próximos pasos: portfolio real, casos prácticos, guías tech completas y pulido visual.</p>
+    </section>
     <section class="hero">
       <div>
         <div class="eyebrow"><span class="dot"></span> AI Engineering · Automatización · Cloud</div>
         <h1>Soluciones técnicas con <span class="gradient-text">IA y cloud</span>.</h1>
         <p class="lead">Soy Víctor Rocamora. Trabajo en la intersección entre sistemas, inteligencia artificial y automatización para construir herramientas útiles, claras y aplicables a problemas reales.</p>
-        <div class="build-progress" aria-label="Estado de construcción de la web">
-          <div class="progress-top"><span>Web en construcción</span><span>68%</span></div>
-          <div class="progress-track"><div class="progress-fill"></div></div>
-          <p class="progress-note">Primera versión publicada. Próximos pasos: portfolio real, casos prácticos, guías tech y mejoras visuales.</p>
-        </div>
         <div class="hero-actions">
           <a class="btn primary" href="#proyectos">Ver proyectos</a>
           <a class="btn" href="#contacto">Contactar</a>
