@@ -435,11 +435,36 @@
     }
 
     .project {
+      position: relative;
+      overflow: hidden;
       border: 1px solid var(--line);
       border-radius: 24px;
       padding: 26px;
       background: rgba(255,255,255,.055);
+      transition: transform .24s ease, background .24s ease, border .24s ease, box-shadow .24s ease;
     }
+
+    .project::after {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      right: -70px;
+      top: -72px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(66,232,255,.16), transparent 66%);
+      opacity: 0;
+      transition: opacity .24s ease, transform .24s ease;
+    }
+
+    .project:hover {
+      transform: translateY(-5px);
+      background: var(--card-strong);
+      border-color: rgba(66, 232, 255, .28);
+      box-shadow: 0 22px 58px rgba(0,109,255,.16);
+    }
+
+    .project:hover::after { opacity: 1; transform: scale(1.08); }
 
     .project small {
       color: var(--cyan);
@@ -619,6 +644,40 @@
       text-shadow: 0 0 18px rgba(66,232,255,.42);
     }
 
+    .charge-percent {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .charge-bolt {
+      position: relative;
+      display: inline-grid;
+      place-items: center;
+      width: 25px;
+      height: 25px;
+      border-radius: 999px;
+      color: #07111f;
+      background: linear-gradient(135deg, #8cffd2, var(--cyan));
+      box-shadow: 0 0 20px rgba(66,232,255,.58);
+      animation: bolt-electric 1.75s ease-in-out infinite;
+    }
+
+    .charge-bolt::before,
+    .charge-bolt::after {
+      content: "";
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
+      background: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan);
+      opacity: 0;
+    }
+
+    .charge-bolt::before { right: -8px; top: 4px; animation: bolt-spark-a 1.75s ease-in-out infinite; }
+    .charge-bolt::after { left: -7px; bottom: 3px; animation: bolt-spark-b 1.75s ease-in-out infinite; }
+
     .battery-wrap {
       position: relative;
       z-index: 1;
@@ -725,6 +784,24 @@
       70% { transform: translate3d(8px, -22px, 0) scale(.72); opacity: .2; }
     }
 
+    @keyframes bolt-electric {
+      0%, 100% { transform: scale(1) rotate(0deg); filter: brightness(1); }
+      45% { transform: scale(1.08) rotate(-4deg); filter: brightness(1.3); }
+      70% { transform: scale(.98) rotate(3deg); filter: brightness(1.12); }
+    }
+
+    @keyframes bolt-spark-a {
+      0%, 100% { opacity: 0; transform: translate3d(0,0,0) scale(.5); }
+      38% { opacity: .95; transform: translate3d(9px,-7px,0) scale(1); }
+      65% { opacity: 0; transform: translate3d(15px,-12px,0) scale(.35); }
+    }
+
+    @keyframes bolt-spark-b {
+      0%, 100% { opacity: 0; transform: translate3d(0,0,0) scale(.5); }
+      48% { opacity: .85; transform: translate3d(-8px,7px,0) scale(.9); }
+      72% { opacity: 0; transform: translate3d(-13px,12px,0) scale(.35); }
+    }
+
     @keyframes orb-route {
       0%, 100% { transform: translate3d(0,0,0) scale(1); opacity: .65; }
       40% { transform: translate3d(60px, 120px, 0) scale(1.08); opacity: .9; }
@@ -806,7 +883,7 @@
 
   <main id="inicio" class="page">
     <section class="build-progress" aria-label="Estado de construcción de la web">
-      <div class="progress-top"><span>Web en construcción</span><span>68%</span></div>
+      <div class="progress-top"><span>Web en construcción</span><span class="charge-percent"><span class="charge-bolt" aria-hidden="true">⚡</span>68%</span></div>
       <div class="battery-wrap">
         <div class="battery-shell" aria-hidden="true">
           <span class="battery-cell filled"></span>
@@ -821,12 +898,11 @@
           <span class="battery-cell"></span>
         </div>
       </div>
-      <p class="progress-note">Primera versión online. Próximos pasos: portfolio real, casos prácticos, guías tech completas y pulido visual.</p>
     </section>
     <section class="hero">
       <div>
         <div class="eyebrow"><span class="dot"></span> AI Engineering · Automatización · Cloud</div>
-        <h1>Soluciones técnicas con <span class="gradient-text">IA y cloud</span>.</h1>
+        <h1>Soluciones técnicas con <span class="gradient-text">IA y cloud</span></h1>
         <p class="lead">Soy Víctor Rocamora. Trabajo en la intersección entre sistemas, inteligencia artificial y automatización para construir herramientas útiles, claras y aplicables a problemas reales.</p>
         <div class="hero-actions">
           <a class="btn primary" href="#proyectos">Ver proyectos</a>
@@ -857,7 +933,7 @@
 
     <section id="sobre-mi" class="about reveal">
       <div class="about-panel big">
-        <h2>Perfil técnico, enfoque práctico.</h2>
+        <h2>Perfil técnico, enfoque práctico</h2>
         <div class="tags">
           <span class="tag">ASIR</span>
           <span class="tag">Máster IA</span>
@@ -874,7 +950,7 @@
 
     <section id="servicios" class="reveal">
       <div class="section-head">
-        <h2>Qué puedo construir.</h2>
+        <h2>Qué puedo construir</h2>
         <p>Una primera línea de servicios orientada a IA aplicada, automatización y soporte técnico para proyectos reales.</p>
       </div>
       <div class="grid-3">
@@ -899,7 +975,7 @@
 
     <section id="proyectos" class="reveal">
       <div class="section-head">
-        <h2>Proyectos en marcha.</h2>
+        <h2>Proyectos en marcha</h2>
         <p>La web irá creciendo con proyectos reales, demos y casos prácticos conforme avance el portfolio.</p>
       </div>
       <div class="projects">
