@@ -279,10 +279,10 @@
 
     .logo-ghost {
       position: fixed;
-      right: clamp(12px, 4vw, 42px);
-      bottom: clamp(18px, 5vw, 48px);
-      width: clamp(74px, 18vw, 160px);
-      opacity: .045;
+      right: 14px;
+      bottom: 14px;
+      width: clamp(52px, 8vw, 96px);
+      opacity: .07;
       pointer-events: none;
       z-index: 0;
       animation: ghost-drift 12s ease-in-out infinite;
@@ -297,6 +297,48 @@
     @keyframes float-panel {
       0%,100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
+    }
+
+
+
+    .motion-orb {
+      position: fixed;
+      width: 340px;
+      height: 340px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(67,231,255,.10), transparent 65%);
+      filter: blur(3px);
+      pointer-events: none;
+      z-index: 0;
+      animation: orb-route 18s ease-in-out infinite;
+    }
+
+    .motion-orb.one { left: -160px; top: 18%; }
+    .motion-orb.two { right: -190px; top: 54%; animation-delay: -7s; }
+
+    .category, .product, .principle, .cta, .deal-card {
+      animation: section-glow 8s ease-in-out infinite;
+    }
+
+    .category:nth-child(2), .product:nth-child(2), .deal-card:nth-child(2) { animation-delay: -2s; }
+    .category:nth-child(3), .product:nth-child(3), .deal-card:nth-child(3) { animation-delay: -4s; }
+
+    .product-visual, .category-icon { animation: icon-float 5.5s ease-in-out infinite; }
+
+    @keyframes orb-route {
+      0%, 100% { transform: translate3d(0,0,0) scale(1); opacity: .65; }
+      40% { transform: translate3d(60px, 120px, 0) scale(1.08); opacity: .9; }
+      70% { transform: translate3d(-30px, 40px, 0) scale(.94); opacity: .55; }
+    }
+
+    @keyframes section-glow {
+      0%, 100% { box-shadow: 0 0 0 rgba(67,231,255,0); }
+      50% { box-shadow: 0 18px 55px rgba(0,109,255,.13); }
+    }
+
+    @keyframes icon-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
     }
 
     @media (max-width: 900px) {
@@ -326,6 +368,8 @@
         background: rgba(255,255,255,.07);
         border: 1px solid rgba(255,255,255,.09);
       }
+      .logo-ghost { width: 64px; right: 10px; bottom: 12px; opacity: .075; }
+      .motion-orb { opacity: .55; }
       .hero, .principles { grid-template-columns: 1fr; }
       .category-grid, .product-grid, .principles-list { grid-template-columns: 1fr; }
       .section-head, .cta { flex-direction: column; align-items: flex-start; }
@@ -336,6 +380,8 @@
   </style>
 </head>
 <body>
+  <span class="motion-orb one" aria-hidden="true"></span>
+  <span class="motion-orb two" aria-hidden="true"></span>
   <img class="logo-ghost" src="assets/logo-vr.png" alt="" aria-hidden="true" />
   <header class="nav">
     <div class="nav-inner">

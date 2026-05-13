@@ -519,10 +519,10 @@
 
     .logo-ghost {
       position: fixed;
-      right: clamp(12px, 4vw, 42px);
-      bottom: clamp(18px, 5vw, 48px);
-      width: clamp(74px, 18vw, 160px);
-      opacity: .045;
+      right: 14px;
+      bottom: 14px;
+      width: clamp(52px, 8vw, 96px);
+      opacity: .07;
       pointer-events: none;
       z-index: 0;
       animation: ghost-drift 12s ease-in-out infinite;
@@ -537,6 +537,125 @@
     @keyframes float-panel {
       0%,100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
+    }
+
+
+
+    .build-progress {
+      position: relative;
+      overflow: hidden;
+      margin-top: 26px;
+      max-width: 620px;
+      border: 1px solid rgba(66,232,255,.2);
+      border-radius: 24px;
+      padding: 16px;
+      background:
+        radial-gradient(circle at 8% 0%, rgba(66,232,255,.18), transparent 34%),
+        rgba(255,255,255,.06);
+      box-shadow: 0 18px 50px rgba(0,30,80,.22);
+    }
+
+    .build-progress::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,.12) 42%, transparent 62%);
+      transform: translateX(-100%);
+      animation: progress-sheen 4.8s ease-in-out infinite;
+    }
+
+    .progress-top {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 11px;
+      color: #dff5ff;
+      font-weight: 800;
+      font-size: .92rem;
+    }
+
+    .progress-top span:last-child { color: var(--cyan); }
+
+    .progress-track {
+      position: relative;
+      z-index: 1;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.11);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 68%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--blue-2), var(--blue), var(--cyan));
+      box-shadow: 0 0 24px rgba(66,232,255,.48);
+      transform-origin: left;
+      animation: progress-breathe 3.6s ease-in-out infinite;
+    }
+
+    .progress-note {
+      position: relative;
+      z-index: 1;
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .motion-orb {
+      position: fixed;
+      width: 340px;
+      height: 340px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(66,232,255,.10), transparent 65%);
+      filter: blur(3px);
+      pointer-events: none;
+      z-index: 0;
+      animation: orb-route 18s ease-in-out infinite;
+    }
+
+    .motion-orb.one { left: -160px; top: 18%; }
+    .motion-orb.two { right: -190px; top: 54%; animation-delay: -7s; }
+
+    .card, .project, .about-panel, .cta, .build-progress {
+      animation: section-glow 8s ease-in-out infinite;
+    }
+
+    .card:nth-child(2), .project:nth-child(2), .about-panel:nth-child(2) { animation-delay: -2s; }
+    .card:nth-child(3), .project:nth-child(3) { animation-delay: -4s; }
+
+    .tag { animation: tag-pulse 5s ease-in-out infinite; }
+    .tag:nth-child(2n) { animation-delay: -1.5s; }
+
+    @keyframes progress-sheen {
+      0%, 42% { transform: translateX(-120%); }
+      70%, 100% { transform: translateX(120%); }
+    }
+
+    @keyframes progress-breathe {
+      0%, 100% { filter: saturate(1); transform: scaleX(.985); }
+      50% { filter: saturate(1.25); transform: scaleX(1); }
+    }
+
+    @keyframes orb-route {
+      0%, 100% { transform: translate3d(0,0,0) scale(1); opacity: .65; }
+      40% { transform: translate3d(60px, 120px, 0) scale(1.08); opacity: .9; }
+      70% { transform: translate3d(-30px, 40px, 0) scale(.94); opacity: .55; }
+    }
+
+    @keyframes section-glow {
+      0%, 100% { box-shadow: 0 0 0 rgba(66,232,255,0); }
+      50% { box-shadow: 0 18px 55px rgba(0,109,255,.12); }
+    }
+
+    @keyframes tag-pulse {
+      0%, 100% { border-color: rgba(255,255,255,.1); }
+      50% { border-color: rgba(66,232,255,.28); }
     }
 
     @media (max-width: 860px) {
@@ -566,6 +685,8 @@
         background: rgba(255,255,255,.07);
         border: 1px solid rgba(255,255,255,.09);
       }
+      .logo-ghost { width: 64px; right: 10px; bottom: 12px; opacity: .075; }
+      .motion-orb { opacity: .55; }
       .hero { grid-template-columns: 1fr; padding-top: 56px; }
       .hero-card { min-height: 320px; }
       .grid-3, .about, .projects { grid-template-columns: 1fr; }
@@ -576,6 +697,8 @@
   </style>
 </head>
 <body>
+  <span class="motion-orb one" aria-hidden="true"></span>
+  <span class="motion-orb two" aria-hidden="true"></span>
   <img class="logo-ghost" src="assets/logo-vr.png" alt="" aria-hidden="true" />
   <header class="nav">
     <div class="nav-inner">
@@ -602,6 +725,11 @@
         <div class="eyebrow"><span class="dot"></span> AI Engineering · Automatización · Cloud</div>
         <h1>Soluciones técnicas con <span class="gradient-text">IA y cloud</span>.</h1>
         <p class="lead">Soy Víctor Rocamora. Trabajo en la intersección entre sistemas, inteligencia artificial y automatización para construir herramientas útiles, claras y aplicables a problemas reales.</p>
+        <div class="build-progress" aria-label="Estado de construcción de la web">
+          <div class="progress-top"><span>Web en construcción</span><span>68%</span></div>
+          <div class="progress-track"><div class="progress-fill"></div></div>
+          <p class="progress-note">Primera versión publicada. Próximos pasos: portfolio real, casos prácticos, guías tech y mejoras visuales.</p>
+        </div>
         <div class="hero-actions">
           <a class="btn primary" href="#proyectos">Ver proyectos</a>
           <a class="btn" href="#contacto">Contactar</a>
