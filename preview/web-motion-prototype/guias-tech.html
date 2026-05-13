@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Guías tech · Víctor Rocamora</title>
+  <meta name="description" content="Guías de compra tecnológica, setups, periféricos y componentes con criterio práctico, transparencia y enfoque calidad-precio." />
+  <link rel="icon" href="assets/logo-vr.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050b15;
+      --bg-2: #081728;
+      --panel: rgba(255,255,255,.07);
+      --panel-2: rgba(255,255,255,.105);
+      --text: #f1f7ff;
+      --soft: #d7e6f8;
+      --muted: #a9bbcf;
+      --cyan: #43e7ff;
+      --blue: #1a9fff;
+      --blue-2: #006dff;
+      --green: #8cffd2;
+      --line: rgba(255,255,255,.12);
+      --shadow: 0 28px 90px rgba(0,20,56,.38);
+      --radius: 30px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(26,159,255,.35), transparent 30%),
+        radial-gradient(circle at 88% 4%, rgba(67,231,255,.18), transparent 26%),
+        radial-gradient(circle at 52% 62%, rgba(0,109,255,.14), transparent 32%),
+        linear-gradient(135deg, #03070e 0%, var(--bg) 38%, #071a31 100%);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .page { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(3,7,14,.72);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav-inner {
+      width: min(1160px, calc(100% - 40px));
+      height: 76px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 900; letter-spacing: -.04em; }
+    .brand img { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 10px 22px rgba(26,159,255,.28)); }
+    .links { display: flex; gap: 20px; color: var(--muted); font-size: .94rem; font-weight: 700; }
+    .links a:hover { color: var(--text); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.065);
+      color: var(--text);
+      font-weight: 800;
+      transition: transform .2s ease, border .2s ease, background .2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); border-color: rgba(67,231,255,.45); }
+    .btn.primary { background: linear-gradient(135deg, var(--blue), var(--blue-2)); border: 0; box-shadow: 0 18px 42px rgba(0,109,255,.36); }
+
+    .hero {
+      padding: 82px 0 58px;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 42px;
+      align-items: center;
+    }
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(67,231,255,.22);
+      background: rgba(67,231,255,.07);
+      color: #c7f3ff;
+      font-size: .84rem;
+      font-weight: 900;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 99px; background: var(--cyan); box-shadow: 0 0 18px var(--cyan); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: clamp(2.7rem, 6.7vw, 5.8rem); line-height: .92; letter-spacing: -.085em; margin-bottom: 22px; }
+    h2 { font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1; letter-spacing: -.065em; margin-bottom: 14px; }
+    .gradient { background: linear-gradient(135deg, #fff, #c9f1ff 42%, #43e7ff); -webkit-background-clip: text; color: transparent; }
+    .lead { color: var(--soft); font-size: clamp(1.08rem, 1.9vw, 1.28rem); max-width: 720px; margin-bottom: 30px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 14px; }
+
+    .showcase {
+      position: relative;
+      min-height: 500px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.035)),
+        radial-gradient(circle at 24% 12%, rgba(67,231,255,.22), transparent 34%),
+        radial-gradient(circle at 78% 84%, rgba(0,109,255,.22), transparent 36%);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      padding: 26px;
+    }
+    .showcase::after {
+      content: "";
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      right: -150px;
+      top: -140px;
+      background: radial-gradient(circle, rgba(67,231,255,.18), transparent 64%);
+      filter: blur(5px);
+    }
+    .deal-card {
+      position: relative;
+      z-index: 1;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 24px;
+      padding: 18px;
+      background: rgba(3,7,14,.46);
+      margin-bottom: 14px;
+      display: grid;
+      grid-template-columns: 74px 1fr auto;
+      gap: 16px;
+      align-items: center;
+    }
+    .product-img {
+      height: 74px;
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,.75), transparent 18%),
+        linear-gradient(135deg, rgba(67,231,255,.95), rgba(0,109,255,.35));
+      display: grid;
+      place-items: center;
+      color: #001425;
+      font-weight: 900;
+      font-size: 1.25rem;
+      box-shadow: inset 0 0 28px rgba(255,255,255,.2);
+    }
+    .deal-card h3 { margin: 0 0 2px; font-size: 1.02rem; }
+    .deal-card p { margin: 0; color: var(--muted); font-size: .92rem; }
+    .score { text-align: right; }
+    .score strong { display: block; color: var(--green); font-size: 1.2rem; }
+    .score span { color: var(--muted); font-size: .78rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+
+    section { padding: 44px 0; }
+    .section-head { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 22px; }
+    .section-head p { color: var(--muted); max-width: 560px; margin-bottom: 0; }
+
+    .category-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .category {
+      min-height: 210px;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      padding: 22px;
+      background: rgba(255,255,255,.055);
+      transition: transform .2s ease, background .2s ease, border .2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .category:hover { transform: translateY(-4px); background: rgba(255,255,255,.085); border-color: rgba(67,231,255,.25); }
+    .category::after { content:""; position:absolute; width:120px; height:120px; right:-44px; top:-42px; border-radius:999px; background:rgba(67,231,255,.1); }
+    .category-icon { width: 46px; height: 46px; border-radius: 16px; background: linear-gradient(135deg, var(--cyan), var(--blue)); display:grid; place-items:center; color:#001425; font-weight:900; margin-bottom: 18px; }
+    .category h3 { margin-bottom: 8px; font-size: 1.1rem; }
+    .category p { color: var(--muted); margin-bottom: 0; font-size: .95rem; }
+
+    .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .product {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(255,255,255,.06);
+      padding: 18px;
+      overflow: hidden;
+    }
+    .product-visual {
+      height: 170px;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 24% 20%, rgba(255,255,255,.55), transparent 12%),
+        linear-gradient(135deg, rgba(67,231,255,.75), rgba(0,109,255,.18)),
+        rgba(255,255,255,.05);
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+      color: #001425;
+      font-size: 2.2rem;
+      font-weight: 900;
+    }
+    .badge { display: inline-flex; padding: 6px 9px; border-radius: 999px; background: rgba(67,231,255,.11); border: 1px solid rgba(67,231,255,.18); color: #c9f4ff; font-size: .75rem; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 10px; }
+    .product h3 { margin-bottom: 8px; }
+    .product p { color: var(--muted); font-size: .94rem; }
+    .product .btn { min-height: 40px; padding: 0 14px; font-size: .88rem; margin-top: 4px; }
+    .meta { display:flex; justify-content:space-between; gap:12px; color: var(--soft); font-size:.9rem; font-weight:800; border-top:1px solid rgba(255,255,255,.08); padding-top:14px; margin-top:14px; }
+
+    .principles {
+      border: 1px solid rgba(67,231,255,.18);
+      border-radius: 34px;
+      padding: 30px;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(67,231,255,.18), transparent 30%),
+        rgba(255,255,255,.055);
+      display: grid;
+      grid-template-columns: .82fr 1.18fr;
+      gap: 26px;
+    }
+    .principles-list { display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .principle { border:1px solid rgba(255,255,255,.1); border-radius:20px; padding:16px; background:rgba(3,7,14,.34); }
+    .principle strong { display:block; margin-bottom:4px; }
+    .principle span { color:#c4d3e5; font-size:.92rem; }
+
+    .disclaimer { color: var(--muted); font-size: .92rem; margin-top: 18px; }
+    .cta {
+      margin: 42px 0 72px;
+      border: 1px solid rgba(67,231,255,.22);
+      border-radius: 34px;
+      padding: 36px;
+      background: linear-gradient(135deg, rgba(26,159,255,.18), rgba(255,255,255,.055));
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 24px;
+    }
+    .cta p { color: var(--soft); margin: 10px 0 0; max-width: 640px; }
+    footer { border-top: 1px solid rgba(255,255,255,.08); color: var(--muted); padding: 28px 0 40px; }
+
+
+
+    .menu-toggle {
+      display: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.075);
+      color: var(--text);
+      padding: 0;
+      cursor: pointer;
+      position: relative;
+      z-index: 30;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      margin: 5px auto;
+      border-radius: 99px;
+      background: currentColor;
+      transition: transform .25s ease, opacity .25s ease;
+    }
+
+    .nav.menu-open .menu-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav.menu-open .menu-toggle span:nth-child(2) { opacity: 0; }
+    .nav.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .logo-ghost {
+      position: fixed;
+      right: clamp(12px, 4vw, 42px);
+      bottom: clamp(18px, 5vw, 48px);
+      width: clamp(74px, 18vw, 160px);
+      opacity: .045;
+      pointer-events: none;
+      z-index: 0;
+      animation: ghost-drift 12s ease-in-out infinite;
+    }
+
+    @keyframes ghost-drift {
+      0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+      50% { transform: translate3d(-14px, -18px, 0) rotate(4deg); }
+    }
+
+    .hero-card, .showcase { animation: float-panel 7s ease-in-out infinite; }
+    @keyframes float-panel {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @media (max-width: 900px) {
+      .nav-inner { height: 76px; align-items: center; }
+      .menu-toggle { display: block; }
+      .links {
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        top: 86px;
+        display: grid;
+        gap: 10px;
+        padding: 14px;
+        border: 1px solid rgba(67,231,255,.18);
+        border-radius: 24px;
+        background: rgba(3,7,14,.985);
+        box-shadow: 0 26px 90px rgba(0,10,32,.72);
+        opacity: 0;
+        transform: translateY(-12px) scale(.98);
+        pointer-events: none;
+        transition: opacity .24s ease, transform .24s ease;
+      }
+      .nav.menu-open .links { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+      .links a {
+        padding: 12px 14px;
+        border-radius: 16px;
+        background: rgba(255,255,255,.07);
+        border: 1px solid rgba(255,255,255,.09);
+      }
+      .hero, .principles { grid-template-columns: 1fr; }
+      .category-grid, .product-grid, .principles-list { grid-template-columns: 1fr; }
+      .section-head, .cta { flex-direction: column; align-items: flex-start; }
+      .deal-card { grid-template-columns: 64px 1fr; }
+      .score { grid-column: 2; text-align: left; }
+      h1 { letter-spacing: -.065em; }
+    }
+  </style>
+</head>
+<body>
+  <img class="logo-ghost" src="assets/logo-vr.png" alt="" aria-hidden="true" />
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="brand" aria-label="Volver al inicio">
+        <img src="assets/logo-vr.png" alt="Logo VR" />
+        <span>Víctor Rocamora</span>
+      </a>
+      <nav class="links" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a href="#categorias">Categorías</a>
+        <a href="#selecciones">Selecciones</a>
+        <a href="#criterio">Criterio</a>
+      </nav>
+      <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div>
+        <div class="kicker"><span class="dot"></span> Guías tech · hardware · setups</div>
+        <h1>Compra tecnología con <span class="gradient">criterio real</span>.</h1>
+        <p class="lead">Recomendaciones prácticas para elegir componentes, periféricos, equipos y accesorios sin perderse entre fichas técnicas, ofertas agresivas y productos que no encajan con el uso real.</p>
+        <div class="actions">
+          <a class="btn primary" href="#selecciones">Ver selecciones</a>
+          <a class="btn" href="#criterio">Cómo recomiendo</a>
+        </div>
+      </div>
+
+      <aside class="showcase" aria-label="Ejemplos visuales de recomendaciones">
+        <article class="deal-card">
+          <div class="product-img">SSD</div>
+          <div><h3>Upgrade rápido para portátil</h3><p>SSD NVMe + RAM: mejora visible antes que cambiar equipo entero.</p></div>
+          <div class="score"><strong>9.1</strong><span>Nota guía</span></div>
+        </article>
+        <article class="deal-card">
+          <div class="product-img">27”</div>
+          <div><h3>Monitor para estudiar y trabajar</h3><p>Buen panel, ergonomía y resolución antes que marketing gaming.</p></div>
+          <div class="score"><strong>8.7</strong><span>Nota guía</span></div>
+        </article>
+        <article class="deal-card">
+          <div class="product-img">⌨</div>
+          <div><h3>Periféricos calidad-precio</h3><p>Teclado, ratón y audio cómodos para muchas horas.</p></div>
+          <div class="score"><strong>8.9</strong><span>Nota guía</span></div>
+        </article>
+      </aside>
+    </section>
+
+    <section id="categorias">
+      <div class="section-head">
+        <h2>Categorías con intención.</h2>
+        <p>No se trata de listar productos al azar, sino de ordenar recomendaciones por necesidades reales y presupuestos concretos.</p>
+      </div>
+      <div class="category-grid">
+        <article class="category"><div class="category-icon">PC</div><h3>Componentes</h3><p>SSD, RAM, fuentes, cajas, placas y upgrades para alargar la vida de un equipo.</p></article>
+        <article class="category"><div class="category-icon">⌁</div><h3>Periféricos</h3><p>Teclados, ratones, monitores, auriculares y accesorios para trabajar mejor.</p></article>
+        <article class="category"><div class="category-icon">▣</div><h3>Setups</h3><p>Combinaciones equilibradas para estudiar, teletrabajar, crear contenido o programar.</p></article>
+        <article class="category"><div class="category-icon">€</div><h3>Presupuesto</h3><p>Opciones por rangos de precio, evitando pagar de más por mejoras irrelevantes.</p></article>
+      </div>
+    </section>
+
+    <section id="selecciones">
+      <div class="section-head">
+        <h2>Selecciones tipo.</h2>
+        <p>Primeras líneas de contenido para convertir la página en un recurso útil: guías concretas, comparativas y selecciones por necesidad.</p>
+      </div>
+      <div class="product-grid">
+        <article class="product">
+          <div class="product-visual">SSD</div>
+          <span class="badge">Upgrade útil</span>
+          <h3>Mejoras para un portátil lento</h3>
+          <p>Guía para decidir cuándo merece la pena cambiar SSD, ampliar RAM o limpiar el sistema antes de comprar otro equipo.</p>
+          <a class="btn" href="#criterio">Ver enfoque</a>
+          <div class="meta"><span>Uso: estudio/trabajo</span><span>Desde bajo coste</span></div>
+        </article>
+        <article class="product">
+          <div class="product-visual">27”</div>
+          <span class="badge">Setup escritorio</span>
+          <h3>Monitor equilibrado para productividad</h3>
+          <p>Comparativa centrada en resolución, ergonomía, conectividad y comodidad visual para largas jornadas.</p>
+          <a class="btn" href="#criterio">Ver criterios</a>
+          <div class="meta"><span>Uso: oficina/tech</span><span>Gama media</span></div>
+        </article>
+        <article class="product">
+          <div class="product-visual">KIT</div>
+          <span class="badge">Calidad-precio</span>
+          <h3>Kit base para trabajar mejor</h3>
+          <p>Periféricos y accesorios que mejoran el día a día: teclado, ratón, soporte, hub USB-C y audio decente.</p>
+          <a class="btn" href="#categorias">Explorar categorías</a>
+          <div class="meta"><span>Uso: diario</span><span>Compra inteligente</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="criterio" class="principles">
+      <div>
+        <div class="kicker"><span class="dot"></span> Método editorial</div>
+        <h2>Afiliación, pero con independencia.</h2>
+        <p class="lead">El objetivo es crear contenido útil, con recomendaciones claras y transparentes. Si algún enlace es de afiliado, estará indicado sin disfrazarlo de consejo neutral.</p>
+      </div>
+      <div>
+        <div class="principles-list">
+          <div class="principle"><strong>Relevancia</strong><span>Productos ligados a informática, hardware, periféricos, productividad y setups.</span></div>
+          <div class="principle"><strong>Transparencia</strong><span>Si hay enlace afiliado, se indicará de forma clara.</span></div>
+          <div class="principle"><strong>Utilidad</strong><span>Recomendar según uso, presupuesto y durabilidad, no por comisión.</span></div>
+          <div class="principle"><strong>Criterio técnico</strong><span>Explicar pros, límites y para quién encaja cada compra.</span></div>
+        </div>
+        <p class="disclaimer">Las selecciones iniciales servirán como base para guías reales, comparativas y contenido conectado con Prysmo Tech.</p>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div>
+        <h2>Guías y comparativas en evolución.</h2>
+        <p>Esta página irá creciendo con selecciones concretas, comparativas útiles y recomendaciones tecnológicas enlazables desde Prysmo Tech.</p>
+      </div>
+      <a class="btn primary" href="#selecciones">Ver selecciones</a>
+    </section>
+  </main>
+
+  <footer>
+    <div class="page">© 2026 Víctor Rocamora · Guías tech, hardware y recomendaciones con criterio.</div>
+  </footer>
+
+  <script>
+    const nav = document.querySelector('.nav');
+    const menuToggle = document.querySelector('.menu-toggle');
+    if (menuToggle && nav) {
+      if (location.hash === '#menu') {
+        nav.classList.add('menu-open');
+        menuToggle.setAttribute('aria-expanded', 'true');
+      }
+      menuToggle.addEventListener('click', () => {
+        const open = nav.classList.toggle('menu-open');
+        menuToggle.setAttribute('aria-expanded', String(open));
+      });
+      document.querySelectorAll('.links a').forEach((link) => {
+        link.addEventListener('click', () => {
+          nav.classList.remove('menu-open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  </script>
+</body>
+</html>
