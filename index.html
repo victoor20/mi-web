@@ -488,11 +488,32 @@
     }
 
     @media (max-width: 860px) {
-      .links { display: none; }
+      .nav-inner {
+        height: auto;
+        min-height: 76px;
+        padding: 14px 0;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .links {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        font-size: .84rem;
+      }
+      .links a {
+        padding: 7px 10px;
+        border-radius: 999px;
+        background: rgba(255,255,255,.07);
+        border: 1px solid rgba(255,255,255,.09);
+      }
       .hero { grid-template-columns: 1fr; padding-top: 56px; }
       .hero-card { min-height: 320px; }
       .grid-3, .about, .projects { grid-template-columns: 1fr; }
       .section-head, .cta { align-items: flex-start; flex-direction: column; }
+      .reveal { opacity: 1; transform: none; }
       h1 { letter-spacing: -0.065em; }
     }
   </style>
@@ -539,10 +560,6 @@
           <div class="dash-line" style="--level: 70%"><span>Freelance IT</span><strong>Support</strong></div>
         </div>
 
-        <div class="mini-terminal">
-          <span class="muted">$</span> build profile --focus <span class="blue">ai cloud automation</span><br />
-          <span class="muted">›</span> practical systems, useful tools, real outcomes
-        </div>
 
         <div class="floating-label">
           <span>Technical profile</span>
