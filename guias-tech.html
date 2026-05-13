@@ -247,28 +247,129 @@
     .cta p { color: var(--soft); margin: 10px 0 0; max-width: 640px; }
     footer { border-top: 1px solid rgba(255,255,255,.08); color: var(--muted); padding: 28px 0 40px; }
 
+
+
+    .menu-toggle {
+      display: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.075);
+      color: var(--text);
+      padding: 0;
+      cursor: pointer;
+      position: relative;
+      z-index: 30;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      margin: 5px auto;
+      border-radius: 99px;
+      background: currentColor;
+      transition: transform .25s ease, opacity .25s ease;
+    }
+
+    .nav.menu-open .menu-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav.menu-open .menu-toggle span:nth-child(2) { opacity: 0; }
+    .nav.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .logo-ghost {
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      width: clamp(52px, 8vw, 96px);
+      opacity: .07;
+      pointer-events: none;
+      z-index: 0;
+      animation: ghost-drift 12s ease-in-out infinite;
+    }
+
+    @keyframes ghost-drift {
+      0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+      50% { transform: translate3d(-14px, -18px, 0) rotate(4deg); }
+    }
+
+    .hero-card, .showcase { animation: float-panel 7s ease-in-out infinite; }
+    @keyframes float-panel {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+
+
+    .motion-orb {
+      position: fixed;
+      width: 340px;
+      height: 340px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(67,231,255,.10), transparent 65%);
+      filter: blur(3px);
+      pointer-events: none;
+      z-index: 0;
+      animation: orb-route 18s ease-in-out infinite;
+    }
+
+    .motion-orb.one { left: -160px; top: 18%; }
+    .motion-orb.two { right: -190px; top: 54%; animation-delay: -7s; }
+
+    .category, .product, .principle, .cta, .deal-card {
+      animation: section-glow 8s ease-in-out infinite;
+    }
+
+    .category:nth-child(2), .product:nth-child(2), .deal-card:nth-child(2) { animation-delay: -2s; }
+    .category:nth-child(3), .product:nth-child(3), .deal-card:nth-child(3) { animation-delay: -4s; }
+
+    .product-visual, .category-icon { animation: icon-float 5.5s ease-in-out infinite; }
+
+    @keyframes orb-route {
+      0%, 100% { transform: translate3d(0,0,0) scale(1); opacity: .65; }
+      40% { transform: translate3d(60px, 120px, 0) scale(1.08); opacity: .9; }
+      70% { transform: translate3d(-30px, 40px, 0) scale(.94); opacity: .55; }
+    }
+
+    @keyframes section-glow {
+      0%, 100% { box-shadow: 0 0 0 rgba(67,231,255,0); }
+      50% { box-shadow: 0 18px 55px rgba(0,109,255,.13); }
+    }
+
+    @keyframes icon-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
     @media (max-width: 900px) {
-      .nav-inner {
-        height: auto;
-        min-height: 76px;
-        padding: 14px 0;
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 12px;
-      }
+      .nav-inner { height: 76px; align-items: center; }
+      .menu-toggle { display: block; }
       .links {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        font-size: .84rem;
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        top: 86px;
+        display: grid;
+        gap: 10px;
+        padding: 14px;
+        border: 1px solid rgba(67,231,255,.18);
+        border-radius: 24px;
+        background: rgba(3,7,14,.985);
+        box-shadow: 0 26px 90px rgba(0,10,32,.72);
+        opacity: 0;
+        transform: translateY(-12px) scale(.98);
+        pointer-events: none;
+        transition: opacity .24s ease, transform .24s ease;
       }
+      .nav.menu-open .links { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
       .links a {
-        padding: 7px 10px;
-        border-radius: 999px;
+        padding: 12px 14px;
+        border-radius: 16px;
         background: rgba(255,255,255,.07);
         border: 1px solid rgba(255,255,255,.09);
       }
+      .logo-ghost { width: 64px; right: 10px; bottom: 12px; opacity: .075; }
+      .motion-orb { opacity: .55; }
       .hero, .principles { grid-template-columns: 1fr; }
       .category-grid, .product-grid, .principles-list { grid-template-columns: 1fr; }
       .section-head, .cta { flex-direction: column; align-items: flex-start; }
@@ -279,6 +380,9 @@
   </style>
 </head>
 <body>
+  <span class="motion-orb one" aria-hidden="true"></span>
+  <span class="motion-orb two" aria-hidden="true"></span>
+  <img class="logo-ghost" src="assets/logo-vr.png" alt="" aria-hidden="true" />
   <header class="nav">
     <div class="nav-inner">
       <a href="index.html" class="brand" aria-label="Volver al inicio">
@@ -291,6 +395,9 @@
         <a href="#selecciones">Selecciones</a>
         <a href="#criterio">Criterio</a>
       </nav>
+      <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
 
@@ -298,7 +405,7 @@
     <section class="hero">
       <div>
         <div class="kicker"><span class="dot"></span> Guías tech · hardware · setups</div>
-        <h1>Compra tecnología con <span class="gradient">criterio real</span>.</h1>
+        <h1>Compra tecnología con <span class="gradient">criterio real</span></h1>
         <p class="lead">Recomendaciones prácticas para elegir componentes, periféricos, equipos y accesorios sin perderse entre fichas técnicas, ofertas agresivas y productos que no encajan con el uso real.</p>
         <div class="actions">
           <a class="btn primary" href="#selecciones">Ver selecciones</a>
@@ -327,7 +434,7 @@
 
     <section id="categorias">
       <div class="section-head">
-        <h2>Categorías con intención.</h2>
+        <h2>Categorías con intención</h2>
         <p>No se trata de listar productos al azar, sino de ordenar recomendaciones por necesidades reales y presupuestos concretos.</p>
       </div>
       <div class="category-grid">
@@ -340,7 +447,7 @@
 
     <section id="selecciones">
       <div class="section-head">
-        <h2>Selecciones tipo.</h2>
+        <h2>Selecciones tipo</h2>
         <p>Primeras líneas de contenido para convertir la página en un recurso útil: guías concretas, comparativas y selecciones por necesidad.</p>
       </div>
       <div class="product-grid">
@@ -374,7 +481,7 @@
     <section id="criterio" class="principles">
       <div>
         <div class="kicker"><span class="dot"></span> Método editorial</div>
-        <h2>Afiliación, pero con independencia.</h2>
+        <h2>Afiliación, pero con independencia</h2>
         <p class="lead">El objetivo es crear contenido útil, con recomendaciones claras y transparentes. Si algún enlace es de afiliado, estará indicado sin disfrazarlo de consejo neutral.</p>
       </div>
       <div>
@@ -390,7 +497,7 @@
 
     <section class="cta">
       <div>
-        <h2>Guías y comparativas en evolución.</h2>
+        <h2>Guías y comparativas en evolución</h2>
         <p>Esta página irá creciendo con selecciones concretas, comparativas útiles y recomendaciones tecnológicas enlazables desde Prysmo Tech.</p>
       </div>
       <a class="btn primary" href="#selecciones">Ver selecciones</a>
@@ -400,5 +507,26 @@
   <footer>
     <div class="page">© 2026 Víctor Rocamora · Guías tech, hardware y recomendaciones con criterio.</div>
   </footer>
+
+  <script>
+    const nav = document.querySelector('.nav');
+    const menuToggle = document.querySelector('.menu-toggle');
+    if (menuToggle && nav) {
+      if (location.hash === '#menu') {
+        nav.classList.add('menu-open');
+        menuToggle.setAttribute('aria-expanded', 'true');
+      }
+      menuToggle.addEventListener('click', () => {
+        const open = nav.classList.toggle('menu-open');
+        menuToggle.setAttribute('aria-expanded', String(open));
+      });
+      document.querySelectorAll('.links a').forEach((link) => {
+        link.addEventListener('click', () => {
+          nav.classList.remove('menu-open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  </script>
 </body>
 </html>
