@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Guías tech · Víctor Rocamora</title>
-  <meta name="description" content="Guías de compra tecnológica, setups, periféricos y componentes con criterio práctico, transparencia y enfoque calidad-precio." />
+  <meta name="description" content="Guías de compra tecnológica, componentes, periféricos, portátiles y setups con criterio práctico, claridad y enfoque calidad-precio." />
   <link rel="icon" href="assets/logo-vr.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +12,6 @@
   <style>
     :root {
       --bg: #050b15;
-      --bg-2: #081728;
       --panel: rgba(255,255,255,.07);
       --panel-2: rgba(255,255,255,.105);
       --text: #f1f7ff;
@@ -34,15 +33,21 @@
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at 10% 0%, rgba(26,159,255,.35), transparent 30%),
+        radial-gradient(circle at 8% 0%, rgba(26,159,255,.38), transparent 31%),
         radial-gradient(circle at 88% 4%, rgba(67,231,255,.18), transparent 26%),
         radial-gradient(circle at 52% 62%, rgba(0,109,255,.14), transparent 32%),
         linear-gradient(135deg, #03070e 0%, var(--bg) 38%, #071a31 100%);
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     a { color: inherit; text-decoration: none; }
-    .page { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: clamp(2.7rem, 6.4vw, 5.8rem); line-height: .92; letter-spacing: -.085em; margin-bottom: 22px; }
+    h2 { font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1; letter-spacing: -.065em; margin-bottom: 14px; }
+    .page { width: min(1160px, calc(100% - 40px)); margin: 0 auto; position: relative; z-index: 1; }
+    .gradient { background: linear-gradient(135deg, #fff, #c9f1ff 42%, #43e7ff); -webkit-background-clip: text; color: transparent; }
+    .lead { color: var(--soft); font-size: clamp(1.07rem, 1.9vw, 1.25rem); max-width: 720px; margin-bottom: 30px; }
 
     .nav {
       position: sticky;
@@ -61,9 +66,26 @@
       justify-content: space-between;
       gap: 22px;
     }
-    .brand { display: flex; align-items: center; gap: 12px; font-weight: 900; letter-spacing: -.04em; }
-    .brand img { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 10px 22px rgba(26,159,255,.28)); }
-    .links { display: flex; gap: 20px; color: var(--muted); font-size: .94rem; font-weight: 700; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 900; letter-spacing: -.04em; position: relative; isolation: isolate; }
+    .brand img { width: 48px; height: 42px; object-fit: contain; filter: drop-shadow(0 10px 22px rgba(26,159,255,.32)); animation: logo-breathe 6s ease-in-out infinite; position: relative; z-index: 2; }
+    .brand::before {
+      content: "";
+      position: absolute;
+      left: -8px;
+      width: 66px;
+      height: 50px;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 42% 48%, rgba(67,231,255,.28), transparent 48%),
+        radial-gradient(circle at 70% 58%, rgba(0,109,255,.18), transparent 56%);
+      filter: blur(13px);
+      opacity: .72;
+      transform: scale(.94);
+      animation: logo-aura 5.8s ease-in-out infinite;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .links { display: flex; gap: 20px; color: var(--muted); font-size: .94rem; font-weight: 800; }
     .links a:hover { color: var(--text); }
 
     .btn {
@@ -76,19 +98,12 @@
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.065);
       color: var(--text);
-      font-weight: 800;
+      font-weight: 900;
       transition: transform .2s ease, border .2s ease, background .2s ease;
     }
     .btn:hover { transform: translateY(-2px); border-color: rgba(67,231,255,.45); }
     .btn.primary { background: linear-gradient(135deg, var(--blue), var(--blue-2)); border: 0; box-shadow: 0 18px 42px rgba(0,109,255,.36); }
 
-    .hero {
-      padding: 82px 0 58px;
-      display: grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap: 42px;
-      align-items: center;
-    }
     .kicker {
       display: inline-flex;
       align-items: center;
@@ -98,82 +113,52 @@
       border: 1px solid rgba(67,231,255,.22);
       background: rgba(67,231,255,.07);
       color: #c7f3ff;
-      font-size: .84rem;
+      font-size: .82rem;
       font-weight: 900;
       letter-spacing: .06em;
       text-transform: uppercase;
       margin-bottom: 22px;
     }
     .dot { width: 8px; height: 8px; border-radius: 99px; background: var(--cyan); box-shadow: 0 0 18px var(--cyan); }
-    h1, h2, h3, p { margin-top: 0; }
-    h1 { font-size: clamp(2.7rem, 6.7vw, 5.8rem); line-height: .92; letter-spacing: -.085em; margin-bottom: 22px; }
-    h2 { font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1; letter-spacing: -.065em; margin-bottom: 14px; }
-    .gradient { background: linear-gradient(135deg, #fff, #c9f1ff 42%, #43e7ff); -webkit-background-clip: text; color: transparent; }
-    .lead { color: var(--soft); font-size: clamp(1.08rem, 1.9vw, 1.28rem); max-width: 720px; margin-bottom: 30px; }
+
+    .hero {
+      padding: 74px 0 34px;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 42px;
+      align-items: center;
+    }
     .actions { display: flex; flex-wrap: wrap; gap: 14px; }
 
-    .showcase {
-      position: relative;
-      min-height: 500px;
+    .hero-panel {
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background:
         linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.035)),
-        radial-gradient(circle at 24% 12%, rgba(67,231,255,.22), transparent 34%),
+        radial-gradient(circle at 20% 12%, rgba(67,231,255,.22), transparent 34%),
         radial-gradient(circle at 78% 84%, rgba(0,109,255,.22), transparent 36%);
       box-shadow: var(--shadow);
-      overflow: hidden;
       padding: 26px;
-    }
-    .showcase::after {
-      content: "";
-      position: absolute;
-      width: 360px;
-      height: 360px;
-      right: -150px;
-      top: -140px;
-      background: radial-gradient(circle, rgba(67,231,255,.18), transparent 64%);
-      filter: blur(5px);
-    }
-    .deal-card {
-      position: relative;
-      z-index: 1;
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 24px;
-      padding: 18px;
-      background: rgba(3,7,14,.46);
-      margin-bottom: 14px;
+      min-height: 420px;
       display: grid;
-      grid-template-columns: 74px 1fr auto;
-      gap: 16px;
-      align-items: center;
+      align-content: space-between;
+      animation: float-panel 7s ease-in-out infinite;
     }
-    .product-img {
-      height: 74px;
-      border-radius: 20px;
-      background:
-        radial-gradient(circle at 30% 20%, rgba(255,255,255,.75), transparent 18%),
-        linear-gradient(135deg, rgba(67,231,255,.95), rgba(0,109,255,.35));
-      display: grid;
-      place-items: center;
-      color: #001425;
-      font-weight: 900;
-      font-size: 1.25rem;
-      box-shadow: inset 0 0 28px rgba(255,255,255,.2);
-    }
-    .deal-card h3 { margin: 0 0 2px; font-size: 1.02rem; }
-    .deal-card p { margin: 0; color: var(--muted); font-size: .92rem; }
-    .score { text-align: right; }
-    .score strong { display: block; color: var(--green); font-size: 1.2rem; }
-    .score span { color: var(--muted); font-size: .78rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+    .hero-panel h2 { font-size: clamp(1.7rem, 3vw, 2.45rem); margin-bottom: 10px; }
+    .hero-panel p { color: var(--muted); margin-bottom: 0; }
+    .route-list { display: grid; gap: 12px; margin-top: 24px; }
+    .route-item { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; padding: 14px; border: 1px solid rgba(255,255,255,.1); border-radius: 20px; background: rgba(3,7,14,.38); }
+    .route-icon { width: 42px; height: 42px; border-radius: 15px; display: grid; place-items: center; background: linear-gradient(135deg, var(--cyan), var(--blue)); color: #001425; font-weight: 900; }
+    .route-item strong { display:block; margin-bottom: 2px; }
+    .route-item span { color: var(--muted); font-size: .92rem; }
 
-    section { padding: 44px 0; }
+    section { padding: 46px 0; }
     .section-head { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 22px; }
-    .section-head p { color: var(--muted); max-width: 560px; margin-bottom: 0; }
+    .section-head p { color: var(--muted); max-width: 600px; margin-bottom: 0; }
 
-    .category-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-    .category {
-      min-height: 210px;
+    .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .quick-card {
+      min-height: 190px;
       border: 1px solid var(--line);
       border-radius: 26px;
       padding: 22px;
@@ -182,57 +167,71 @@
       position: relative;
       overflow: hidden;
     }
-    .category:hover { transform: translateY(-4px); background: rgba(255,255,255,.085); border-color: rgba(67,231,255,.25); }
-    .category::after { content:""; position:absolute; width:120px; height:120px; right:-44px; top:-42px; border-radius:999px; background:rgba(67,231,255,.1); }
-    .category-icon { width: 46px; height: 46px; border-radius: 16px; background: linear-gradient(135deg, var(--cyan), var(--blue)); display:grid; place-items:center; color:#001425; font-weight:900; margin-bottom: 18px; }
-    .category h3 { margin-bottom: 8px; font-size: 1.1rem; }
-    .category p { color: var(--muted); margin-bottom: 0; font-size: .95rem; }
+    .quick-card:hover { transform: translateY(-4px); background: rgba(255,255,255,.085); border-color: rgba(67,231,255,.25); }
+    .quick-card::after { content:""; position:absolute; width:120px; height:120px; right:-44px; top:-42px; border-radius:999px; background:rgba(67,231,255,.1); }
+    .quick-icon { width: 46px; height: 46px; border-radius: 16px; background: linear-gradient(135deg, var(--cyan), var(--blue)); display:grid; place-items:center; color:#001425; font-weight:900; margin-bottom: 18px; animation: icon-float 5.5s ease-in-out infinite; }
+    .quick-card h3 { margin-bottom: 8px; font-size: 1.1rem; }
+    .quick-card p { color: var(--muted); margin-bottom: 0; font-size: .95rem; }
 
-    .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .product {
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      background: rgba(255,255,255,.06);
-      padding: 18px;
-      overflow: hidden;
-    }
-    .product-visual {
-      height: 170px;
-      border-radius: 22px;
+    .catalog-panel {
+      border: 1px solid rgba(67,231,255,.18);
+      border-radius: 34px;
+      padding: 28px;
       background:
-        radial-gradient(circle at 24% 20%, rgba(255,255,255,.55), transparent 12%),
-        linear-gradient(135deg, rgba(67,231,255,.75), rgba(0,109,255,.18)),
-        rgba(255,255,255,.05);
-      display: grid;
-      place-items: center;
-      margin-bottom: 16px;
-      color: #001425;
-      font-size: 2.2rem;
-      font-weight: 900;
+        radial-gradient(circle at 0% 0%, rgba(67,231,255,.16), transparent 30%),
+        rgba(255,255,255,.055);
+      box-shadow: 0 18px 55px rgba(0,109,255,.12);
     }
-    .badge { display: inline-flex; padding: 6px 9px; border-radius: 999px; background: rgba(67,231,255,.11); border: 1px solid rgba(67,231,255,.18); color: #c9f4ff; font-size: .75rem; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 10px; }
-    .product h3 { margin-bottom: 8px; }
-    .product p { color: var(--muted); font-size: .94rem; }
-    .product .btn { min-height: 40px; padding: 0 14px; font-size: .88rem; margin-top: 4px; }
-    .meta { display:flex; justify-content:space-between; gap:12px; color: var(--soft); font-size:.9rem; font-weight:800; border-top:1px solid rgba(255,255,255,.08); padding-top:14px; margin-top:14px; }
+    .catalog-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .product-block {
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 24px;
+      background: rgba(3,7,14,.34);
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 78px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+    .product-badge { width: 78px; height: 78px; border-radius: 22px; display: grid; place-items: center; background: linear-gradient(135deg, rgba(67,231,255,.95), rgba(0,109,255,.35)); color: #001425; font-weight: 900; font-size: 1.05rem; }
+    .product-block h3 { margin-bottom: 4px; }
+    .product-block p { color: var(--muted); margin-bottom: 12px; font-size: .94rem; }
+    .models { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+    .models li { padding: 9px 10px; border-radius: 14px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); color: #d6e6f7; font-size: .91rem; }
+    .catalog-note { color: var(--muted); font-size: .92rem; margin: 18px 0 0; }
 
-    .principles {
+    .guide-layout { display: grid; grid-template-columns: .95fr 1.05fr; gap: 18px; align-items: stretch; }
+    .featured-guide {
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 26px;
+      background: linear-gradient(135deg, rgba(26,159,255,.18), rgba(255,255,255,.055));
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .featured-guide p { color: var(--soft); }
+    .mini-guides { display: grid; gap: 14px; }
+    .mini-guide { border: 1px solid var(--line); border-radius: 24px; padding: 18px; background: rgba(255,255,255,.055); }
+    .mini-guide p { color: var(--muted); margin-bottom: 0; font-size: .94rem; }
+    .badge { display: inline-flex; padding: 6px 9px; border-radius: 999px; background: rgba(67,231,255,.11); border: 1px solid rgba(67,231,255,.18); color: #c9f4ff; font-size: .75rem; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 10px; }
+
+    .criteria {
+      display: grid;
+      grid-template-columns: .75fr 1.25fr;
+      gap: 22px;
       border: 1px solid rgba(67,231,255,.18);
       border-radius: 34px;
       padding: 30px;
-      background:
-        radial-gradient(circle at 0% 0%, rgba(67,231,255,.18), transparent 30%),
-        rgba(255,255,255,.055);
-      display: grid;
-      grid-template-columns: .82fr 1.18fr;
-      gap: 26px;
+      background: rgba(255,255,255,.055);
     }
-    .principles-list { display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .principle { border:1px solid rgba(255,255,255,.1); border-radius:20px; padding:16px; background:rgba(3,7,14,.34); }
-    .principle strong { display:block; margin-bottom:4px; }
-    .principle span { color:#c4d3e5; font-size:.92rem; }
+    .steps { display: grid; gap: 12px; counter-reset: step; }
+    .step { counter-increment: step; display: grid; grid-template-columns: auto 1fr; gap: 14px; padding: 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,.1); background: rgba(3,7,14,.34); }
+    .step::before { content: counter(step); width: 34px; height: 34px; border-radius: 12px; background: rgba(67,231,255,.14); border: 1px solid rgba(67,231,255,.22); display: grid; place-items: center; color: #c9f4ff; font-weight: 900; }
+    .step strong { display:block; margin-bottom: 2px; }
+    .step span { color:#c4d3e5; font-size:.92rem; }
 
-    .disclaimer { color: var(--muted); font-size: .92rem; margin-top: 18px; }
     .cta {
       margin: 42px 0 72px;
       border: 1px solid rgba(67,231,255,.22);
@@ -244,138 +243,67 @@
       justify-content:space-between;
       gap: 24px;
     }
-    .cta p { color: var(--soft); margin: 10px 0 0; max-width: 640px; }
+    .cta p { color: var(--soft); margin: 10px 0 0; max-width: 680px; }
     footer { border-top: 1px solid rgba(255,255,255,.08); color: var(--muted); padding: 28px 0 40px; }
 
-
-
-    .menu-toggle {
-      display: none;
-      width: 46px;
-      height: 46px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.075);
-      color: var(--text);
-      padding: 0;
-      cursor: pointer;
-      position: relative;
-      z-index: 30;
-    }
-
-    .menu-toggle span {
-      display: block;
-      width: 20px;
-      height: 2px;
-      margin: 5px auto;
-      border-radius: 99px;
-      background: currentColor;
-      transition: transform .25s ease, opacity .25s ease;
-    }
-
+    .menu-toggle { display: none; width: 46px; height: 46px; border-radius: 16px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.075); color: var(--text); padding: 0; cursor: pointer; position: relative; z-index: 30; }
+    .menu-toggle span { display: block; width: 20px; height: 2px; margin: 5px auto; border-radius: 99px; background: currentColor; transition: transform .25s ease, opacity .25s ease; }
     .nav.menu-open .menu-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .nav.menu-open .menu-toggle span:nth-child(2) { opacity: 0; }
     .nav.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    .logo-ghost {
-      position: fixed;
-      right: 14px;
-      bottom: 14px;
-      width: clamp(52px, 8vw, 96px);
-      opacity: .07;
-      pointer-events: none;
-      z-index: 0;
-      animation: ghost-drift 12s ease-in-out infinite;
-    }
-
-    @keyframes ghost-drift {
-      0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-      50% { transform: translate3d(-14px, -18px, 0) rotate(4deg); }
-    }
-
-    .hero-card, .showcase { animation: float-panel 7s ease-in-out infinite; }
-    @keyframes float-panel {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-
-
-
-    .motion-orb {
-      position: fixed;
-      width: 340px;
-      height: 340px;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(67,231,255,.10), transparent 65%);
-      filter: blur(3px);
-      pointer-events: none;
-      z-index: 0;
-      animation: orb-route 18s ease-in-out infinite;
-    }
-
+    .logo-ghost { position: fixed; right: 14px; bottom: 14px; width: clamp(72px, 10vw, 128px); opacity: .06; pointer-events: none; z-index: 0; filter: drop-shadow(0 0 34px rgba(67,231,255,.24)); animation: ghost-drift 12s ease-in-out infinite; }
+    .motion-orb { position: fixed; width: 340px; height: 340px; border-radius: 999px; background: radial-gradient(circle, rgba(67,231,255,.10), transparent 65%); filter: blur(3px); pointer-events: none; z-index: 0; animation: orb-route 18s ease-in-out infinite; }
     .motion-orb.one { left: -160px; top: 18%; }
     .motion-orb.two { right: -190px; top: 54%; animation-delay: -7s; }
 
-    .category, .product, .principle, .cta, .deal-card {
-      animation: section-glow 8s ease-in-out infinite;
-    }
-
-    .category:nth-child(2), .product:nth-child(2), .deal-card:nth-child(2) { animation-delay: -2s; }
-    .category:nth-child(3), .product:nth-child(3), .deal-card:nth-child(3) { animation-delay: -4s; }
-
-    .product-visual, .category-icon { animation: icon-float 5.5s ease-in-out infinite; }
-
-    @keyframes orb-route {
-      0%, 100% { transform: translate3d(0,0,0) scale(1); opacity: .65; }
-      40% { transform: translate3d(60px, 120px, 0) scale(1.08); opacity: .9; }
-      70% { transform: translate3d(-30px, 40px, 0) scale(.94); opacity: .55; }
-    }
-
-    @keyframes section-glow {
-      0%, 100% { box-shadow: 0 0 0 rgba(67,231,255,0); }
-      50% { box-shadow: 0 18px 55px rgba(0,109,255,.13); }
-    }
-
-    @keyframes icon-float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
-    }
+    @keyframes ghost-drift { 0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); } 50% { transform: translate3d(-14px, -18px, 0) rotate(4deg); } }
+    @keyframes logo-breathe { 0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 10px 22px rgba(26,159,255,.34)) drop-shadow(0 0 0 rgba(67,231,255,0)); } 50% { transform: translateY(-2px) scale(1.025); filter: drop-shadow(0 14px 28px rgba(67,231,255,.44)) drop-shadow(0 0 12px rgba(67,231,255,.20)); } }
+    @keyframes logo-aura { 0%, 100% { opacity: .45; transform: scale(.88); } 50% { opacity: .82; transform: scale(1.08); } }
+    @keyframes float-panel { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes orb-route { 0%, 100% { transform: translate3d(0,0,0) scale(1); opacity: .65; } 40% { transform: translate3d(60px, 120px, 0) scale(1.08); opacity: .9; } 70% { transform: translate3d(-30px, 40px, 0) scale(.94); opacity: .55; } }
+    @keyframes icon-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
     @media (max-width: 900px) {
       .nav-inner { height: 76px; align-items: center; }
       .menu-toggle { display: block; }
-      .links {
-        position: absolute;
-        left: 20px;
-        right: 20px;
-        top: 86px;
-        display: grid;
-        gap: 10px;
-        padding: 14px;
-        border: 1px solid rgba(67,231,255,.18);
-        border-radius: 24px;
-        background: rgba(3,7,14,.985);
-        box-shadow: 0 26px 90px rgba(0,10,32,.72);
-        opacity: 0;
-        transform: translateY(-12px) scale(.98);
-        pointer-events: none;
-        transition: opacity .24s ease, transform .24s ease;
-      }
+      .links { position: absolute; left: 20px; right: 20px; top: 86px; display: grid; gap: 10px; padding: 14px; border: 1px solid rgba(67,231,255,.18); border-radius: 24px; background: rgba(3,7,14,.985); box-shadow: 0 26px 90px rgba(0,10,32,.72); opacity: 0; transform: translateY(-12px) scale(.98); pointer-events: none; transition: opacity .24s ease, transform .24s ease; }
       .nav.menu-open .links { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
-      .links a {
-        padding: 12px 14px;
-        border-radius: 16px;
-        background: rgba(255,255,255,.07);
-        border: 1px solid rgba(255,255,255,.09);
-      }
-      .logo-ghost { width: 64px; right: 10px; bottom: 12px; opacity: .075; }
-      .motion-orb { opacity: .55; }
-      .hero, .principles { grid-template-columns: 1fr; }
-      .category-grid, .product-grid, .principles-list { grid-template-columns: 1fr; }
+      .links a { padding: 12px 14px; border-radius: 16px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.09); }
+      .hero, .catalog-grid, .guide-layout, .criteria { grid-template-columns: 1fr; }
+      .quick-grid { grid-template-columns: 1fr 1fr; }
       .section-head, .cta { flex-direction: column; align-items: flex-start; }
-      .deal-card { grid-template-columns: 64px 1fr; }
-      .score { grid-column: 2; text-align: left; }
+      .product-block { grid-template-columns: 64px 1fr; padding: 15px; }
+      .product-badge { width: 64px; height: 64px; border-radius: 18px; }
       h1 { letter-spacing: -.065em; }
+      .brand img { width: 52px; height: 38px; }
+      .logo-ghost { width: 84px; right: 10px; bottom: 12px; opacity: .06; }
+      .motion-orb { opacity: .55; }
+
+
+    @media (max-width: 560px) {
+      .page, .nav-inner { width: min(100% - 28px, 1160px); }
+      .nav-inner { height: 68px; }
+      .brand span { font-size: .95rem; }
+      .brand img { width: 50px; height: 36px; }
+      .links { left: 14px; right: 14px; top: 76px; }
+      .hero { padding: 48px 0 24px; gap: 22px; }
+      h1 { font-size: clamp(2.32rem, 13vw, 3.35rem); margin-bottom: 16px; }
+      h2 { font-size: clamp(1.72rem, 8vw, 2.2rem); }
+      .lead { font-size: 1rem; margin-bottom: 22px; }
+      section { padding: 34px 0; }
+      .hero-panel { min-height: auto; padding: 18px; border-radius: 24px; }
+      .route-list { margin-top: 18px; }
+      .route-item { padding: 12px; gap: 11px; }
+      .route-icon { width: 36px; height: 36px; border-radius: 13px; }
+      .quick-grid { grid-template-columns: 1fr; }
+      .quick-card { min-height: auto; padding: 18px; }
+      .catalog-panel, .criteria, .featured-guide, .cta { padding: 20px; border-radius: 26px; }
+      .product-block { grid-template-columns: 1fr; gap: 12px; }
+      .models li { font-size: .88rem; }
+      .featured-guide { min-height: auto; gap: 22px; }
+      .logo-ghost { display: none; }
+    }
     }
   </style>
 </head>
@@ -383,6 +311,7 @@
   <span class="motion-orb one" aria-hidden="true"></span>
   <span class="motion-orb two" aria-hidden="true"></span>
   <img class="logo-ghost" src="assets/logo-vr.png" alt="" aria-hidden="true" />
+
   <header class="nav">
     <div class="nav-inner">
       <a href="index.html" class="brand" aria-label="Volver al inicio">
@@ -391,8 +320,9 @@
       </a>
       <nav class="links" aria-label="Navegación principal">
         <a href="index.html">Inicio</a>
-        <a href="#categorias">Categorías</a>
-        <a href="#selecciones">Selecciones</a>
+        <a href="#necesidad">Necesidad</a>
+        <a href="#productos">Productos</a>
+        <a href="#guias">Guías</a>
         <a href="#criterio">Criterio</a>
       </nav>
       <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
@@ -404,118 +334,157 @@
   <main class="page">
     <section class="hero">
       <div>
-        <div class="kicker"><span class="dot"></span> Guías tech · hardware · setups</div>
+        <div class="kicker"><span class="dot"></span> Guías tech · componentes · setups</div>
         <h1>Compra tecnología con <span class="gradient">criterio real</span></h1>
-        <p class="lead">Recomendaciones prácticas para elegir componentes, periféricos, equipos y accesorios sin perderse entre fichas técnicas, ofertas agresivas y productos que no encajan con el uso real.</p>
+        <p class="lead">Una sección para elegir componentes, periféricos, portátiles y accesorios sin perderte entre fichas técnicas, ofertas agresivas y productos que no encajan con tu uso.</p>
         <div class="actions">
-          <a class="btn primary" href="#selecciones">Ver selecciones</a>
-          <a class="btn" href="#criterio">Cómo recomiendo</a>
+          <a class="btn primary" href="#necesidad">Empezar por necesidad</a>
+          <a class="btn" href="#productos">Ver modelos</a>
         </div>
       </div>
 
-      <aside class="showcase" aria-label="Ejemplos visuales de recomendaciones">
-        <article class="deal-card">
-          <div class="product-img">SSD</div>
-          <div><h3>Upgrade rápido para portátil</h3><p>SSD NVMe + RAM: mejora visible antes que cambiar equipo entero.</p></div>
-          <div class="score"><strong>9.1</strong><span>Nota guía</span></div>
-        </article>
-        <article class="deal-card">
-          <div class="product-img">27”</div>
-          <div><h3>Monitor para estudiar y trabajar</h3><p>Buen panel, ergonomía y resolución antes que marketing gaming.</p></div>
-          <div class="score"><strong>8.7</strong><span>Nota guía</span></div>
-        </article>
-        <article class="deal-card">
-          <div class="product-img">⌨</div>
-          <div><h3>Periféricos calidad-precio</h3><p>Teclado, ratón y audio cómodos para muchas horas.</p></div>
-          <div class="score"><strong>8.9</strong><span>Nota guía</span></div>
-        </article>
+      <aside class="hero-panel" aria-label="Resumen de la página">
+        <div>
+          <h2>Primero el uso. Después el producto.</h2>
+          <p>La idea es sencilla: decidir qué necesitas, entender qué mirar y comparar opciones razonables antes de comprar.</p>
+        </div>
+        <div class="route-list">
+          <div class="route-item"><div class="route-icon">1</div><div><strong>Elige tu caso</strong><span>Actualizar un equipo, montar escritorio, comprar portátil o mejorar periféricos.</span></div></div>
+          <div class="route-item"><div class="route-icon">2</div><div><strong>Revisa modelos</strong><span>Ejemplos por familia de producto, sin precios inventados ni promesas de stock.</span></div></div>
+          <div class="route-item"><div class="route-icon">3</div><div><strong>Compra con criterio</strong><span>Compatibilidad, durabilidad y calidad-precio antes que marketing.</span></div></div>
+        </div>
       </aside>
     </section>
 
-    <section id="categorias">
+    <section id="necesidad">
       <div class="section-head">
-        <h2>Categorías con intención</h2>
-        <p>No se trata de listar productos al azar, sino de ordenar recomendaciones por necesidades reales y presupuestos concretos.</p>
+        <h2>Empieza por lo que necesitas</h2>
+        <p>Así la página se lee como una guía, no como un listado infinito de productos. Cada bloque tiene una intención concreta.</p>
       </div>
-      <div class="category-grid">
-        <article class="category"><div class="category-icon">PC</div><h3>Componentes</h3><p>SSD, RAM, fuentes, cajas, placas y upgrades para alargar la vida de un equipo.</p></article>
-        <article class="category"><div class="category-icon">⌁</div><h3>Periféricos</h3><p>Teclados, ratones, monitores, auriculares y accesorios para trabajar mejor.</p></article>
-        <article class="category"><div class="category-icon">▣</div><h3>Setups</h3><p>Combinaciones equilibradas para estudiar, teletrabajar, crear contenido o programar.</p></article>
-        <article class="category"><div class="category-icon">€</div><h3>Presupuesto</h3><p>Opciones por rangos de precio, evitando pagar de más por mejoras irrelevantes.</p></article>
+      <div class="quick-grid">
+        <article class="quick-card"><div class="quick-icon">PC</div><h3>Mi equipo va lento</h3><p>SSD, RAM y mantenimiento antes de comprar un portátil nuevo sin necesidad.</p></article>
+        <article class="quick-card"><div class="quick-icon">27”</div><h3>Quiero trabajar cómodo</h3><p>Monitor, teclado, ratón, soporte y accesorios para muchas horas de escritorio.</p></article>
+        <article class="quick-card"><div class="quick-icon">▣</div><h3>Estoy montando setup</h3><p>Combinaciones equilibradas por uso: estudio, programación, teletrabajo o gaming sensato.</p></article>
+        <article class="quick-card"><div class="quick-icon">€</div><h3>No quiero pagar de más</h3><p>Calidad-precio, compatibilidad y mejoras que realmente se notan.</p></article>
       </div>
     </section>
 
-    <section id="selecciones">
+    <section id="productos">
       <div class="section-head">
-        <h2>Selecciones tipo</h2>
-        <p>Primeras líneas de contenido para convertir la página en un recurso útil: guías concretas, comparativas y selecciones por necesidad.</p>
+        <h2>Modelos de referencia</h2>
+        <p>Ejemplos concretos para orientar la compra por categorías. Antes de enlazar una compra se revisa la ficha actual, disponibilidad, precio visible y variante exacta.</p>
       </div>
-      <div class="product-grid">
-        <article class="product">
-          <div class="product-visual">SSD</div>
-          <span class="badge">Upgrade útil</span>
-          <h3>Mejoras para un portátil lento</h3>
-          <p>Guía para decidir cuándo merece la pena cambiar SSD, ampliar RAM o limpiar el sistema antes de comprar otro equipo.</p>
-          <a class="btn" href="#criterio">Ver enfoque</a>
-          <div class="meta"><span>Uso: estudio/trabajo</span><span>Desde bajo coste</span></div>
-        </article>
-        <article class="product">
-          <div class="product-visual">27”</div>
-          <span class="badge">Setup escritorio</span>
-          <h3>Monitor equilibrado para productividad</h3>
-          <p>Comparativa centrada en resolución, ergonomía, conectividad y comodidad visual para largas jornadas.</p>
-          <a class="btn" href="#criterio">Ver criterios</a>
-          <div class="meta"><span>Uso: oficina/tech</span><span>Gama media</span></div>
-        </article>
-        <article class="product">
-          <div class="product-visual">KIT</div>
-          <span class="badge">Calidad-precio</span>
-          <h3>Kit base para trabajar mejor</h3>
-          <p>Periféricos y accesorios que mejoran el día a día: teclado, ratón, soporte, hub USB-C y audio decente.</p>
-          <a class="btn" href="#categorias">Explorar categorías</a>
-          <div class="meta"><span>Uso: diario</span><span>Compra inteligente</span></div>
-        </article>
+      <div class="catalog-panel">
+        <div class="catalog-grid">
+          <article class="product-block">
+            <div class="product-badge">SSD</div>
+            <div>
+              <h3>Almacenamiento rápido</h3>
+              <p>Para mejorar arranque, carga de programas y fluidez general en portátiles o sobremesa.</p>
+              <ul class="models">
+                <li>Kingston NV3 1TB NVMe PCIe 4.0</li>
+                <li>Crucial P3 Plus 1TB NVMe PCIe 4.0</li>
+                <li>WD Black SN770 1TB NVMe</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="product-block">
+            <div class="product-badge">RAM</div>
+            <div>
+              <h3>Memoria para actualizar</h3>
+              <p>Para multitarea, navegadores pesados, máquinas virtuales, edición ligera y equipos que se quedan cortos.</p>
+              <ul class="models">
+                <li>Corsair Vengeance DDR5 32GB 6000MHz</li>
+                <li>Kingston FURY Beast DDR4 32GB 3200MHz</li>
+                <li>Crucial Pro DDR5 32GB 5600MHz</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="product-block">
+            <div class="product-badge">27”</div>
+            <div>
+              <h3>Monitor para escritorio</h3>
+              <p>Para estudiar, programar o trabajar con más espacio, mejor ergonomía y menos fatiga visual.</p>
+              <ul class="models">
+                <li>LG UltraGear 27" QHD IPS</li>
+                <li>MSI G274QPF 27" QHD</li>
+                <li>Samsung Odyssey G5 27" QHD</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="product-block">
+            <div class="product-badge">KIT</div>
+            <div>
+              <h3>Periféricos de uso diario</h3>
+              <p>Pequeñas mejoras que se notan todos los días: escribir, navegar, reunirse y escuchar mejor.</p>
+              <ul class="models">
+                <li>Logitech MX Keys S</li>
+                <li>Logitech MX Master 3S</li>
+                <li>HyperX Cloud III</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+        <p class="catalog-note">No se muestran precios fijos ni se promete stock. Las recomendaciones se revisan con disponibilidad, precio visible y cambios de producto. Última actualización editorial: mayo de 2026.</p>
       </div>
     </section>
 
-    <section id="criterio" class="principles">
+    <section id="guias">
+      <div class="section-head">
+        <h2>Guías destacadas</h2>
+        <p>Menos ruido y más contexto: cada guía responde a una decisión de compra habitual.</p>
+      </div>
+      <div class="guide-layout">
+        <article class="featured-guide">
+          <div>
+            <span class="badge">Guía principal</span>
+            <h2>Cómo acelerar un portátil lento sin comprar otro</h2>
+            <p>Cuándo cambiar a SSD, ampliar RAM, limpiar el sistema o aceptar que toca renovar equipo. Una guía práctica para no gastar de más y priorizar mejoras que se notan.</p>
+          </div>
+          <a class="btn primary" href="#productos">Ver modelos relacionados</a>
+        </article>
+        <div class="mini-guides">
+          <article class="mini-guide"><span class="badge">Productividad</span><h3>Monitor equilibrado para escritorio</h3><p>Resolución, panel, ergonomía, conectividad y tamaño recomendado para trabajar cómodo.</p></article>
+          <article class="mini-guide"><span class="badge">Setup base</span><h3>Kit para trabajar mejor</h3><p>Teclado, ratón, soporte, hub USB-C, webcam y audio decente para el día a día.</p></article>
+          <article class="mini-guide"><span class="badge">Gaming sensato</span><h3>Periféricos sin pagar solo marketing</h3><p>Mandos, alfombrillas, auriculares y componentes con buena relación calidad-precio.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="criterio" class="criteria">
       <div>
         <div class="kicker"><span class="dot"></span> Método editorial</div>
-        <h2>Afiliación, pero con independencia</h2>
-        <p class="lead">El objetivo es crear contenido útil, con recomendaciones claras y transparentes. Si algún enlace es de afiliado, estará indicado sin disfrazarlo de consejo neutral.</p>
+        <h2>Cómo se elige cada recomendación</h2>
+        <p class="lead">La ficha técnica importa, pero solo cuando ayuda a tomar una mejor decisión.</p>
       </div>
-      <div>
-        <div class="principles-list">
-          <div class="principle"><strong>Relevancia</strong><span>Productos ligados a informática, hardware, periféricos, productividad y setups.</span></div>
-          <div class="principle"><strong>Transparencia</strong><span>Si hay enlace afiliado, se indicará de forma clara.</span></div>
-          <div class="principle"><strong>Utilidad</strong><span>Recomendar según uso, presupuesto y durabilidad, no por comisión.</span></div>
-          <div class="principle"><strong>Criterio técnico</strong><span>Explicar pros, límites y para quién encaja cada compra.</span></div>
-        </div>
-        <p class="disclaimer">Las selecciones iniciales servirán como base para guías reales, comparativas y contenido conectado con Prysmo Tech.</p>
+      <div class="steps">
+        <div class="step"><div><strong>Uso real</strong><span>Primero se define para qué se necesita el producto y qué problema resuelve.</span></div></div>
+        <div class="step"><div><strong>Compatibilidad</strong><span>Medidas, conexiones, potencia, generación y requisitos antes de recomendar componentes.</span></div></div>
+        <div class="step"><div><strong>Calidad-precio</strong><span>No siempre compensa ir a lo más barato ni pagar más por mejoras que no se aprovechan.</span></div></div>
+        <div class="step"><div><strong>Transparencia</strong><span>Los enlaces comerciales se indicarán de forma clara cuando aparezcan en las guías.</span></div></div>
       </div>
     </section>
 
     <section class="cta">
       <div>
-        <h2>Guías y comparativas en evolución</h2>
-        <p>Esta página irá creciendo con selecciones concretas, comparativas útiles y recomendaciones tecnológicas enlazables desde Prysmo Tech.</p>
+        <h2>Guías tech en crecimiento</h2>
+        <p>Esta sección irá creciendo con comparativas, selecciones por presupuesto y recomendaciones concretas para comprar tecnología con menos ruido.</p>
       </div>
-      <a class="btn primary" href="#selecciones">Ver selecciones</a>
+      <a class="btn primary" href="#necesidad">Volver al inicio de la guía</a>
     </section>
   </main>
 
   <footer>
-    <div class="page">© 2026 Víctor Rocamora · Guías tech, hardware y recomendaciones con criterio.</div>
+    <div class="page">© 2026 Víctor Rocamora · Guías tech, componentes y recomendaciones con criterio.</div>
   </footer>
 
   <script>
     const nav = document.querySelector('.nav');
     const menuToggle = document.querySelector('.menu-toggle');
     if (menuToggle && nav) {
-      if (location.hash === '#menu') {
-        nav.classList.add('menu-open');
-        menuToggle.setAttribute('aria-expanded', 'true');
-      }
       menuToggle.addEventListener('click', () => {
         const open = nav.classList.toggle('menu-open');
         menuToggle.setAttribute('aria-expanded', String(open));
