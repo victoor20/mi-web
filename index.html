@@ -437,6 +437,7 @@
     .project {
       position: relative;
       overflow: hidden;
+      display: block;
       border: 1px solid var(--line);
       border-radius: 24px;
       padding: 26px;
@@ -888,8 +889,8 @@
   </header>
 
   <main id="inicio" class="page">
-    <section class="build-progress" aria-label="Estado de construcción de la web">
-      <div class="progress-top"><span>Web en construcción</span><span class="charge-percent"><span class="charge-bolt" aria-hidden="true">⚡</span>70%</span></div>
+    <section class="build-progress" aria-label="Estado de evolución de la web">
+      <div class="progress-top"><span>Portfolio vivo</span><span class="charge-percent"><span class="charge-bolt" aria-hidden="true">⚡</span>85%</span></div>
       <div class="battery-wrap">
         <div class="battery-shell" aria-hidden="true">
           <span class="battery-cell filled"></span>
@@ -990,11 +991,11 @@
           <h3>Jarvis / asistente personal</h3>
           <p>Sistema personal con memoria, Telegram, tareas programadas, generación de audio y flujos de trabajo automatizados.</p>
         </article>
-        <article class="project">
+        <a class="project" href="guias-tech.html">
           <small>Contenido tech</small>
           <h3>Prysmo Tech</h3>
-          <p>Línea de contenido orientada a guías de compra, comparativas honestas, hardware, periféricos y setups calidad-precio.</p>
-        </article>
+          <p>Guías de compra, comparativas honestas, hardware, periféricos y setups calidad-precio.</p>
+        </a>
         <article class="project">
           <small>AI Engineering</small>
           <h3>RAG documental</h3>
@@ -1018,7 +1019,7 @@
   </main>
 
   <footer>
-    <div class="page">© 2026 Víctor Rocamora · AI Engineering, automatización y cloud.</div>
+    <div class="page">© 2026 Víctor Rocamora · AI Engineering, automatización y cloud · <a href="transparencia-editorial.html">Transparencia editorial Prysmo Tech</a></div>
   </footer>
   <script>
     const observer = new IntersectionObserver((entries) => {

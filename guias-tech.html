@@ -155,6 +155,24 @@
     section { padding: 46px 0; }
     .section-head { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 22px; }
     .section-head p { display: none; }
+    .editorial-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+    .editorial-card {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(67,231,255,.12), transparent 32%),
+        rgba(255,255,255,.055);
+    }
+    .editorial-card p { color: var(--soft); margin-bottom: 12px; }
+    .editorial-card p:last-child { margin-bottom: 0; }
+    .meta-list { display: grid; gap: 10px; margin-top: 16px; }
+    .meta-list span { display: block; padding: 10px 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,.1); background: rgba(3,7,14,.34); color: #d6e6f7; }
 
     .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
     .quick-card {
@@ -199,17 +217,17 @@
     .models { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
     .models li { padding: 9px 10px; border-radius: 14px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); color: #d6e6f7; font-size: .91rem; }
     .catalog-note { color: var(--muted); font-size: .92rem; margin: 18px 0 0; }
-    .catalog-panel, .product-block, .featured-guide, .mini-guide, .practical-card, .criteria, .step, .transparency-box, .cta {
+    .catalog-panel, .product-block, .featured-guide, .mini-guide, .practical-card, .criteria, .step, .transparency-box, .cta, .editorial-card {
       transition: transform .2s ease, background .2s ease, border .2s ease, box-shadow .2s ease;
       position: relative;
       overflow: hidden;
     }
-    .catalog-panel:hover, .product-block:hover, .featured-guide:hover, .mini-guide:hover, .practical-card:hover, .criteria:hover, .step:hover, .transparency-box:hover, .cta:hover {
+    .catalog-panel:hover, .product-block:hover, .featured-guide:hover, .mini-guide:hover, .practical-card:hover, .criteria:hover, .step:hover, .transparency-box:hover, .cta:hover, .editorial-card:hover {
       transform: translateY(-4px);
       border-color: rgba(67,231,255,.25);
       box-shadow: 0 18px 55px rgba(0,109,255,.13);
     }
-    .catalog-panel::after, .product-block::after, .featured-guide::after, .mini-guide::after, .practical-card::after, .criteria::after, .step::after, .transparency-box::after, .cta::after {
+    .catalog-panel::after, .product-block::after, .featured-guide::after, .mini-guide::after, .practical-card::after, .criteria::after, .step::after, .transparency-box::after, .cta::after, .editorial-card::after {
       content: "";
       position: absolute;
       width: 120px;
@@ -220,7 +238,7 @@
       background: rgba(67,231,255,.1);
       pointer-events: none;
     }
-    .catalog-panel > *, .product-block > *, .featured-guide > *, .mini-guide > *, .practical-card > *, .criteria > *, .step > *, .transparency-box > *, .cta > * { position: relative; z-index: 1; }
+    .catalog-panel > *, .product-block > *, .featured-guide > *, .mini-guide > *, .practical-card > *, .criteria > *, .step > *, .transparency-box > *, .cta > *, .editorial-card > * { position: relative; z-index: 1; }
 
 
     .guide-layout { display: grid; grid-template-columns: .95fr 1.05fr; gap: 18px; align-items: stretch; }
@@ -268,6 +286,7 @@
         radial-gradient(circle at 0% 0%, rgba(67,231,255,.12), transparent 32%),
         rgba(255,255,255,.055);
     }
+    a.practical-card { display: block; }
     .practical-card p { color: var(--soft); margin-bottom: 0; }
     .transparency-box {
       border: 1px solid rgba(67,231,255,.22);
@@ -278,6 +297,8 @@
         rgba(3,7,14,.34);
     }
     .transparency-box p { color: var(--soft); margin-bottom: 12px; }
+    .transparency-box ul { color: var(--soft); margin: 0; padding-left: 20px; }
+    .transparency-box li { margin: 8px 0; }
     .verification-note {
       display: inline-flex;
       padding: 8px 11px;
@@ -328,7 +349,7 @@
       .links { position: absolute; left: 20px; right: 20px; top: 86px; display: grid; gap: 10px; padding: 14px; border: 1px solid rgba(67,231,255,.18); border-radius: 24px; background: rgba(3,7,14,.985); box-shadow: 0 26px 90px rgba(0,10,32,.72); opacity: 0; transform: translateY(-12px) scale(.98); pointer-events: none; transition: opacity .24s ease, transform .24s ease; }
       .nav.menu-open .links { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
       .links a { padding: 12px 14px; border-radius: 16px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.09); }
-      .hero, .catalog-grid, .guide-layout, .criteria, .practical-guides { grid-template-columns: 1fr; }
+      .hero, .catalog-grid, .guide-layout, .criteria, .practical-guides, .editorial-intro { grid-template-columns: 1fr; }
       .quick-grid { grid-template-columns: 1fr 1fr; }
       .section-head, .cta { flex-direction: column; align-items: flex-start; }
       .product-block { grid-template-columns: 64px 1fr; padding: 15px; }
@@ -337,7 +358,7 @@
       .brand img { width: 52px; height: 38px; }
       .logo-ghost { width: 84px; right: 10px; bottom: 12px; opacity: .06; }
       .motion-orb { opacity: .55; }
-
+    }
 
     @media (max-width: 560px) {
       .page, .nav-inner { width: min(100% - 28px, 1160px); }
@@ -362,7 +383,6 @@
       .featured-guide { min-height: auto; gap: 22px; }
       .logo-ghost { display: none; }
     }
-    }
   </style>
   <meta name="verification" content="96f738f1a54d9d3634fe97949826043b" />
 </head>
@@ -383,7 +403,10 @@
         <a href="#productos">Productos</a>
         <a href="#guias">Guías</a>
         <a href="#criterio">Criterio</a>
+        <a href="#autor">Autor</a>
         <a href="#transparencia">Transparencia</a>
+        <a href="transparencia-editorial.html">Criterio editorial</a>
+        <a href="index.html#contacto">Contacto</a>
       </nav>
       <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -396,10 +419,10 @@
       <div>
         <div class="kicker"><span class="dot"></span> Guías tech · componentes · setups</div>
         <h1>Compra tecnología con <span class="gradient">criterio real</span></h1>
-        <p class="lead">Una sección para elegir componentes, periféricos, portátiles y accesorios sin perderte entre fichas técnicas, ofertas agresivas y productos que no encajan con tu uso.</p>
+        <p class="lead">Prysmo Tech es una sección editorial mantenida por Víctor Rocamora para elegir componentes, periféricos, portátiles y accesorios con criterio práctico, sin perderte entre fichas técnicas, ofertas agresivas y productos que no encajan con tu uso.</p>
         <div class="actions">
           <a class="btn primary" href="#necesidad">Empezar por necesidad</a>
-          <a class="btn" href="#productos">Ver modelos</a>
+        <a class="btn" href="#guias">Ver guías</a>
         </div>
       </div>
 
@@ -414,6 +437,31 @@
           <div class="route-item"><div class="route-icon">3</div><div><strong>Compra con criterio</strong><span>Compatibilidad, durabilidad y calidad-precio antes que marketing.</span></div></div>
         </div>
       </aside>
+    </section>
+
+    <section id="editorial">
+      <div class="section-head">
+        <h2>Una sección editorial, no un escaparate</h2>
+        <p>Contenido tecnológico pensado para decidir mejor antes de comprar.</p>
+      </div>
+      <div class="editorial-intro">
+        <article class="editorial-card">
+          <span class="badge">Prysmo Tech</span>
+          <h3>Guías de compra tecnológica con criterio práctico</h3>
+          <p>La sección está enfocada en resolver dudas habituales: cuándo renovar un portátil, qué componente mejora de verdad un equipo lento, cómo montar un escritorio cómodo o qué periférico tiene sentido según el uso real.</p>
+          <p>No se publican precios inventados, descuentos no comprobados ni promesas de stock. Cuando una recomendación pueda llevar enlace comercial, primero debe tener sentido por utilidad, compatibilidad y relación calidad-precio.</p>
+        </article>
+        <article class="editorial-card" id="autor">
+          <span class="badge">Autor y editor</span>
+          <h3>Víctor Rocamora</h3>
+          <p>Perfil técnico con base en sistemas, soporte informático, inteligencia artificial y cloud. En Prysmo Tech aplica ese enfoque práctico a guías de compra de tecnología, componentes, periféricos y setups.</p>
+          <div class="meta-list">
+            <span>Última actualización editorial: agosto de 2026</span>
+            <span>Contacto: <a href="index.html#contacto">sección de contacto</a></span>
+            <span>Enfoque: utilidad real, compatibilidad y compra razonada</span>
+          </div>
+        </article>
+      </div>
     </section>
 
     <section id="necesidad">
@@ -488,7 +536,7 @@
             </div>
           </article>
         </div>
-        <p class="catalog-note">No se muestran precios fijos ni se promete stock. Las recomendaciones se revisan con disponibilidad, precio visible y cambios de producto. Última actualización editorial: mayo de 2026.</p>
+        <p class="catalog-note">No se muestran precios fijos ni se promete stock. Las recomendaciones se revisan con disponibilidad, precio visible y cambios de producto. Última actualización editorial: agosto de 2026.</p>
       </div>
     </section>
 
@@ -504,12 +552,12 @@
             <h2>Cómo acelerar un portátil lento sin comprar otro</h2>
             <p>Cuándo cambiar a SSD, ampliar RAM, limpiar el sistema o aceptar que toca renovar equipo. Una guía práctica para no gastar de más y priorizar mejoras que se notan.</p>
           </div>
-          <a class="btn primary" href="#productos">Ver modelos relacionados</a>
+          <a class="btn primary" href="guia-ssd-ram-portatil-lento.html">Leer guía</a>
         </article>
         <div class="mini-guides">
-          <article class="mini-guide"><span class="badge">Productividad</span><h3>Monitor equilibrado para escritorio</h3><p>Resolución, panel, ergonomía, conectividad y tamaño recomendado para trabajar cómodo.</p></article>
-          <article class="mini-guide"><span class="badge">Setup base</span><h3>Kit para trabajar mejor</h3><p>Teclado, ratón, soporte, hub USB-C, webcam y audio decente para el día a día.</p></article>
-          <article class="mini-guide"><span class="badge">Gaming sensato</span><h3>Periféricos sin pagar solo marketing</h3><p>Mandos, alfombrillas, auriculares y componentes con buena relación calidad-precio.</p></article>
+          <article class="mini-guide"><span class="badge">Productividad</span><h3>Monitor equilibrado para escritorio</h3><p>Resolución, panel, ergonomía, conectividad y tamaño recomendado para trabajar cómodo.</p><p><a href="guia-monitor-perifericos-setup.html">Leer guía</a></p></article>
+          <article class="mini-guide"><span class="badge">Setup base</span><h3>Kit para trabajar mejor</h3><p>Teclado, ratón, soporte, hub USB-C, webcam y audio decente para el día a día.</p><p><a href="guia-monitor-perifericos-setup.html">Leer guía</a></p></article>
+          <article class="mini-guide"><span class="badge">Portátiles</span><h3>Equipo para estudiar o trabajar</h3><p>Procesador, RAM, SSD, pantalla y autonomía sin pagar por potencia que no se usa.</p><p><a href="guia-portatil-estudiar-trabajar.html">Leer guía</a></p></article>
         </div>
       </div>
     </section>
@@ -520,16 +568,16 @@
         <p>Contenido directo para resolver dudas habituales antes de comprar tecnología: compatibilidad, uso real y prioridades de compra.</p>
       </div>
       <div class="practical-guides">
-        <article class="practical-card">
+        <a class="practical-card" href="guia-ssd-ram-portatil-lento.html">
           <span class="badge">Guía rápida</span>
           <h3>Qué mirar antes de comprar un SSD NVMe</h3>
           <p>Antes de elegir un SSD conviene revisar si tu equipo acepta formato M.2 NVMe, la generación PCIe compatible, la capacidad real que necesitas y si el uso será básico, gaming o trabajo pesado. Para la mayoría de usuarios, 1 TB suele ser el punto equilibrado entre precio, espacio y vida útil.</p>
-        </article>
-        <article class="practical-card">
+        </a>
+        <a class="practical-card" href="guia-portatil-estudiar-trabajar.html">
           <span class="badge">Guía rápida</span>
           <h3>Portátil para estudiar o trabajar</h3>
           <p>Para estudiar, teletrabajar o usar ofimática, conviene priorizar 16 GB de RAM, SSD de al menos 512 GB, buena pantalla, autonomía razonable y peso contenido. No siempre compensa pagar más por una gráfica dedicada si no se va a jugar o editar vídeo.</p>
-        </article>
+        </a>
       </div>
     </section>
 
@@ -537,13 +585,14 @@
       <div>
         <div class="kicker"><span class="dot"></span> Método editorial</div>
         <h2>Cómo se elige cada recomendación</h2>
-        <p class="lead">La ficha técnica importa, pero solo cuando ayuda a tomar una mejor decisión.</p>
+        <p class="lead">La ficha técnica importa, pero solo cuando ayuda a tomar una mejor decisión. El método parte del problema del usuario y acaba en una recomendación razonada, no al revés.</p>
       </div>
       <div class="steps">
         <div class="step"><div><strong>Uso real</strong><span>Primero se define para qué se necesita el producto y qué problema resuelve.</span></div></div>
-        <div class="step"><div><strong>Compatibilidad</strong><span>Medidas, conexiones, potencia, generación y requisitos antes de recomendar componentes.</span></div></div>
-        <div class="step"><div><strong>Calidad-precio</strong><span>No siempre compensa ir a lo más barato ni pagar más por mejoras que no se aprovechan.</span></div></div>
-        <div class="step"><div><strong>Transparencia</strong><span>Los enlaces comerciales se indicarán de forma clara cuando aparezcan en las guías.</span></div></div>
+        <div class="step"><div><strong>Compatibilidad</strong><span>Medidas, conexiones, potencia, generación, ampliación y requisitos antes de recomendar componentes o periféricos.</span></div></div>
+        <div class="step"><div><strong>Calidad-precio</strong><span>No siempre compensa ir a lo más barato ni pagar más por mejoras que no se aprovechan en ese caso de uso.</span></div></div>
+        <div class="step"><div><strong>Vigencia</strong><span>Antes de enlazar una compra hay que revisar ficha actual, variante, disponibilidad, precio visible y condiciones reales.</span></div></div>
+        <div class="step"><div><strong>Transparencia</strong><span>Los enlaces comerciales se indicarán de forma clara y una comisión potencial no cambia el criterio editorial.</span></div></div>
       </div>
     </section>
 
@@ -553,22 +602,31 @@
         <p>La página mantiene un enfoque editorial basado en guías de compra, informática, portátiles, SSD, periféricos, accesorios y electrónica.</p>
       </div>
       <div class="transparency-box">
-        <p><strong>Transparencia:</strong> esta página puede contener enlaces de afiliado de PcComponentes. Si compras a través de ellos, puedo recibir una comisión sin coste adicional para ti.</p>
-        <span class="verification-note">Awin verification — PcComponentes affiliate application.</span>
+        <p><strong>Transparencia:</strong> esta página puede contener enlaces de afiliado de PcComponentes u otras tiendas tecnológicas. Si compras a través de ellos, puedo recibir una comisión sin coste adicional para ti.</p>
+        <ul>
+          <li>Las recomendaciones se hacen por utilidad, compatibilidad, disponibilidad revisable y relación calidad-precio.</li>
+          <li>Una posible comisión no cambia el criterio editorial ni justifica recomendar algo que no encaja.</li>
+          <li>No se prometen precios, descuentos ni stock si no están comprobados en la ficha final del producto.</li>
+        </ul>
+        <p><a href="transparencia-editorial.html">Leer transparencia editorial completa</a></p>
+        <span class="verification-note">Contenido editorial tech con aviso de afiliación claro.</span>
       </div>
     </section>
 
     <section class="cta">
       <div>
         <h2>Guías tech en crecimiento</h2>
-        <p>Esta sección irá creciendo con comparativas, selecciones por presupuesto y recomendaciones concretas para comprar tecnología con menos ruido.</p>
+        <p>Esta sección irá creciendo con comparativas, selecciones por presupuesto y recomendaciones concretas para comprar tecnología con menos ruido. Para dudas o propuestas, puedes ir a la sección de contacto o revisar la transparencia editorial.</p>
       </div>
-      <a class="btn primary" href="#necesidad">Volver al inicio de la guía</a>
+      <div class="actions">
+        <a class="btn primary" href="index.html#contacto">Contactar</a>
+        <a class="btn" href="transparencia-editorial.html">Transparencia editorial</a>
+      </div>
     </section>
   </main>
 
   <footer>
-    <div class="page">© 2026 Víctor Rocamora · Guías tech, componentes y recomendaciones con criterio.</div>
+    <div class="page">© 2026 Víctor Rocamora · Guías tech, componentes y recomendaciones con criterio · <a href="transparencia-editorial.html">Transparencia editorial</a></div>
   </footer>
 
   <script>
