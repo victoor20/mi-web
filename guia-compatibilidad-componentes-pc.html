@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checklist de compatibilidad para componentes de PC · Prysmo Tech</title>
+  <meta name="description" content="Checklist práctica para revisar compatibilidad de CPU, placa base, RAM, SSD, gráfica, fuente, caja y refrigeración antes de comprar componentes de PC." />
+  <link rel="icon" href="assets/logo-vr.png" />
+  <style>
+    body { margin: 0; font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #07111f; color: #eef6ff; line-height: 1.65; }
+    main { width: min(900px, calc(100% - 36px)); margin: 0 auto; padding: 52px 0 74px; }
+    a { color: #43e7ff; text-decoration: none; font-weight: 800; }
+    h1 { font-size: clamp(2.15rem, 6vw, 4.25rem); line-height: 1; margin: 18px 0; letter-spacing: -.045em; }
+    h2 { margin-top: 38px; font-size: 1.55rem; line-height: 1.2; }
+    p, li { color: #d7e6f8; }
+    li { margin: 7px 0; }
+    .back { display: inline-flex; margin-bottom: 24px; }
+    .tag { color: #8defff; text-transform: uppercase; letter-spacing: .08em; font-size: .82rem; font-weight: 800; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 28px; color: #a8b8cc; font-size: .94rem; }
+    .meta span { border: 1px solid rgba(67,231,255,.18); background: rgba(255,255,255,.055); border-radius: 999px; padding: 7px 10px; }
+    .box { border: 1px solid rgba(67,231,255,.22); background: rgba(255,255,255,.06); border-radius: 18px; padding: 20px; margin: 26px 0; }
+    .summary { background: linear-gradient(135deg, rgba(26,159,255,.18), rgba(255,255,255,.055)); }
+    .footer-nav { margin-top: 38px; display: flex; flex-wrap: wrap; gap: 12px; }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="back" href="guias-tech.html">Volver a Prysmo Tech</a>
+    <div class="tag">Componentes · compatibilidad · PC</div>
+    <h1>Checklist antes de comprar componentes para tu PC: compatibilidad sin sustos</h1>
+    <div class="meta">
+      <span>Autor: Víctor Rocamora</span>
+      <span>Última actualización: agosto de 2026</span>
+      <span>Guía editorial</span>
+    </div>
+
+    <p>Comprar componentes para un PC puede parecer sencillo hasta que empiezan las dudas: si el procesador encaja en la placa, si la RAM es DDR4 o DDR5, si el SSD es M.2 NVMe o SATA, si la fuente tiene conectores suficientes o si la gráfica cabe en la caja. Muchas compras fallan por eso: no porque una pieza sea mala, sino porque no encaja bien con el resto del equipo.</p>
+    <p>Esta guía sirve como checklist antes de comprar. No recomienda modelos concretos ni afirma compatibilidades específicas. La idea es ayudarte a revisar los puntos que más fallan para que compres con más criterio y menos improvisación.</p>
+
+    <div class="box summary">
+      <strong>Resumen práctico:</strong> antes de pagar, confirma placa + CPU, generación de RAM, tipo de SSD, conectores de fuente, espacio de gráfica, formato de caja y compatibilidad de refrigeración. Si una pieza obliga a cambiar otra sin querer, no era una compra aislada.
+    </div>
+
+    <h2>Por qué comprobar compatibilidad antes de comprar</h2>
+    <p>La compatibilidad no depende de una sola especificación. Un procesador puede parecer perfecto, pero necesitar una placa con socket concreto, chipset compatible y, a veces, una versión de BIOS determinada. Una RAM puede ser rápida, pero no servir si es de otra generación. Un SSD puede ser M.2, pero eso no significa automáticamente que sea NVMe ni que vaya a funcionar a su velocidad máxima.</p>
+    <p>Revisar antes evita devoluciones, montajes frustrados y gastos extra en adaptadores, fuentes o cajas que no estaban previstas. También ayuda a no pagar por características que tu equipo no aprovechará.</p>
+
+    <h2>Placa base y procesador: socket y chipset</h2>
+    <p>La primera comprobación es la pareja placa base + procesador. Deben coincidir el socket físico y el soporte real de la placa para esa familia de CPU. En Intel y AMD no basta con que el procesador parezca de la misma generación: hay que revisar la página oficial de soporte del fabricante de la placa o la herramienta de compatibilidad del fabricante.</p>
+    <p>El chipset también importa. Define funciones disponibles, conectividad, líneas PCIe, soporte de memoria, opciones de overclock o cantidad de puertos. AMD ofrece distintas familias de chipsets AM5 con diferentes niveles de conectividad y prestaciones; por eso hay que revisar el chipset concreto de la placa y sus funciones. En Intel ocurre algo parecido con sus familias de chipsets por generación.</p>
+    <ul>
+      <li>Comprueba socket de CPU y placa.</li>
+      <li>Revisa la lista oficial de CPUs soportadas por la placa.</li>
+      <li>Mira si requiere actualización de BIOS.</li>
+      <li>Confirma chipset y funciones que necesitas.</li>
+    </ul>
+
+    <h2>RAM: DDR4/DDR5, capacidad, frecuencia y ranuras</h2>
+    <p>La RAM tiene cuatro puntos clave: generación, formato, capacidad y configuración. DDR4 y DDR5 no son intercambiables: si la placa usa DDR5, necesitas DDR5; si usa DDR4, necesitas DDR4. En sobremesa normalmente se usan módulos DIMM, mientras que muchos portátiles usan SO-DIMM o memoria soldada, aunque esta guía se centra en PC de sobremesa.</p>
+    <p>También conviene revisar cuántas ranuras tiene la placa, cuánta capacidad máxima admite y qué combinaciones recomienda el fabricante. La frecuencia anunciada de un kit no garantiza que vaya a funcionar a esa velocidad en cualquier placa y CPU; puede depender del controlador de memoria, BIOS y perfiles de memoria.</p>
+    <p>Como regla práctica, elige DDR4 o DDR5 según la placa, revisa capacidad máxima y ranuras disponibles, prioriza kits completos frente a mezclar módulos sueltos y consulta la QVL si el montaje es exigente.</p>
+
+    <h2>Almacenamiento: SATA, M.2, NVMe y PCIe</h2>
+    <p>Aquí suele haber mucha confusión. SATA es una interfaz más antigua y habitual en SSD de 2,5 pulgadas. M.2 es un formato físico, no una garantía de velocidad: puede haber unidades M.2 SATA y unidades M.2 NVMe. NVMe usa PCIe y normalmente ofrece más rendimiento, pero necesita que la placa tenga una ranura compatible.</p>
+    <p>Además, las generaciones PCIe afectan a la velocidad máxima teórica. PCIe está diseñado para mantener compatibilidad entre generaciones, pero en almacenamiento M.2 no conviene asumirlo como garantía absoluta para cualquier combinación. Antes de comprar, revisa la implementación concreta de la placa, la ranura y la unidad: ranuras M.2 disponibles, longitudes admitidas, generaciones PCIe y posibles puertos compartidos.</p>
+    <ul>
+      <li>Confirma si necesitas 2,5&quot; SATA, M.2 SATA o M.2 NVMe.</li>
+      <li>Revisa longitud del módulo M.2, por ejemplo 2280.</li>
+      <li>Comprueba generación PCIe de la ranura.</li>
+      <li>Mira si al usar cierta ranura se desactiva algún puerto SATA.</li>
+    </ul>
+
+    <h2>Gráfica, fuente y caja: potencia, conectores y espacio físico</h2>
+    <p>La tarjeta gráfica no solo tiene que ser compatible con la ranura PCIe. También debe caber en la caja y estar alimentada correctamente. Hay que revisar longitud de la GPU, grosor en slots, espacio libre respecto a ventiladores o radiadores y conectores de alimentación requeridos.</p>
+    <p>La fuente debe tener potencia suficiente, conectores adecuados, calidad razonable y margen para el conjunto completo. Algunas gráficas usan conectores PCIe tradicionales de 6/8 pines y otras pueden usar conectores de 16 pines o adaptadores. No conviene resolverlo con adaptadores improvisados si el fabricante exige cables dedicados o una fuente con especificación concreta.</p>
+    <ul>
+      <li>Potencia recomendada por fabricante de la gráfica.</li>
+      <li>Conectores requeridos y cables disponibles en la fuente.</li>
+      <li>Longitud y grosor real de la GPU.</li>
+      <li>Espacio máximo de gráfica admitido por la caja.</li>
+      <li>Flujo de aire y margen para futuras ampliaciones.</li>
+    </ul>
+
+    <h2>Refrigeración: socket, altura, radiador y espacio</h2>
+    <p>La refrigeración también tiene compatibilidad. En disipadores por aire hay que revisar soporte del socket, altura máxima admitida por la caja y posible choque con módulos RAM altos. En refrigeración líquida, además, hay que comprobar tamaño de radiador, posiciones compatibles de la caja y espacio con placa, RAM y ventiladores. No dependas solo de una foto o de una opinión: revisa medidas oficiales, lista de compatibilidad del disipador y especificaciones de la caja.</p>
+
+    <h2>Errores habituales</h2>
+    <ul>
+      <li>Comprar CPU y placa con socket distinto.</li>
+      <li>No revisar si la BIOS soporta el procesador elegido.</li>
+      <li>Mezclar DDR4 y DDR5 mentalmente como si fueran variantes compatibles.</li>
+      <li>Comprar un SSD M.2 sin comprobar si la ranura admite NVMe o SATA.</li>
+      <li>Elegir una gráfica que cabe por ranura, pero no por longitud o grosor.</li>
+      <li>Comprar una fuente justa o sin conectores adecuados.</li>
+      <li>Montar un disipador demasiado alto para la caja.</li>
+      <li>Elegir piezas por impulso sin comprobar manuales y fichas oficiales.</li>
+    </ul>
+
+    <h2>Checklist final antes de comprar</h2>
+    <ul>
+      <li><strong>Placa y CPU:</strong> socket, chipset, lista oficial de CPUs y BIOS.</li>
+      <li><strong>RAM:</strong> DDR4/DDR5, formato, capacidad, ranuras, kit y QVL si procede.</li>
+      <li><strong>SSD:</strong> SATA/M.2/NVMe, longitud, generación PCIe y ranuras disponibles.</li>
+      <li><strong>Gráfica:</strong> longitud, grosor, conectores, potencia recomendada y ventilación.</li>
+      <li><strong>Fuente:</strong> potencia, conectores, calidad de la fuente y margen adecuado.</li>
+      <li><strong>Caja:</strong> formato de placa, espacio de GPU, altura de disipador y radiadores.</li>
+      <li><strong>Refrigeración:</strong> soporte de socket, medidas, separación con RAM y flujo de aire.</li>
+      <li><strong>Sistema completo:</strong> que ninguna pieza obligue a cambiar otra sin querer.</li>
+    </ul>
+
+    <h2>Conclusión práctica</h2>
+    <p>La mejor compra no es la pieza más potente, sino la que encaja con el resto del equipo y con tu uso real. Antes de comprar, abre la ficha oficial de la placa, revisa el manual, confirma soporte de CPU, RAM, almacenamiento, gráfica, fuente, caja y refrigeración. Si una compatibilidad no está clara, es mejor detenerse y comprobarla que descubrir el problema con las piezas encima de la mesa.</p>
+
+    <div class="box">
+      <strong>Autor:</strong> guía preparada por Víctor Rocamora dentro de Prysmo Tech, con enfoque práctico de sistemas, soporte técnico y compra tecnológica razonada.
+    </div>
+
+    <div class="box">
+      <strong>Transparencia:</strong> esta guía puede enlazar componentes de tiendas como PcComponentes si encajan con el criterio editorial. Si algún enlace es de afiliado, se indicará de forma clara y no tendrá coste adicional para ti. Una posible comisión no cambia el criterio: utilidad, compatibilidad, vigencia y relación calidad-precio van primero.
+    </div>
+
+    <div class="footer-nav">
+      <a href="guias-tech.html">Volver a Prysmo Tech</a>
+      <a href="transparencia-editorial.html">Transparencia editorial</a>
+      <a href="guia-ssd-ram-portatil-lento.html">Ver guía SSD/RAM</a>
+      <a href="guia-portatil-estudiar-trabajar.html">Ver guía de portátil</a>
+      <a href="guia-monitor-perifericos-setup.html">Ver guía de setup</a>
+    </div>
+  </main>
+</body>
+</html>
