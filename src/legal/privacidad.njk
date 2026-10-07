@@ -1,0 +1,71 @@
+---
+layout: layouts/legal.njk
+permalink: /privacidad/
+title: "Política de privacidad · Víctor Rocamora"
+h1: "Política de privacidad"
+intro: "Qué datos trato, para qué, durante cuánto tiempo y qué derechos tienes."
+description: "Política de privacidad de victorrocamora.com conforme al RGPD y la LOPDGDD: formulario de contacto, correo, analítica sin cookies y proveedores."
+updated: 2026-10-07
+---
+{%- set turnstile = site.turnstileSiteKey | isSet %}
+<h2>1. Responsable del tratamiento</h2>
+<ul>
+  <li><strong>Responsable:</strong> {{ site.legal.fullName | ph | safe }}</li>
+  <li><strong>NIF:</strong> {{ site.legal.nif | ph | safe }}</li>
+  <li><strong>Domicilio:</strong> {{ site.legal.address | ph | safe }}</li>
+  <li><strong>Contacto:</strong> <a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+</ul>
+<p>Esta política se aplica conforme al Reglamento (UE) 2016/679 (RGPD) y a la Ley Orgánica 3/2018, de Protección de Datos Personales y garantía de los derechos digitales (LOPDGDD).</p>
+
+<h2>2. Qué datos trato y para qué</h2>
+<div class="table-scroll">
+<table>
+  <thead><tr><th>Tratamiento</th><th>Datos</th><th>Finalidad</th><th>Base jurídica</th></tr></thead>
+  <tbody>
+    <tr><td data-label="Tratamiento">Cuestionario de contacto</td><td data-label="Datos">Nombre, email, municipio, servicio que necesitas, descripción del caso, equipo y urgencia</td><td data-label="Finalidad">Responder a tu solicitud y, si lo pides, preparar un presupuesto</td><td data-label="Base jurídica">Tu consentimiento y la aplicación de medidas precontractuales a petición tuya (art. 6.1.a y 6.1.b RGPD)</td></tr>
+    <tr><td data-label="Tratamiento">Correo electrónico</td><td data-label="Datos">Los datos que incluyas en tu mensaje</td><td data-label="Finalidad">Atender tu consulta</td><td data-label="Base jurídica">Consentimiento y medidas precontractuales (art. 6.1.a y 6.1.b RGPD)</td></tr>
+    <tr><td data-label="Tratamiento">Clientes</td><td data-label="Datos">Identificación, contacto, datos del equipo y del trabajo realizado, facturación</td><td data-label="Finalidad">Prestar el servicio, elaborar el informe del trabajo y facturar</td><td data-label="Base jurídica">Ejecución del contrato (art. 6.1.b) y obligaciones legales fiscales y contables (art. 6.1.c RGPD)</td></tr>
+    <tr><td data-label="Tratamiento">Estadísticas de visitas</td><td data-label="Datos">Datos técnicos agregados: página visitada, procedencia, tipo de dispositivo, navegador y país</td><td data-label="Finalidad">Saber qué contenidos se usan para mejorar la web</td><td data-label="Base jurídica">Interés legítimo (art. 6.1.f RGPD), con un sistema sin cookies que no identifica a las personas</td></tr>
+    <tr><td data-label="Tratamiento">Seguridad y anti-spam</td><td data-label="Datos">Datos técnicos de la conexión{% if turnstile %} y señales de la verificación de Cloudflare Turnstile{% endif %}</td><td data-label="Finalidad">Proteger el formulario frente a envíos automáticos</td><td data-label="Base jurídica">Interés legítimo (art. 6.1.f RGPD)</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Los campos del cuestionario marcados como obligatorios son necesarios para poder responderte. No tomo decisiones automatizadas ni elaboro perfiles con tus datos.</p>
+
+<h2>3. Cuánto tiempo conservo los datos</h2>
+<ul>
+  <li><strong>Solicitudes que no terminan en encargo:</strong> hasta 12 meses desde el último contacto, por si retomas la consulta. Después se eliminan.</li>
+  <li><strong>Clientes:</strong> mientras dure la relación y, después, durante los plazos que exige la normativa fiscal y mercantil (con carácter general, hasta seis años para la documentación contable y de facturación).</li>
+  <li><strong>Estadísticas:</strong> datos agregados durante un máximo de 6 meses.</li>
+</ul>
+
+<h2>4. Con quién se comparten</h2>
+<p>No vendo ni cedo tus datos. Para que la web funcione intervienen estos proveedores, que actúan como encargados del tratamiento o como prestadores de servicios técnicos:</p>
+<ul>
+  <li><strong>Web3Forms:</strong> recibe el contenido del cuestionario y me lo reenvía por correo. <span class="placeholder">[VERIFICAR: ubicación de los servidores de Web3Forms y garantías de transferencia]</span></li>
+  <li><strong>Proveedor de correo electrónico:</strong> <span class="placeholder">[PROVEEDOR DEL CORREO victor@victorrocamora.com]</span>, donde recibo y guardo los mensajes.</li>
+  <li><strong>GitHub (GitHub, Inc., EE. UU.):</strong> aloja la web mediante GitHub Pages y, como cualquier servidor, registra datos técnicos de las conexiones (como la dirección IP) por motivos de seguridad.</li>
+  <li><strong>Umami (Umami Software, Inc.):</strong> estadísticas de visitas sin cookies y sin guardar la dirección IP. <span class="placeholder">[VERIFICAR: región de datos elegida en Umami Cloud (UE si está disponible)]</span></li>
+  <li><strong>jsDelivr:</strong> red de distribución que sirve la librería Three.js del logo 3D de la portada. Al descargarla, tu navegador le comunica tu dirección IP.</li>
+  {%- if turnstile %}
+  <li><strong>Cloudflare, Inc. (Turnstile):</strong> verificación anti-spam del formulario. Puede usar cookies técnicas de seguridad; ver la <a href="/cookies/">política de cookies</a>.</li>
+  {%- endif %}
+</ul>
+<p>Algunos de estos proveedores están en Estados Unidos. Las transferencias se amparan en el Marco de Privacidad de Datos UE-EE. UU. cuando el proveedor está adherido o, en su defecto, en las cláusulas contractuales tipo aprobadas por la Comisión Europea.</p>
+<p>Fuera de estos casos, solo comunicaré datos cuando lo exija una obligación legal (por ejemplo, a la Agencia Tributaria).</p>
+
+<h2>5. Enlaces de afiliado</h2>
+<p>Las guías incluyen enlaces de afiliado a tiendas como Amazon. Al hacer clic sales de esta web y la tienda trata tus datos según su propia política de privacidad, incluidas sus cookies para atribuir la compra. Esta web no recibe datos personales tuyos por esa compra, solo informes agregados de comisiones.</p>
+
+<h2>6. Tus derechos</h2>
+<p>Puedes ejercer en cualquier momento tus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad, así como retirar el consentimiento que hayas dado, escribiendo a <a href="mailto:{{ site.email }}">{{ site.email }}</a>. Te responderé en el plazo máximo de un mes.</p>
+<p>Si consideras que no se han atendido correctamente, puedes presentar una reclamación ante la Agencia Española de Protección de Datos (<a href="https://www.aepd.es" rel="noopener" target="_blank">www.aepd.es</a>).</p>
+
+<h2>7. Menores</h2>
+<p>Los servicios de esta web no se dirigen a menores de 14 años. Si eres menor, pide a tu padre, madre o tutor que contacte en tu nombre.</p>
+
+<h2>8. Seguridad</h2>
+<p>Aplico medidas técnicas y organizativas razonables para proteger tus datos: conexión cifrada (HTTPS), acceso restringido al correo y a la documentación de clientes y eliminación de los datos cuando dejan de ser necesarios.</p>
+
+<h2>9. Cambios en esta política</h2>
+<p>Si cambia la forma de tratar los datos (por ejemplo, al añadir un proveedor), actualizaré esta página y su fecha.</p>

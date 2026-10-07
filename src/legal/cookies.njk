@@ -1,0 +1,40 @@
+---
+layout: layouts/legal.njk
+permalink: /cookies/
+title: "Política de cookies · Víctor Rocamora"
+h1: "Política de cookies"
+intro: "Esta web no usa cookies de análisis ni de publicidad. Por eso no verás ningún banner."
+description: "Política de cookies de victorrocamora.com: la web no instala cookies analíticas ni publicitarias."
+updated: 2026-10-07
+---
+{%- set turnstile = site.turnstileSiteKey | isSet %}
+<h2>Qué son las cookies</h2>
+<p>Son pequeños archivos que un sitio web guarda en tu navegador para recordar información entre visitas. La normativa (artículo 22.2 de la LSSI-CE) exige pedir tu consentimiento antes de instalar las que no son estrictamente necesarias.</p>
+
+<h2>Cookies que usa esta web</h2>
+{%- if turnstile %}
+<p>Esta web no instala cookies propias ni cookies de análisis o publicidad. Solo el cuestionario de contacto utiliza Cloudflare Turnstile para frenar el spam, y este servicio puede usar cookies técnicas de seguridad:</p>
+<div class="table-scroll">
+<table>
+  <thead><tr><th>Cookie</th><th>Titular</th><th>Finalidad</th><th>Duración</th></tr></thead>
+  <tbody>
+    <tr><td><code>cf_clearance</code>, <code>__cf_bm</code> y similares</td><td>Cloudflare</td><td>Seguridad: distinguir personas de bots en el formulario</td><td>Sesión o pocos minutos</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Son cookies estrictamente necesarias para la seguridad del servicio que solicitas, por lo que no requieren consentimiento.</p>
+{%- else %}
+<p><strong>Ninguna.</strong> Esta web no instala cookies propias ni de terceros, ni de análisis ni de publicidad.</p>
+{%- endif %}
+
+<h2>Estadísticas sin cookies</h2>
+<p>Para saber cuántas visitas recibe la web uso Umami, un sistema de analítica que no utiliza cookies, no guarda la dirección IP y no permite identificar a las personas. Más detalles en la <a href="/privacidad/">política de privacidad</a>.</p>
+
+<h2>Otros almacenamientos</h2>
+<p>La web tampoco utiliza el almacenamiento local del navegador (localStorage) para seguir tu actividad. Las fuentes tipográficas se sirven desde el propio dominio, sin conexiones a Google.</p>
+
+<h2>Cookies de sitios de terceros</h2>
+<p>Si haces clic en un enlace de afiliado (por ejemplo, a Amazon) o en un enlace externo, pasas a una web distinta que puede instalar sus propias cookies. Esas cookies dependen de ese sitio y de su política, no de esta web.</p>
+
+<h2>Cómo gestionar las cookies</h2>
+<p>Puedes ver y borrar las cookies desde la configuración de tu navegador: Chrome, Firefox, Safari y Edge tienen esta opción en su apartado de privacidad.</p>

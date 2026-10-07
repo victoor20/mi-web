@@ -1,0 +1,20 @@
+---
+layout: layouts/base.njk
+bodyClass: page-legal
+---
+<header class="page-hero">
+  <div class="wrap">
+    <p class="kicker mono">Legal</p>
+    <h1 class="page-hero__title">{{ h1 }}</h1>
+    {%- if intro %}<p class="page-hero__intro">{{ intro }}</p>{% endif %}
+  </div>
+</header>
+<section class="section legal">
+  <div class="wrap">
+    <div class="prose">
+      <p class="legal__meta mono">Última actualización: {{ updated | dateEs }}</p>
+      {{ content | safe }}
+      <p class="legal__nav"><a href="/aviso-legal/">Aviso legal</a> · <a href="/privacidad/">Privacidad</a> · <a href="/cookies/">Cookies</a> · <a href="/guias/transparencia/">Transparencia</a></p>
+    </div>
+  </div>
+</section>

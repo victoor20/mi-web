@@ -1,0 +1,40 @@
+---
+layout: layouts/base.njk
+permalink: /404.html
+title: "Página no encontrada · Víctor Rocamora"
+description: "Esta página no existe o se ha movido."
+noindex: true
+bodyClass: "page-404"
+eleventyExcludeFromCollections: true
+pieces:
+  - { d: "M35 5 L300 108 L120 143 Z", fill: "#00d8fa", tx: -160, ty: -90, r: -38 }
+  - { d: "M120 143 L300 108 L487 425 L385 598 Z", fill: "#1a94f8", tx: -220, ty: 60, r: 24 }
+  - { d: "M385 598 L487 425 L590 598 L487 780 Z", fill: "#0a40f6", tx: -40, ty: 190, r: -52 }
+  - { d: "M487 425 L670 108 L766 290 L590 598 Z", fill: "#0c8cf7", tx: 30, ty: -150, r: 18 }
+  - { d: "M670 108 L870 108 L766 290 Z", fill: "#00d0f8", tx: 210, ty: -170, r: 64 }
+  - { d: "M870 108 A187 187 0 0 1 940 468 L735 480 L800 357 L850 357 A41 41 0 0 0 850 275 L780 275 Z", fill: "#0b7ef5", tx: 150, ty: 20, r: -28 }
+  - { d: "M735 480 L940 480 L875 712 Z", fill: "#0757f3", tx: 120, ty: 210, r: 40 }
+  - { d: "M940 480 L1135 830 L875 712 Z", fill: "#1ca2f8", tx: 90, ty: 40, r: -16, lost: true }
+---
+<section class="lost" aria-labelledby="lost-title" data-module="lost">
+  <div class="wrap lost__grid">
+    <div class="lost__copy">
+      <p class="kicker mono">Error 404</p>
+      <h1 class="page-hero__title" id="lost-title">Aquí falta una pieza.</h1>
+      <p class="page-hero__intro">La página que buscas no existe o ha cambiado de sitio. Las guías y los servicios se reorganizaron hace poco; quizá esté en una de estas secciones.</p>
+      <div class="actions">
+        <a class="btn btn--primary" href="/">Volver al inicio</a>
+        <a class="btn btn--ghost" href="/guias/">Guías</a>
+        <a class="btn btn--ghost" href="/servicios/">Servicios</a>
+      </div>
+      <button class="lost__fix btn btn--ghost btn--sm" type="button" hidden data-fix>Recomponer el logo</button>
+    </div>
+    <div class="lost__stage" aria-hidden="true">
+      <svg class="lost__svg" viewBox="0 0 1170 840" width="1170" height="840" focusable="false">
+        {%- for p in pieces %}
+        <path class="lost__piece{% if p.lost %} lost__piece--lost{% endif %}" d="{{ p.d }}" fill="{{ p.fill }}" style="--tx: {{ p.tx }}px; --ty: {{ p.ty }}px; --r: {{ p.r }}deg; --i: {{ loop.index0 }}"/>
+        {%- endfor %}
+      </svg>
+    </div>
+  </div>
+</section>
