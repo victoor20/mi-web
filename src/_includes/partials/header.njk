@@ -1,0 +1,45 @@
+<header class="site-header" data-header>
+  <div class="site-header__inner wrap">
+    <a class="brand" href="/" aria-label="{{ site.name }}, inicio">
+      <picture>
+        <source type="image/avif" srcset="/assets/img/logo-vr-112.avif 1x, /assets/img/logo-vr-224.avif 2x">
+        <source type="image/webp" srcset="/assets/img/logo-vr-112.webp 1x, /assets/img/logo-vr-224.webp 2x">
+        <img class="brand__mark" src="/assets/img/logo-vr-112.png" width="52" height="40" alt="">
+      </picture>
+      <span class="brand__name">Víctor Rocamora</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Principal">
+      <ul class="site-nav__list">
+        {%- for item in site.nav %}
+        <li><a href="{{ item.url }}"{% if page.url.startsWith(item.url) %} aria-current="page"{% endif %}>{{ item.label }}</a></li>
+        {%- endfor %}
+      </ul>
+    </nav>
+
+    <a class="btn btn--primary btn--sm site-header__cta" href="{{ site.cta.url }}">{{ site.cta.label }}</a>
+
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-movil" data-menu-toggle>
+      <span class="visually-hidden" data-menu-label>Abrir menú</span>
+      <span class="menu-toggle__bar" aria-hidden="true"></span>
+      <span class="menu-toggle__bar" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+{#- Fuera del <header>: su backdrop-filter haría de contenedor para los elementos fixed #}
+<div class="mobile-menu" id="menu-movil" data-menu hidden>
+    <nav class="mobile-menu__nav" aria-label="Menú móvil">
+      <ol class="mobile-menu__list">
+        <li><a href="/"><span class="mono">00</span>Inicio</a></li>
+        {%- for item in site.nav %}
+        <li><a href="{{ item.url }}"><span class="mono">{{ "0" + loop.index }}</span>{{ item.label }}</a></li>
+        {%- endfor %}
+      </ol>
+    </nav>
+    <div class="mobile-menu__foot">
+      <a class="btn btn--primary" href="{{ site.cta.url }}">{{ site.cta.label }}</a>
+      <a class="mobile-menu__mail" href="mailto:{{ site.email }}">{{ site.email }}</a>
+      <a class="mobile-menu__mail" href="{{ site.linkedin }}" rel="me noopener" target="_blank">LinkedIn ↗</a>
+    </div>
+</div>

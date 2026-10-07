@@ -1,0 +1,52 @@
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <picture>
+          <source type="image/avif" srcset="/assets/img/logo-vr-224.avif">
+          <source type="image/webp" srcset="/assets/img/logo-vr-224.webp">
+          <img src="/assets/img/logo-vr-224.png" width="104" height="80" alt="Logo VR de Víctor Rocamora" loading="lazy" decoding="async">
+        </picture>
+        <p class="site-footer__claim">Servicio técnico informático en {{ site.area.label }} ({{ site.area.region }}) y AI Engineering para empresas.</p>
+        <p class="site-footer__contact">
+          <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+          <a href="{{ site.linkedin }}" rel="me noopener" target="_blank">LinkedIn ↗</a>
+        </p>
+      </div>
+
+      <nav class="site-footer__cols" aria-label="Pie de página">
+        <div>
+          <p class="label">Servicio técnico</p>
+          <ul>
+            <li><a href="/servicios/">Servicios en Elche</a></li>
+            <li><a href="/contacto/">Pedir presupuesto</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="label">AI Engineering</p>
+          <ul>
+            <li><a href="/ia/">IA y cloud</a></li>
+            <li><a href="/proyectos/jarvis/">Caso: Jarvis</a></li>
+            <li><a href="/sobre-mi/">Sobre mí</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="label">Guías</p>
+          <ul>
+            <li><a href="/guias/">Todas las guías</a></li>
+            <li><a href="/guias/transparencia/">Transparencia</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>© {{ build.year }} {{ site.name }}</p>
+      <ul class="site-footer__legal">
+        <li><a href="/aviso-legal/">Aviso legal</a></li>
+        <li><a href="/privacidad/">Privacidad</a></li>
+        <li><a href="/cookies/">Cookies</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,226 @@
+---
+layout: layouts/base.njk
+title: "Víctor Rocamora · Técnico informático en Elche y AI Engineer"
+ogTitle: "Víctor Rocamora · Arreglo lo que falla. Automatizo lo que se repite."
+description: "Reparación y puesta a punto de portátiles y ordenadores en Elche y alrededores, con informe de cada trabajo. Automatizaciones e integraciones con IA para empresas."
+bodyClass: "page-home"
+pccVerification: true
+---
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__grid wrap">
+    <div class="hero__copy">
+      <p class="eyebrow mono"><span class="eyebrow__dot" aria-hidden="true"></span>{{ site.area.label }} · Sistemas · IA aplicada</p>
+      <h1 class="hero__title" id="hero-title">
+        <span class="hero__line">Arreglo lo que falla.</span>
+        <span class="hero__line hero__line--facet">Automatizo lo que se repite.</span>
+      </h1>
+      <p class="hero__lead">Soy Víctor Rocamora, técnico de sistemas en Elche. Reparo y pongo a punto ordenadores para particulares y pequeños negocios, y construyo automatizaciones e integraciones con IA para empresas.</p>
+
+      <ul class="doors">
+        <li><a class="door" href="/servicios/" data-magnetic>
+          <span class="door__label mono">Particulares y negocios</span>
+          <span class="door__title">Tengo un problema con mi equipo</span>
+          <span class="door__arrow" aria-hidden="true">→</span>
+        </a></li>
+        <li><a class="door door--alt" href="/ia/" data-magnetic>
+          <span class="door__label mono">Empresas y proyectos</span>
+          <span class="door__title">Quiero automatizar con IA</span>
+          <span class="door__arrow" aria-hidden="true">→</span>
+        </a></li>
+      </ul>
+    </div>
+
+    <div class="hero__stage" data-hero-stage data-three="{{ site.threeUrl }}" aria-hidden="true">
+      <picture class="hero__fallback">
+        <source type="image/avif" srcset="/assets/img/logo-vr-480.avif 480w, /assets/img/logo-vr-840.avif 840w" sizes="(min-width: 960px) 42vw, 70vw">
+        <source type="image/webp" srcset="/assets/img/logo-vr-480.webp 480w, /assets/img/logo-vr-840.webp 840w" sizes="(min-width: 960px) 42vw, 70vw">
+        <img src="/assets/img/logo-vr-480.png" width="480" height="371" alt="" fetchpriority="high" decoding="async">
+      </picture>
+    </div>
+  </div>
+
+  <ul class="hero__strip wrap mono" aria-label="Cómo trabajo">
+    <li>{{ site.area.label }}</li>
+    <li>Presupuesto sin compromiso tras el diagnóstico</li>
+    <li>Informe por escrito de cada trabajo</li>
+  </ul>
+</section>
+
+<section class="act act--method" id="metodo" aria-labelledby="metodo-title">
+  <div class="wrap method">
+    <header class="method__head">
+      <p class="act__num mono">01 / Método</p>
+      <h2 class="act__title" id="metodo-title">Diagnóstico, no&nbsp;adivinanzas.</h2>
+      <p class="act__intro">Da igual que sea un portátil que no arranca o un proceso que se come horas cada semana: primero entiendo qué pasa, después propongo y, al terminar, lo dejo todo por escrito.</p>
+    </header>
+
+    <ol class="method__steps">
+      <li class="step" data-reveal>
+        <span class="step__num mono" aria-hidden="true">01</span>
+        <h3 class="step__title">Diagnóstico</h3>
+        <p>Reviso el equipo o el proceso, localizo la causa real y te explico qué ocurre sin tecnicismos innecesarios.</p>
+      </li>
+      <li class="step" data-reveal>
+        <span class="step__num mono" aria-hidden="true">02</span>
+        <h3 class="step__title">Presupuesto y solución</h3>
+        <p>Te doy un presupuesto sin compromiso con las opciones que tienen sentido, incluida la de no gastar si no compensa.</p>
+      </li>
+      <li class="step step--report" data-reveal>
+        <span class="step__num mono" aria-hidden="true">03</span>
+        <h3 class="step__title">Informe del trabajo</h3>
+        <p>Cada trabajo termina con un informe: qué tenía el equipo, qué se ha hecho y qué te recomiendo a partir de ahora.</p>
+
+        <figure class="report" aria-label="Esquema de la estructura del informe">
+          <div class="report__sheet">
+            <div class="report__head">
+              <img src="/assets/img/logo-vr-112.png" width="36" height="28" alt="" loading="lazy" decoding="async">
+              <span class="mono">Informe de trabajo</span>
+            </div>
+            <dl class="report__rows">
+              <div><dt class="mono">Equipo</dt><dd><span class="skeleton" style="--w:62%"></span></dd></div>
+              <div><dt class="mono">Motivo</dt><dd><span class="skeleton" style="--w:80%"></span></dd></div>
+              <div><dt class="mono">Diagnóstico</dt><dd><span class="skeleton" style="--w:90%"></span><span class="skeleton" style="--w:54%"></span></dd></div>
+              <div><dt class="mono">Intervención</dt><dd><span class="skeleton" style="--w:74%"></span><span class="skeleton" style="--w:40%"></span></dd></div>
+              <div><dt class="mono">Recomendaciones</dt><dd><span class="skeleton" style="--w:68%"></span></dd></div>
+            </dl>
+          </div>
+          <figcaption class="mono">Estructura del informe (esquema)</figcaption>
+        </figure>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="act act--services" id="servicios" aria-labelledby="servicios-title">
+  <div class="wrap">
+    <header class="act__head act__head--split">
+      <div>
+        <p class="act__num mono">02 / Servicio técnico</p>
+        <h2 class="act__title" id="servicios-title">Informática para particulares y negocios en Elche.</h2>
+      </div>
+      <p class="act__intro">Trabajo por mi cuenta en {{ site.area.label | lower }}. Sin intermediarios: hablas con quien repara tu equipo.</p>
+    </header>
+
+    <ol class="index-list">
+      <li data-reveal><a href="/servicios/#diagnostico-reparacion">
+        <span class="index-list__num mono">01</span>
+        <span class="index-list__name">Diagnóstico y reparación</span>
+        <span class="index-list__desc">Portátiles y PC que no arrancan, se calientan, hacen ruido o fallan.</span>
+        <span class="index-list__arrow" aria-hidden="true">→</span>
+      </a></li>
+      <li data-reveal><a href="/servicios/#formateo">
+        <span class="index-list__num mono">02</span>
+        <span class="index-list__name">Formateo y puesta a punto</span>
+        <span class="index-list__desc">Windows limpio, drivers al día y tus datos y programas de vuelta en su sitio.</span>
+        <span class="index-list__arrow" aria-hidden="true">→</span>
+      </a></li>
+      <li data-reveal><a href="/servicios/#ssd-ram">
+        <span class="index-list__num mono">03</span>
+        <span class="index-list__name">Segunda vida a tu portátil</span>
+        <span class="index-list__desc">Cambio a SSD y ampliación de RAM cuando un equipo lento aún tiene recorrido.</span>
+        <span class="index-list__arrow" aria-hidden="true">→</span>
+      </a></li>
+      <li data-reveal><a href="/servicios/#discos-datos">
+        <span class="index-list__num mono">04</span>
+        <span class="index-list__name">Discos y datos</span>
+        <span class="index-list__desc">Sustitución y clonado de discos, copias de seguridad y recuperación de archivos.</span>
+        <span class="index-list__arrow" aria-hidden="true">→</span>
+      </a></li>
+      <li data-reveal><a href="/servicios/#montaje-compra">
+        <span class="index-list__num mono">05</span>
+        <span class="index-list__name">Montaje y asesoría de compra</span>
+        <span class="index-list__desc">PC a medida o ayuda para elegir equipo sin pagar por lo que no vas a usar.</span>
+        <span class="index-list__arrow" aria-hidden="true">→</span>
+      </a></li>
+      <li data-reveal><a href="/servicios/#negocios">
+        <span class="index-list__num mono">06</span>
+        <span class="index-list__name">Informática para pequeños negocios</span>
+        <span class="index-list__desc">Mantenimiento, copias, wifi y red, correo y los equipos del día a día.</span>
+        <span class="index-list__arrow" aria-hidden="true">→</span>
+      </a></li>
+    </ol>
+
+    <div class="act__actions">
+      <a class="btn btn--primary" href="/contacto/" data-magnetic>Pedir presupuesto</a>
+      <a class="btn btn--ghost" href="/servicios/">Ver el servicio técnico</a>
+    </div>
+  </div>
+</section>
+
+<section class="act act--ai" id="ia" aria-labelledby="ia-title">
+  <div class="wrap ai">
+    <div class="ai__copy">
+      <p class="act__num mono">03 / AI Engineering</p>
+      <h2 class="act__title" id="ia-title">IA que hace trabajo real, con&nbsp;control humano.</h2>
+      <p class="act__intro">Diseño automatizaciones, aplicaciones con LLMs, RAG, agentes y APIs, con criterio de sistemas: que funcionen cada día, que se puedan mantener y que no hagan nada importante sin permiso.</p>
+      <ul class="stack mono" aria-label="Tecnologías">
+        <li>LLMs</li><li>RAG</li><li>Agentes</li><li>Python</li><li>FastAPI</li><li>AWS</li>
+      </ul>
+      <div class="act__actions">
+        <a class="btn btn--primary" href="/ia/" data-magnetic>AI Engineering y cloud</a>
+        <a class="btn btn--ghost" href="/proyectos/jarvis/">Caso de estudio: Jarvis</a>
+      </div>
+    </div>
+
+    <figure class="flow" data-reveal aria-labelledby="flow-caption">
+      <p class="flow__title mono" id="flow-caption">Jarvis · agente personal 24/7</p>
+      <ol class="flow__nodes">
+        <li class="flow__node"><span class="mono">Entrada</span>Telegram, texto y voz</li>
+        <li class="flow__node flow__node--core"><span class="mono">Orquestador</span>OpenClaw</li>
+        <li class="flow__node flow__node--split">
+          <span><span class="mono">Razona</span>Modelo</span>
+          <span><span class="mono">Actúa</span>Herramientas</span>
+          <span><span class="mono">Recuerda</span>Memoria</span>
+        </li>
+        <li class="flow__node flow__node--gate"><span class="mono">Acción externa</span>Solo con mi aprobación</li>
+      </ol>
+    </figure>
+  </div>
+</section>
+
+<section class="act act--guides" id="guias" aria-labelledby="guias-title">
+  <div class="wrap">
+    <header class="act__head act__head--split">
+      <div>
+        <p class="act__num mono">04 / Guías</p>
+        <h2 class="act__title" id="guias-title">Antes de comprar, pregunta a quien lo repara.</h2>
+      </div>
+      <p class="act__intro">Guías prácticas sobre portátiles, componentes y periféricos, escritas desde la experiencia de reparar, ampliar y montar equipos.</p>
+    </header>
+
+    <div class="guides">
+      <a class="guide guide--lead" href="/guias/compatibilidad-componentes-pc/" data-reveal>
+        <span class="guide__tag mono">Componentes</span>
+        <h3 class="guide__title">Checklist de compatibilidad antes de comprar piezas para tu PC</h3>
+        <p>Socket, RAM, SSD, gráfica, fuente, caja y refrigeración: lo que conviene revisar antes de pagar nada.</p>
+        <span class="guide__more mono">Leer guía →</span>
+      </a>
+      <a class="guide" href="/guias/acelerar-portatil-lento-ssd-ram/" data-reveal>
+        <span class="guide__tag mono">Mejora de equipo</span>
+        <h3 class="guide__title">Cómo acelerar un portátil lento sin comprar otro</h3>
+        <span class="guide__more mono">Leer guía →</span>
+      </a>
+      <a class="guide" href="/guias/portatil-estudiar-trabajar/" data-reveal>
+        <span class="guide__tag mono">Portátiles</span>
+        <h3 class="guide__title">Cómo elegir un portátil para estudiar o trabajar</h3>
+        <span class="guide__more mono">Leer guía →</span>
+      </a>
+    </div>
+
+    <div class="act__actions">
+      <a class="btn btn--ghost" href="/guias/">Todas las guías</a>
+    </div>
+  </div>
+</section>
+
+<section class="act act--contact" id="contacto" aria-labelledby="contacto-title" data-hide-mobile-cta>
+  <div class="wrap closing">
+    <p class="act__num mono">05 / Contacto</p>
+    <h2 class="closing__title" id="contacto-title">Cuéntame qué le pasa a tu&nbsp;equipo. <span>O qué quieres dejar de hacer a mano.</span></h2>
+    <div class="act__actions">
+      <a class="btn btn--primary btn--lg" href="/contacto/" data-magnetic>Pedir presupuesto</a>
+      <a class="btn btn--ghost btn--lg" href="mailto:{{ site.email }}">{{ site.email }}</a>
+    </div>
+    <p class="closing__note">Presupuesto sin compromiso tras el diagnóstico.</p>
+  </div>
+</section>
