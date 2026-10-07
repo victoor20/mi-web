@@ -1,0 +1,10 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Rocamora;Víctor;;;
+FN:Víctor Rocamora
+TITLE:Técnico de sistemas
+NOTE:Servicio técnico informático y automatizaciones
+EMAIL;TYPE=INTERNET,WORK:victor@victorrocamora.com
+URL:https://victorrocamora.com/
+URL;TYPE=LinkedIn:https://www.linkedin.com/in/victorrocamora
+END:VCARD

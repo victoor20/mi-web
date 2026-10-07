@@ -1,0 +1,58 @@
+---
+layout: layouts/base.njk
+title: "Gracias por confiar en mí · Víctor Rocamora"
+description: "Para clientes que llegan desde el informe de su trabajo: cómo dejar una reseña, recomendarme y volver a contactar."
+noindex: true
+bodyClass: "page-thanks"
+---
+{%- set reviews = site.googleReviewsUrl | isSet %}
+<header class="page-hero thanks-hero">
+  <div class="wrap">
+    <p class="kicker mono"><span class="spark" aria-hidden="true"></span> Desde tu informe</p>
+    <h1 class="page-hero__title">Gracias por confiar en mí.</h1>
+    <p class="page-hero__intro">Espero que tu equipo vuelva a ir como debe. Si llegas desde el informe del trabajo, aquí tienes lo que puedes hacer a partir de ahora.</p>
+  </div>
+</header>
+
+<section class="section thanks" data-module="share">
+  <div class="wrap thanks__grid">
+    <article class="thanks__card thanks__card--wide">
+      <h2 class="thanks__title">¿Ha ido todo bien?</h2>
+      <p>Si algo no funciona como esperabas o te surge una duda sobre el informe, dímelo. Prefiero saberlo cuanto antes.</p>
+      <div class="actions"><a class="btn btn--primary" href="/contacto/?origen=informe">Escribirme sobre el trabajo</a></div>
+    </article>
+
+    <article class="thanks__card">
+      <h2 class="thanks__title">Deja tu opinión</h2>
+      {%- if reviews %}
+      <p>Una reseña en Google ayuda muchísimo a que otras personas de la zona confíen en mí. Te llevará un minuto.</p>
+      <div class="actions"><a class="btn btn--ghost" href="{{ site.googleReviewsUrl }}" rel="noopener" target="_blank" data-umami-event="resena-google">Escribir una reseña ↗</a></div>
+      {%- else %}
+      <p>Muy pronto podrás dejar tu reseña en Google. Mientras tanto, cuéntame qué tal por correo: me sirve para mejorar.</p>
+      <p><span class="placeholder">[ENLACE_RESEÑAS_GOOGLE]</span></p>
+      {%- endif %}
+    </article>
+
+    <article class="thanks__card">
+      <h2 class="thanks__title">Recomiéndame</h2>
+      <p>Si conoces a alguien con un ordenador que da guerra o una tarea que se repite, pásale mi web.</p>
+      <div class="share" data-share data-url="{{ site.url }}/" data-text="Te paso el contacto de Víctor Rocamora, el técnico que me arregló el ordenador:">
+        <button class="btn btn--ghost btn--sm" type="button" data-share-native hidden>Compartir…</button>
+        <a class="btn btn--ghost btn--sm" href="https://wa.me/?text={{ ('Te paso el contacto de Víctor Rocamora, el técnico que me arregló el ordenador: ' + site.url + '/') | urlencode }}" rel="noopener" target="_blank" data-umami-event="recomendar-whatsapp">Enviar por WhatsApp ↗</a>
+        <button class="btn btn--ghost btn--sm" type="button" data-copy hidden>Copiar enlace</button>
+      </div>
+      <p class="share__status" data-share-status role="status" aria-live="polite"></p>
+    </article>
+
+    <article class="thanks__card">
+      <h2 class="thanks__title">Guarda mi contacto</h2>
+      <p>Añádeme a la agenda de tu móvil para tenerme a mano la próxima vez.</p>
+      <div class="actions"><a class="btn btn--ghost" href="/assets/victor-rocamora.vcf" download data-umami-event="vcard">Descargar contacto</a></div>
+    </article>
+
+    <article class="thanks__card">
+      <h2 class="thanks__title">Para la próxima</h2>
+      <p>Si en el informe te recomendé una revisión, escríbeme cuando se acerque la fecha. Y antes de comprar algo nuevo, quizá te sirvan las <a class="text-link" href="/guias/">guías</a>.</p>
+    </article>
+  </div>
+</section>

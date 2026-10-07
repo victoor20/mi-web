@@ -1,0 +1,139 @@
+---
+layout: layouts/base.njk
+title: "Pedir presupuesto · Víctor Rocamora"
+description: "Cuéntame qué necesitas en cinco pasos y te respondo por correo con los siguientes pasos. Presupuesto sin compromiso tras el diagnóstico."
+bodyClass: "page-contact"
+hideMobileCta: true
+---
+{%- set turnstile = site.turnstileSiteKey | isSet %}
+<header class="page-hero contact-hero">
+  <div class="wrap">
+    <p class="kicker mono">Contacto</p>
+    <h1 class="page-hero__title">Cuéntame qué necesitas</h1>
+    <p class="page-hero__intro">Cinco pasos cortos. Te respondo por correo con lo que haría y, si hace falta, con un presupuesto sin compromiso. Si prefieres escribir directamente: <a class="text-link" href="mailto:{{ site.email }}">{{ site.email }}</a>.</p>
+  </div>
+</header>
+
+<section class="section contact" aria-label="Cuestionario de contacto">
+  <div class="wrap contact__grid">
+    <form class="quiz" action="https://api.web3forms.com/submit" method="POST" data-module="contact" data-email="{{ site.email }}" data-key-set="{{ 'true' if site.web3formsKey | isSet else 'false' }}">
+      <input type="hidden" name="access_key" value="{{ site.web3formsKey }}">
+      <input type="hidden" name="subject" value="Nueva solicitud desde victorrocamora.com">
+      <input type="hidden" name="from_name" value="victorrocamora.com">
+      <input type="hidden" name="redirect" value="{{ '/contacto/enviado/' | absoluteUrl(site.url) }}">
+      <input type="hidden" name="origen" value="web" data-origin>
+      {#- Trampa para bots: un humano nunca la ve ni la marca -#}
+      <div class="quiz__trap" aria-hidden="true">
+        <label>No marques esta casilla <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off"></label>
+      </div>
+
+      <div class="quiz__progress" hidden data-progress>
+        <div class="quiz__bar" role="progressbar" aria-label="Progreso del cuestionario" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1"><span></span></div>
+        <p class="quiz__count mono" data-count>Paso 1 de 5</p>
+      </div>
+
+      <fieldset class="quiz__step" data-step="1">
+        <legend class="quiz__legend" tabindex="-1">¿Qué necesitas?</legend>
+        <div class="quiz__choices">
+          {%- for s in services %}
+          <label class="choice">
+            <input type="radio" name="servicio" value="{{ s.name }}" data-slug="{{ s.slug }}" required>
+            <span class="choice__body"><strong>{{ s.name }}</strong><small>{{ s.short }}</small></span>
+          </label>
+          {%- endfor %}
+          <label class="choice">
+            <input type="radio" name="servicio" value="Otra cosa" data-slug="otro" required>
+            <span class="choice__body"><strong>Otra cosa</strong><small>Cuéntamelo en el siguiente paso.</small></span>
+          </label>
+        </div>
+        <p class="quiz__error" data-error hidden>Elige una opción para continuar.</p>
+      </fieldset>
+
+      <fieldset class="quiz__step" data-step="2">
+        <legend class="quiz__legend" tabindex="-1">Detalles del caso</legend>
+        <div class="field">
+          <label for="equipo">Equipo <span class="field__opt">(opcional)</span></label>
+          <input id="equipo" name="equipo" type="text" autocomplete="off" placeholder="Por ejemplo: portátil HP de 2019, sobremesa, impresora…">
+        </div>
+        <div class="field">
+          <label for="descripcion">¿Qué ocurre o qué te gustaría conseguir?</label>
+          <textarea id="descripcion" name="descripcion" rows="5" required minlength="10" aria-describedby="descripcion-hint"></textarea>
+          <p class="field__hint" id="descripcion-hint">Cuanto más concreto, mejor: desde cuándo pasa, qué has probado, mensajes de error…</p>
+        </div>
+        <p class="quiz__error" data-error hidden>Cuéntame un poco más (al menos 10 caracteres).</p>
+      </fieldset>
+
+      <fieldset class="quiz__step" data-step="3">
+        <legend class="quiz__legend" tabindex="-1">¿Qué urgencia tiene?</legend>
+        <div class="quiz__choices quiz__choices--row">
+          <label class="choice"><input type="radio" name="urgencia" value="Sin prisa" required><span class="choice__body"><strong>Sin prisa</strong><small>Cuando haya hueco</small></span></label>
+          <label class="choice"><input type="radio" name="urgencia" value="Esta semana" required><span class="choice__body"><strong>Esta semana</strong><small>En los próximos días</small></span></label>
+          <label class="choice"><input type="radio" name="urgencia" value="Urgente (24-48 h)" required><span class="choice__body"><strong>Urgente</strong><small>En 24-48 horas</small></span></label>
+        </div>
+        <p class="quiz__error" data-error hidden>Elige una opción para continuar.</p>
+      </fieldset>
+
+      <fieldset class="quiz__step" data-step="4">
+        <legend class="quiz__legend" tabindex="-1">Tus datos de contacto</legend>
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required>
+        </div>
+        <div class="field">
+          <label for="municipio">Municipio</label>
+          <input id="municipio" name="municipio" type="text" autocomplete="address-level2" list="municipios" required>
+          <datalist id="municipios">
+            {%- for t in site.area.towns | setOnly %}<option value="{{ t }}"></option>{% endfor %}
+          </datalist>
+        </div>
+        <p class="quiz__error" data-error hidden>Revisa los campos marcados.</p>
+      </fieldset>
+
+      <fieldset class="quiz__step" data-step="5">
+        <legend class="quiz__legend" tabindex="-1">Último paso</legend>
+        <dl class="quiz__summary" hidden data-summary></dl>
+        <div class="privacy-first">
+          <p><strong>Responsable:</strong> {{ site.name }}. <strong>Finalidad:</strong> responder a tu solicitud y, si lo pides, preparar un presupuesto. <strong>Legitimación:</strong> tu consentimiento y la aplicación de medidas precontractuales. <strong>Destinatarios:</strong> Web3Forms, como encargado del envío del formulario. <strong>Derechos:</strong> acceso, rectificación, supresión y otros, escribiendo a {{ site.email }}. Más información en la <a class="text-link" href="/privacidad/">política de privacidad</a>.</p>
+        </div>
+        <label class="check">
+          <input type="checkbox" name="privacidad" value="Aceptada" required>
+          <span>He leído y acepto la <a class="text-link" href="/privacidad/">política de privacidad</a>.</span>
+        </label>
+        {%- if turnstile %}
+        <div class="cf-turnstile" data-sitekey="{{ site.turnstileSiteKey }}" data-theme="dark" data-language="es"></div>
+        {%- endif %}
+        <p class="quiz__error" data-error hidden>Necesito que aceptes la política de privacidad para poder responderte.</p>
+        <button class="btn btn--primary btn--lg quiz__submit" type="submit" data-submit>Enviar solicitud</button>
+        <p class="quiz__status" data-status role="status" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="quiz__nav" hidden data-nav>
+        <button class="btn btn--ghost" type="button" data-prev>Atrás</button>
+        <button class="btn btn--primary" type="button" data-next>Siguiente</button>
+      </div>
+    </form>
+
+    <aside class="contact__aside">
+      <div class="contact__card">
+        <p class="kicker mono">Qué pasa después</p>
+        <ol class="contact__next">
+          <li>Leo tu caso y te respondo por correo.</li>
+          <li>Si hace falta ver el equipo, acordamos cómo y cuándo.</li>
+          <li>Tras el diagnóstico, recibes un presupuesto sin compromiso.</li>
+        </ol>
+      </div>
+      <div class="contact__card">
+        <p class="kicker mono">Directo</p>
+        <p><a class="text-link" href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+        <p><a class="text-link" href="{{ site.linkedin }}" rel="me noopener" target="_blank">LinkedIn ↗</a></p>
+      </div>
+    </aside>
+  </div>
+</section>
+{%- if turnstile %}
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+{%- endif %}

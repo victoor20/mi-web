@@ -1,0 +1,64 @@
+{#- Componentes reutilizables. Uso: {% from "macros.njk" import facetDivider, productCard, affiliateDisclosure, reviewsBlock %} -#}
+
+{#- Separador entre secciones con las facetas del logo. align: start | center | end -#}
+{% macro facetDivider(align="center", tone="azure") %}
+<div class="facet-divider facet-divider--{{ align }} facet-divider--{{ tone }}" aria-hidden="true" data-reveal>
+  <span class="facet-divider__line"></span>
+  <svg class="facet-divider__shape" viewBox="0 0 240 48" width="240" height="48" focusable="false">
+    <path class="facet-divider__fill facet-divider__fill--a" d="M40 40 L92 6 L120 40 Z"/>
+    <path class="facet-divider__fill facet-divider__fill--b" d="M120 40 L148 20 L176 40 Z"/>
+    <path class="facet-divider__fill facet-divider__fill--c" d="M92 6 L132 6 L120 40 Z"/>
+    <path class="facet-divider__stroke" d="M0 40 H40 L92 6 H132 L120 40 L148 20 L176 40 H240" pathLength="1"/>
+    <path class="facet-divider__spark" d="M92 0 L93.6 4.4 L98 6 L93.6 7.6 L92 12 L90.4 7.6 L86 6 L90.4 4.4 Z"/>
+  </svg>
+  <span class="facet-divider__line"></span>
+</div>
+{% endmacro %}
+
+{#- Tarjeta de producto. Sin precios ni imágenes de la tienda (lo exigen los programas de afiliados). -#}
+{% macro productCard(product, site) %}
+<article class="product" data-reveal>
+  <div class="product__glyph" aria-hidden="true"><span>{{ product.glyph or product.category | truncate(4, true, "") }}</span></div>
+  <div class="product__body">
+    <p class="product__cat mono">{{ product.category }}</p>
+    <h3 class="product__name">{{ product.name }}</h3>
+    <p class="product__why">{{ product.why }}</p>
+    {%- if product.specs %}
+    <ul class="product__specs">
+      {%- for spec in product.specs %}<li>{{ spec }}</li>{% endfor %}
+    </ul>
+    {%- endif %}
+    <div class="product__links">
+      <a class="btn btn--ghost btn--sm" href="{{ product | amazonUrl }}" rel="sponsored nofollow noopener" target="_blank" data-umami-event="afiliado-amazon" data-umami-event-producto="{{ product.id }}">Ver en Amazon ↗</a>
+      {%- if site.affiliate.pccomponentesActive and product.pccUrl %}
+      <a class="btn btn--ghost btn--sm" href="{{ product.pccUrl }}" rel="sponsored nofollow noopener" target="_blank" data-umami-event="afiliado-pccomponentes" data-umami-event-producto="{{ product.id }}">Ver en PcComponentes ↗</a>
+      {%- endif %}
+    </div>
+    <p class="product__note">Enlace de afiliado. Precio y disponibilidad, en la tienda.</p>
+  </div>
+</article>
+{% endmacro %}
+
+{#- Aviso de afiliación: el texto de Amazon es obligatorio en cada página con enlaces. -#}
+{% macro affiliateDisclosure(site) %}
+<aside class="disclosure" aria-label="Aviso de afiliación">
+  <p class="disclosure__title mono">Transparencia</p>
+  <p>En calidad de Afiliado de Amazon, obtengo ingresos por las compras adscritas que cumplen los requisitos aplicables.{% if site.affiliate.pccomponentesActive %} También participo en el programa de afiliados de PcComponentes.{% endif %}</p>
+  <p>Si compras desde un enlace marcado, recibo una pequeña comisión sin que pagues más. La comisión no decide qué recomiendo: <a href="/guias/transparencia/">así elijo los productos</a>.</p>
+</aside>
+{% endmacro %}
+
+{#- Reseñas de Google: solo se muestra cuando el enlace está configurado en site.js -#}
+{% macro reviewsBlock(site, variant="page") %}
+{%- if site.googleReviewsUrl | isSet %}
+<section class="reviews reviews--{{ variant }}" aria-labelledby="reviews-title">
+  <div class="reviews__inner">
+    <h2 class="reviews__title" id="reviews-title">Lo que dicen quienes ya han confiado en mí</h2>
+    <p>Las opiniones están en mi ficha de Google, escritas por clientes reales.</p>
+    <a class="btn btn--ghost" href="{{ site.googleReviewsUrl }}" rel="noopener" target="_blank">Ver reseñas en Google ↗</a>
+  </div>
+</section>
+{%- else %}
+<!-- Bloque de reseñas preparado: se mostrará al configurar googleReviewsUrl en src/_data/site.js -->
+{%- endif %}
+{% endmacro %}

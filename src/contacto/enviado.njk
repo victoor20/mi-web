@@ -1,0 +1,22 @@
+---
+layout: layouts/base.njk
+permalink: /contacto/enviado/
+title: "Solicitud enviada · Víctor Rocamora"
+description: "Tu solicitud ha llegado. Te responderé por correo."
+noindex: true
+hideMobileCta: true
+bodyClass: "page-sent"
+---
+{% from "macros.njk" import facetDivider %}
+<header class="page-hero sent-hero">
+  <div class="wrap">
+    <p class="kicker mono"><span class="spark" aria-hidden="true"></span> Recibido</p>
+    <h1 class="page-hero__title">Gracias, ya tengo tu mensaje.</h1>
+    <p class="page-hero__intro">Lo leo con calma y te respondo por correo con los siguientes pasos. Si no ves mi respuesta, revisa la carpeta de spam o escríbeme a <a class="text-link" href="mailto:{{ site.email }}">{{ site.email }}</a>.</p>
+    <div class="actions">
+      <a class="btn btn--primary" href="/">Volver al inicio</a>
+      <a class="btn btn--ghost" href="/guias/">Mientras tanto, las guías</a>
+    </div>
+  </div>
+</header>
+{{ facetDivider("center") }}

@@ -137,32 +137,42 @@ if (mobileCta && "IntersectionObserver" in window) {
   update();
 }
 
-/* ---------- Informe del método: se endereza al hacer scroll ---------- */
-const sheet = document.querySelector(".report__sheet");
-if (sheet && !reduceMotion.matches) {
-  let ticking = false;
-  const tilt = () => {
-    ticking = false;
-    const r = sheet.getBoundingClientRect();
-    const vh = window.innerHeight;
-    const p = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.75)));
-    sheet.style.setProperty("--p", p.toFixed(3));
-  };
-  window.addEventListener("scroll", () => {
-    if (!ticking) { ticking = true; requestAnimationFrame(tilt); }
-  }, { passive: true });
-  tilt();
+/* ---------- Módulos por página: [data-module="nombre"] carga /assets/js/modules/nombre.js ---------- */
+document.querySelectorAll("[data-module]").forEach((el) => {
+  el.dataset.module.split(/\s+/).forEach((name) => {
+    import(`/assets/js/modules/${name}.js`)
+      .then((m) => m.default(el, { reduceMotion: reduceMotion.matches, capable: isCapable() }))
+      .catch((err) => console.warn(`Módulo ${name} no disponible:`, err));
+  });
+});
+
+/* ---------- Efectos pesados: solo con movimiento permitido y en equipos capaces ---------- */
+function isCapable() {
+  if (reduceMotion.matches) return false;
+  const conn = navigator.connection;
+  if (conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || ""))) return false;
+  if (navigator.deviceMemory && navigator.deviceMemory < 4) return false;
+  if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) return false;
+  return true;
+}
+
+const whenIdle = (fn) => {
+  const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 300));
+  const go = () => idle(fn, { timeout: 2500 });
+  if (document.readyState === "complete") go();
+  else window.addEventListener("load", go, { once: true });
+};
+
+/* ---------- Campo de destellos ambiental ---------- */
+if (isCapable()) {
+  whenIdle(() => import("/assets/js/ambient.js").then((m) => m.initAmbient()).catch(() => {}));
 }
 
 /* ---------- Hero 3D: carga diferida y solo en equipos capaces ---------- */
 const stage = document.querySelector("[data-hero-stage]");
 
 function canRun3D() {
-  if (reduceMotion.matches) return false;
-  const conn = navigator.connection;
-  if (conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || ""))) return false;
-  if (navigator.deviceMemory && navigator.deviceMemory < 4) return false;
-  if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) return false;
+  if (!isCapable()) return false;
   try {
     const gl = document.createElement("canvas").getContext("webgl2");
     if (!gl) return false;
@@ -174,11 +184,9 @@ function canRun3D() {
 }
 
 if (stage && canRun3D()) {
-  const start = () =>
+  whenIdle(() =>
     import("/assets/js/hero3d.js")
       .then((m) => m.initHero3D(stage, stage.dataset.three))
-      .catch((err) => console.warn("Hero 3D desactivado:", err));
-  const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 300));
-  if (document.readyState === "complete") idle(start, { timeout: 2500 });
-  else window.addEventListener("load", () => idle(start, { timeout: 2500 }), { once: true });
+      .catch((err) => console.warn("Hero 3D desactivado:", err))
+  );
 }

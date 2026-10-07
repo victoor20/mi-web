@@ -1,0 +1,159 @@
+---
+layout: layouts/base.njk
+title: "Servicio técnico informático en Crevillent y Elche · Víctor Rocamora"
+description: "Reparación de portátiles y ordenadores, formateo, cambio a SSD, recuperación de archivos e informática para pequeños negocios. Presupuesto sin compromiso tras el diagnóstico."
+bodyClass: "page-services"
+schema: "services"
+---
+{% from "macros.njk" import facetDivider, reviewsBlock %}
+<header class="page-hero">
+  <div class="wrap">
+    <p class="kicker mono">Servicio técnico</p>
+    <h1 class="page-hero__title">Servicio técnico informático en {{ site.area.label }}</h1>
+    <p class="page-hero__intro">Reparo, pongo a punto y mejoro portátiles y sobremesa de particulares y pequeños negocios. Primero el diagnóstico; después, un presupuesto sin compromiso para que decidas con calma.</p>
+    <div class="actions">
+      <a class="btn btn--primary" href="/contacto/" data-magnetic>Pedir presupuesto</a>
+      <a class="btn btn--ghost" href="#que-le-pasa">Empezar por el síntoma</a>
+    </div>
+  </div>
+</header>
+
+{#- Pieza interactiva: del síntoma al servicio. Funciona sin JavaScript (radios + :has) -#}
+<section class="finder section" id="que-le-pasa" aria-labelledby="finder-title">
+  <div class="wrap">
+    <h2 class="section-title" id="finder-title">¿Qué le pasa?</h2>
+    <p class="lead-text">Elige lo que más se parece a tu caso y verás qué reviso primero.</p>
+
+    <div class="finder__box">
+      <fieldset class="finder__options">
+        <legend class="visually-hidden">Síntoma</legend>
+        {%- for s in symptoms %}
+        <label class="finder__option">
+          <input type="radio" name="sintoma" value="{{ s.id }}" id="sintoma-{{ s.id }}"{% if loop.first %} checked{% endif %}>
+          <span>{{ s.label }}</span>
+        </label>
+        {%- endfor %}
+      </fieldset>
+
+      <div class="finder__panels">
+        {%- for s in symptoms %}
+        {%- set svc = services | selectattr("slug", "equalto", s.service) | first %}
+        <article class="finder__panel" data-panel="{{ s.id }}" aria-live="polite">
+          <h3 class="finder__panel-title">{{ s.label }}</h3>
+          <div class="finder__cols">
+            <div>
+              <p class="finder__label mono">Lo primero que reviso</p>
+              <ul class="finder__checks">
+                {%- for c in s.checks %}<li>{{ c }}</li>{% endfor %}
+              </ul>
+            </div>
+            <div>
+              <p class="finder__label mono">Lo habitual</p>
+              <p>{{ s.usually }}</p>
+              <p class="finder__label mono">Mientras tanto</p>
+              <p>{{ s.meanwhile }}</p>
+            </div>
+          </div>
+          <div class="finder__foot">
+            <a class="finder__service" href="#{{ svc.slug }}">{{ svc.name }} →</a>
+            <a class="btn btn--primary btn--sm" href="/contacto/?servicio={{ svc.slug }}">Pedir presupuesto para esto</a>
+          </div>
+        </article>
+        {%- endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{{ facetDivider("center") }}
+
+<section class="section" aria-labelledby="catalogo-title">
+  <div class="wrap">
+    <h2 class="section-title" id="catalogo-title">Lo que hago, uno por uno</h2>
+    <div class="spec-list">
+      {%- for s in services %}
+      <article class="spec" id="{{ s.slug }}" data-reveal>
+        <header class="spec__head">
+          <h3 class="spec__name">{{ s.name }}</h3>
+          <p class="spec__short">{{ s.short }}</p>
+        </header>
+        <div class="spec__body">
+          <div>
+            <p class="finder__label mono">Para qué</p>
+            <p>{{ s.solves }}</p>
+          </div>
+          <div>
+            <p class="finder__label mono">Incluye</p>
+            <ul class="finder__checks">
+              {%- for i in s.includes %}<li>{{ i }}</li>{% endfor %}
+            </ul>
+          </div>
+          <div>
+            <p class="finder__label mono">Bueno saber</p>
+            <p>{{ s.note }}</p>
+            {%- if s.guide %}<p><a class="text-link" href="{{ s.guide }}">Leer la guía relacionada</a></p>{% endif %}
+            {%- if s.group == "automatizacion" %}<p><a class="text-link" href="/ia/">Lo que estoy aprendiendo en IA</a></p>{% endif %}
+          </div>
+        </div>
+      </article>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section how" aria-labelledby="como-title">
+  <div class="wrap how__grid">
+    <div>
+      <h2 class="section-title" id="como-title">Cómo funciona un encargo</h2>
+      <p class="lead-text">Sin sorpresas: sabes qué se va a hacer y cuánto cuesta antes de que empiece.</p>
+    </div>
+    <dl class="how__sheet">
+      <div><dt class="mono">Municipios</dt><dd>{% for t in site.area.towns %}{{ t | ph | safe }}{% if not loop.last %}, {% endif %}{% endfor %}</dd></div>
+      <div><dt class="mono">Modalidad</dt><dd>{{ site.area.modes | ph | safe }}</dd></div>
+      <div><dt class="mono">Horario</dt><dd>{{ site.area.hours | ph | safe }}</dd></div>
+      <div><dt class="mono">Presupuesto</dt><dd>Sin compromiso, después del diagnóstico</dd></div>
+      <div><dt class="mono">Entrega</dt><dd>Con informe por escrito de lo que se ha hecho</dd></div>
+      <div><dt class="mono">Contacto</dt><dd><a class="text-link" href="/contacto/">Cuestionario</a> o <a class="text-link" href="mailto:{{ site.email }}">{{ site.email }}</a></dd></div>
+    </dl>
+  </div>
+</section>
+
+{{ reviewsBlock(site) }}
+
+<section class="section" aria-labelledby="faq-title">
+  <div class="wrap faq-wrap">
+    <h2 class="section-title" id="faq-title">Preguntas frecuentes</h2>
+    <div class="faq">
+      <details>
+        <summary>¿Cuánto cuesta una reparación?</summary>
+        <div><p>Depende de lo que tenga. Por eso primero hago el diagnóstico y después te paso un presupuesto cerrado, sin compromiso. Si no compensa reparar, te lo digo.</p></div>
+      </details>
+      <details>
+        <summary>¿Pierdo mis archivos si formateas?</summary>
+        <div><p>No, si hay forma de conservarlos. Antes de borrar nada hacemos copia de lo importante y acordamos qué debe volver a su sitio.</p></div>
+      </details>
+      <details>
+        <summary>¿Puedes recuperar los datos de un disco estropeado?</summary>
+        <div><p>Muchas veces sí, cuando el problema es lógico (borrados, particiones dañadas, un sistema que no arranca). Si el disco tiene daño físico grave, te recomiendo un laboratorio especializado antes que arriesgar los datos.</p></div>
+      </details>
+      <details>
+        <summary>¿Merece la pena arreglar un portátil antiguo?</summary>
+        <div><p>A menudo sí: un SSD y más memoria cambian por completo un equipo de varios años. Te explico qué mejora esperar y lo comparo con lo que costaría uno nuevo.</p></div>
+      </details>
+      <details>
+        <summary>¿Emites factura?</summary>
+        <div><p>Sí. Trabajo como autónomo y cada servicio lleva su factura.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="closing" data-hide-mobile-cta aria-labelledby="cierre-title">
+  <div class="wrap">
+    <h2 class="closing__title" id="cierre-title">Cuéntame el problema. <span>Te respondo con los siguientes pasos.</span></h2>
+    <div class="closing__actions">
+      <a class="btn btn--primary btn--lg" href="/contacto/" data-magnetic>Pedir presupuesto</a>
+      <a class="btn btn--ghost btn--lg" href="mailto:{{ site.email }}">{{ site.email }}</a>
+    </div>
+  </div>
+</section>

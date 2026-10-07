@@ -1,0 +1,94 @@
+---
+layout: layouts/base.njk
+title: "Jarvis, mi agente personal de IA · Víctor Rocamora"
+description: "Caso de estudio de Jarvis: agente personal 24/7 sobre OpenClaw con memoria persistente, herramientas controladas y aprobación humana para cualquier acción externa."
+bodyClass: "page-jarvis"
+ogType: "article"
+schema: "person"
+---
+<header class="page-hero jarvis-hero">
+  <div class="wrap">
+    <p class="kicker mono"><a href="/ia/">Laboratorio</a> · Proyecto</p>
+    <h1 class="page-hero__title">Jarvis</h1>
+    <p class="page-hero__intro">Mi agente personal de IA, en marcha 24/7. No es un chatbot: recuerda, usa herramientas controladas y prepara trabajo, pero cualquier acción con efectos fuera espera mi aprobación.</p>
+  </div>
+</header>
+
+{#- Pieza interactiva: holograma guiado. Sin JavaScript se ven todas las preguntas y respuestas. -#}
+<section class="holo section" aria-labelledby="holo-title" data-module="jarvis">
+  <div class="wrap">
+    <h2 class="visually-hidden" id="holo-title">Pregunta a Jarvis</h2>
+    <div class="holo__stage">
+      <div class="holo__figure" data-holo-figure>
+        {% include "partials/jarvis-core.svg.njk" %}
+        <div class="holo__wave" aria-hidden="true">{% for i in range(0, 14) %}<span style="--i:{{ i }}"></span>{% endfor %}</div>
+        <p class="holo__name mono">Jarvis · demostración guiada</p>
+      </div>
+
+      <div class="holo__dialog">
+        <div class="holo__screen" hidden data-holo-ui>
+          <p class="holo__asked mono" data-holo-asked aria-hidden="true">Jarvis</p>
+          <p class="holo__answer" data-holo-answer aria-live="polite">{{ jarvis.greeting }}</p>
+        </div>
+        <div class="holo__questions" hidden data-holo-ui role="group" aria-label="Preguntas">
+          {%- for item in jarvis.questions %}
+          <button class="holo__q" type="button" data-q="{{ item.id }}">{{ item.q }}</button>
+          {%- endfor %}
+        </div>
+
+        {#- Versión sin JavaScript -#}
+        <div class="holo__static" data-holo-static>
+          <p>{{ jarvis.greeting }}</p>
+          {%- for item in jarvis.questions %}
+          <details>
+            <summary>{{ item.q }}</summary>
+            <p>{{ item.a }}</p>
+          </details>
+          {%- endfor %}
+        </div>
+        <p class="holo__disclaimer">Respuestas escritas de antemano. No está conectado al Jarvis real ni a ningún modelo.</p>
+      </div>
+    </div>
+
+    <figure class="arch-wrap">
+      <div class="arch-scroll" tabindex="0" aria-label="Diagrama de arquitectura (desplazable)">
+        {% include "partials/jarvis-architecture.svg.njk" %}
+      </div>
+      <figcaption>Arquitectura simplificada. Las partes se iluminan según la pregunta.</figcaption>
+    </figure>
+  </div>
+  <script type="application/json" data-holo-script>{{ jarvis | json | safe }}</script>
+</section>
+
+<section class="section case" aria-label="Detalles técnicos">
+  <div class="wrap case__grid">
+    <article class="case__block">
+      <h2 class="case__title">Qué es</h2>
+      <p>Un agente que trabaja en segundo plano sobre un equipo dedicado. Le hablo por Telegram, por escrito o con voz, y él recuerda el contexto de cada proyecto, prepara tareas y me avisa de lo que detecta.</p>
+    </article>
+    <article class="case__block">
+      <h2 class="case__title">Arquitectura</h2>
+      <p>OpenClaw orquesta; un modelo de OpenAI razona. El comportamiento está definido en archivos separados de identidad, reglas, herramientas y memoria, que puedo leer y corregir. La voz se transcribe en local con Whisper y la respuesta sale con síntesis de voz.</p>
+    </article>
+    <article class="case__block case__block--wide">
+      <h2 class="case__title">Principios de diseño</h2>
+      <ul class="principles">
+        <li><strong>Autonomía controlada.</strong> Automatiza lo de bajo riesgo; enviar, publicar, hacer push o borrar requiere mi aprobación.</li>
+        <li><strong>Comportamiento legible.</strong> Nada de reglas escondidas: lo que hace y por qué está escrito en archivos que se pueden revisar.</li>
+        <li><strong>Herramientas justas.</strong> Cada herramienta tiene un propósito claro y un alcance limitado.</li>
+        <li><strong>Fiabilidad primero.</strong> Servicio persistente, copias cifradas en dos capas y un panel privado de supervisión.</li>
+      </ul>
+    </article>
+    <article class="case__block">
+      <h2 class="case__title">Estado actual</h2>
+      <p>Funciona a diario como asistente técnico y de desarrollo, memoria de proyectos, apoyo editorial para LinkedIn, radar de ofertas y oportunidades y redactor de correos con confirmación.</p>
+      <p>La siguiente etapa: pasar de reaccionar a vigilar, detectar y proponer, siempre con la decisión final en mis manos.</p>
+      <p><span class="placeholder">[CAPTURAS DE JARVIS]</span></p>
+    </article>
+    <article class="case__block">
+      <h2 class="case__title">Lo que no se publica</h2>
+      <p>Rutas, cuentas, horarios de copia y accesos remotos se quedan fuera a propósito. Contar la arquitectura no exige exponer la instalación.</p>
+      <p><a class="text-link" href="/ia/">Volver al laboratorio</a></p>
+    </article>
+  </div>
+</section>
