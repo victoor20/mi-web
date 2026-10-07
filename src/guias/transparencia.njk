@@ -1,0 +1,52 @@
+---
+layout: layouts/base.njk
+permalink: /guias/transparencia/
+tags: []
+eleventyExcludeFromCollections: true
+title: "Transparencia y afiliación · Guías · Víctor Rocamora"
+description: "Cómo se eligen las recomendaciones de las guías, qué enlaces son de afiliado y cómo afectan (y cómo no) al criterio editorial."
+bodyClass: "page-legal"
+pccVerification: true
+jsonld: null
+updated: 2026-10-07
+---
+<header class="page-hero">
+  <div class="wrap">
+    <p class="kicker mono"><a href="/guias/">Guías</a> · Transparencia</p>
+    <h1 class="page-hero__title">Cómo elijo lo que recomiendo</h1>
+    <p class="page-hero__intro">Qué hay detrás de cada guía, qué enlaces son de afiliado y por qué una comisión no decide lo que aparece.</p>
+  </div>
+</header>
+
+<section class="section legal">
+  <div class="wrap">
+    <div class="prose">
+      <p class="legal__meta mono">Responsable: {{ site.name }} · Actualizado: {{ updated | dateEs }}</p>
+
+      <h2>Quién escribe</h2>
+      <p>Todas las guías las escribo yo, <a href="/sobre-mi/">{{ site.name }}</a>, técnico de sistemas. Reparo, amplío y monto equipos, y escribo sobre lo que conviene revisar antes de comprar: compatibilidad, uso real y prioridades.</p>
+
+      <h2>Qué buscan las guías</h2>
+      <p>Ayudarte a decidir mejor, no empujarte a comprar. Por eso explican cuándo merece la pena mejorar un equipo, qué mirar en un SSD o qué monitor tiene sentido para trabajar, y también cuándo es mejor no gastar.</p>
+
+      <h2>Cómo se seleccionan los productos</h2>
+      <ul>
+        <li><strong>Utilidad:</strong> que resuelva un problema real.</li>
+        <li><strong>Compatibilidad:</strong> que encaje con el equipo, el formato, la generación o el uso previsto.</li>
+        <li><strong>Calidad-precio:</strong> que el coste tenga sentido frente a la mejora.</li>
+        <li><strong>Vigencia:</strong> que la ficha, la variante y la disponibilidad se revisen antes de enlazar.</li>
+      </ul>
+      <p>No publico precios fijos, descuentos ni promesas de stock: cambian constantemente y la referencia válida es siempre la ficha de la tienda en el momento de comprar.</p>
+
+      <h2>Enlaces de afiliado</h2>
+      <p>En calidad de Afiliado de Amazon, obtengo ingresos por las compras adscritas que cumplen los requisitos aplicables.{% if site.affiliate.pccomponentesActive %} También participo en el programa de afiliados de PcComponentes.{% endif %}</p>
+      <p>Los enlaces de afiliado aparecen en tarjetas de producto marcadas como tales y llevan el atributo <code>rel="sponsored"</code>. Si compras a través de ellos, recibo una pequeña comisión y tú pagas lo mismo. Una comisión nunca justifica recomendar algo que no encaja: si un producto deja de cumplir los criterios, se retira.</p>
+
+      <h2>Independencia</h2>
+      <p>No acepto dinero ni productos a cambio de aparecer en una guía. Si algún día una marca me cede un producto para probarlo, lo indicaré claramente en esa guía.</p>
+
+      <h2>Errores y sugerencias</h2>
+      <p>Si ves un dato desactualizado o un error, <a href="/contacto/">escríbeme</a> o mándame un correo a <a href="mailto:{{ site.email }}">{{ site.email }}</a>. Lo reviso y lo corrijo.</p>
+    </div>
+  </div>
+</section>

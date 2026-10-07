@@ -1,0 +1,68 @@
+---
+layout: layouts/base.njk
+permalink: /guias/
+tags: []
+eleventyExcludeFromCollections: true
+title: "Guías para comprar y mejorar tu ordenador · Víctor Rocamora"
+description: "Guías prácticas para elegir portátil, acelerar un equipo lento, comprobar la compatibilidad de componentes y montar un escritorio cómodo, escritas por un técnico."
+bodyClass: "page-guides"
+pccVerification: true
+jsonld: null
+needs:
+  - { id: "todas", label: "Todas" }
+  - { id: "mejorar", label: "Mejorar mi equipo" }
+  - { id: "comprar", label: "Comprar portátil" }
+  - { id: "montar", label: "Montar un PC" }
+  - { id: "escritorio", label: "Escritorio" }
+---
+{% from "macros.njk" import facetDivider %}
+<header class="page-hero guides-hero">
+  <div class="wrap">
+    <p class="kicker mono">Guías</p>
+    <h1 class="page-hero__title">Antes de comprar, pregunta a quien lo repara</h1>
+    <p class="page-hero__intro">Guías prácticas para decidir con calma: qué revisar, qué priorizar y cuándo no merece la pena gastar. Sin precios inventados ni ofertas de última hora.</p>
+  </div>
+</header>
+
+<section class="section guides-index" aria-label="Listado de guías" data-module="guides">
+  <div class="wrap">
+    <div class="filter" role="group" aria-label="Filtrar por necesidad" hidden data-filter>
+      {%- for n in needs %}
+      <button class="filter__chip" type="button" data-need="{{ n.id }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">{{ n.label }}</button>
+      {%- endfor %}
+    </div>
+
+    <ul class="guide-list" data-guide-list>
+      {%- for g in collections.guias %}
+      <li class="guide-row" data-need="{{ g.data.need }}">
+        <a href="{{ g.url }}">
+          <span class="guide-row__cat mono">{{ g.data.category }}</span>
+          <span class="guide-row__title">{{ g.data.h1 or g.data.title }}</span>
+          <span class="guide-row__desc">{{ g.data.description }}</span>
+          <span class="guide-row__meta mono">{{ g.data.updated | dateEs }}{% if g.data.affiliate %} · con recomendaciones{% endif %}</span>
+        </a>
+      </li>
+      {%- endfor %}
+    </ul>
+    <p class="guide-list__empty" hidden data-empty>Todavía no hay guías en esta categoría. Pronto.</p>
+  </div>
+</section>
+
+{{ facetDivider("start", "cyan") }}
+
+<section class="section criteria" aria-labelledby="criterio-title">
+  <div class="wrap criteria__grid">
+    <div>
+      <h2 class="section-title" id="criterio-title">Cómo elijo lo que recomiendo</h2>
+      <p class="lead-text">El problema primero y el producto después. Cuando una guía enlaza una compra, ha pasado por estos filtros.</p>
+      <p class="actions"><a class="btn btn--ghost" href="/guias/transparencia/">Transparencia y afiliación</a></p>
+    </div>
+    <ol class="criteria__list">
+      <li><strong>Uso real.</strong> Para qué lo necesitas y qué problema resuelve.</li>
+      <li><strong>Compatibilidad.</strong> Medidas, conexiones, potencia y generación antes que la ficha llamativa.</li>
+      <li><strong>Calidad-precio.</strong> Ni lo más barato por sistema ni pagar por lo que no vas a aprovechar.</li>
+      <li><strong>Vigencia.</strong> Ficha, variante y disponibilidad revisadas antes de enlazar.</li>
+      <li><strong>Transparencia.</strong> Los enlaces de afiliado se marcan y la comisión no cambia el criterio.</li>
+    </ol>
+  </div>
+</section>

@@ -1,0 +1,35 @@
+---
+# Páginas puente para las URL antiguas: redirigen a la nueva y conservan el posicionamiento.
+# GitHub Pages no permite redirecciones 301; la meta refresh a 0 s con canonical es la alternativa.
+pagination:
+  data: redirects
+  size: 1
+  alias: r
+permalink: "{{ r.from }}"
+eleventyExcludeFromCollections: true
+redirects:
+  - { from: "/guias-tech.html", to: "/guias/", pcc: true }
+  - { from: "/guia-compatibilidad-componentes-pc.html", to: "/guias/compatibilidad-componentes-pc/" }
+  - { from: "/guia-ssd-ram-portatil-lento.html", to: "/guias/acelerar-portatil-lento-ssd-ram/" }
+  - { from: "/guia-portatil-estudiar-trabajar.html", to: "/guias/portatil-estudiar-trabajar/" }
+  - { from: "/guia-monitor-perifericos-setup.html", to: "/guias/monitor-perifericos-setup/" }
+  - { from: "/transparencia-editorial.html", to: "/guias/transparencia/" }
+---
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Esta página se ha movido · {{ site.name }}</title>
+  <link rel="canonical" href="{{ r.to | absoluteUrl(site.url) }}">
+  <meta http-equiv="refresh" content="0; url={{ r.to }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/assets/img/icon-32.png" sizes="32x32" type="image/png">
+  {%- if r.pcc %}
+  <meta name="verification" content="{{ site.affiliate.pccomponentesVerification }}">
+  {%- endif %}
+  <style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#03060c;color:#e9f1ff;font:1rem/1.6 system-ui,sans-serif}a{color:#00d0f8}</style>
+</head>
+<body>
+  <p>Esta página se ha movido a <a href="{{ r.to }}">{{ r.to | absoluteUrl(site.url) }}</a>.</p>
+</body>
+</html>

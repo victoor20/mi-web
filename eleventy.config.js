@@ -1,8 +1,20 @@
 import { readFileSync } from "node:fs";
 import site from "./src/_data/site.js";
 
+import products from "./src/_data/products.js";
+
 // Un valor está "configurado" si existe y no contiene un marcador [ASÍ]
 const isSet = (value) => typeof value === "string" ? value.trim() !== "" && !/\[[^\]]+\]/.test(value) : Boolean(value);
+
+// Enlaces de afiliado: el tracking ID solo vive en site.js
+const amazonUrl = (product) => {
+  const base = `https://${site.affiliate.amazonDomain}`;
+  const url = isSet(product.asin)
+    ? new URL(`/dp/${product.asin}`, base)
+    : new URL(`/s?k=${encodeURIComponent(product.amazonSearch || product.name)}`, base);
+  url.searchParams.set("tag", site.affiliate.amazonTag);
+  return url.href;
+};
 
 export default function (eleventyConfig) {
   // Recursos estáticos tal cual (logos, imágenes optimizadas, JS, CSS no crítico)
@@ -31,14 +43,35 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("json", (value) => JSON.stringify(value));
   eleventyConfig.addFilter("pad2", (n) => String(n).padStart(2, "0"));
 
-  // Enlaces de afiliado: el tracking ID solo vive en site.js
-  eleventyConfig.addFilter("amazonUrl", (product) => {
-    const base = `https://${site.affiliate.amazonDomain}`;
-    const url = product.asin
-      ? new URL(`/dp/${product.asin}`, base)
-      : new URL(`/s?k=${encodeURIComponent(product.amazonSearch || product.name)}`, base);
-    url.searchParams.set("tag", site.affiliate.amazonTag);
-    return url.href;
+  eleventyConfig.addFilter("amazonUrl", amazonUrl);
+
+  // Tarjeta de producto: {% product "id" %} dentro de una guía. Una única plantilla para toda la web.
+  eleventyConfig.addShortcode("product", (id) => {
+    const p = products[id];
+    if (!p) throw new Error(`Producto desconocido en una guía: ${id}`);
+    const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+    const amazon = amazonUrl(p);
+    const pcc = site.affiliate.pccomponentesActive && isSet(p.pccUrl)
+      ? `<a class="btn btn--ghost btn--sm" href="${esc(p.pccUrl)}" rel="sponsored nofollow noopener" target="_blank" data-umami-event="afiliado-pccomponentes" data-umami-event-producto="${esc(id)}">Ver en PcComponentes ↗</a>`
+      : "";
+    return `<article class="product" data-reveal>
+  <div class="product__glyph" aria-hidden="true"><span>${esc(p.glyph)}</span></div>
+  <div class="product__body">
+    <p class="product__cat mono">${esc(p.category)}</p>
+    <h3 class="product__name">${esc(p.name)}</h3>
+    <p class="product__why">${esc(p.why)}</p>
+    <ul class="product__specs">${(p.specs || []).map((s) => `<li>${esc(s)}</li>`).join("")}</ul>
+    <div class="product__links">
+      <a class="btn btn--ghost btn--sm" href="${esc(amazon)}" rel="sponsored nofollow noopener" target="_blank" data-umami-event="afiliado-amazon" data-umami-event-producto="${esc(id)}">Ver en Amazon ↗</a>${pcc}
+    </div>
+    <p class="product__note">Enlace de afiliado. Precio y disponibilidad, en la tienda.</p>
+  </div>
+</article>`;
+  });
+
+  eleventyConfig.addFilter("readingTime", (html) => {
+    const words = String(html).replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
+    return Math.max(1, Math.round(words / 220));
   });
 
   // Guías: colección ordenada por fecha de actualización

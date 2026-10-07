@@ -1,4 +1,5 @@
-{#- Componentes reutilizables. Uso: {% from "macros.njk" import facetDivider, productCard, affiliateDisclosure, reviewsBlock %} -#}
+{#- Componentes reutilizables. Uso: {% from "macros.njk" import facetDivider, affiliateDisclosure, reviewsBlock %}
+     La tarjeta de producto es el shortcode {% product "id" %} (eleventy.config.js). -#}
 
 {#- Separador entre secciones con las facetas del logo. align: start | center | end -#}
 {% macro facetDivider(align="center", tone="azure") %}
@@ -13,30 +14,6 @@
   </svg>
   <span class="facet-divider__line"></span>
 </div>
-{% endmacro %}
-
-{#- Tarjeta de producto. Sin precios ni imágenes de la tienda (lo exigen los programas de afiliados). -#}
-{% macro productCard(product, site) %}
-<article class="product" data-reveal>
-  <div class="product__glyph" aria-hidden="true"><span>{{ product.glyph or product.category | truncate(4, true, "") }}</span></div>
-  <div class="product__body">
-    <p class="product__cat mono">{{ product.category }}</p>
-    <h3 class="product__name">{{ product.name }}</h3>
-    <p class="product__why">{{ product.why }}</p>
-    {%- if product.specs %}
-    <ul class="product__specs">
-      {%- for spec in product.specs %}<li>{{ spec }}</li>{% endfor %}
-    </ul>
-    {%- endif %}
-    <div class="product__links">
-      <a class="btn btn--ghost btn--sm" href="{{ product | amazonUrl }}" rel="sponsored nofollow noopener" target="_blank" data-umami-event="afiliado-amazon" data-umami-event-producto="{{ product.id }}">Ver en Amazon ↗</a>
-      {%- if site.affiliate.pccomponentesActive and product.pccUrl %}
-      <a class="btn btn--ghost btn--sm" href="{{ product.pccUrl }}" rel="sponsored nofollow noopener" target="_blank" data-umami-event="afiliado-pccomponentes" data-umami-event-producto="{{ product.id }}">Ver en PcComponentes ↗</a>
-      {%- endif %}
-    </div>
-    <p class="product__note">Enlace de afiliado. Precio y disponibilidad, en la tienda.</p>
-  </div>
-</article>
 {% endmacro %}
 
 {#- Aviso de afiliación: el texto de Amazon es obligatorio en cada página con enlaces. -#}

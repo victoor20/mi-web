@@ -1,0 +1,75 @@
+---
+layout: layouts/base.njk
+ogType: article
+bodyClass: page-article
+---
+{#- Plantilla de guía. Front matter: title, h1, description, category, need, published, updated,
+    summary, service (slug de services.js), affiliate (true si hay enlaces de afiliado) -#}
+{% from "macros.njk" import affiliateDisclosure, facetDivider %}
+{%- set svc = services | selectattr("slug", "equalto", service) | first if service else null %}
+<article class="article" data-module="article">
+  <header class="page-hero article-hero">
+    <div class="wrap">
+      <p class="kicker mono"><a href="/guias/">Guías</a> · {{ category }}</p>
+      <h1 class="page-hero__title article-hero__title">{{ h1 or title }}</h1>
+      <p class="article-meta">
+        <span>Por <a href="/sobre-mi/">{{ site.name }}</a></span>
+        <span>Actualizada: <time datetime="{{ updated | dateIso }}">{{ updated | dateEs }}</time></span>
+        <span>{{ content | readingTime }} min de lectura</span>
+      </p>
+      {%- if affiliate %}
+      <p class="article-affiliate">Esta guía contiene enlaces de afiliado. En calidad de Afiliado de Amazon, obtengo ingresos por las compras adscritas que cumplen los requisitos aplicables.</p>
+      {%- endif %}
+    </div>
+  </header>
+
+  <div class="wrap article__grid">
+    <aside class="article__toc" aria-label="Índice" hidden data-toc>
+      <p class="mono">En esta guía</p>
+      <ol data-toc-list></ol>
+    </aside>
+
+    <div class="article__main">
+      {%- if summary %}
+      <div class="callout article__summary"><strong>En resumen:</strong> {{ summary }}</div>
+      {%- endif %}
+
+      <div class="prose" data-article-body>
+        {{ content | safe }}
+      </div>
+
+      {%- if svc %}
+      <aside class="article__service" aria-label="Servicio relacionado">
+        <p class="kicker mono">¿Prefieres que lo haga yo?</p>
+        <p class="article__service-title">{{ svc.name }}</p>
+        <p>{{ svc.short }}</p>
+        <div class="actions">
+          <a class="btn btn--primary btn--sm" href="/contacto/?servicio={{ svc.slug }}">Pedir presupuesto</a>
+          <a class="btn btn--ghost btn--sm" href="/servicios/#{{ svc.slug }}">Ver el servicio</a>
+        </div>
+      </aside>
+      {%- endif %}
+
+      <footer class="article__foot">
+        <div class="author">
+          <img src="/assets/img/logo-vr-112.png" width="52" height="40" alt="" loading="lazy" decoding="async">
+          <p><strong>{{ site.name }}</strong>. Técnico de sistemas; reparo, amplío y monto equipos. Escribo estas guías con lo que conviene revisar antes de comprar. <a href="/sobre-mi/">Más sobre mí</a>.</p>
+        </div>
+        {%- if affiliate %}{{ affiliateDisclosure(site) }}{% endif %}
+      </footer>
+    </div>
+  </div>
+</article>
+
+{{ facetDivider("center") }}
+
+<section class="section related" aria-labelledby="related-title">
+  <div class="wrap">
+    <h2 class="section-title" id="related-title">Otras guías</h2>
+    <ul class="related__list">
+      {%- for g in collections.guias %}{% if g.url != page.url %}
+      <li><a href="{{ g.url }}"><span class="mono">{{ g.data.category }}</span>{{ g.data.h1 or g.data.title }}</a></li>
+      {%- endif %}{% endfor %}
+    </ul>
+  </div>
+</section>
