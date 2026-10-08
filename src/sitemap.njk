@@ -1,0 +1,16 @@
+---
+# Mapa del sitio para buscadores. Excluye páginas noindex (gracias, enviado, 404) y las páginas puente.
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- for item in collections.all | sort(false, false, "url") %}
+{%- if not item.data.noindex and item.url and item.url.endsWith("/") %}
+  <url>
+    <loc>{{ item.url | absoluteUrl(site.url) }}</loc>
+    <lastmod>{{ (item.data.updated or item.date) | dateIso }}</lastmod>
+  </url>
+{%- endif %}
+{%- endfor %}
+</urlset>

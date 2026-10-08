@@ -183,10 +183,12 @@ function canRun3D() {
   return true;
 }
 
-if (stage && canRun3D()) {
-  whenIdle(() =>
+// La prueba de WebGL2 crea un contexto y puede costar cientos de ms: también se hace en reposo
+if (stage && isCapable()) {
+  whenIdle(() => {
+    if (!canRun3D()) return;
     import("/assets/js/hero3d.js")
       .then((m) => m.initHero3D(stage, stage.dataset.three))
-      .catch((err) => console.warn("Hero 3D desactivado:", err))
-  );
+      .catch((err) => console.warn("Hero 3D desactivado:", err));
+  });
 }

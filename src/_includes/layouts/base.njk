@@ -19,6 +19,16 @@
   <meta property="og:title" content="{{ ogTitle or title }}">
   <meta property="og:description" content="{{ description }}">
   <meta property="og:url" content="{{ canonical }}">
+  {%- set og = ogImage or site.ogImage %}
+  <meta property="og:image" content="{{ og.url | absoluteUrl(site.url) }}">
+  <meta property="og:image:width" content="{{ og.width }}">
+  <meta property="og:image:height" content="{{ og.height }}">
+  <meta property="og:image:alt" content="{{ og.alt }}">
+  <meta name="twitter:card" content="summary_large_image">
+
+  {%- if site.googleSiteVerification | isSet %}
+  <meta name="google-site-verification" content="{{ site.googleSiteVerification }}">
+  {%- endif %}
 
   {%- if pccVerification %}
   <meta name="verification" content="{{ site.affiliate.pccomponentesVerification }}">
@@ -37,6 +47,9 @@
   {%- endif %}
   {%- if jsonld %}
   <script type="application/ld+json">{{ jsonld | json | safe }}</script>
+  {%- endif %}
+  {%- if site.umami.websiteId | isSet %}
+  <script defer src="{{ site.umami.src }}" data-website-id="{{ site.umami.websiteId }}" data-domains="{{ site.url | replace('https://', '') }}"></script>
   {%- endif %}
   {%- for src in headScripts %}
   <script src="{{ src }}" async defer></script>

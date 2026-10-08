@@ -44,15 +44,23 @@ export default {
   turnstileSiteKey: "",
 
   // Analítica sin cookies
+  // Copia websiteId y src de Umami: Settings > Websites > Edit > Tracking code
   umami: {
     websiteId: "[UMAMI_WEBSITE_ID]",
     src: "https://cloud.umami.is/script.js",
+    // Región de datos de la cuenta, tal como aparece en la política de privacidad: "la Unión Europea" o "Estados Unidos"
+    region: "[REGIÓN DE DATOS DE UMAMI]",
   },
+  // Search Console: solo el valor de content="..." de la etiqueta HTML de verificación
   googleSiteVerification: "[GOOGLE_SITE_VERIFICATION]",
   googleReviewsUrl: "[ENLACE_RESEÑAS_GOOGLE]",
 
-  // Three.js desde CDN, versión fijada para que no cambie sin control
-  threeUrl: "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.min.js",
+  // Three.js servido desde el propio dominio. Se genera al compilar desde node_modules/three
+  // (versión fijada en package.json); ver THREE_EXPORTS en eleventy.config.js.
+  threeUrl: "/assets/vendor/three.min.js",
+
+  // Imagen para redes sociales (1200x630, generada con npm run images)
+  ogImage: { url: "/assets/img/og-default.png", width: 1200, height: 630, alt: "Víctor Rocamora · Servicio técnico informático y laboratorio de IA" },
 
   nav: [
     { label: "Servicios", url: "/servicios/" },

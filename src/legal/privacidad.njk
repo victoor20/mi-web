@@ -5,7 +5,7 @@ title: "Política de privacidad · Víctor Rocamora"
 h1: "Política de privacidad"
 intro: "Qué datos trato, para qué, durante cuánto tiempo y qué derechos tienes."
 description: "Política de privacidad de victorrocamora.com conforme al RGPD y la LOPDGDD: formulario de contacto, correo, analítica sin cookies y proveedores."
-updated: 2026-10-07
+updated: 2026-10-08
 ---
 {%- set turnstile = site.turnstileSiteKey | isSet %}
 <h2>1. Responsable del tratamiento</h2>
@@ -45,13 +45,13 @@ updated: 2026-10-07
   <li><strong>Web3Forms:</strong> recibe el contenido del cuestionario y me lo reenvía por correo. <span class="placeholder">[VERIFICAR: ubicación de los servidores de Web3Forms y garantías de transferencia]</span></li>
   <li><strong>Proveedor de correo electrónico:</strong> <span class="placeholder">[PROVEEDOR DEL CORREO victor@victorrocamora.com]</span>, donde recibo y guardo los mensajes.</li>
   <li><strong>GitHub (GitHub, Inc., EE. UU.):</strong> aloja la web mediante GitHub Pages y, como cualquier servidor, registra datos técnicos de las conexiones (como la dirección IP) por motivos de seguridad.</li>
-  <li><strong>Umami (Umami Software, Inc.):</strong> estadísticas de visitas sin cookies y sin guardar la dirección IP. <span class="placeholder">[VERIFICAR: región de datos elegida en Umami Cloud (UE si está disponible)]</span></li>
-  <li><strong>jsDelivr:</strong> red de distribución que sirve la librería Three.js del logo 3D de la portada. Al descargarla, tu navegador le comunica tu dirección IP.</li>
+  <li><strong>Umami (Umami Software, Inc.):</strong> estadísticas de visitas sin cookies y sin guardar la dirección IP. Los datos se alojan en servidores de {{ site.umami.region | ph | safe }}.</li>
   {%- if turnstile %}
   <li><strong>Cloudflare, Inc. (Turnstile):</strong> verificación anti-spam del formulario. Puede usar cookies técnicas de seguridad; ver la <a href="/cookies/">política de cookies</a>.</li>
   {%- endif %}
 </ul>
 <p>Algunos de estos proveedores están en Estados Unidos. Las transferencias se amparan en el Marco de Privacidad de Datos UE-EE. UU. cuando el proveedor está adherido o, en su defecto, en las cláusulas contractuales tipo aprobadas por la Comisión Europea.</p>
+<p>Las fuentes tipográficas y las librerías de la web (incluida Three.js, que dibuja el logo 3D de la portada) se sirven desde este mismo dominio, sin conexiones a redes de distribución de terceros.</p>
 <p>Fuera de estos casos, solo comunicaré datos cuando lo exija una obligación legal (por ejemplo, a la Agencia Tributaria).</p>
 
 <h2>5. Enlaces de afiliado</h2>
