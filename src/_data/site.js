@@ -51,7 +51,8 @@ export default {
     // Región de datos de la cuenta, tal como aparece en la política de privacidad: "la Unión Europea" o "Estados Unidos"
     region: "[REGIÓN DE DATOS DE UMAMI]",
   },
-  // Search Console: solo el valor de content="..." de la etiqueta HTML de verificación
+  // Search Console se verifica por DNS (TXT en Nominalia). Esto es solo alternativa: el valor de content="..."
+  // de la etiqueta HTML de verificación. Con marcador, no se inserta nada.
   googleSiteVerification: "[GOOGLE_SITE_VERIFICATION]",
   googleReviewsUrl: "[ENLACE_RESEÑAS_GOOGLE]",
 

@@ -1121,6 +1121,9 @@
 .quiz__trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .quiz__progress { margin-bottom: 1.75rem; }
 .quiz__progress[hidden] { display: none; }
+/* Con JS, contact.js muestra la barra al arrancar: se reserva su hueco desde el principio para que el
+   primer paso no salte hacia abajo (CLS) */
+.js .quiz__progress[hidden] { display: block; visibility: hidden; }
 .quiz__bar { height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; }
 .quiz__bar span {
   display: block;

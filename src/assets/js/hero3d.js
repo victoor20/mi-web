@@ -29,7 +29,9 @@ export async function initHero3D(stage, threeUrl) {
   const THREE = await import(threeUrl);
 
   const coarse = window.matchMedia("(pointer: coarse)").matches;
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+  // failIfMajorPerformanceCaveat: sin aceleración por GPU (WebGL por software) no se crea el contexto
+  // y se queda el logo estático; a pocos fps el 3D bloquearía el scroll y los toques.
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance", failIfMajorPerformanceCaveat: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarse ? 1.5 : 1.75));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.setClearColor(0x000000, 0);
