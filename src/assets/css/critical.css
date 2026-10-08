@@ -17,13 +17,74 @@
   font-style: normal;
   font-display: swap;
 }
-/* Fallback con métricas ajustadas para minimizar el salto al cargar Archivo (CLS) */
+/* Fuentes de reserva con métricas ajustadas a Archivo, para que el texto no cambie de ancho ni de alto
+   al llegar la fuente web (CLS). Una cara regular (pesos < 580) y otra negrita por cada fuente del sistema:
+   Arial/Liberation Sans (Windows, macOS, Linux), Roboto (Android) y DejaVu Sans (Linux sin Liberation).
+   size-adjust = ancho de Archivo / ancho de la reserva, medido con el texto real de la web (Archivo 400
+   frente a la regular, 680 frente a la negrita); ascent/descent = métricas de Archivo (0,878 / 0,210) / size-adjust. */
 @font-face {
   font-family: "Archivo Fallback";
-  src: local("Arial");
-  size-adjust: 101%;
-  ascent-override: 90%;
-  descent-override: 22%;
+  src: local("Arial"), local("ArialMT"), local("Liberation Sans"), local("LiberationSans"), local("Arimo");
+  font-weight: 100 579;
+  size-adjust: 98.31%;
+  ascent-override: 89.31%;
+  descent-override: 21.36%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Archivo Fallback";
+  src: local("Arial Bold"), local("Arial-BoldMT"), local("Liberation Sans Bold"), local("LiberationSans-Bold"), local("Arimo Bold"), local("Arimo-Bold");
+  font-weight: 580 900;
+  size-adjust: 97.54%;
+  ascent-override: 90.01%;
+  descent-override: 21.53%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Archivo Fallback Roboto";
+  src: local("Roboto"), local("Roboto Regular"), local("Roboto-Regular");
+  font-weight: 100 579;
+  size-adjust: 99.09%;
+  ascent-override: 88.61%;
+  descent-override: 21.19%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Archivo Fallback Roboto";
+  src: local("Roboto Bold"), local("Roboto-Bold");
+  font-weight: 580 900;
+  size-adjust: 104.07%;
+  ascent-override: 84.37%;
+  descent-override: 20.18%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Archivo Fallback DejaVu";
+  src: local("DejaVu Sans"), local("DejaVuSans");
+  font-weight: 100 579;
+  size-adjust: 87.33%;
+  ascent-override: 100.54%;
+  descent-override: 24.05%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Archivo Fallback DejaVu";
+  src: local("DejaVu Sans Bold"), local("DejaVuSans-Bold");
+  font-weight: 580 900;
+  size-adjust: 82.44%;
+  ascent-override: 106.50%;
+  descent-override: 25.47%;
+  line-gap-override: 0%;
+}
+/* JetBrains Mono (ascent 1,020 / descent 0,300). Consolas es más estrecha (0,55 em por carácter);
+   DejaVu Sans Mono, Menlo, Droid Sans Mono y Courier New ya miden 0,6 em como JetBrains Mono. */
+@font-face {
+  font-family: "JetBrains Mono Fallback";
+  src: local("Consolas");
+  font-weight: 400;
+  size-adjust: 109.13%;
+  ascent-override: 93.47%;
+  descent-override: 27.49%;
   line-gap-override: 0%;
 }
 
@@ -52,8 +113,8 @@
   --accent: var(--vr-azure);
   --focus: var(--vr-cyan);
 
-  --font-sans: "Archivo", "Archivo Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+  --font-sans: "Archivo", "Archivo Fallback", "Archivo Fallback Roboto", "Archivo Fallback DejaVu", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "JetBrains Mono Fallback", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
   --gutter: clamp(16px, 4vw, 40px);
   --maxw: 1240px;
