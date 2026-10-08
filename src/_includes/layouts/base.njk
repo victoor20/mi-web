@@ -40,7 +40,7 @@
   <link rel="preload" href="/assets/fonts/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/jetbrains-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.replace('no-js', 'js');</script>
-  <style>{{ "src/assets/css/critical.css" | inlineFile | safe }}</style>
+  <style>{{ "src/assets/css/critical.css" | inlineFile | safe }}{% if criticalSections %}{{ criticalSections | cssSections | safe }}{% endif %}</style>
   <link rel="preload" href="/assets/css/site.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="/assets/css/site.css"></noscript>
   {%- if schema and schemaData[schema] %}

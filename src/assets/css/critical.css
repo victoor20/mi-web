@@ -466,6 +466,29 @@ main:focus { outline: none; }
   .doors { grid-template-columns: 1fr; }
 }
 
+/* ---------- Componentes comunes de sección (en la primera pantalla de casi todas las páginas) ---------- */
+.section { padding-block: clamp(3.5rem, 8vw, 7rem); }
+.section-title {
+  font-size: clamp(1.8rem, 1.1rem + 2.6vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 720;
+  max-width: 22ch;
+  text-wrap: balance;
+}
+.lead-text { color: var(--text-2); max-width: 40rem; margin-top: 1rem; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+.text-link { color: var(--vr-cyan); text-underline-offset: 3px; }
+.placeholder {
+  display: inline-block;
+  padding: 0.05rem 0.4rem;
+  border: 1px dashed var(--vr-cyan);
+  border-radius: 3px;
+  color: var(--vr-cyan);
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
 /* ---------- Cabecera de páginas interiores ---------- */
 .page-hero {
   position: relative;

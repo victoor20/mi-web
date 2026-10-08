@@ -515,29 +515,8 @@
    Componentes
    ========================================================================== */
 
-.section { padding-block: clamp(3.5rem, 8vw, 7rem); }
-.section-title {
-  font-size: clamp(1.8rem, 1.1rem + 2.6vw, 3rem);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  font-weight: 720;
-  max-width: 22ch;
-  text-wrap: balance;
-}
-.lead-text { color: var(--text-2); max-width: 40rem; margin-top: 1rem; }
-.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
-.text-link { color: var(--vr-cyan); text-underline-offset: 3px; }
-.placeholder {
-  display: inline-block;
-  padding: 0.05rem 0.4rem;
-  border: 1px dashed var(--vr-cyan);
-  border-radius: 3px;
-  color: var(--vr-cyan);
-  font-family: var(--font-mono);
-  font-size: 0.85em;
-}
 
-/* Prosa (artículos y páginas legales) */
+/* ---------- Prosa (artículos y páginas legales) ---------- */
 .prose { max-width: 44rem; font-size: 1.06rem; line-height: 1.72; color: var(--text-2); }
 .prose > * + * { margin-top: 1.1em; }
 .prose h2 {
@@ -564,7 +543,7 @@
   color: var(--text);
 }
 
-/* Tarjeta de producto */
+/* ---------- Tarjeta de producto ---------- */
 .product {
   display: grid;
   grid-template-columns: 5.5rem minmax(0, 1fr);
@@ -603,7 +582,7 @@
 .product__note { margin-top: 0.6rem !important; font-size: 0.78rem; color: var(--text-3); }
 @media (max-width: 560px) { .product { grid-template-columns: 1fr; } .product__glyph { width: 4.5rem; } }
 
-/* Aviso de afiliación */
+/* ---------- Aviso de afiliación ---------- */
 .disclosure {
   padding: 1.1rem 1.25rem;
   border: 1px solid var(--line);
@@ -616,7 +595,7 @@
 .disclosure__title { color: var(--text-3); font-size: 0.66rem; }
 .disclosure a { color: var(--vr-cyan); text-underline-offset: 3px; }
 
-/* Reseñas */
+/* ---------- Reseñas ---------- */
 .reviews__inner {
   display: grid;
   gap: 0.75rem;
@@ -629,7 +608,7 @@
 .reviews__title { font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem); font-weight: 680; letter-spacing: -0.02em; }
 .reviews p { color: var(--text-2); }
 
-/* Preguntas frecuentes */
+/* ---------- Preguntas frecuentes ---------- */
 .faq { border-top: 1px solid var(--line-strong); }
 .faq details { border-bottom: 1px solid var(--line); }
 .faq summary {

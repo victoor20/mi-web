@@ -77,6 +77,18 @@ export default function (eleventyConfig) {
 
   // El CSS crítico se inyecta inline en <head>; el resto se carga sin bloquear
   eleventyConfig.addFilter("inlineFile", (path) => readFileSync(path, "utf8"));
+  // CSS de la primera pantalla de cada página: extrae de site.css las secciones "/* ---------- Nombre ---------- */"
+  // indicadas en "criticalSections" y se insertan inline. Así no saltan al llegar site.css (CLS) y no se duplican a mano.
+  eleventyConfig.addFilter("cssSections", (names) => {
+    const css = readFileSync("src/assets/css/site.css", "utf8");
+    return [].concat(names).map((name) => {
+      const header = `/* ---------- ${name} ---------- */`;
+      const start = css.indexOf(header);
+      if (start < 0) throw new Error(`criticalSections: no existe la sección "${name}" en site.css`);
+      const next = css.slice(start + header.length).search(/\/\* (-{10}|={10})/);
+      return css.slice(start, next < 0 ? undefined : start + header.length + next);
+    }).join("\n");
+  });
   eleventyConfig.addFilter("absoluteUrl", (path, base) => new URL(path, base).href);
   eleventyConfig.addFilter("dateIso", (date) => new Date(date).toISOString().slice(0, 10));
   eleventyConfig.addFilter("dateEs", (date) =>
