@@ -163,32 +163,24 @@ const whenIdle = (fn) => {
   else window.addEventListener("load", go, { once: true });
 };
 
-/* ---------- Campo de destellos ambiental ---------- */
-if (isCapable()) {
-  whenIdle(() => import("/assets/js/ambient.js").then((m) => m.initAmbient()).catch(() => {}));
-}
-
 /* ---------- Hero 3D: carga diferida y solo en equipos capaces ---------- */
+// Sin contexto de prueba: si WebGL2 falla, WebGLRenderer lanza un error antes de tocar el DOM
+// y se queda la imagen estática. Así solo se crea un contexto WebGL.
 const stage = document.querySelector("[data-hero-stage]");
-
-function canRun3D() {
-  if (!isCapable()) return false;
-  try {
-    const gl = document.createElement("canvas").getContext("webgl2");
-    if (!gl) return false;
-    gl.getExtension("WEBGL_lose_context")?.loseContext();
-  } catch {
-    return false;
-  }
-  return true;
-}
-
-// La prueba de WebGL2 crea un contexto y puede costar cientos de ms: también se hace en reposo
-if (stage && isCapable()) {
-  whenIdle(() => {
-    if (!canRun3D()) return;
+let hero3d = Promise.resolve();
+if (stage && isCapable() && "WebGL2RenderingContext" in window) {
+  hero3d = new Promise((resolve) => whenIdle(() => {
     import("/assets/js/hero3d.js")
       .then((m) => m.initHero3D(stage, stage.dataset.three))
-      .catch((err) => console.warn("Hero 3D desactivado:", err));
-  });
+      .catch((err) => console.warn("Hero 3D desactivado:", err))
+      .finally(resolve);
+  }));
+}
+
+/* ---------- Campo de destellos ambiental ---------- */
+// En pantallas táctiles arranca cuando el 3D ya está montado, para que no compitan por la CPU
+if (isCapable()) {
+  const startAmbient = () => whenIdle(() => import("/assets/js/ambient.js").then((m) => m.initAmbient()).catch(() => {}));
+  if (window.matchMedia("(pointer: coarse)").matches) hero3d.then(startAmbient);
+  else startAmbient();
 }

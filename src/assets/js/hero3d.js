@@ -22,6 +22,9 @@ const FACETS = [
 const LOGO_W = 11; // ancho aproximado del logo en unidades de escena
 const LOGO_H = 8.25;
 
+// Cede el hilo principal entre fases del arranque para no encadenar una tarea larga
+const yieldToMain = () => new Promise((resolve) => setTimeout(resolve, 0));
+
 export async function initHero3D(stage, threeUrl) {
   const THREE = await import(threeUrl);
 
@@ -31,6 +34,7 @@ export async function initHero3D(stage, threeUrl) {
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.setClearColor(0x000000, 0);
   stage.appendChild(renderer.domElement);
+  await yieldToMain();
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(26, 1, 0.1, 200);
@@ -86,6 +90,8 @@ export async function initHero3D(stage, threeUrl) {
       delay: i * 0.06,
     };
   });
+
+  await yieldToMain();
 
   /* ---------- Partículas: superficie del logo + polvo ambiental ---------- */
   const surfaceCount = coarse ? 900 : 1800;
@@ -173,6 +179,8 @@ export async function initHero3D(stage, threeUrl) {
   points.frustumCulled = false;
   logo.add(points);
 
+  await yieldToMain();
+
   /* ---------- Tamaño ---------- */
   let baseDistance = 40;
   let shown = false;
@@ -220,13 +228,14 @@ export async function initHero3D(stage, threeUrl) {
   new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; schedule(); }).observe(stage);
   document.addEventListener("visibilitychange", schedule);
 
-  const t0 = performance.now();
+  let t0 = performance.now();
   let prev = t0;
+  let ready = false; // hasta que los shaders estén compilados no se pinta nada
   const INTRO = 1.9;
   let frame = 0;
 
   function schedule() {
-    const should = visible && !document.hidden;
+    const should = ready && visible && !document.hidden;
     if (should && !running) { running = true; prev = performance.now(); raf = requestAnimationFrame(tick); }
     if (!should && running) { running = false; cancelAnimationFrame(raf); }
   }
@@ -290,6 +299,10 @@ export async function initHero3D(stage, threeUrl) {
   });
 
   resize();
+  // Compila los shaders sin bloquear (KHR_parallel_shader_compile si existe) y arranca la entrada desde cero
+  await renderer.compileAsync(scene, camera);
+  ready = true;
+  t0 = prev = performance.now();
   schedule();
 }
 
