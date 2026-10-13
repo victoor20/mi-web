@@ -17,6 +17,12 @@ const person = {
   knowsAbout: ["Reparación de ordenadores", "Sistemas informáticos", "Cloud", "Automatización", "Inteligencia artificial"],
 };
 
+// Modo portfolio: formación y reconocimientos
+if (!site.isCommercial) {
+  person.alumniOf = ["IES Severo Ochoa (Elche)", "IES Poeta Paco Mollá (Petrer)", "BIG school", "Universidad Isabel I"].map((name) => ({ "@type": "EducationalOrganization", name }));
+  person.award = "2.º puesto en la Final Nacional AWS JAM 2026 (Barcelona, 19 de junio de 2026), con el equipo S3-less";
+}
+
 // Negocio de área de servicio: sin dirección postal, con municipios en areaServed
 const business = {
   "@type": "ProfessionalService",

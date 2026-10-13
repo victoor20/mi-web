@@ -20,7 +20,7 @@ schema: "services"
     {%- else %}
     <p class="kicker mono">Mi trabajo</p>
     <h1 class="page-hero__title">Lo que sé hacer</h1>
-    <p class="page-hero__intro">Reparar, poner a punto y mejorar portátiles y sobremesa, recuperar datos, montar equipos y automatizar tareas sencillas. Así lo abordo: primero entender qué pasa y después decidir con calma.</p>
+    <p class="page-hero__intro">Reparar y mejorar portátiles y sobremesa, recuperar datos, montar equipos y automatizar tareas sencillas: esto es lo que he ido aprendiendo y resolviendo. Si tienes un problema con tu equipo, cuéntamelo.</p>
     {%- endif %}
     <div class="actions">
       <a class="btn btn--primary" href="/contacto/" data-magnetic>{{ site.cta.label }}</a>
@@ -33,7 +33,7 @@ schema: "services"
 <section class="finder section" id="que-le-pasa" aria-labelledby="finder-title">
   <div class="wrap">
     <h2 class="section-title" id="finder-title">¿Qué le pasa?</h2>
-    <p class="lead-text">Elige lo que más se parece a tu caso y verás qué reviso primero.</p>
+    <p class="lead-text">{{ "Elige lo que más se parece a tu caso y verás qué reviso primero." if site.isCommercial else "Una orientación rápida: elige lo que más se parece a tu caso y mira por dónde suelo empezar." }}</p>
 
     <div class="finder__box">
       <fieldset class="finder__options">
@@ -48,7 +48,7 @@ schema: "services"
 
       <div class="finder__panels">
         {%- for s in symptoms %}
-        {%- set svc = services | selectattr("slug", "equalto", s.service) | first %}
+        {%- set svc = services | bySlug(s.service) %}
         <article class="finder__panel" data-panel="{{ s.id }}" aria-live="polite">
           <h3 class="finder__panel-title">{{ s.label }}</h3>
           <div class="finder__cols">
@@ -70,7 +70,7 @@ schema: "services"
             {%- if not site.isCommercial and svc.guide %}
             <a class="text-link" href="{{ svc.guide }}">Leer la guía relacionada</a>
             {%- endif %}
-            <a class="btn btn--primary btn--sm" href="/contacto/?servicio={{ svc.slug }}">{{ "Pedir presupuesto para esto" if site.isCommercial else "Escríbeme sobre esto" }}</a>
+            <a class="btn btn--primary btn--sm" href="/contacto/?servicio={{ svc.slug }}">{{ "Pedir presupuesto para esto" if site.isCommercial else "Cuéntamelo" }}</a>
           </div>
         </article>
         {%- endfor %}
@@ -83,7 +83,7 @@ schema: "services"
 
 <section class="section" aria-labelledby="catalogo-title">
   <div class="wrap">
-    <h2 class="section-title" id="catalogo-title">{{ "Lo que hago, uno por uno" if site.isCommercial else "En detalle, uno por uno" }}</h2>
+    <h2 class="section-title" id="catalogo-title">{{ "Lo que hago, uno por uno" if site.isCommercial else "Lo que he hecho, tema a tema" }}</h2>
     <div class="spec-list">
       {%- for s in services %}
       <article class="spec" id="{{ s.slug }}" data-reveal>
@@ -91,6 +91,15 @@ schema: "services"
           <h3 class="spec__name">{{ s.name }}</h3>
           <p class="spec__short">{{ s.short }}</p>
         </header>
+        {%- if not site.isCommercial %}
+        <div class="spec__body spec__body--prose">
+          <div>
+            <p>{{ s.story }}</p>
+            {%- if s.guide %}<p><a class="text-link" href="{{ s.guide }}">Leer la guía relacionada</a></p>{% endif %}
+            {%- if s.group == "automatizacion" %}<p><a class="text-link" href="/ia/">Lo que estoy aprendiendo en IA</a></p>{% endif %}
+          </div>
+        </div>
+        {%- else %}
         <div class="spec__body">
           <div>
             <p class="finder__label mono">Para qué</p>
@@ -109,6 +118,7 @@ schema: "services"
             {%- if s.group == "automatizacion" %}<p><a class="text-link" href="/ia/">Lo que estoy aprendiendo en IA</a></p>{% endif %}
           </div>
         </div>
+        {%- endif %}
       </article>
       {%- endfor %}
     </div>
@@ -123,7 +133,7 @@ schema: "services"
       <p class="lead-text">Sin sorpresas: sabes qué se va a hacer y cuánto cuesta antes de que empiece.</p>
       {%- else %}
       <h2 class="section-title" id="como-title">Cómo abordo un problema</h2>
-      <p class="lead-text">Sin sorpresas: primero entender qué pasa, después decidir con calma.</p>
+      <p class="lead-text">Mi forma de afrontar un fallo, sin prisas y sin dar por hecho nada.</p>
       {%- endif %}
     </div>
     <dl class="how__sheet">
@@ -133,10 +143,10 @@ schema: "services"
       <div><dt class="mono">Horario</dt><dd>{{ site.area.hours | ph | safe }}</dd></div>
       <div><dt class="mono">Presupuesto</dt><dd>Sin compromiso, después del diagnóstico</dd></div>
       {%- else %}
-      <div><dt class="mono">Primero</dt><dd>Diagnóstico: entender la causa antes de tocar nada</dd></div>
-      <div><dt class="mono">Después</dt><dd>Opciones claras, incluida la de no gastar</dd></div>
+      <div><dt class="mono">Primero</dt><dd>Entender la causa antes de cambiar piezas</dd></div>
+      <div><dt class="mono">Después</dt><dd>Elegir la salida más sensata, aunque sea dejarlo como está</dd></div>
       {%- endif %}
-      <div><dt class="mono">Entrega</dt><dd>Con informe por escrito de lo que se ha hecho</dd></div>
+      <div><dt class="mono">{{ "Entrega" if site.isCommercial else "Al terminar" }}</dt><dd>{{ "Con informe por escrito de lo que se ha hecho" if site.isCommercial else "Un resumen de cómo estaba y qué se hizo" }}</dd></div>
       <div><dt class="mono">Contacto</dt><dd><a class="text-link" href="/contacto/">Cuestionario</a> o <a class="text-link" href="mailto:{{ site.email }}">{{ site.email }}</a></dd></div>
     </dl>
   </div>
@@ -154,7 +164,7 @@ schema: "services"
         <div><p>Depende de lo que tenga. Por eso primero hago el diagnóstico y después te paso un presupuesto cerrado, sin compromiso. Si no compensa reparar, te lo digo.</p></div>
         {%- else %}
         <summary>¿Por dónde empiezas ante un fallo?</summary>
-        <div><p>Por entender qué pasa: reviso primero lo más sencillo y probable, y no cambio piezas hasta tener claro cuál falla. Si no compensa reparar, lo digo.</p></div>
+        <div><p>Por lo más sencillo y probable. Voy descartando causas una a una y solo cambio una pieza cuando sé cuál es la culpable.</p></div>
         {%- endif %}
       </details>
       <details>
@@ -167,7 +177,11 @@ schema: "services"
       </details>
       <details>
         <summary>¿Merece la pena arreglar un portátil antiguo?</summary>
+        {%- if site.isCommercial %}
         <div><p>A menudo sí: un SSD y más memoria cambian por completo un equipo de varios años. Te explico qué mejora esperar y lo comparo con lo que costaría uno nuevo.</p></div>
+        {%- else %}
+        <div><p>A menudo sí: un SSD y más memoria cambian por completo un equipo de varios años. Aun así, depende del procesador y de lo que se le pida.</p></div>
+        {%- endif %}
       </details>
       {%- if site.isCommercial %}
       <details>
@@ -184,7 +198,7 @@ schema: "services"
     {%- if site.isCommercial %}
     <h2 class="closing__title" id="cierre-title">Cuéntame el problema. <span>Te respondo con los siguientes pasos.</span></h2>
     {%- else %}
-    <h2 class="closing__title" id="cierre-title">Si tienes un problema con tu equipo, escríbeme. <span>Te cuento qué haría.</span></h2>
+    <h2 class="closing__title" id="cierre-title">¿Algo no funciona en tu equipo? <span>Cuéntamelo y vemos qué se puede hacer.</span></h2>
     {%- endif %}
     <div class="closing__actions">
       <a class="btn btn--primary btn--lg" href="/contacto/" data-magnetic>{{ site.cta.label }}</a>

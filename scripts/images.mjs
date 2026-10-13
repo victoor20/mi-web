@@ -70,5 +70,32 @@ async function ogImage(file, lines) {
 await ogImage("og-default.png", ["Servicio técnico informático", "y laboratorio de IA"]);
 await ogImage("og-portfolio.png", ["Técnico de sistemas, guías tech", "y laboratorio de IA"]);
 
+// Fotos y capturas de la carpeta material/ (los originales no se suben al repositorio: está en .gitignore).
+// Cada una sale en AVIF, WebP y JPG a los anchos indicados. Si material/ no existe, se omite.
+import { existsSync } from "node:fs";
+const MATERIAL = "material";
+const photos = [
+  // [archivo, nombre de salida, recorte {left, top, width, height} o null, anchos]
+  ["Foto.png", "victor-retrato", { left: 50, top: 70, width: 860, height: 1075 }, [360, 720]],
+  ["Control Center Jarvis.png", "jarvis-control-center", null, [640, 1229]],
+  // Solo la respuesta de Jarvis: el mensaje inferior incluye rutas reales de la instalación
+  ["chat jarvis telegram.png", "jarvis-telegram", { left: 0, top: 0, width: 885, height: 470 }, [640, 885]],
+  ["JAM1.jpg", "aws-jam-equipo", null, [640, 1280]],
+  ["JAM2.jpg", "aws-jam-retos", null, [640, 1280]],
+  ["JAM3.jpg", "aws-jam-podio", null, [640, 1280]],
+];
+if (existsSync(MATERIAL)) {
+  for (const [file, name, crop, widths] of photos) {
+    const base = crop ? sharp(`${MATERIAL}/${file}`).extract(crop) : sharp(`${MATERIAL}/${file}`);
+    for (const width of widths) {
+      const img = base.clone().resize({ width });
+      await img.clone().avif({ quality: 55, effort: 6 }).toFile(`${OUT}/${name}-${width}.avif`);
+      await img.clone().webp({ quality: 78 }).toFile(`${OUT}/${name}-${width}.webp`);
+      const { info } = await img.clone().jpeg({ quality: 80, mozjpeg: true }).toFile(`${OUT}/${name}-${width}.jpg`).then((info) => ({ info }));
+      console.log(`${name}-${width}: ${info.width}x${info.height}`);
+    }
+  }
+}
+
 const meta = await sharp(SRC).metadata();
 console.log(`Imágenes generadas desde ${SRC} (${meta.width}x${meta.height}) en ${OUT}`);

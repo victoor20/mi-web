@@ -79,13 +79,13 @@ schema: "home"
           <p>Recibes un presupuesto sin compromiso con las opciones que tienen sentido, incluida la de no gastar si no compensa. Con tu visto bueno, me pongo a ello.</p>
           {%- else %}
           <h3>Propuesta y solución</h3>
-          <p>Planteo las opciones que tienen sentido, incluida la de no gastar si no compensa. Con el visto bueno, me pongo a ello.</p>
+          <p>Valoro las opciones razonables, también la de no gastar si arreglarlo no compensa, y me quedo con la más sensata.</p>
           {%- endif %}
         </li>
         <li class="method__step" data-step="3">
           <span class="method__num mono">03</span>
           <h3>Informe del trabajo</h3>
-          <p>Al entregar, te llevas un informe con lo que tenía, lo que se ha hecho y lo que te recomiendo a partir de ahora.</p>
+          <p>{{ "Al entregar, te llevas un informe con lo que tenía, lo que se ha hecho y lo que te recomiendo a partir de ahora." if site.isCommercial else "Cada trabajo termina con un informe: cómo estaba el equipo, qué se hizo y qué conviene hacer a partir de ahí." }}</p>
         </li>
       </ol>
 
@@ -131,7 +131,7 @@ schema: "home"
       {%- if site.isCommercial %}
       <p>Atiendo yo mismo cada encargo, de principio a fin, en {{ site.area.label }}: la persona que te da el presupuesto es la misma que trabaja en tu equipo y la que te explica el resultado.</p>
       {%- else %}
-      <p>Si tienes un problema con tu equipo, escríbeme y te cuento qué haría. Cada caso lo resuelvo yo mismo, de principio a fin, y lo dejo explicado por escrito.</p>
+      <p>Si tienes un problema con tu equipo, cuéntamelo: me gusta echar una mano cuando puedo, y aquí tienes por dónde suelo empezar.</p>
       {%- endif %}
       <div class="services-home__actions">
         <a class="btn btn--primary" href="/contacto/" data-magnetic>{{ site.cta.label }}</a>
@@ -173,7 +173,7 @@ schema: "home"
 <section class="guides-home" id="guias" aria-labelledby="guias-title">
   <div class="wrap">
     <header class="guides-home__head">
-      <h2 class="guides-home__title" id="guias-title">Antes de comprar, pregunta a quien lo repara.</h2>
+      <h2 class="guides-home__title" id="guias-title">{{ "Antes de comprar, pregunta a quien lo repara." if site.isCommercial else "Lo que aprendo reparando, para comprar mejor." }}</h2>
       <p>Guías prácticas sobre portátiles, componentes y periféricos, escritas desde la experiencia de reparar, ampliar y montar equipos.</p>
     </header>
 

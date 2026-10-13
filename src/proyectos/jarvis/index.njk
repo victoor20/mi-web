@@ -7,6 +7,7 @@ criticalSections: ["Jarvis: holograma"]
 ogType: "article"
 schema: "person"
 ---
+{%- from "macros.njk" import picture -%}
 <header class="page-hero jarvis-hero">
   <div class="wrap">
     <p class="kicker mono"><a href="/ia/">Laboratorio</a> · Proyecto</p>
@@ -84,7 +85,9 @@ schema: "person"
       <h2 class="case__title">Estado actual</h2>
       <p>Funciona a diario como asistente técnico y de desarrollo, memoria de proyectos, apoyo editorial para LinkedIn, radar de ofertas y oportunidades y redactor de correos con confirmación.</p>
       <p>La siguiente etapa: pasar de reaccionar a vigilar, detectar y proponer, siempre con la decisión final en mis manos.</p>
+      {%- if site.isCommercial %}
       <p><span class="placeholder">[CAPTURAS DE JARVIS]</span></p>
+      {%- endif %}
     </article>
     <article class="case__block">
       <h2 class="case__title">Lo que no se publica</h2>
@@ -93,3 +96,22 @@ schema: "person"
     </article>
   </div>
 </section>
+{%- if not site.isCommercial %}
+
+<section class="section shots" aria-labelledby="shots-title">
+  <div class="wrap">
+    <h2 class="section-title" id="shots-title">Cómo se ve por dentro</h2>
+    <p class="lead-text">Dos capturas reales: el panel donde superviso a Jarvis y una de sus respuestas por Telegram, cuando prepara un plan y espera mi aprobación.</p>
+    <div class="shots__grid">
+      <figure class="shots__item">
+        {{ picture("jarvis-control-center", [640, 1229], 1229, 860, "Panel Jarvis Control Center: una casa en pixel art con habitaciones para terminal, biblioteca de skills, seguridad, avisos, comunicaciones, servidor y sala central, donde patrulla el robot Jarvis", "(min-width: 960px) 640px, 92vw") }}
+        <figcaption>Control Center: el estado de Jarvis como una base con habitaciones.</figcaption>
+      </figure>
+      <figure class="shots__item">
+        {{ picture("jarvis-telegram", [640, 885], 885, 470, "Respuesta de Jarvis por Telegram: resume que una simulación no muestra migraciones destructivas ni capacidades nuevas y recomienda seguir por la vía manual, con verificación posterior", "(min-width: 960px) 520px, 92vw") }}
+        <figcaption>Telegram: Jarvis revisa un plan de actualización y propone el siguiente paso.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+{%- endif %}

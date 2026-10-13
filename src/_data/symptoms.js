@@ -1,7 +1,7 @@
 // Buscador por síntoma de /servicios/: qué reviso primero y qué servicio suele encajar.
 import site from "./site.js";
 
-export default [
+const symptoms = [
   {
     id: "no-arranca",
     label: "No enciende o no arranca",
@@ -67,3 +67,6 @@ export default [
     service: "automatizacion",
   },
 ];
+
+// En modo portfolio no hay síntoma de negocio (el tema de pequeño local no se presenta)
+export default site.isCommercial ? symptoms : symptoms.filter((s) => s.id !== "negocio");

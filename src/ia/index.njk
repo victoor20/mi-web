@@ -55,6 +55,14 @@ pipelinesPortfolio:
       - { name: "Proceso", text: "Reglas sencillas preparan el mensaje. Aquí no hace falta IA." }
       - { name: "Control humano", text: "Apruebas el borrador antes de que salga." }
       - { name: "Resultado", text: "El recordatorio llega a tiempo." }
+logPortfolio:
+  - { title: "Jarvis, agente personal", status: "En funcionamiento", live: true, text: "Agente 24/7 con memoria, herramientas controladas y aprobación humana para cualquier acción externa.", url: "/proyectos/jarvis/" }
+  - { title: "Agentes con herramientas", status: "Aplicado en Jarvis", text: "Cómo dar a un modelo herramientas útiles sin perder el control de lo que hace." }
+  - { title: "Modelos de lenguaje y prompting", status: "Aprendiendo", text: "Instrucciones, contexto, salidas estructuradas y cómo evaluar si una respuesta es fiable." }
+  - { title: "RAG sobre documentos propios", status: "Aprendiendo", text: "Recuperar información de documentos y citar la fuente para poder comprobarla." }
+  - { title: "APIs con Python y FastAPI", status: "Aprendiendo", text: "Servicios pequeños que conectan herramientas y exponen automatizaciones." }
+  - { title: "Cloud en AWS", status: "Especialización y práctica", text: "Curso de especialización en Administración Cloud y más de 40 laboratorios de AWS Skill Builder: serverless, DynamoDB, EKS, Lambda, CloudFormation, CloudFront y seguridad. La mejor prueba de campo fue el 2.º puesto en la Final Nacional AWS JAM 2026." }
+  - { title: "Máster en IA y AI Engineering por mi cuenta", status: "En curso", text: "El máster de BIG school (con el Diploma de Experto Universitario en IA de la Universidad Isabel I) y el estudio autodidacta se juntan en proyectos propios. La hoja de ruta completa llegará a esta bitácora." }
 log:
   - { title: "Jarvis, agente personal", status: "En funcionamiento", live: true, text: "Agente 24/7 con memoria, herramientas controladas y aprobación humana para cualquier acción externa.", url: "/proyectos/jarvis/" }
   - { title: "Agentes con herramientas", status: "Aplicado en Jarvis", text: "Cómo dar a un modelo herramientas útiles sin perder el control de lo que hace." }
@@ -63,8 +71,9 @@ log:
   - { title: "APIs con Python y FastAPI", status: "Aprendiendo", text: "Servicios pequeños que conectan herramientas y exponen automatizaciones." }
   - { title: "Cloud en AWS", status: "Formación en curso", text: "Redes, despliegue y seguridad básica para que lo construido pueda vivir fuera de mi equipo." }
 ---
-{% from "macros.njk" import facetDivider %}
+{% from "macros.njk" import facetDivider, jamMilestone %}
 {%- set pipes = pipelines if site.isCommercial else pipelinesPortfolio %}
+{%- set entries = log if site.isCommercial else logPortfolio %}
 <header class="page-hero lab-hero">
   <div class="wrap">
     <p class="kicker mono">Laboratorio</p>
@@ -72,6 +81,10 @@ log:
     <p class="page-hero__intro">Aquí documento lo que aprendo de AI Engineering y los proyectos en los que lo pongo a prueba. Estoy en plena formación: no me presento como experto, sino como técnico de sistemas que aprende construyendo y comprueba que las cosas funcionen de verdad.</p>
   </div>
 </header>
+{%- if not site.isCommercial %}
+
+{{ jamMilestone("compact") }}
+{%- endif %}
 
 {#- Pieza interactiva: anatomía de una automatización -#}
 <section class="section anatomy" aria-labelledby="anatomy-title" data-module="pipeline">
@@ -111,7 +124,7 @@ log:
       <p class="lead-text">En qué estoy trabajando y en qué punto está cada cosa, contado tal cual.</p>
     </div>
     <ol class="log">
-      {%- for e in log %}
+      {%- for e in entries %}
       <li class="log__entry{% if e.live %} log__entry--live{% endif %}" data-reveal>
         <span class="log__status mono">{{ e.status }}</span>
         <h3 class="log__title">{% if e.url %}<a href="{{ e.url }}">{{ e.title }} →</a>{% else %}{{ e.title }}{% endif %}</h3>
@@ -154,7 +167,11 @@ log:
     <article class="offer__card">
       <p class="kicker mono">Para equipos y empresas</p>
       <h2 class="offer__title">Un perfil en formación con base sólida</h2>
+      {%- if site.isCommercial %}
       <p>Vengo de sistemas, cloud y soporte técnico, y estoy orientando mi carrera hacia AI Engineering. Si buscas a alguien con criterio técnico y ganas de aprender en proyectos reales, hablemos.</p>
+      {%- else %}
+      <p>Soy técnico de sistemas, con ASIR, especialización en cloud sobre AWS y máster en IA, y estoy orientando mi carrera hacia AI Engineering. Si buscas a alguien con criterio técnico y ganas de aprender en proyectos reales, hablemos.</p>
+      {%- endif %}
       <p class="offer__links"><a class="text-link" href="{{ site.linkedin }}" rel="me noopener" target="_blank">LinkedIn ↗</a> <a class="text-link" href="/sobre-mi/">Trayectoria</a> <a class="text-link" href="mailto:{{ site.email }}">{{ site.email }}</a></p>
     </article>
   </div>

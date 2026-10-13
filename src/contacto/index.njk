@@ -50,6 +50,12 @@ hideMobileCta: true
             <span class="choice__body"><strong>{{ s.name }}</strong><small>{{ s.short }}</small></span>
           </label>
           {%- endfor %}
+          {%- if not site.isCommercial %}
+          <label class="choice">
+            <input type="radio" name="servicio" value="Un proyecto o una oportunidad profesional" data-slug="oportunidad" required>
+            <span class="choice__body"><strong>Un proyecto o una oportunidad profesional</strong><small>Para empresas, equipos y quien busque perfiles técnicos.</small></span>
+          </label>
+          {%- endif %}
           <label class="choice">
             <input type="radio" name="servicio" value="Otra cosa" data-slug="otro" required>
             <span class="choice__body"><strong>Otra cosa</strong><small>Cuéntamelo en el siguiente paso.</small></span>

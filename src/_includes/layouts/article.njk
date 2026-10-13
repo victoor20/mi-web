@@ -7,7 +7,7 @@ criticalSections: ["Prosa (artículos y páginas legales)", "Guías: artículo"]
 {#- Plantilla de guía. Front matter: title, h1, description, category, need, published, updated,
     summary, service (slug de services.js), affiliate (true si hay enlaces de afiliado) -#}
 {% from "macros.njk" import affiliateDisclosure, facetDivider %}
-{%- set svc = services | selectattr("slug", "equalto", service) | first if service else null %}
+{%- set svc = services | bySlug(service) if service else null %}
 <article class="article" data-module="article">
   <header class="page-hero article-hero">
     <div class="wrap">

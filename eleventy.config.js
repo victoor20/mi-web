@@ -99,6 +99,8 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("ph", (value) =>
     isSet(value) ? value : `<span class="placeholder">${value}</span>`
   );
+  // Busca un elemento de una lista por su slug (selectattr de Nunjucks no admite comparar valores)
+  eleventyConfig.addFilter("bySlug", (list, slug) => (list || []).find((item) => item.slug === slug));
   eleventyConfig.addFilter("setOnly", (list) => (list || []).filter(isSet));
   eleventyConfig.addFilter("json", (value) => JSON.stringify(value));
   eleventyConfig.addFilter("pad2", (n) => String(n).padStart(2, "0"));
