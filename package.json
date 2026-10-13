@@ -2,7 +2,7 @@
   "name": "victorrocamora-web",
   "version": "2.0.0",
   "private": true,
-  "description": "Web personal de Víctor Rocamora: servicio técnico informático en Elche, AI Engineering y guías tech.",
+  "description": "Web personal de Víctor Rocamora: técnico de sistemas, AI Engineering y guías tech.",
   "type": "module",
   "scripts": {
     "start": "eleventy --serve --port=8080",
