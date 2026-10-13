@@ -84,6 +84,7 @@
   width: min(var(--maxw), 100% - var(--gutter) * 2);
   margin: 0 auto;
   height: 48px;
+  position: relative;
 }
 .facet-divider--cyan { --tone: var(--vr-cyan); }
 .facet-divider__line { height: 1px; background: var(--line-strong); margin-bottom: 8px; }
@@ -99,6 +100,19 @@
 .facet-divider__fill--b { opacity: 0.16; }
 .facet-divider__fill--c { fill: var(--vr-cyan); opacity: 0.22; }
 .facet-divider__spark { fill: var(--vr-cyan-hi); filter: drop-shadow(0 0 6px var(--vr-cyan)); }
+/* Destello que recorre la línea (lo mueve main.js solo mientras el separador está en pantalla) */
+.facet-divider__glint {
+  position: absolute; left: 0; top: 0;
+  width: 6px; height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--vr-cyan-hi);
+  box-shadow: 0 0 8px 2px var(--vr-cyan), 0 0 22px 6px rgb(0 208 248 / 0.35);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.facet-divider:not(.is-live) .facet-divider__spark { animation-play-state: paused; }
 
 @media (prefers-reduced-motion: no-preference) {
   .js .facet-divider[data-reveal] { opacity: 1; transform: none; }
@@ -825,24 +839,26 @@
   height: 1px;
   background: var(--line-strong);
 }
-/* Pulso que recorre las cuatro etapas */
+/* Pulso de luz que viaja de Disparador a Resultado recorriendo las cuatro tarjetas */
 .pipe__stages::after {
   content: "";
   position: absolute;
-  top: calc(2.1rem - 4px);
-  left: 4%;
-  width: 9px; height: 9px;
-  background: var(--vr-cyan-hi);
-  transform: rotate(45deg);
-  box-shadow: 0 0 14px var(--vr-cyan);
+  top: calc(2.1rem - 3px);
+  left: 0;
+  width: 84px; height: 6px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, transparent, var(--vr-cyan) 70%, #fff);
+  box-shadow: 0 0 18px 4px rgb(0 208 248 / 0.55);
   opacity: 0;
+  z-index: 2;
+  pointer-events: none;
 }
-.is-running .pipe__stages::after { animation: pipe-pulse 2.6s var(--ease-io) forwards; }
+.is-running .pipe__stages::after { animation: pipe-pulse 2.4s linear forwards; }
 @keyframes pipe-pulse {
-  0% { left: 4%; opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { left: 95%; opacity: 0; }
+  0% { left: 0; opacity: 0; }
+  6% { opacity: 1; }
+  94% { opacity: 1; }
+  100% { left: calc(100% - 84px); opacity: 0; }
 }
 .pipe__stage {
   position: relative;
@@ -854,11 +870,12 @@
   border-radius: var(--radius);
   background: var(--bg-2);
 }
-.is-running .pipe__stage { animation: stage-lit 2.6s var(--ease-out) both; animation-delay: calc(var(--i) * 0.6s); }
+/* Cada tarjeta se enciende cuando el pulso pasa por ella */
+.is-running .pipe__stage { animation: stage-lit 1.3s var(--ease-out) both; animation-delay: calc(var(--i) * 0.63s + 0.05s); }
 @keyframes stage-lit {
-  0% { border-color: var(--line-strong); }
-  20% { border-color: var(--vr-cyan); box-shadow: 0 0 0 4px rgb(0 208 248 / 0.12); }
-  100% { border-color: var(--line-strong); box-shadow: none; }
+  0% { border-color: var(--line-strong); background: var(--bg-2); }
+  14% { border-color: var(--vr-cyan); background: rgb(0 208 248 / 0.12); box-shadow: 0 0 0 4px rgb(0 208 248 / 0.14), 0 0 26px rgb(0 208 248 / 0.28); }
+  100% { border-color: var(--line-strong); background: var(--bg-2); box-shadow: none; }
 }
 .pipe__stage--gate { border-style: dashed; border-color: var(--vr-cyan); }
 .pipe__name { color: var(--vr-cyan); font-size: 0.66rem; }
@@ -867,7 +884,16 @@
 @media (max-width: 860px) {
   .pipe__stages { grid-template-columns: 1fr; }
   .pipe__stages::before { left: 1.1rem; right: auto; top: 0; bottom: 0; width: 1px; height: auto; }
-  .pipe__stages::after { display: none; }
+  /* En vertical el pulso baja por la línea de la izquierda */
+  .pipe__stages::after { top: 0; left: calc(1.1rem - 3px); width: 6px; height: 84px; background: linear-gradient(180deg, transparent, var(--vr-cyan) 70%, #fff); }
+  .is-running .pipe__stages::after { animation-name: pipe-pulse-v; }
+  .pipe__stage { animation-delay: 0s; }
+}
+@keyframes pipe-pulse-v {
+  0% { top: 0; opacity: 0; }
+  6% { opacity: 1; }
+  94% { opacity: 1; }
+  100% { top: calc(100% - 84px); opacity: 0; }
 }
 
 .log-wrap { display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); gap: clamp(2rem, 6vw, 5rem); align-items: start; }
@@ -1364,22 +1390,39 @@
 .lost { min-height: 100svh; display: grid; align-items: center; padding: calc(var(--header-h) + 2rem) 0 3rem; overflow: clip; }
 .lost__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
 .lost__fix { margin-top: 1.5rem; }
-.lost__fix[hidden] { display: none; }
-.lost__stage { --mx: 0; --my: 0; }
-.lost__svg { width: 78%; margin-inline: auto; height: auto; overflow: visible; filter: drop-shadow(0 20px 50px rgb(4 74 246 / 0.4)); }
+.lost__fix[hidden], .lost__hint[hidden], .lost__count[hidden], .lost__win[hidden] { display: none; }
+.lost__status { margin-top: 1rem; text-align: center; }
+.lost__hint { color: var(--text-3); font-size: 0.92rem; max-width: 32rem; margin-inline: auto; }
+.lost__count { margin-top: 0.6rem; color: var(--vr-cyan); font-size: 0.85rem; }
+.lost__win { margin: 0.6rem auto 0; max-width: 32rem; color: var(--text); font-weight: 600; }
+.lost__stage { user-select: none; -webkit-user-select: none; }
+.lost__svg { width: 78%; margin-inline: auto; height: auto; overflow: visible; display: block; filter: drop-shadow(0 20px 50px rgb(4 74 246 / 0.4)); }
+/* Cada hueco, con su contorno discontinuo, en el sitio que ocupa la pieza dentro del logo */
+.lost__hole {
+  fill: rgb(0 208 248 / 0.05);
+  stroke: var(--vr-cyan);
+  stroke-opacity: 0.6;
+  stroke-width: 3;
+  stroke-dasharray: 10 10;
+  pointer-events: none;
+  transition: opacity 0.5s, fill 0.2s, stroke-opacity 0.2s;
+}
+.lost__hole.is-near { fill: rgb(0 208 248 / 0.24); stroke-opacity: 1; }
+.lost__hole.is-filled { opacity: 0; }
 .lost__piece {
   transform-box: fill-box;
   transform-origin: center;
-  transform: translate(calc(var(--tx) + var(--mx) * var(--tx) * 0.4), calc(var(--ty) + var(--my) * var(--ty) * 0.4)) rotate(var(--r));
-  transition: transform 1.1s var(--ease-out);
-  transition-delay: calc(var(--i) * 40ms);
+  transform: translate(var(--tx), var(--ty)) rotate(var(--r));
+  transition: transform 0.5s var(--ease-out);
+  cursor: grab;
+  touch-action: none;
 }
-/* La pieza perdida queda como un hueco con contorno */
-.lost__piece--lost { fill: transparent; stroke: var(--vr-cyan); stroke-width: 3; stroke-dasharray: 10 10; }
-.is-fixed .lost__piece { transform: none; }
-.is-fixed .lost__piece--lost { fill: #1ca2f8; stroke: transparent; transition: transform 1.1s var(--ease-out), fill 0.6s 0.8s; }
+.lost__piece.is-dragging { transition: none; cursor: grabbing; filter: drop-shadow(0 8px 18px rgb(0 0 0 / 0.55)); }
+.lost__piece.is-placed { cursor: default; pointer-events: none; }
+.lost__piece:focus { outline: none; }
+.lost__spark { fill: var(--vr-cyan-hi); filter: drop-shadow(0 0 6px var(--vr-cyan)); pointer-events: none; }
 @media (prefers-reduced-motion: no-preference) {
-  .lost:not(.is-fixed) .lost__piece { animation: drift 7s ease-in-out infinite alternate; animation-delay: calc(var(--i) * -0.8s); }
+  .lost:not(.is-complete) .lost__piece:not(.is-dragging):not(.is-placed) { animation: drift 7s ease-in-out infinite alternate; animation-delay: calc(var(--i) * -0.8s); }
 }
 @keyframes drift {
   from { translate: 0 0; }
@@ -1387,7 +1430,8 @@
 }
 @media (max-width: 860px) {
   .lost__grid { grid-template-columns: 1fr; }
-  .lost__stage { order: -1; max-width: 360px; margin-inline: auto; padding: 2rem 3rem; }
+  .lost__play { order: -1; }
+  .lost__stage { max-width: 360px; margin-inline: auto; padding: 2rem 3rem 1rem; }
 }
 .reviews--page .reviews__inner { width: min(var(--maxw), 100% - var(--gutter) * 2); margin-inline: auto; }
 
@@ -1413,7 +1457,6 @@
 
 /* ---------- Portfolio: retrato, hito y capturas ---------- */
 .spec__body--prose { grid-template-columns: minmax(0, 62ch); }
-.portrait__frame img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .about-block--wide { grid-column: 1 / -1; }
 .milestone__card {
   display: grid;
@@ -1430,6 +1473,7 @@
 .milestone__title { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem); font-weight: 680; letter-spacing: -0.022em; line-height: 1.15; margin-bottom: 0.9rem; }
 .milestone__copy p { color: var(--text-2); }
 .milestone__copy p + p { margin-top: 0.75rem; }
+.milestone__links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
 .milestone__photos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
 .milestone__photo { margin: 0; overflow: hidden; border: 1px solid var(--line-strong); border-radius: var(--radius); }
 .milestone__photo img { display: block; width: 100%; height: auto; }
@@ -1442,36 +1486,160 @@
 @media (max-width: 760px) { .shots__grid { grid-template-columns: 1fr; } }
 
 /* ---------- Laboratorio: hoja de ruta ---------- */
-.roadmap__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: clamp(1.5rem, 4vw, 2.5rem); }
-.roadmap__step {
+.roadmap__now { margin-top: 1rem; color: var(--vr-cyan); font-size: 0.72rem; }
+.roadmap__path { --track-x: 14px; --track-pad: 3rem; position: relative; margin-top: clamp(1.5rem, 4vw, 2.5rem); }
+.roadmap__path .roadmap__list { position: relative; padding-left: var(--track-pad); }
+/* El camino: una línea que une las fases y se ilumina hasta el marcador */
+.roadmap__list::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--track-x) - 1px); top: 0; bottom: 0;
+  width: 2px;
+  background: repeating-linear-gradient(to bottom, var(--line-strong) 0 8px, transparent 8px 14px);
+}
+.roadmap__list::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--track-x) - 1px); top: var(--fill-top, 0);
+  width: 2px; height: var(--fill, 0);
+  background: linear-gradient(to bottom, var(--vr-electric), var(--vr-cyan));
+  box-shadow: 0 0 12px rgb(0 208 248 / 0.55);
+}
+.roadmap__step { position: relative; padding-bottom: 1rem; }
+.roadmap__node {
+  position: absolute;
+  left: calc(var(--track-x) - var(--track-pad) - 7px);
+  top: 1.55rem;
+  width: 14px; height: 14px;
+  background: var(--bg);
+  border: 1px solid var(--vr-azure);
+  transform: rotate(45deg);
+  z-index: 1;
+}
+.roadmap__step--en-curso .roadmap__node { background: var(--vr-cyan); border-color: var(--vr-cyan); box-shadow: 0 0 14px var(--vr-cyan); }
+.roadmap__step--completada .roadmap__node { background: var(--vr-azure); }
+.roadmap__step--permanente .roadmap__node { border-style: dashed; border-color: var(--vr-cyan); }
+.roadmap__head { margin: 0; }
+.roadmap__toggle {
   position: relative;
   display: grid;
-  gap: 0.6rem;
-  align-content: start;
-  padding: clamp(1.25rem, 3vw, 1.75rem);
-  border: 1px solid var(--line);
-  border-top: 2px solid var(--line-strong);
-  border-radius: var(--radius-lg);
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-areas: "num status chev" "title status chev" "summary summary summary";
+  align-items: center;
+  column-gap: 1rem;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  text-align: left;
+  color: var(--text);
   background: rgb(6 11 21 / 0.8);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: border-color 0.25s, background-color 0.25s;
 }
-.roadmap__num { color: var(--text-3); font-size: 0.66rem; }
-.roadmap__title { font-size: 1.2rem; font-weight: 650; letter-spacing: -0.015em; line-height: 1.2; }
-.roadmap__step p { color: var(--text-2); }
-.roadmap__step .finder__checks { margin-top: 0.25rem; }
+.roadmap__toggle:hover, .roadmap__toggle[aria-expanded="true"] { border-color: var(--vr-cyan); }
+.roadmap__toggle:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.roadmap__num { grid-area: num; color: var(--text-3); font-size: 0.66rem; }
+.roadmap__title { grid-area: title; font-size: 1.2rem; font-weight: 650; letter-spacing: -0.015em; line-height: 1.2; }
+.roadmap__summary { grid-area: summary; margin-top: 0.3rem; color: var(--text-2); font-size: 0.95rem; font-weight: 400; }
 .roadmap__status {
-  justify-self: start;
-  margin-top: 0.4rem;
+  grid-area: status;
   padding: 0.25rem 0.6rem;
   border: 1px solid var(--line-strong);
   color: var(--text-3);
   font-size: 0.66rem;
   clip-path: polygon(0 0, 100% 0, 100% 70%, calc(100% - 8px) 100%, 0 100%);
 }
-.roadmap__step--en-curso { border-top-color: var(--vr-cyan); box-shadow: 0 0 28px rgb(0 208 248 / 0.12); }
-.roadmap__step--en-curso .roadmap__num, .roadmap__step--en-curso .roadmap__status { color: var(--vr-cyan); border-color: var(--vr-cyan); }
-.roadmap__step--completada { border-top-color: var(--vr-azure); }
-.roadmap__step--completada .roadmap__status { color: var(--vr-azure); border-color: var(--vr-azure); }
-.roadmap__step--permanente { border-top-color: var(--vr-azure); background: linear-gradient(120deg, rgb(4 74 246 / 0.14), transparent 60%), rgb(6 11 21 / 0.85); }
-.roadmap__step--permanente .roadmap__status { color: var(--vr-azure); border-color: var(--vr-azure); }
-@media (max-width: 960px) { .roadmap__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 640px) { .roadmap__list { grid-template-columns: 1fr; } }
+.roadmap__step--en-curso .roadmap__status, .roadmap__step--en-curso .roadmap__num { color: var(--vr-cyan); }
+.roadmap__step--en-curso .roadmap__status { border-color: var(--vr-cyan); }
+.roadmap__step--completada .roadmap__status, .roadmap__step--permanente .roadmap__status { color: var(--vr-azure); border-color: var(--vr-azure); }
+.roadmap__chev { grid-area: chev; width: 9px; height: 9px; border-right: 2px solid var(--text-3); border-bottom: 2px solid var(--text-3); transform: rotate(45deg); transition: transform 0.3s var(--ease-out); }
+.roadmap__toggle[aria-expanded="true"] .roadmap__chev { transform: rotate(225deg); }
+/* Detalle desplegable: sin JavaScript queda siempre visible */
+.roadmap__panel { display: grid; grid-template-rows: 1fr; }
+.roadmap__panel-inner { overflow: hidden; min-height: 0; }
+.roadmap__detail { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; padding: 1.25rem 1.25rem 0.5rem; color: var(--text-2); font-size: 0.95rem; }
+.roadmap__label { display: block; margin-bottom: 0.5rem; color: var(--vr-cyan); font-size: 0.62rem; }
+.roadmap__detail li + li { margin-top: 0.4rem; }
+.roadmap__detail small { display: block; color: var(--text-3); font-size: 0.8rem; }
+.roadmap__path.is-ready .roadmap__panel { transition: grid-template-rows 0.4s var(--ease-out), visibility 0s linear 0.4s; }
+.roadmap__path.is-ready .roadmap__panel[inert] { grid-template-rows: 0fr; visibility: hidden; }
+.roadmap__path.is-ready .roadmap__panel:not([inert]) { transition: grid-template-rows 0.4s var(--ease-out); }
+/* Marcador: destello del logo que avanza por el camino */
+.roadmap__marker {
+  position: absolute;
+  left: var(--track-x); top: 0;
+  width: 30px; height: 30px;
+  margin: -15px 0 0 -15px;
+  color: var(--vr-cyan-hi);
+  filter: drop-shadow(0 0 8px var(--vr-cyan)) drop-shadow(0 0 18px rgb(0 208 248 / 0.6));
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  will-change: transform;
+}
+.roadmap__marker svg { display: block; width: 100%; height: 100%; fill: currentColor; }
+.roadmap__path.is-ready .roadmap__marker { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .roadmap__path.is-live .roadmap__marker svg { animation: marker-twinkle 2.8s ease-in-out infinite; }
+}
+@keyframes marker-twinkle {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  50% { transform: scale(0.72) rotate(45deg); opacity: 0.7; }
+}
+@media (max-width: 860px) {
+  .roadmap__detail { grid-template-columns: 1fr; }
+  .roadmap__path { --track-pad: 2.5rem; --track-x: 10px; }
+  .roadmap__toggle { grid-template-areas: "num status chev" "title title chev" "summary summary summary"; padding: 0.9rem 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .roadmap__path.is-ready .roadmap__panel { transition: none; }
+}
+
+/* ---------- Sobre mí: tarjeta que gira ---------- */
+.flipcard { position: relative; perspective: 1400px; }
+.flipcard__face {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  background:
+    linear-gradient(150deg, rgb(0 208 248 / 0.2), transparent 40%),
+    linear-gradient(330deg, rgb(4 74 246 / 0.3), transparent 50%),
+    var(--bg-2);
+  /* Marco facetado con los ángulos del logo */
+  clip-path: polygon(0 6%, 22% 0, 100% 0, 100% 88%, 80% 100%, 0 100%);
+}
+.flipcard__face--front { aspect-ratio: 4 / 5; }
+.flipcard__face--front picture { display: block; width: 100%; height: 100%; }
+.flipcard__face--front img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; }
+.flipcard__face--back { display: flex; flex-direction: column; justify-content: center; padding: clamp(1.25rem, 3vw, 1.75rem); margin-top: 1rem; }
+.flipcard__face--back .kicker { margin-bottom: 0.9rem; }
+.flipcard__list { display: grid; gap: 0.85rem; }
+.flipcard__list li { position: relative; padding-left: 1.1rem; color: var(--text-2); font-size: 0.92rem; line-height: 1.45; }
+.flipcard__list li::before { content: ""; position: absolute; left: 0; top: 0.35rem; width: 7px; height: 7px; border: 1px solid var(--vr-azure); transform: rotate(45deg); }
+.flipcard__list .mono { display: block; margin-bottom: 0.15rem; color: var(--vr-cyan); font-size: 0.62rem; }
+/* Con JavaScript: las dos caras se apilan y la tarjeta gira */
+.flipcard.is-ready .flipcard__inner { display: grid; transform-style: preserve-3d; transition: transform 0.8s var(--ease-io); }
+.flipcard.is-ready .flipcard__face { grid-area: 1 / 1; margin-top: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.flipcard.is-ready .flipcard__face--back { transform: rotateY(180deg); overflow: auto; }
+.flipcard.is-flipped .flipcard__inner { transform: rotateY(180deg); }
+.flipcard__toggle { position: absolute; inset: 0 0 2rem; z-index: 2; border: 0; background: transparent; cursor: pointer; border-radius: var(--radius); }
+.flipcard__toggle[hidden] { display: none; }
+.flipcard__toggle:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
+.flipcard__hint { margin-top: 0.9rem; color: var(--vr-cyan); font-size: 0.7rem; text-align: center; }
+.flipcard__hint[hidden] { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .flipcard.is-ready:not(.is-flipped):has(.flipcard__toggle:hover) .flipcard__inner { transform: rotateY(-7deg); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .flipcard.is-peeking .flipcard__inner { animation: flip-peek 1.5s var(--ease-io) 1 both; }
+}
+@keyframes flip-peek {
+  0%, 100% { transform: rotateY(0); }
+  35% { transform: rotateY(-18deg); }
+  65% { transform: rotateY(9deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flipcard.is-ready .flipcard__inner { transition: none; }
+}
+@media (max-width: 760px) { .portrait { max-width: min(100%, 340px); } }

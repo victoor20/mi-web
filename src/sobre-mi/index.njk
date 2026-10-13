@@ -21,9 +21,25 @@ schema: "person"
       <p class="page-hero__intro">Técnico de sistemas con base en programación, redes y cloud, y la mirada puesta en la ingeniería de IA. Disfruto arreglando y mejorando ordenadores, y sobre todo entendiendo por qué fallan.</p>
       {%- endif %}
     </div>
-    <figure class="portrait" aria-label="Foto de Víctor Rocamora">
-      <div class="portrait__frame">
-        {{ picture("victor-retrato", [360, 720], 720, 900, "Retrato de Víctor Rocamora: hombre de pelo corto oscuro y barba, con camiseta azul marino, sobre fondo oscuro", "(min-width: 760px) 340px, 260px", true) }}
+    <figure class="portrait" aria-label="Foto de Víctor Rocamora, con curiosidades en el reverso">
+      <div class="flipcard" data-module="flipcard">
+        <div class="flipcard__inner">
+          <div class="flipcard__face flipcard__face--front" data-front>
+            {{ picture("victor-retrato", [360, 720], 720, 900, "Retrato de Víctor Rocamora: hombre de pelo corto oscuro y barba, con americana azul marino y camisa blanca, sobre fondo gris oscuro", "(min-width: 760px) 340px, 300px", true) }}
+          </div>
+          <div class="flipcard__face flipcard__face--back" data-back>
+            <p class="kicker mono">Curiosidades</p>
+            <ul class="flipcard__list">
+              {%- for c in curiosidades %}
+              <li><span class="mono">{{ c.tag }}</span>{{ c.text }}</li>
+              {%- endfor %}
+            </ul>
+          </div>
+        </div>
+        <button class="flipcard__toggle" type="button" aria-pressed="false" hidden data-flip>
+          <span class="visually-hidden">Dale la vuelta a la foto para ver curiosidades sobre mí</span>
+        </button>
+        <p class="flipcard__hint mono" hidden aria-hidden="true" data-hint><span data-hint-text>Dale la vuelta</span> ↻</p>
       </div>
     </figure>
   </div>

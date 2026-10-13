@@ -76,7 +76,7 @@ import { existsSync } from "node:fs";
 const MATERIAL = "material";
 const photos = [
   // [archivo, nombre de salida, recorte {left, top, width, height} o null, anchos]
-  ["Foto.png", "victor-retrato", { left: 50, top: 70, width: 860, height: 1075 }, [360, 720]],
+  ["Foto.png", "victor-retrato", { left: 50, top: 100, width: 920, height: 1150 }, [360, 720]],
   ["Control Center Jarvis.png", "jarvis-control-center", null, [640, 1229]],
   // Solo la respuesta de Jarvis: el mensaje inferior incluye rutas reales de la instalación
   ["chat jarvis telegram.png", "jarvis-telegram", { left: 0, top: 0, width: 885, height: 470 }, [640, 885]],

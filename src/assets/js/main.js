@@ -92,6 +92,85 @@ if (revealables.length && "IntersectionObserver" in window && !reduceMotion.matc
   revealables.forEach((el) => el.classList.add("is-in"));
 }
 
+/* ---------- Separadores de facetas: un destello recorre la línea, lento y solo mientras están en pantalla ---------- */
+const dividers = [...document.querySelectorAll(".facet-divider")];
+if (dividers.length && "IntersectionObserver" in window && !reduceMotion.matches) {
+  const SPEED = 55; // px por segundo
+  const PAUSE = 2600; // ms entre pasadas
+  const runners = new Map(); // separador -> estado
+  const active = new Set();
+  let frame = 0;
+
+  const route = (d) => {
+    const box = d.getBoundingClientRect();
+    const [l1, l2] = [...d.querySelectorAll(".facet-divider__line")].map((l) => l.getBoundingClientRect());
+    const svg = d.querySelector(".facet-divider__shape").getBoundingClientRect();
+    const path = d.querySelector(".facet-divider__stroke");
+    const k = svg.width / 240;
+    return {
+      path, k,
+      x1: l1.left - box.left, w1: l1.width,
+      sx: svg.left - box.left, sy: svg.top - box.top, plen: path.getTotalLength() * k,
+      x2: l2.left - box.left, w2: l2.width,
+      y: svg.top - box.top + 39.5 * k,
+    };
+  };
+  const pointAt = (r, s) => {
+    if (s < r.w1) return [r.x1 + s, r.y];
+    if (s < r.w1 + r.plen) {
+      const p = r.path.getPointAtLength((s - r.w1) / r.k);
+      return [r.sx + p.x * r.k, r.sy + p.y * r.k];
+    }
+    return [r.x2 + (s - r.w1 - r.plen), r.y];
+  };
+
+  const tick = (t) => {
+    frame = 0;
+    active.forEach((d) => {
+      const st = runners.get(d);
+      if (!st.route) {
+        // Espera entre pasadas; solo arranca cuando el separador ya se ha dibujado
+        if (t < st.next || !d.classList.contains("is-in")) return;
+        st.route = route(d);
+        st.total = st.route.w1 + st.route.plen + st.route.w2;
+        st.start = t;
+      }
+      const s = ((t - st.start) / 1000) * SPEED;
+      if (s >= st.total) {
+        st.glint.style.opacity = "0";
+        st.route = null;
+        st.next = t + PAUSE + Math.random() * 1500;
+        return;
+      }
+      const [x, y] = pointAt(st.route, s);
+      st.glint.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
+      st.glint.style.opacity = String(Math.min(1, s / 50, (st.total - s) / 50));
+    });
+    if (active.size) frame = requestAnimationFrame(tick);
+  };
+
+  const dividerIo = new IntersectionObserver((entries) => {
+    entries.forEach(({ target: d, isIntersecting }) => {
+      if (!runners.has(d)) {
+        const glint = document.createElement("span");
+        glint.className = "facet-divider__glint";
+        glint.setAttribute("aria-hidden", "true");
+        d.append(glint);
+        runners.set(d, { glint, route: null, next: 0 });
+      }
+      d.classList.toggle("is-live", isIntersecting);
+      if (isIntersecting) active.add(d);
+      else {
+        active.delete(d);
+        const st = runners.get(d);
+        st.route = null; st.next = 0; st.glint.style.opacity = "0";
+      }
+    });
+    if (active.size && !frame) frame = requestAnimationFrame(tick);
+  }, { rootMargin: "50px 0px" });
+  dividers.forEach((d) => dividerIo.observe(d));
+}
+
 /* ---------- Botones magnéticos (solo ratón) ---------- */
 if (finePointer.matches && !reduceMotion.matches) {
   document.querySelectorAll("[data-magnetic]").forEach((el) => {

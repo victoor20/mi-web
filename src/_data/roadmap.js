@@ -1,7 +1,13 @@
-// Hoja de ruta de AI Engineering (/ia/). Para actualizar el avance, cambia solo "state" de cada fase:
-//   "pendiente" | "en-curso" | "completada" | "permanente"
-// El orden de las fases es el del array; la numeración sale sola.
+// Hoja de ruta de AI Engineering (/ia/). Todo lo que cambia con el avance está aquí.
+//
+// Estado de cada fase ("state"): "pendiente" | "en-curso" | "completada" | "permanente"
+// Posición del marcador ("progress"): la fase en la que estás y el porcentaje que llevas de ella.
+//   Ejemplo: { phase: 1, percent: 50 } = a mitad de la fase 1.
+//   Para terminar la fase 1 y empezar la 2: { phase: 2, percent: 0 }.
+// Cada fase muestra, al desplegarla, lo que aprendo ("learn"), los recursos ("resources") y los
+// proyectos que salen de ella ("projects"). Si una lista está vacía, esa parte no se muestra.
 export default {
+  progress: { phase: 1, percent: 50 },
   states: {
     pendiente: "Pendiente",
     "en-curso": "En curso",
@@ -11,38 +17,51 @@ export default {
   phases: [
     {
       title: "Python sólido",
-      detail: "CS50P de Harvard: la base de programación sobre la que se apoya todo lo demás.",
+      summary: "La base de programación sobre la que se apoya todo lo demás.",
       state: "en-curso",
+      learn: ["Fundamentos de Python: funciones, estructuras de datos, ficheros, excepciones y pruebas", "Hábitos de código limpio desde el principio"],
+      resources: [{ name: "CS50P: introducción a la programación con Python", by: "Harvard" }],
+      projects: ["Proyecto final de CS50P"],
     },
     {
       title: "Cómo funcionan los LLMs",
-      detail: "APIs, prompts, tokens y contexto, con LangChain for LLM Application Development (DeepLearning.AI).",
+      summary: "APIs, prompts, tokens y contexto.",
       state: "pendiente",
+      learn: ["Llamar a un modelo de lenguaje por API", "Diseñar prompts y estructurar las respuestas", "Tokens y ventana de contexto"],
+      resources: [{ name: "LangChain for LLM Application Development", by: "DeepLearning.AI" }],
+      projects: [],
     },
     {
       title: "Agentes y RAG",
-      detail: "LangGraph, RAG agéntico con LlamaIndex y memoria a largo plazo (DeepLearning.AI).",
+      summary: "LangGraph, RAG agéntico y memoria a largo plazo.",
       state: "pendiente",
+      learn: ["Agentes con LangGraph", "RAG agéntico con LlamaIndex", "Memoria a largo plazo"],
+      resources: [{ name: "Cursos de agentes, RAG agéntico y memoria", by: "DeepLearning.AI" }],
+      projects: ["Asistente con memoria conectado a APIs", "Sistema multiagente para una tarea real"],
     },
     {
       title: "Despliegue",
-      detail: "APIs con FastAPI y contenedores con Docker para que lo construido salga de mi equipo.",
+      summary: "Que lo construido salga de mi equipo.",
       state: "pendiente",
+      learn: ["APIs con FastAPI", "Contenedores con Docker"],
+      resources: [],
+      projects: ["Agente RAG sobre PDFs, con FastAPI y Docker"],
     },
     {
       title: "Modelos open source",
-      detail: "Trabajar con modelos abiertos a través de Hugging Face.",
+      summary: "Trabajar con modelos abiertos a través de Hugging Face.",
       state: "pendiente",
+      learn: ["Encontrar, descargar y usar modelos abiertos", "Cuándo compensa un modelo abierto frente a uno por API"],
+      resources: [{ name: "Hugging Face", by: "Hub, documentación y cursos" }],
+      projects: [],
     },
     {
       title: "Portfolio de proyectos en GitHub",
-      detail: "Va en paralelo desde la fase 3 y no se cierra: cada fase deja algo publicado.",
+      summary: "En paralelo desde la fase 3: cada fase deja algo publicado.",
       state: "permanente",
-      projects: [
-        "Agente RAG sobre PDFs, con FastAPI y Docker",
-        "Asistente con memoria conectado a APIs",
-        "Sistema multiagente para una tarea real",
-      ],
+      learn: ["Documentar, probar y mantener cada proyecto para que se pueda reproducir"],
+      resources: [{ name: "GitHub", by: "Repositorios públicos" }],
+      projects: ["Agente RAG sobre PDFs, con FastAPI y Docker", "Asistente con memoria conectado a APIs", "Sistema multiagente para una tarea real"],
     },
   ],
 };
