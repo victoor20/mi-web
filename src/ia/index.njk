@@ -55,25 +55,14 @@ pipelinesPortfolio:
       - { name: "Proceso", text: "Reglas sencillas preparan el mensaje. Aquí no hace falta IA." }
       - { name: "Control humano", text: "Apruebas el borrador antes de que salga." }
       - { name: "Resultado", text: "El recordatorio llega a tiempo." }
-logPortfolio:
-  - { title: "Jarvis, agente personal", status: "En funcionamiento", live: true, text: "Agente 24/7 con memoria, herramientas controladas y aprobación humana para cualquier acción externa.", url: "/proyectos/jarvis/" }
-  - { title: "Agentes con herramientas", status: "Aplicado en Jarvis", text: "Cómo dar a un modelo herramientas útiles sin perder el control de lo que hace." }
-  - { title: "Modelos de lenguaje y prompting", status: "Aprendiendo", text: "Instrucciones, contexto, salidas estructuradas y cómo evaluar si una respuesta es fiable." }
-  - { title: "RAG sobre documentos propios", status: "Aprendiendo", text: "Recuperar información de documentos y citar la fuente para poder comprobarla." }
-  - { title: "APIs con Python y FastAPI", status: "Aprendiendo", text: "Servicios pequeños que conectan herramientas y exponen automatizaciones." }
-  - { title: "Cloud en AWS", status: "Especialización y práctica", text: "Curso de especialización en Administración Cloud y más de 40 laboratorios de AWS Skill Builder: serverless, DynamoDB, EKS, Lambda, CloudFormation, CloudFront y seguridad. La mejor prueba de campo fue el 2.º puesto en la Final Nacional AWS JAM 2026." }
-  - { title: "Máster en IA y AI Engineering por mi cuenta", status: "En curso", text: "El máster de BIG school (con el Diploma de Experto Universitario en IA de la Universidad Isabel I) y el estudio autodidacta se juntan en proyectos propios. La hoja de ruta completa llegará a esta bitácora." }
 log:
   - { title: "Jarvis, agente personal", status: "En funcionamiento", live: true, text: "Agente 24/7 con memoria, herramientas controladas y aprobación humana para cualquier acción externa.", url: "/proyectos/jarvis/" }
   - { title: "Agentes con herramientas", status: "Aplicado en Jarvis", text: "Cómo dar a un modelo herramientas útiles sin perder el control de lo que hace." }
-  - { title: "Modelos de lenguaje y prompting", status: "Aprendiendo", text: "Instrucciones, contexto, salidas estructuradas y cómo evaluar si una respuesta es fiable." }
-  - { title: "RAG sobre documentos propios", status: "Aprendiendo", text: "Recuperar información de documentos y citar la fuente para poder comprobarla." }
-  - { title: "APIs con Python y FastAPI", status: "Aprendiendo", text: "Servicios pequeños que conectan herramientas y exponen automatizaciones." }
-  - { title: "Cloud en AWS", status: "Formación en curso", text: "Redes, despliegue y seguridad básica para que lo construido pueda vivir fuera de mi equipo." }
+  - { title: "Cloud en AWS", status: "Especialización y práctica", text: "Curso de especialización en Administración Cloud y más de 40 laboratorios de AWS Skill Builder: serverless, DynamoDB, EKS, Lambda, CloudFormation, CloudFront y seguridad. Este año, además, llegué con mi equipo a la final nacional de AWS JAM y quedamos segundos.", link: { label: "Más en Sobre mí", url: "/sobre-mi/" } }
+  - { title: "Máster en IA", status: "2025–2026", text: "El máster de BIG school, con el Diploma de Experto Universitario en IA de la Universidad Isabel I, se complementa con el estudio propio que sigue la hoja de ruta de arriba." }
 ---
-{% from "macros.njk" import facetDivider, jamMilestone %}
+{% from "macros.njk" import facetDivider %}
 {%- set pipes = pipelines if site.isCommercial else pipelinesPortfolio %}
-{%- set entries = log if site.isCommercial else logPortfolio %}
 <header class="page-hero lab-hero">
   <div class="wrap">
     <p class="kicker mono">Laboratorio</p>
@@ -81,10 +70,6 @@ log:
     <p class="page-hero__intro">Aquí documento lo que aprendo de AI Engineering y los proyectos en los que lo pongo a prueba. Estoy en plena formación: no me presento como experto, sino como técnico de sistemas que aprende construyendo y comprueba que las cosas funcionen de verdad.</p>
   </div>
 </header>
-{%- if not site.isCommercial %}
-
-{{ jamMilestone("compact") }}
-{%- endif %}
 
 {#- Pieza interactiva: anatomía de una automatización -#}
 <section class="section anatomy" aria-labelledby="anatomy-title" data-module="pipeline">
@@ -117,6 +102,29 @@ log:
 
 {{ facetDivider("start", "cyan") }}
 
+{#- Hoja de ruta: fases y estados en src/_data/roadmap.js -#}
+<section class="section roadmap" aria-labelledby="roadmap-title">
+  <div class="wrap">
+    <h2 class="section-title" id="roadmap-title">Hoja de ruta</h2>
+    <p class="lead-text">El orden en el que estoy aprendiendo AI Engineering por mi cuenta, fase a fase. Cada estado se actualiza cuando avanzo.</p>
+    <ol class="roadmap__list">
+      {%- for p in roadmap.phases %}
+      <li class="roadmap__step roadmap__step--{{ p.state }}" data-reveal>
+        <span class="roadmap__num mono">Fase {{ loop.index }}</span>
+        <h3 class="roadmap__title">{{ p.title }}</h3>
+        <p>{{ p.detail }}</p>
+        {%- if p.projects %}
+        <ul class="finder__checks">
+          {%- for item in p.projects %}<li>{{ item }}</li>{% endfor %}
+        </ul>
+        {%- endif %}
+        <span class="roadmap__status mono">{{ roadmap.states[p.state] }}</span>
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+</section>
+
 <section class="section" aria-labelledby="log-title">
   <div class="wrap log-wrap">
     <div class="log-wrap__intro">
@@ -124,11 +132,11 @@ log:
       <p class="lead-text">En qué estoy trabajando y en qué punto está cada cosa, contado tal cual.</p>
     </div>
     <ol class="log">
-      {%- for e in entries %}
+      {%- for e in log %}
       <li class="log__entry{% if e.live %} log__entry--live{% endif %}" data-reveal>
         <span class="log__status mono">{{ e.status }}</span>
         <h3 class="log__title">{% if e.url %}<a href="{{ e.url }}">{{ e.title }} →</a>{% else %}{{ e.title }}{% endif %}</h3>
-        <p>{{ e.text }}</p>
+        <p>{{ e.text }}{% if e.link %} <a class="text-link" href="{{ e.link.url }}">{{ e.link.label }}</a>{% endif %}</p>
       </li>
       {%- endfor %}
     </ol>

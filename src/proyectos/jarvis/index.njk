@@ -85,9 +85,6 @@ schema: "person"
       <h2 class="case__title">Estado actual</h2>
       <p>Funciona a diario como asistente técnico y de desarrollo, memoria de proyectos, apoyo editorial para LinkedIn, radar de ofertas y oportunidades y redactor de correos con confirmación.</p>
       <p>La siguiente etapa: pasar de reaccionar a vigilar, detectar y proponer, siempre con la decisión final en mis manos.</p>
-      {%- if site.isCommercial %}
-      <p><span class="placeholder">[CAPTURAS DE JARVIS]</span></p>
-      {%- endif %}
     </article>
     <article class="case__block">
       <h2 class="case__title">Lo que no se publica</h2>
@@ -96,7 +93,6 @@ schema: "person"
     </article>
   </div>
 </section>
-{%- if not site.isCommercial %}
 
 <section class="section shots" aria-labelledby="shots-title">
   <div class="wrap">
@@ -114,4 +110,3 @@ schema: "person"
     </div>
   </div>
 </section>
-{%- endif %}

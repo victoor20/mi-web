@@ -82,7 +82,6 @@ const photos = [
   ["chat jarvis telegram.png", "jarvis-telegram", { left: 0, top: 0, width: 885, height: 470 }, [640, 885]],
   ["JAM1.jpg", "aws-jam-equipo", null, [640, 1280]],
   ["JAM2.jpg", "aws-jam-retos", null, [640, 1280]],
-  ["JAM3.jpg", "aws-jam-podio", null, [640, 1280]],
 ];
 if (existsSync(MATERIAL)) {
   for (const [file, name, crop, widths] of photos) {

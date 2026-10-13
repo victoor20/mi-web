@@ -52,14 +52,14 @@
 </picture>
 {% endmacro %}
 
-{#- Hito: 2.º puesto en la Final Nacional AWS JAM 2026. variant: "full" (Sobre mí, con tres fotos) | "compact" (/ia/, con una) -#}
-{% macro jamMilestone(variant="full") %}
-<section class="section milestone milestone--{{ variant }}" aria-labelledby="jam-title-{{ variant }}">
+{#- Hito: 2.º puesto en la Final Nacional AWS JAM 2026. Solo se muestra en Sobre mí -#}
+{% macro jamMilestone() %}
+<section class="section milestone" aria-labelledby="jam-title">
   <div class="wrap">
     <div class="milestone__card">
       <div class="milestone__copy">
         <p class="kicker mono">Hito destacado · 19 de junio de 2026</p>
-        <h2 class="milestone__title" id="jam-title-{{ variant }}">2.º puesto en la Final Nacional AWS JAM 2026</h2>
+        <h2 class="milestone__title" id="jam-title">2.º puesto en la Final Nacional AWS JAM 2026</h2>
         <p>En Barcelona, con mi equipo <strong>S3-less</strong> y dentro del programa Alianza Tech de AWS: retos prácticos de seguridad, automatización, infraestructura, optimización de costes y troubleshooting, todo contra reloj.</p>
         <p><a class="text-link" href="https://builder.aws.com/content/3FGBmpVxiayeuR9USgA9QIfWapV/final-del-campeonato-nacional-aws-jam-2026-de-espana-pon-a-prueba-tus-habilidades-cloud" rel="noopener" target="_blank">Ver la publicación oficial de AWS ↗</a></p>
       </div>
@@ -67,14 +67,9 @@
         <figure class="milestone__photo milestone__photo--lead">
           {{ picture("aws-jam-equipo", [640, 1280], 1280, 853, "El equipo S3-less, cuatro integrantes con acreditación, posa junto a la pantalla de AWS JAM 2026 en el Institut TIC de Barcelona", "(min-width: 960px) 560px, 92vw") }}
         </figure>
-        {%- if variant == "full" %}
-        <figure class="milestone__photo">
-          {{ picture("aws-jam-retos", [640, 1280], 1280, 853, "Los cuatro integrantes del equipo trabajando juntos en un portátil durante los retos de la final", "(min-width: 960px) 280px, 46vw") }}
+        <figure class="milestone__photo milestone__photo--lead">
+          {{ picture("aws-jam-retos", [640, 1280], 1280, 853, "Los cuatro integrantes del equipo trabajando juntos en un portátil durante los retos de la final", "(min-width: 960px) 560px, 92vw") }}
         </figure>
-        <figure class="milestone__photo">
-          {{ picture("aws-jam-podio", [640, 1280], 1280, 853, "El equipo con las bolsas de premio junto a una pantalla que muestra la pantalla de ganadores, con parte de la organización", "(min-width: 960px) 280px, 46vw") }}
-        </figure>
-        {%- endif %}
       </div>
     </div>
   </div>

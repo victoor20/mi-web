@@ -1434,10 +1434,44 @@
 .milestone__photo { margin: 0; overflow: hidden; border: 1px solid var(--line-strong); border-radius: var(--radius); }
 .milestone__photo img { display: block; width: 100%; height: auto; }
 .milestone__photo--lead { grid-column: 1 / -1; }
-.milestone--compact .milestone__photos { grid-template-columns: 1fr; }
 .shots__grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 1rem; align-items: start; margin-top: clamp(1.5rem, 4vw, 2.5rem); }
 .shots__item { margin: 0; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-lg); background: rgb(6 11 21 / 0.8); }
 .shots__item img { display: block; width: 100%; height: auto; }
 .shots__item figcaption { padding: 0.75rem 1rem; color: var(--text-3); font-size: 0.88rem; }
 @media (max-width: 960px) { .milestone__card { grid-template-columns: 1fr; } }
 @media (max-width: 760px) { .shots__grid { grid-template-columns: 1fr; } }
+
+/* ---------- Laboratorio: hoja de ruta ---------- */
+.roadmap__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: clamp(1.5rem, 4vw, 2.5rem); }
+.roadmap__step {
+  position: relative;
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  background: rgb(6 11 21 / 0.8);
+}
+.roadmap__num { color: var(--text-3); font-size: 0.66rem; }
+.roadmap__title { font-size: 1.2rem; font-weight: 650; letter-spacing: -0.015em; line-height: 1.2; }
+.roadmap__step p { color: var(--text-2); }
+.roadmap__step .finder__checks { margin-top: 0.25rem; }
+.roadmap__status {
+  justify-self: start;
+  margin-top: 0.4rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--line-strong);
+  color: var(--text-3);
+  font-size: 0.66rem;
+  clip-path: polygon(0 0, 100% 0, 100% 70%, calc(100% - 8px) 100%, 0 100%);
+}
+.roadmap__step--en-curso { border-top-color: var(--vr-cyan); box-shadow: 0 0 28px rgb(0 208 248 / 0.12); }
+.roadmap__step--en-curso .roadmap__num, .roadmap__step--en-curso .roadmap__status { color: var(--vr-cyan); border-color: var(--vr-cyan); }
+.roadmap__step--completada { border-top-color: var(--vr-azure); }
+.roadmap__step--completada .roadmap__status { color: var(--vr-azure); border-color: var(--vr-azure); }
+.roadmap__step--permanente { border-top-color: var(--vr-azure); background: linear-gradient(120deg, rgb(4 74 246 / 0.14), transparent 60%), rgb(6 11 21 / 0.85); }
+.roadmap__step--permanente .roadmap__status { color: var(--vr-azure); border-color: var(--vr-azure); }
+@media (max-width: 960px) { .roadmap__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .roadmap__list { grid-template-columns: 1fr; } }
