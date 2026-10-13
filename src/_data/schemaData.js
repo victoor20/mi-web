@@ -52,9 +52,10 @@ const website = {
   publisher: { "@id": id("persona") },
 };
 
+// Modo portfolio: solo Person (sin ProfessionalService ni areaServed)
 export default {
-  home: { "@context": "https://schema.org", "@graph": [website, person, business] },
-  services: { "@context": "https://schema.org", "@graph": [business, person] },
+  home: { "@context": "https://schema.org", "@graph": site.isCommercial ? [website, person, business] : [website, person] },
+  services: { "@context": "https://schema.org", "@graph": site.isCommercial ? [business, person] : [person] },
   person: { "@context": "https://schema.org", "@graph": [person] },
   ids: { person: id("persona"), website: id("web") },
 };

@@ -16,13 +16,22 @@ updated: 2026-10-07
   <li><strong>Actividad:</strong> {{ site.legal.activity }}</li>
   <li><strong>Sitio web:</strong> {{ site.url | replace("https://", "") }}</li>
 </ul>
+{%- if site.isCommercial %}
 <p>El titular desarrolla su actividad como trabajador autónomo. No está inscrito en el Registro Mercantil ni la actividad requiere colegiación profesional.</p>
+{%- else %}
+<p>El titular es una persona física que edita este sitio web a título personal. No está inscrito en el Registro Mercantil.</p>
+{%- endif %}
 
 <h2>2. Objeto y condiciones de uso</h2>
-<p>Este sitio web informa sobre los servicios informáticos que presta el titular, muestra proyectos propios y publica guías divulgativas sobre tecnología. El acceso es libre y gratuito. Al navegar por él aceptas usarlo de forma lícita, sin dañar el sitio ni impedir su funcionamiento normal, y sin enviar a través del formulario contenidos ilícitos o de terceros sin autorización.</p>
+<p>{{ "Este sitio web informa sobre los servicios informáticos que presta el titular, muestra proyectos propios y publica guías divulgativas sobre tecnología." if site.isCommercial else "Este sitio web presenta el perfil y los proyectos propios del titular y publica guías divulgativas sobre tecnología." }} El acceso es libre y gratuito. Al navegar por él aceptas usarlo de forma lícita, sin dañar el sitio ni impedir su funcionamiento normal, y sin enviar a través del formulario contenidos ilícitos o de terceros sin autorización.</p>
 
+{% if site.isCommercial -%}
 <h2>3. Información de los servicios</h2>
 <p>La descripción de los servicios es orientativa. Cada encargo se concreta mediante un presupuesto individual, que se emite tras el diagnóstico y no obliga a contratar. Las condiciones aplicables a cada trabajo (alcance, plazo, precio y garantía) son las que figuran en ese presupuesto.</p>
+{%- else %}
+<h2>3. Información del sitio</h2>
+<p>La información sobre lo que el titular sabe hacer es orientativa y no constituye una oferta ni un compromiso de prestar ningún servicio.</p>
+{%- endif %}
 
 <h2>4. Guías y recomendaciones</h2>
 <p>Las guías tienen carácter informativo y general. No sustituyen a la documentación oficial de los fabricantes ni a un diagnóstico profesional de tu equipo concreto. Antes de comprar o instalar un componente, comprueba siempre su compatibilidad en las fichas y manuales oficiales.</p>

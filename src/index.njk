@@ -3,6 +3,9 @@ layout: layouts/base.njk
 title: "Víctor Rocamora · Técnico informático y automatizaciones"
 ogTitle: "Víctor Rocamora · Arreglo lo que falla. Automatizo lo que se repite."
 description: "Reparación, puesta a punto y mejora de portátiles y ordenadores en Crevillent, Elche y comarca, con informe de cada trabajo. Automatizaciones sencillas para negocios."
+portfolioMeta:
+  title: "Víctor Rocamora · Técnico de sistemas, IA y guías tech"
+  description: "Soy Víctor Rocamora, técnico de sistemas en formación hacia AI Engineering. Aquí cuento lo que sé hacer, cómo trabajo, mis proyectos y mis guías."
 bodyClass: "page-home"
 pccVerification: true
 schema: "home"
@@ -18,6 +21,7 @@ schema: "home"
       <p class="hero__lead">Diagnostico antes de tocar nada, recupero equipos que ya dabas por perdidos y quito de en medio las tareas que te roban tiempo. Al terminar, te lo dejo todo explicado por escrito.</p>
 
       <ul class="doors">
+        {%- if site.isCommercial %}
         <li><a class="door" href="/servicios/" data-magnetic>
           <span class="door__label mono">Particulares y negocios</span>
           <span class="door__title">Tengo un problema con mi equipo</span>
@@ -28,6 +32,18 @@ schema: "home"
           <span class="door__title">Quiero automatizar con IA</span>
           <span class="door__arrow" aria-hidden="true">→</span>
         </a></li>
+        {%- else %}
+        <li><a class="door" href="{{ site.servicesUrl }}#que-le-pasa" data-magnetic>
+          <span class="door__label mono">Equipos y soporte</span>
+          <span class="door__title">Tengo un problema con mi equipo</span>
+          <span class="door__arrow" aria-hidden="true">→</span>
+        </a></li>
+        <li><a class="door door--alt" href="{{ site.servicesUrl }}#automatizacion" data-magnetic>
+          <span class="door__label mono">Tareas repetitivas</span>
+          <span class="door__title">Cómo automatizo con IA</span>
+          <span class="door__arrow" aria-hidden="true">→</span>
+        </a></li>
+        {%- endif %}
       </ul>
     </div>
 
@@ -58,8 +74,13 @@ schema: "home"
         </li>
         <li class="method__step" data-step="2">
           <span class="method__num mono">02</span>
+          {%- if site.isCommercial %}
           <h3>Presupuesto y solución</h3>
           <p>Recibes un presupuesto sin compromiso con las opciones que tienen sentido, incluida la de no gastar si no compensa. Con tu visto bueno, me pongo a ello.</p>
+          {%- else %}
+          <h3>Propuesta y solución</h3>
+          <p>Planteo las opciones que tienen sentido, incluida la de no gastar si no compensa. Con el visto bueno, me pongo a ello.</p>
+          {%- endif %}
         </li>
         <li class="method__step" data-step="3">
           <span class="method__num mono">03</span>
@@ -79,7 +100,7 @@ schema: "home"
             <div data-at="1"><dt class="mono">Equipo</dt><dd><span>Portátil de 15", seis años de uso</span></dd></div>
             <div data-at="1"><dt class="mono">Motivo</dt><dd><span>Tarda varios minutos en arrancar</span></dd></div>
             <div data-at="1"><dt class="mono">Diagnóstico</dt><dd><span>Disco mecánico degradado y sistema saturado de programas al inicio</span></dd></div>
-            <div data-at="2"><dt class="mono">Propuesta</dt><dd><span>SSD y ampliación a 16 GB, o solo SSD si el presupuesto aprieta</span></dd></div>
+            <div data-at="2"><dt class="mono">Propuesta</dt><dd><span>{{ "SSD y ampliación a 16 GB, o solo SSD si el presupuesto aprieta" if site.isCommercial else "SSD y ampliación a 16 GB, o solo SSD si se quiere gastar menos" }}</span></dd></div>
             <div data-at="2"><dt class="mono">Intervención</dt><dd><span>Clonado al SSD, limpieza interna y puesta a punto del sistema</span></dd></div>
             <div data-at="3"><dt class="mono">Recomendaciones</dt><dd><span>Copia de seguridad semanal y revisar temperaturas dentro de un año</span></dd></div>
           </dl>
@@ -94,11 +115,11 @@ schema: "home"
 {#- Servicio técnico: titular a todo el ancho, índice a dos columnas y cierre con trato directo -#}
 <section class="services-home" id="servicios" aria-labelledby="servicios-title">
   <div class="wrap">
-    <h2 class="services-home__title" id="servicios-title">Servicio técnico para particulares y pequeños negocios.</h2>
+    <h2 class="services-home__title" id="servicios-title">{{ "Servicio técnico para particulares y pequeños negocios." if site.isCommercial else "Lo que sé hacer con los equipos." }}</h2>
 
     <ul class="index-list index-list--two">
       {%- for s in services %}{% if s.group != "automatizacion" %}
-      <li data-reveal><a href="/servicios/#{{ s.slug }}">
+      <li data-reveal><a href="{{ site.servicesUrl }}#{{ s.slug }}">
         <span class="index-list__name">{{ s.name }}</span>
         <span class="index-list__desc">{{ s.short }}</span>
         <span class="index-list__arrow" aria-hidden="true">→</span>
@@ -107,10 +128,14 @@ schema: "home"
     </ul>
 
     <div class="services-home__foot">
+      {%- if site.isCommercial %}
       <p>Atiendo yo mismo cada encargo, de principio a fin, en {{ site.area.label }}: la persona que te da el presupuesto es la misma que trabaja en tu equipo y la que te explica el resultado.</p>
+      {%- else %}
+      <p>Si tienes un problema con tu equipo, escríbeme y te cuento qué haría. Cada caso lo resuelvo yo mismo, de principio a fin, y lo dejo explicado por escrito.</p>
+      {%- endif %}
       <div class="services-home__actions">
-        <a class="btn btn--primary" href="/contacto/" data-magnetic>Pedir presupuesto</a>
-        <a class="btn btn--ghost" href="/servicios/">Cómo trabajo</a>
+        <a class="btn btn--primary" href="/contacto/" data-magnetic>{{ site.cta.label }}</a>
+        <a class="btn btn--ghost" href="{{ site.servicesUrl }}">Cómo trabajo</a>
       </div>
     </div>
   </div>
@@ -135,7 +160,11 @@ schema: "home"
       <a class="btn btn--primary" href="/proyectos/jarvis/" data-magnetic>Conocer a Jarvis</a>
       <a class="btn btn--ghost" href="/ia/">Visitar el laboratorio</a>
     </div>
+    {%- if site.isCommercial %}
     <p class="lab-home__note">¿Tienes una tarea concreta que se repite? Las <a href="/servicios/#automatizacion">automatizaciones sencillas</a> ya forman parte de mis servicios.</p>
+    {%- else %}
+    <p class="lab-home__note">¿Tienes una tarea concreta que se repite? Mira cómo resuelvo las <a href="{{ site.servicesUrl }}#automatizacion">automatizaciones sencillas</a>.</p>
+    {%- endif %}
   </div>
 </section>
 
@@ -175,9 +204,11 @@ schema: "home"
   <div class="wrap">
     <h2 class="closing__title" id="contacto-title">Cuéntame qué le pasa a tu&nbsp;ordenador. <span>O qué quieres dejar de hacer a mano.</span></h2>
     <div class="closing__actions">
-      <a class="btn btn--primary btn--lg" href="/contacto/" data-magnetic>Pedir presupuesto</a>
+      <a class="btn btn--primary btn--lg" href="/contacto/" data-magnetic>{{ site.cta.label }}</a>
       <a class="btn btn--ghost btn--lg" href="mailto:{{ site.email }}">{{ site.email }}</a>
     </div>
+    {%- if site.isCommercial %}
     <p class="closing__note">Presupuesto sin compromiso tras el diagnóstico.</p>
+    {%- endif %}
   </div>
 </section>

@@ -27,7 +27,9 @@
 
 {#- Reseñas de Google: solo se muestra cuando el enlace está configurado en site.js -#}
 {% macro reviewsBlock(site, variant="page") %}
-{%- if site.googleReviewsUrl | isSet %}
+{%- if not site.isCommercial %}
+{#- Modo portfolio: sin reseñas -#}
+{%- elif site.googleReviewsUrl | isSet %}
 <section class="reviews reviews--{{ variant }}" aria-labelledby="reviews-title">
   <div class="reviews__inner">
     <h2 class="reviews__title" id="reviews-title">Lo que dicen quienes ya han confiado en mí</h2>

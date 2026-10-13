@@ -2,6 +2,10 @@
 layout: layouts/base.njk
 title: "Servicio técnico informático en Crevillent y Elche · Víctor Rocamora"
 description: "Reparación de portátiles y ordenadores, formateo, cambio a SSD, recuperación de archivos e informática para pequeños negocios. Presupuesto sin compromiso tras el diagnóstico."
+permalink: "{{ site.servicesUrl }}"
+portfolioMeta:
+  title: "Lo que sé hacer · Víctor Rocamora"
+  description: "Lo que sé hacer con ordenadores, redes y automatizaciones, y cómo abordo un problema. Con un buscador orientativo por síntoma y enlaces a mis guías."
 bodyClass: "page-services"
 criticalSections: ["Servicios: buscador por síntoma"]
 schema: "services"
@@ -9,11 +13,17 @@ schema: "services"
 {% from "macros.njk" import facetDivider, reviewsBlock %}
 <header class="page-hero">
   <div class="wrap">
+    {%- if site.isCommercial %}
     <p class="kicker mono">Servicio técnico</p>
     <h1 class="page-hero__title">Servicio técnico informático en {{ site.area.label }}</h1>
     <p class="page-hero__intro">Reparo, pongo a punto y mejoro portátiles y sobremesa de particulares y pequeños negocios. Primero el diagnóstico; después, un presupuesto sin compromiso para que decidas con calma.</p>
+    {%- else %}
+    <p class="kicker mono">Mi trabajo</p>
+    <h1 class="page-hero__title">Lo que sé hacer</h1>
+    <p class="page-hero__intro">Reparar, poner a punto y mejorar portátiles y sobremesa, recuperar datos, montar equipos y automatizar tareas sencillas. Así lo abordo: primero entender qué pasa y después decidir con calma.</p>
+    {%- endif %}
     <div class="actions">
-      <a class="btn btn--primary" href="/contacto/" data-magnetic>Pedir presupuesto</a>
+      <a class="btn btn--primary" href="/contacto/" data-magnetic>{{ site.cta.label }}</a>
       <a class="btn btn--ghost" href="#que-le-pasa">Empezar por el síntoma</a>
     </div>
   </div>
@@ -57,7 +67,10 @@ schema: "services"
           </div>
           <div class="finder__foot">
             <a class="finder__service" href="#{{ svc.slug }}">{{ svc.name }} →</a>
-            <a class="btn btn--primary btn--sm" href="/contacto/?servicio={{ svc.slug }}">Pedir presupuesto para esto</a>
+            {%- if not site.isCommercial and svc.guide %}
+            <a class="text-link" href="{{ svc.guide }}">Leer la guía relacionada</a>
+            {%- endif %}
+            <a class="btn btn--primary btn--sm" href="/contacto/?servicio={{ svc.slug }}">{{ "Pedir presupuesto para esto" if site.isCommercial else "Escríbeme sobre esto" }}</a>
           </div>
         </article>
         {%- endfor %}
@@ -70,7 +83,7 @@ schema: "services"
 
 <section class="section" aria-labelledby="catalogo-title">
   <div class="wrap">
-    <h2 class="section-title" id="catalogo-title">Lo que hago, uno por uno</h2>
+    <h2 class="section-title" id="catalogo-title">{{ "Lo que hago, uno por uno" if site.isCommercial else "En detalle, uno por uno" }}</h2>
     <div class="spec-list">
       {%- for s in services %}
       <article class="spec" id="{{ s.slug }}" data-reveal>
@@ -105,14 +118,24 @@ schema: "services"
 <section class="section how" aria-labelledby="como-title">
   <div class="wrap how__grid">
     <div>
+      {%- if site.isCommercial %}
       <h2 class="section-title" id="como-title">Cómo funciona un encargo</h2>
       <p class="lead-text">Sin sorpresas: sabes qué se va a hacer y cuánto cuesta antes de que empiece.</p>
+      {%- else %}
+      <h2 class="section-title" id="como-title">Cómo abordo un problema</h2>
+      <p class="lead-text">Sin sorpresas: primero entender qué pasa, después decidir con calma.</p>
+      {%- endif %}
     </div>
     <dl class="how__sheet">
+      {%- if site.isCommercial %}
       <div><dt class="mono">Municipios</dt><dd>{% for t in site.area.towns %}{{ t | ph | safe }}{% if not loop.last %}, {% endif %}{% endfor %}</dd></div>
       <div><dt class="mono">Modalidad</dt><dd>{{ site.area.modes | ph | safe }}</dd></div>
       <div><dt class="mono">Horario</dt><dd>{{ site.area.hours | ph | safe }}</dd></div>
       <div><dt class="mono">Presupuesto</dt><dd>Sin compromiso, después del diagnóstico</dd></div>
+      {%- else %}
+      <div><dt class="mono">Primero</dt><dd>Diagnóstico: entender la causa antes de tocar nada</dd></div>
+      <div><dt class="mono">Después</dt><dd>Opciones claras, incluida la de no gastar</dd></div>
+      {%- endif %}
       <div><dt class="mono">Entrega</dt><dd>Con informe por escrito de lo que se ha hecho</dd></div>
       <div><dt class="mono">Contacto</dt><dd><a class="text-link" href="/contacto/">Cuestionario</a> o <a class="text-link" href="mailto:{{ site.email }}">{{ site.email }}</a></dd></div>
     </dl>
@@ -126,8 +149,13 @@ schema: "services"
     <h2 class="section-title" id="faq-title">Preguntas frecuentes</h2>
     <div class="faq">
       <details>
+        {%- if site.isCommercial %}
         <summary>¿Cuánto cuesta una reparación?</summary>
         <div><p>Depende de lo que tenga. Por eso primero hago el diagnóstico y después te paso un presupuesto cerrado, sin compromiso. Si no compensa reparar, te lo digo.</p></div>
+        {%- else %}
+        <summary>¿Por dónde empiezas ante un fallo?</summary>
+        <div><p>Por entender qué pasa: reviso primero lo más sencillo y probable, y no cambio piezas hasta tener claro cuál falla. Si no compensa reparar, lo digo.</p></div>
+        {%- endif %}
       </details>
       <details>
         <summary>¿Pierdo mis archivos si formateas?</summary>
@@ -141,19 +169,25 @@ schema: "services"
         <summary>¿Merece la pena arreglar un portátil antiguo?</summary>
         <div><p>A menudo sí: un SSD y más memoria cambian por completo un equipo de varios años. Te explico qué mejora esperar y lo comparo con lo que costaría uno nuevo.</p></div>
       </details>
+      {%- if site.isCommercial %}
       <details>
         <summary>¿Emites factura?</summary>
         <div><p>Sí. Trabajo como autónomo y cada servicio lleva su factura.</p></div>
       </details>
+      {%- endif %}
     </div>
   </div>
 </section>
 
 <section class="closing" data-hide-mobile-cta aria-labelledby="cierre-title">
   <div class="wrap">
+    {%- if site.isCommercial %}
     <h2 class="closing__title" id="cierre-title">Cuéntame el problema. <span>Te respondo con los siguientes pasos.</span></h2>
+    {%- else %}
+    <h2 class="closing__title" id="cierre-title">Si tienes un problema con tu equipo, escríbeme. <span>Te cuento qué haría.</span></h2>
+    {%- endif %}
     <div class="closing__actions">
-      <a class="btn btn--primary btn--lg" href="/contacto/" data-magnetic>Pedir presupuesto</a>
+      <a class="btn btn--primary btn--lg" href="/contacto/" data-magnetic>{{ site.cta.label }}</a>
       <a class="btn btn--ghost btn--lg" href="mailto:{{ site.email }}">{{ site.email }}</a>
     </div>
   </div>

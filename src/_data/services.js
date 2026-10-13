@@ -1,5 +1,8 @@
 // Catálogo de servicios: se usa en la home, en /servicios/ y en el cuestionario de contacto.
-export default [
+// Modo comercial: el catálogo de servicios. Modo portfolio: lo mismo contado como "lo que sé hacer" (mismos slug, guide y group).
+import site from "./site.js";
+
+const comercial = [
   {
     slug: "diagnostico-reparacion",
     name: "Diagnóstico y reparación",
@@ -60,3 +63,67 @@ export default [
     group: "automatizacion",
   },
 ];
+
+const portfolio = [
+  {
+    slug: "diagnostico-reparacion",
+    name: "Diagnóstico y reparación",
+    short: "Portátiles y sobremesa que no arrancan, se calientan, hacen ruido o se apagan solos.",
+    solves: "Cuando algo falla y no se sabe si tiene arreglo, me gusta localizar la causa antes de tocar nada y valorar con honestidad si compensa repararlo.",
+    includes: ["Revisión de hardware y software", "Pruebas de temperatura, disco y memoria", "Sustitución de piezas cuando hace falta", "Limpieza interna y pasta térmica"],
+    note: "Si una reparación no merece la pena, lo digo antes de gastar nada.",
+  },
+  {
+    slug: "formateo",
+    name: "Formateo y puesta a punto",
+    short: "Windows limpio, controladores al día y archivos y programas de vuelta en su sitio.",
+    solves: "Para el sistema que arrastra años de programas, errores o virus: se reinstala desde cero sin perder lo importante.",
+    includes: ["Copia previa de los datos", "Instalación limpia del sistema", "Controladores y actualizaciones", "Restauración de archivos y programas habituales"],
+    note: "Antes de borrar nada, se acuerda qué hay que conservar.",
+  },
+  {
+    slug: "ssd-ram",
+    name: "Segunda vida a un portátil",
+    short: "Cambio a SSD y ampliación de memoria cuando un equipo lento aún tiene recorrido.",
+    solves: "Muchos portátiles que parecen acabados solo necesitan un SSD y algo más de RAM. Lo primero es comprobar qué admite cada uno.",
+    includes: ["Comprobación de compatibilidad", "Clonado del disco actual al SSD", "Instalación y prueba de la memoria", "Ajustes de arranque y rendimiento"],
+    note: "Conviene saber qué mejora esperar antes de comprar ninguna pieza.",
+    guide: "/guias/acelerar-portatil-lento-ssd-ram/",
+  },
+  {
+    slug: "discos-datos",
+    name: "Discos y datos",
+    short: "Sustitución y clonado de discos, copias de seguridad y recuperación de archivos.",
+    solves: "Para el disco que hace ruidos, la carpeta borrada por error o el equipo que no tiene copia de nada.",
+    includes: ["Diagnóstico del estado del disco", "Clonado y sustitución", "Recuperación lógica de archivos", "Sistema de copias de seguridad"],
+    note: "Si el disco tiene daño físico grave, lo prudente es acudir a un laboratorio especializado en lugar de arriesgar los datos.",
+  },
+  {
+    slug: "montaje-compra",
+    name: "Montaje y elección de equipos",
+    short: "Torres a medida o criterio para elegir sin pagar por lo que no se va a usar.",
+    solves: "Para montar un sobremesa con piezas que encajen o elegir portátil sabiendo qué importa en cada caso.",
+    includes: ["Selección de componentes compatibles", "Montaje, cableado y pruebas", "Instalación del sistema", "Recomendación razonada de compra"],
+    note: "Se parte del uso real y del dinero disponible, no de la ficha más llamativa.",
+    guide: "/guias/compatibilidad-componentes-pc/",
+  },
+  {
+    slug: "negocios",
+    name: "Informática en un pequeño local",
+    short: "Mantenimiento, copias, wifi y red, correo y los equipos del día a día.",
+    solves: "Para el comercio u oficina que necesita que todo funcione sin tener un departamento técnico.",
+    includes: ["Mantenimiento preventivo", "Copias de seguridad automáticas", "Red, wifi e impresoras", "Correo y cuentas de trabajo"],
+    note: "Es útil que una sola persona conozca cómo está montado todo.",
+  },
+  {
+    slug: "automatizacion",
+    name: "Automatizaciones sencillas",
+    short: "Tareas repetitivas que pueden hacerse solas: correos, hojas de cálculo, avisos y documentos.",
+    solves: "Para ese trabajo manual que se repite cada semana. Si se puede automatizar de forma fiable y sencilla, lo monto; si no, lo digo.",
+    includes: ["Análisis de la tarea", "Flujos con reglas o con IA cuando aporta", "Pruebas con datos reales", "Documentación para saber cómo funciona"],
+    note: "Empiezo por lo pequeño y comprobable, sin prometer milagros.",
+    group: "automatizacion",
+  },
+];
+
+export default site.isCommercial ? comercial : portfolio;

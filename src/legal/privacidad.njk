@@ -22,9 +22,12 @@ updated: 2026-10-08
 <table>
   <thead><tr><th>Tratamiento</th><th>Datos</th><th>Finalidad</th><th>Base jurídica</th></tr></thead>
   <tbody>
-    <tr><td data-label="Tratamiento">Cuestionario de contacto</td><td data-label="Datos">Nombre, email, municipio, servicio que necesitas, descripción del caso, equipo y urgencia</td><td data-label="Finalidad">Responder a tu solicitud y, si lo pides, preparar un presupuesto</td><td data-label="Base jurídica">Tu consentimiento y la aplicación de medidas precontractuales a petición tuya (art. 6.1.a y 6.1.b RGPD)</td></tr>
+    <tr><td data-label="Tratamiento">Cuestionario de contacto</td>{%- if site.isCommercial %}<td data-label="Datos">Nombre, email, municipio, servicio que necesitas, descripción del caso, equipo y urgencia</td><td data-label="Finalidad">Responder a tu solicitud y, si lo pides, preparar un presupuesto</td><td data-label="Base jurídica">Tu consentimiento y la aplicación de medidas precontractuales a petición tuya (art. 6.1.a y 6.1.b RGPD)</td></tr>
     <tr><td data-label="Tratamiento">Correo electrónico</td><td data-label="Datos">Los datos que incluyas en tu mensaje</td><td data-label="Finalidad">Atender tu consulta</td><td data-label="Base jurídica">Consentimiento y medidas precontractuales (art. 6.1.a y 6.1.b RGPD)</td></tr>
     <tr><td data-label="Tratamiento">Clientes</td><td data-label="Datos">Identificación, contacto, datos del equipo y del trabajo realizado, facturación</td><td data-label="Finalidad">Prestar el servicio, elaborar el informe del trabajo y facturar</td><td data-label="Base jurídica">Ejecución del contrato (art. 6.1.b) y obligaciones legales fiscales y contables (art. 6.1.c RGPD)</td></tr>
+    {%- else %}<td data-label="Datos">Nombre, email, tema de la consulta, descripción del caso y equipo</td><td data-label="Finalidad">Responder a tu mensaje</td><td data-label="Base jurídica">Tu consentimiento (art. 6.1.a RGPD)</td></tr>
+    <tr><td data-label="Tratamiento">Correo electrónico</td><td data-label="Datos">Los datos que incluyas en tu mensaje</td><td data-label="Finalidad">Atender tu consulta</td><td data-label="Base jurídica">Tu consentimiento (art. 6.1.a RGPD)</td></tr>
+    {%- endif %}
     <tr><td data-label="Tratamiento">Estadísticas de visitas</td><td data-label="Datos">Datos técnicos agregados: página visitada, procedencia, tipo de dispositivo, navegador y país</td><td data-label="Finalidad">Saber qué contenidos se usan para mejorar la web</td><td data-label="Base jurídica">Interés legítimo (art. 6.1.f RGPD), con un sistema sin cookies que no identifica a las personas</td></tr>
     <tr><td data-label="Tratamiento">Seguridad y anti-spam</td><td data-label="Datos">Datos técnicos de la conexión{% if turnstile %} y señales de la verificación de Cloudflare Turnstile{% endif %}</td><td data-label="Finalidad">Proteger el formulario frente a envíos automáticos</td><td data-label="Base jurídica">Interés legítimo (art. 6.1.f RGPD)</td></tr>
   </tbody>
@@ -34,8 +37,12 @@ updated: 2026-10-08
 
 <h2>3. Cuánto tiempo conservo los datos</h2>
 <ul>
+  {%- if site.isCommercial %}
   <li><strong>Solicitudes que no terminan en encargo:</strong> hasta 12 meses desde el último contacto, por si retomas la consulta. Después se eliminan.</li>
   <li><strong>Clientes:</strong> mientras dure la relación y, después, durante los plazos que exige la normativa fiscal y mercantil (con carácter general, hasta seis años para la documentación contable y de facturación).</li>
+  {%- else %}
+  <li><strong>Mensajes recibidos:</strong> hasta 12 meses desde el último contacto, por si retomas la consulta. Después se eliminan.</li>
+  {%- endif %}
   <li><strong>Estadísticas:</strong> datos agregados durante un máximo de 6 meses.</li>
 </ul>
 
@@ -52,7 +59,7 @@ updated: 2026-10-08
 </ul>
 <p>Algunos de estos proveedores están en Estados Unidos. Las transferencias se amparan en el Marco de Privacidad de Datos UE-EE. UU. cuando el proveedor está adherido o, en su defecto, en las cláusulas contractuales tipo aprobadas por la Comisión Europea.</p>
 <p>Las fuentes tipográficas y las librerías de la web (incluida Three.js, que dibuja el logo 3D de la portada) se sirven desde este mismo dominio, sin conexiones a redes de distribución de terceros.</p>
-<p>Fuera de estos casos, solo comunicaré datos cuando lo exija una obligación legal (por ejemplo, a la Agencia Tributaria).</p>
+<p>Fuera de estos casos, solo comunicaré datos cuando lo exija una obligación legal{{ " (por ejemplo, a la Agencia Tributaria)" if site.isCommercial }}.</p>
 
 <h2>5. Enlaces de afiliado</h2>
 <p>Las guías incluyen enlaces de afiliado a tiendas como Amazon. Al hacer clic sales de esta web y la tienda trata tus datos según su propia política de privacidad, incluidas sus cookies para atribuir la compra. Esta web no recibe datos personales tuyos por esa compra, solo informes agregados de comisiones.</p>
@@ -65,7 +72,7 @@ updated: 2026-10-08
 <p>Los servicios de esta web no se dirigen a menores de 14 años. Si eres menor, pide a tu padre, madre o tutor que contacte en tu nombre.</p>
 
 <h2>8. Seguridad</h2>
-<p>Aplico medidas técnicas y organizativas razonables para proteger tus datos: conexión cifrada (HTTPS), acceso restringido al correo y a la documentación de clientes y eliminación de los datos cuando dejan de ser necesarios.</p>
+<p>Aplico medidas técnicas y organizativas razonables para proteger tus datos: conexión cifrada (HTTPS), acceso restringido al correo{{ " y a la documentación de clientes" if site.isCommercial }} y eliminación de los datos cuando dejan de ser necesarios.</p>
 
 <h2>9. Cambios en esta política</h2>
 <p>Si cambia la forma de tratar los datos (por ejemplo, al añadir un proveedor), actualizaré esta página y su fecha.</p>

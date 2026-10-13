@@ -36,7 +36,7 @@ await icon(180, "apple-touch-icon.png", { background: BG, pad: 0.16 });
 
 // Imagen para redes sociales (Open Graph): 1200x630, logo a la izquierda y texto a la derecha.
 // El texto es SVG renderizado con las fuentes del sistema; revisa el resultado si cambias de equipo.
-async function ogImage(file) {
+async function ogImage(file, lines) {
   const W = 1200, H = 630;
   const bg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
   <defs>
@@ -53,8 +53,8 @@ async function ogImage(file) {
   <g font-family="Archivo, 'Segoe UI', Arial, sans-serif" fill="#e9f1ff">
     <text x="560" y="262" font-size="68" font-weight="700" letter-spacing="-1">Víctor Rocamora</text>
     <rect x="562" y="294" width="120" height="5" rx="2.5" fill="url(#line)"/>
-    <text x="560" y="368" font-size="34" fill="#b9c8de">Servicio técnico informático</text>
-    <text x="560" y="414" font-size="34" fill="#b9c8de">y laboratorio de IA</text>
+    <text x="560" y="368" font-size="34" fill="#b9c8de">${lines[0]}</text>
+    <text x="560" y="414" font-size="34" fill="#b9c8de">${lines[1]}</text>
   </g>
   <text x="560" y="520" font-family="'JetBrains Mono', Consolas, monospace" font-size="26" fill="#00d0f8">victorrocamora.com</text>
 </svg>`;
@@ -66,7 +66,9 @@ async function ogImage(file) {
     .toFile(`${OUT}/${file}`);
 }
 
-await ogImage("og-default.png");
+// og-default: modo comercial. og-portfolio: modo portfolio (site.js elige cuál usar según site.mode)
+await ogImage("og-default.png", ["Servicio técnico informático", "y laboratorio de IA"]);
+await ogImage("og-portfolio.png", ["Técnico de sistemas, guías tech", "y laboratorio de IA"]);
 
 const meta = await sharp(SRC).metadata();
 console.log(`Imágenes generadas desde ${SRC} (${meta.width}x${meta.height}) en ${OUT}`);

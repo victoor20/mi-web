@@ -30,6 +30,31 @@ pipelines:
       - { name: "Proceso", text: "Reglas sencillas preparan el mensaje. Aquí no hace falta IA." }
       - { name: "Control humano", text: "Apruebas el borrador antes de que salga." }
       - { name: "Resultado", text: "El cliente recibe su recordatorio a tiempo." }
+pipelinesPortfolio:
+  - id: correo
+    label: "Clasificar el correo entrante"
+    ai: true
+    stages:
+      - { name: "Disparador", text: "Llega un correo nuevo a la bandeja de trabajo." }
+      - { name: "Proceso", text: "Un modelo de lenguaje lo clasifica (consulta, incidencia, factura) y extrae los datos clave." }
+      - { name: "Control humano", text: "Los casos dudosos quedan marcados para que los revises tú." }
+      - { name: "Resultado", text: "Correo etiquetado y aviso inmediato de lo urgente." }
+  - id: documentos
+    label: "Resumir documentos largos"
+    ai: true
+    stages:
+      - { name: "Disparador", text: "Dejas un PDF en una carpeta compartida." }
+      - { name: "Proceso", text: "Se extrae el texto y se resume citando las páginas de donde sale cada dato." }
+      - { name: "Control humano", text: "Compruebas el resumen con las citas a la vista." }
+      - { name: "Resultado", text: "Una ficha ordenada en tu hoja de cálculo." }
+  - id: recordatorios
+    label: "Recordatorios de fechas"
+    ai: false
+    stages:
+      - { name: "Disparador", text: "Se acerca una fecha apuntada en una hoja de cálculo." }
+      - { name: "Proceso", text: "Reglas sencillas preparan el mensaje. Aquí no hace falta IA." }
+      - { name: "Control humano", text: "Apruebas el borrador antes de que salga." }
+      - { name: "Resultado", text: "El recordatorio llega a tiempo." }
 log:
   - { title: "Jarvis, agente personal", status: "En funcionamiento", live: true, text: "Agente 24/7 con memoria, herramientas controladas y aprobación humana para cualquier acción externa.", url: "/proyectos/jarvis/" }
   - { title: "Agentes con herramientas", status: "Aplicado en Jarvis", text: "Cómo dar a un modelo herramientas útiles sin perder el control de lo que hace." }
@@ -39,6 +64,7 @@ log:
   - { title: "Cloud en AWS", status: "Formación en curso", text: "Redes, despliegue y seguridad básica para que lo construido pueda vivir fuera de mi equipo." }
 ---
 {% from "macros.njk" import facetDivider %}
+{%- set pipes = pipelines if site.isCommercial else pipelinesPortfolio %}
 <header class="page-hero lab-hero">
   <div class="wrap">
     <p class="kicker mono">Laboratorio</p>
@@ -54,12 +80,12 @@ log:
     <p class="lead-text">Toda automatización fiable tiene cuatro partes. Elige una tarea y mira por dónde pasa.</p>
 
     <div class="anatomy__tabs" role="tablist" aria-label="Ejemplos de tareas" hidden data-tabs>
-      {%- for p in pipelines %}
+      {%- for p in pipes %}
       <button class="anatomy__tab" type="button" role="tab" id="tab-{{ p.id }}" aria-controls="pipe-{{ p.id }}" aria-selected="{{ 'true' if loop.first else 'false' }}" tabindex="{{ '0' if loop.first else '-1' }}">{{ p.label }}</button>
       {%- endfor %}
     </div>
 
-    {%- for p in pipelines %}
+    {%- for p in pipes %}
     <div class="pipe" id="pipe-{{ p.id }}" role="tabpanel" aria-labelledby="tab-{{ p.id }}" data-pipe>
       <p class="pipe__title"><span class="mono">{{ "Con IA" if p.ai else "Sin IA" }}</span>{{ p.label }}</p>
       <ol class="pipe__stages">
@@ -113,10 +139,17 @@ log:
 <section class="section offer" aria-labelledby="offer-title">
   <div class="wrap offer__grid">
     <article class="offer__card">
+      {%- if site.isCommercial %}
       <p class="kicker mono">Para tu negocio, hoy</p>
       <h2 class="offer__title" id="offer-title">Automatizaciones sencillas</h2>
       <p>Tareas repetitivas con correos, hojas de cálculo, avisos o documentos. Empiezo por lo pequeño y comprobable, y te digo con franqueza cuándo algo no compensa.</p>
       <a class="text-link" href="/servicios/#automatizacion">Ver el servicio →</a>
+      {%- else %}
+      <p class="kicker mono">Lo que ya sé hacer</p>
+      <h2 class="offer__title" id="offer-title">Automatizaciones sencillas</h2>
+      <p>Tareas repetitivas con correos, hojas de cálculo, avisos o documentos. Empiezo por lo pequeño y comprobable, y digo con franqueza cuándo algo no compensa.</p>
+      <a class="text-link" href="{{ site.servicesUrl }}#automatizacion">Ver más →</a>
+      {%- endif %}
     </article>
     <article class="offer__card">
       <p class="kicker mono">Para equipos y empresas</p>

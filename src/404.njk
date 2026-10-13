@@ -22,11 +22,11 @@ pieces:
     <div class="lost__copy">
       <p class="kicker mono">Error 404</p>
       <h1 class="page-hero__title" id="lost-title">Aquí falta una pieza.</h1>
-      <p class="page-hero__intro">La página que buscas no existe o ha cambiado de sitio. Las guías y los servicios se reorganizaron hace poco; quizá esté en una de estas secciones.</p>
+      <p class="page-hero__intro">La página que buscas no existe o ha cambiado de sitio. Las guías y {{ "los servicios" if site.isCommercial else "el resto de secciones" }} se reorganizaron hace poco; quizá esté en una de estas secciones.</p>
       <div class="actions">
         <a class="btn btn--primary" href="/">Volver al inicio</a>
         <a class="btn btn--ghost" href="/guias/">Guías</a>
-        <a class="btn btn--ghost" href="/servicios/">Servicios</a>
+        <a class="btn btn--ghost" href="{{ site.servicesUrl }}">{{ "Servicios" if site.isCommercial else "Lo que sé hacer" }}</a>
       </div>
       <button class="lost__fix btn btn--ghost btn--sm" type="button" hidden data-fix>Recomponer el logo</button>
     </div>

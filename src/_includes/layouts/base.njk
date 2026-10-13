@@ -3,8 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>{{ title }}</title>
-  <meta name="description" content="{{ description }}">
+  {#- Modo portfolio: metadatos propios en el front matter (portfolioMeta). En modo comercial se usan title, description y ogTitle -#}
+  {%- set pm = portfolioMeta if (portfolioMeta and not site.isCommercial) else {} %}
+  {%- set pageTitle = pm.title or title %}
+  {%- set pageDescription = pm.description or description %}
+  <title>{{ pageTitle }}</title>
+  <meta name="description" content="{{ pageDescription }}">
   {%- set canonical = (canonicalUrl or page.url) | absoluteUrl(site.url) %}
   <link rel="canonical" href="{{ canonical }}">
   {%- if noindex %}
@@ -16,8 +20,8 @@
   <meta property="og:type" content="{{ ogType or 'website' }}">
   <meta property="og:locale" content="{{ site.locale }}">
   <meta property="og:site_name" content="{{ site.name }}">
-  <meta property="og:title" content="{{ ogTitle or title }}">
-  <meta property="og:description" content="{{ description }}">
+  <meta property="og:title" content="{{ pm.ogTitle or ogTitle or pageTitle }}">
+  <meta property="og:description" content="{{ pageDescription }}">
   <meta property="og:url" content="{{ canonical }}">
   {%- set og = ogImage or site.ogImage %}
   <meta property="og:image" content="{{ og.url | absoluteUrl(site.url) }}">

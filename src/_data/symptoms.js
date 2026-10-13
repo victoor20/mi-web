@@ -1,4 +1,6 @@
 // Buscador por síntoma de /servicios/: qué reviso primero y qué servicio suele encajar.
+import site from "./site.js";
+
 export default [
   {
     id: "no-arranca",
@@ -43,7 +45,7 @@ export default [
   {
     id: "comprar",
     label: "Quiero comprar o montar uno",
-    checks: ["Para qué lo vas a usar", "Presupuesto real", "Compatibilidad entre piezas"],
+    checks: ["Para qué lo vas a usar", site.isCommercial ? "Presupuesto real" : "Cuánto quieres gastar", "Compatibilidad entre piezas"],
     usually: "Una buena elección evita pagar por potencia que no vas a aprovechar.",
     meanwhile: "Las guías de compra te ayudan a llegar con las ideas más claras.",
     service: "montaje-compra",

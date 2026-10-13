@@ -1,7 +1,19 @@
 // Configuración central del sitio.
 // Todo lo que aparece entre [CORCHETES] es un marcador pendiente de rellenar.
 // Un valor con marcador se trata como "no configurado": la web lo oculta o lo desactiva.
+// Modo de la web: es el único interruptor entre las dos versiones.
+//   "portfolio": identidad personal, sin oferta comercial (por defecto)
+//   "comercial": servicio técnico con presupuesto, zona de servicio y reseñas (etiqueta de Git: version-comercial)
+// Para probar el otro modo sin tocar el archivo: SITE_MODE=comercial npm run build
+const mode = process.env.SITE_MODE || "portfolio";
+if (!["portfolio", "comercial"].includes(mode)) throw new Error(`site.mode debe ser "portfolio" o "comercial" (es "${mode}")`);
+const comercial = mode === "comercial";
+
 export default {
+  mode,
+  isCommercial: comercial,
+  // URL de la página de servicios (en modo portfolio es "Lo que sé hacer")
+  servicesUrl: comercial ? "/servicios/" : "/lo-que-se-hacer/",
   name: "Víctor Rocamora",
   url: "https://victorrocamora.com",
   lang: "es",
@@ -14,10 +26,13 @@ export default {
     fullName: "[NOMBRE Y APELLIDOS]",
     nif: "[NIF]",
     address: "[DOMICILIO FISCAL]",
-    activity: "Servicios informáticos y consultoría tecnológica como trabajador autónomo",
+    activity: comercial
+      ? "Servicios informáticos y consultoría tecnológica como trabajador autónomo"
+      : "Web personal con contenido divulgativo y enlaces de afiliado",
   },
 
-  // Zona de servicio: sin establecimiento ni dirección pública
+  // Zona de servicio (modo comercial): sin establecimiento ni dirección pública.
+  // En modo portfolio solo se usan base y region, en "Sobre mí", como lugar de residencia
   area: {
     label: "Crevillent, Elche y comarca",
     base: "Crevillent",
@@ -61,13 +76,15 @@ export default {
   threeUrl: "/assets/vendor/three.min.js",
 
   // Imagen para redes sociales (1200x630, generada con npm run images)
-  ogImage: { url: "/assets/img/og-default.png", width: 1200, height: 630, alt: "Víctor Rocamora · Servicio técnico informático y laboratorio de IA" },
+  ogImage: comercial
+    ? { url: "/assets/img/og-default.png", width: 1200, height: 630, alt: "Víctor Rocamora · Servicio técnico informático y laboratorio de IA" }
+    : { url: "/assets/img/og-portfolio.png", width: 1200, height: 630, alt: "Víctor Rocamora · Técnico de sistemas, guías tech y laboratorio de IA" },
 
   nav: [
-    { label: "Servicios", url: "/servicios/" },
+    comercial ? { label: "Servicios", url: "/servicios/" } : { label: "Lo que sé hacer", url: "/lo-que-se-hacer/" },
     { label: "Laboratorio IA", url: "/ia/" },
     { label: "Guías", url: "/guias/" },
     { label: "Sobre mí", url: "/sobre-mi/" },
   ],
-  cta: { label: "Pedir presupuesto", url: "/contacto/" },
+  cta: { label: comercial ? "Pedir presupuesto" : "Contactar", url: "/contacto/" },
 };

@@ -1,7 +1,14 @@
 # victorrocamora.com
 
-Web personal de Víctor Rocamora: servicio técnico informático en Elche, AI Engineering y guías tech.
+Web personal de Víctor Rocamora: técnico de sistemas, AI Engineering y guías tech.
 Sitio estático generado con [Eleventy](https://www.11ty.dev/).
+
+## Modo portfolio / modo comercial
+
+`mode` en `src/_data/site.js` ("portfolio" por defecto, o "comercial") decide todo lo que cambia entre las dos versiones:
+textos, CTAs, la página de servicios (`/lo-que-se-hacer/` en portfolio, `/servicios/` en comercial), cuestionario, legales, JSON-LD,
+reseñas e imagen social. Para probar el otro modo sin tocar el archivo: `SITE_MODE=comercial npm run build`.
+La versión comercial completa está también en la etiqueta de Git `version-comercial`.
 
 ## Desarrollo
 

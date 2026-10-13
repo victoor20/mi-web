@@ -85,7 +85,7 @@ export default function contact(form) {
   prev.addEventListener("click", () => show(current - 1));
 
   // Al elegir una opción en un paso de botones, avanzar solo
-  form.querySelectorAll('[data-step="1"] input, [data-step="3"] input').forEach((input) => {
+  form.querySelectorAll(".quiz__choices input").forEach((input) => {
     input.addEventListener("change", () => {
       steps[current].querySelector("[data-error]").hidden = true;
       setTimeout(() => { if (steps[current].contains(input)) show(current + 1); }, 220);

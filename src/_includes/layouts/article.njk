@@ -39,7 +39,7 @@ criticalSections: ["Prosa (artículos y páginas legales)", "Guías: artículo"]
         {{ content | safe }}
       </div>
 
-      {%- if svc %}
+      {%- if svc and site.isCommercial %}
       <aside class="article__service" aria-label="Servicio relacionado">
         <p class="kicker mono">¿Prefieres que lo haga yo?</p>
         <p class="article__service-title">{{ svc.name }}</p>
@@ -47,6 +47,16 @@ criticalSections: ["Prosa (artículos y páginas legales)", "Guías: artículo"]
         <div class="actions">
           <a class="btn btn--primary btn--sm" href="/contacto/?servicio={{ svc.slug }}">Pedir presupuesto</a>
           <a class="btn btn--ghost btn--sm" href="/servicios/#{{ svc.slug }}">Ver el servicio</a>
+        </div>
+      </aside>
+      {%- elif svc %}
+      <aside class="article__service" aria-label="Tema relacionado">
+        <p class="kicker mono">¿Tienes dudas con tu caso?</p>
+        <p class="article__service-title">{{ svc.name }}</p>
+        <p>{{ svc.short }}</p>
+        <div class="actions">
+          <a class="btn btn--primary btn--sm" href="/contacto/?servicio={{ svc.slug }}">Contactar</a>
+          <a class="btn btn--ghost btn--sm" href="{{ site.servicesUrl }}#{{ svc.slug }}">Lo que sé hacer</a>
         </div>
       </aside>
       {%- endif %}
