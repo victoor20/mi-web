@@ -1,16 +1,11 @@
-// Página interna /_pruebas/: demostración de tokens (punto 2) y líneas de tiempo (punto 5).
-// Los separadores (punto 3) usan el destello común de main.js.
-const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-/* ---------- Punto 2: así trocea un modelo una frase (simulación didáctica) ---------- */
-const demo = document.querySelector('[data-demo="tokens"]');
-if (demo) {
-  const input = demo.querySelector("[data-tok-input]");
-  const out = demo.querySelector("[data-tok-out]");
-  const stats = demo.querySelector("[data-tok-stats]");
-  const bar = demo.querySelector("[data-tok-bar]");
-  const ctx = demo.querySelector(".pr-ctx");
-  const ids = demo.querySelector("[data-tok-ids]");
+// Demo de la fase 2: así trocea un modelo una frase (simulación didáctica, sin tokenizador real).
+export default function tokens(root) {
+  const input = root.querySelector("[data-tok-input]");
+  const out = root.querySelector("[data-tok-out]");
+  const stats = root.querySelector("[data-tok-stats]");
+  const bar = root.querySelector("[data-tok-bar]");
+  const ctx = root.querySelector(".tk__ctx");
+  const ids = root.querySelector("[data-tok-ids]");
   const WINDOW = 48;
   const LETTERS = "A-Za-zÁÉÍÓÚÜÑáéíóúüñ";
   const SUFFIXES = ["mente", "ciones", "ción", "iendo", "ando", "ado", "ido", "ar", "er", "ir", "es", "os", "as"];
@@ -56,33 +51,4 @@ if (demo) {
   input.addEventListener("input", render);
   ids.addEventListener("change", render);
   render();
-}
-
-/* ---------- Punto 5: líneas de tiempo que se dibujan con el scroll ---------- */
-const lines = [...document.querySelectorAll("[data-timeline]")];
-if (lines.length) {
-  lines.forEach((el) => el.classList.add("is-live"));
-  let frame = 0;
-  const update = () => {
-    frame = 0;
-    const vh = window.innerHeight;
-    const guide = vh * 0.62; // línea guía: lo que la cruza se ilumina
-    lines.forEach((el) => {
-      const r = el.getBoundingClientRect();
-      if (r.bottom < -120 || r.top > vh + 120) return;
-      const stages = [...el.querySelectorAll("[data-stage]")];
-      let lit = 0;
-      stages.forEach((s) => {
-        const sr = s.getBoundingClientRect();
-        const on = reduce || sr.top + Math.min(sr.height, 120) / 2 < guide;
-        s.classList.toggle("is-lit", on);
-        if (on) lit++;
-      });
-      const p = reduce ? 1 : el.classList.contains("tlC") ? lit / stages.length : Math.min(Math.max((guide - r.top) / r.height, 0), 1);
-      el.style.setProperty("--p", p.toFixed(3));
-    });
-  };
-  window.addEventListener("scroll", () => { if (!frame) frame = requestAnimationFrame(update); }, { passive: true });
-  window.addEventListener("resize", () => { if (!frame) frame = requestAnimationFrame(update); });
-  update();
 }

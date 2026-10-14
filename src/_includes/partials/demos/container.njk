@@ -1,0 +1,24 @@
+<div class="ct" data-ct>
+  <div class="ct__ctrl">
+    <label class="demo__label" for="ct-ep">Petición</label>
+    <select class="demo__input" id="ct-ep" data-ct-ep>
+      <option value="0">POST /resumir</option>
+      <option value="1">GET /salud</option>
+    </select>
+    <label class="demo__check"><input type="checkbox" checked data-ct-on> Contenedor encendido</label>
+    <button class="btn btn--primary btn--sm" type="button" hidden data-ct-send>Enviar ▶</button>
+  </div>
+  <div class="ct__map" aria-hidden="true" data-ct-map>
+    <div class="ct__node">Cliente<small>navegador, app</small></div>
+    <div class="ct__wire"><span class="ct__packet" data-ct-packet></span></div>
+    <div class="ct__box" data-ct-box><span class="ct__box-label mono">contenedor · mi-api</span>
+      <div class="ct__inner"><div>FastAPI<small>endpoints</small></div><div>Modelo<small>IA</small></div></div>
+    </div>
+  </div>
+  <div class="ct__panels">
+    <div><p class="demo__label mono">Petición</p><pre data-ct-req>POST /resumir
+{"texto": "Reparar un portátil lento…"}</pre></div>
+    <div><p class="demo__label mono">Log del contenedor</p><pre data-ct-log>Esperando peticiones en :8000</pre></div>
+    <div><p class="demo__label mono">Respuesta</p><pre data-ct-res role="status" aria-live="polite">Pulsa «Enviar»</pre></div>
+  </div>
+</div>

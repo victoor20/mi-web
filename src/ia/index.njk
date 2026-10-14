@@ -106,7 +106,7 @@ log:
 <section class="section roadmap" aria-labelledby="roadmap-title">
   <div class="wrap">
     <h2 class="section-title" id="roadmap-title">Hoja de ruta</h2>
-    <p class="lead-text">El orden en el que estoy aprendiendo AI Engineering por mi cuenta. Pulsa una fase para ver qué aprendo, con qué recursos y qué proyecto sale de ella.</p>
+    <p class="lead-text">El orden en el que estoy aprendiendo AI Engineering por mi cuenta. Cada fase trae su demostración para ver el concepto en acción.</p>
     <p class="roadmap__now mono">Ahora: fase {{ roadmap.progress.phase }}{% if roadmap.progress.percent %}, {{ roadmap.progress.percent }} %{% endif %} · el destello marca por dónde voy</p>
 
     <div class="roadmap__path" data-module="roadmap" data-phase="{{ roadmap.progress.phase }}" data-percent="{{ roadmap.progress.percent }}">
@@ -114,17 +114,14 @@ log:
         {%- for p in roadmap.phases %}
         <li class="roadmap__step roadmap__step--{{ p.state }}" data-step>
           <span class="roadmap__node" aria-hidden="true" data-node></span>
-          <h3 class="roadmap__head">
-            <button class="roadmap__toggle" type="button" aria-expanded="true" aria-controls="fase-{{ loop.index }}" id="fase-{{ loop.index }}-btn">
-              <span class="roadmap__num mono">Fase {{ loop.index }}</span>
-              <span class="roadmap__title">{{ p.title }}</span>
-              <span class="roadmap__status mono">{{ roadmap.states[p.state] }}</span>
-              <span class="roadmap__chev" aria-hidden="true"></span>
-              <span class="roadmap__summary">{{ p.summary }}</span>
-            </button>
-          </h3>
-          <div class="roadmap__panel" id="fase-{{ loop.index }}" role="region" aria-labelledby="fase-{{ loop.index }}-btn">
-            <div class="roadmap__panel-inner">
+          <div class="roadmap__row">
+            <div class="roadmap__info">
+              <div class="roadmap__head">
+                <span class="roadmap__num mono">Fase {{ loop.index }}</span>
+                <span class="roadmap__status mono">{{ roadmap.states[p.state] }}</span>
+              </div>
+              <h3 class="roadmap__title">{{ p.title }}</h3>
+              <p class="roadmap__summary">{{ p.summary }}</p>
               <div class="roadmap__detail">
                 {%- if p.learn.length %}
                 <div>
@@ -144,6 +141,15 @@ log:
                   <ul>{% for item in p.projects %}<li>{{ item }}</li>{% endfor %}</ul>
                 </div>
                 {%- endif %}
+              </div>
+            </div>
+            <div class="demo" data-demo="{{ p.demo.id }}">
+              <div class="demo__head">
+                <span class="demo__title mono">{{ p.demo.title }}</span>
+                <span class="demo__sim mono">Simulación</span>
+              </div>
+              <div class="demo__body">
+                {%- include "partials/demos/" + p.demo.id + ".njk" %}
               </div>
             </div>
           </div>

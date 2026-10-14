@@ -9,12 +9,21 @@ export default function flipcard(root, { reduceMotion }) {
   const inner = root.querySelector(".flipcard__inner");
 
   root.classList.add("is-ready");
+  let turning = 0;
+  // El destello del contorno solo se mueve mientras la tarjeta está en pantalla
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(([entry]) => root.classList.toggle("is-live", entry.isIntersecting)).observe(root);
+  }
   toggle.hidden = false;
   hint.hidden = false;
   back.inert = true;
 
   const set = (flipped) => {
     root.classList.remove("is-peeking");
+    // El contorno con destello no gira con la tarjeta: se apaga mientras da la vuelta
+    root.classList.add("is-turning");
+    clearTimeout(turning);
+    turning = setTimeout(() => root.classList.remove("is-turning"), reduceMotion ? 0 : 850);
     root.classList.toggle("is-flipped", flipped);
     toggle.setAttribute("aria-pressed", String(flipped));
     front.inert = flipped;

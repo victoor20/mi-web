@@ -1,0 +1,17 @@
+<div class="qt" data-qt>
+  <label class="demo__label" for="qt-range">Precisión de cada peso</label>
+  <input class="qt__range" id="qt-range" type="range" min="0" max="3" step="1" value="0" list="qt-marks" data-qt-range aria-valuetext="32 bits, FP32">
+  <datalist id="qt-marks"><option value="0"></option><option value="1"></option><option value="2"></option><option value="3"></option></datalist>
+  <div class="qt__scale mono" aria-hidden="true"><span>32 bits</span><span>16</span><span>8</span><span>4 bits</span></div>
+  <svg class="qt__chart" viewBox="0 0 320 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <path class="qt__orig" data-qt-orig d=""/>
+    <path class="qt__quant" data-qt-quant d=""/>
+  </svg>
+  <dl class="qt__stats">
+    <div><dt class="mono">Niveles por peso</dt><dd data-qt-levels>4.294.967.296</dd></div>
+    <div><dt class="mono">Modelo de 7B parámetros</dt><dd data-qt-size>28 GB</dd></div>
+    <div><dt class="mono">Cabe en</dt><dd data-qt-fit>Servidor con GPU grande</dd></div>
+  </dl>
+  <div class="qt__size" aria-hidden="true"><span data-qt-sizebar style="width: 100%"></span></div>
+  <p class="demo__note">La línea blanca es el valor real; la cian, lo que queda al redondearlo a menos niveles. Con 4 bits el modelo pesa ocho veces menos, a costa de algo de precisión.</p>
+</div>

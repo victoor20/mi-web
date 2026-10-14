@@ -2,9 +2,8 @@
 // En cada visita aparecen en posiciones y giros aleatorios por la zona de juego (sin tapar el texto ni los botones).
 // Encajan al soltarlas cerca de su hueco y entonces se corrige su giro. "Recomponer el logo" es la alternativa
 // sin arrastrar, también para teclado. Sin JavaScript se ve el logo desmontado con sus huecos.
-const SNAP = 34; // distancia (unidades del SVG) a la que una pieza encaja al soltarla
-const NEAR = 80; // distancia a la que su hueco se ilumina
-const MUTE_KEY = "vr-404-silencio";
+const SNAP = 52; // distancia (unidades del SVG) a la que una pieza encaja al soltarla (no encaja sola: hay que soltarla)
+const NEAR = 120; // distancia a la que su hueco se ilumina
 
 const rand = (a, b) => a + Math.random() * (b - a);
 
@@ -19,7 +18,6 @@ export default function lost(root, { reduceMotion }) {
   const win = root.querySelector("[data-win]");
   const status = root.querySelector(".lost__status");
   const play = root.querySelector(".lost__play");
-  const soundBtn = root.querySelector("[data-sound]");
   const total = Number(count.dataset.total);
 
   // El orden del DOM cambia al arrastrar (la pieza sube al frente): el estado va por pieza
@@ -39,27 +37,11 @@ export default function lost(root, { reduceMotion }) {
     p.el.style.setProperty("--r", `${p.r.toFixed(1)}deg`);
   };
 
-  // --- Sonido: Web Audio, sin archivos. Sin movimiento reducido no hay sonido ni botón.
+  // --- Sonido: Web Audio, sin archivos. Activado por defecto; con movimiento reducido no suena.
   let ctx = null;
-  let muted = false;
-  try { muted = localStorage.getItem(MUTE_KEY) === "1"; } catch { /* sin almacenamiento: no se recuerda */ }
   const audioOk = !reduceMotion && (window.AudioContext || window.webkitAudioContext);
-
-  const paintSound = () => {
-    soundBtn.setAttribute("aria-pressed", String(muted));
-    soundBtn.querySelector("[data-sound-label]").textContent = muted ? "Sonido silenciado" : "Sonido activado";
-  };
-  if (audioOk) {
-    soundBtn.hidden = false;
-    paintSound();
-    soundBtn.addEventListener("click", () => {
-      muted = !muted;
-      try { localStorage.setItem(MUTE_KEY, muted ? "1" : "0"); } catch { /* ignorar */ }
-      paintSound();
-    });
-  }
   const audio = () => {
-    if (!audioOk || muted) return null;
+    if (!audioOk) return null;
     ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
     if (ctx.state === "suspended") ctx.resume();
     return ctx;
@@ -83,44 +65,37 @@ export default function lost(root, { reduceMotion }) {
   const snapSound = () => { tone(520, 0, 0.16, 0.05); tone(1040, 0.02, 0.12, 0.02, "triangle"); };
   const winSound = () => [523, 659, 784, 1047].forEach((f, i) => tone(f, i * 0.09, 0.28, 0.045));
 
-  // --- Dispersión: posiciones y giros aleatorios por la zona de juego
+  // --- Dispersión: posiciones y giros aleatorios dentro del logo y su entorno cercano (nunca lejos ni en los bordes)
   const scatter = () => {
     const s = svg.getBoundingClientRect();
     const k = s.width / 1170;
     const pr = play.getBoundingClientRect();
     const header = document.querySelector("[data-header]")?.getBoundingClientRect().bottom ?? 72;
-    const sec = root.getBoundingClientRect();
-    const wide = window.matchMedia("(min-width: 861px)").matches;
-    // Zona: la columna de juego; en escritorio, a todo lo alto de la sección
-    const zone = {
-      l: pr.left + 8,
-      r: pr.right - 8,
-      t: Math.max(wide ? sec.top : pr.top - 50, header + 8),
-      b: wide ? Math.min(sec.bottom, window.innerHeight) - 16 : pr.bottom,
-    };
     const st = status.getBoundingClientRect();
-    const keepOut = { l: st.left - 12, r: st.right + 12, t: st.top - 12, b: st.bottom + 12 }; // texto de ayuda, contador y sonido
     const lb = svg.querySelector(".lost__holes").getBBox();
-    const logo = { l: s.left + (lb.x + lb.width * 0.15) * k, r: s.left + (lb.x + lb.width * 0.85) * k, t: s.top + (lb.y + lb.height * 0.15) * k, b: s.top + (lb.y + lb.height * 0.85) * k };
-    const hits = (c, rad, box) => c.x + rad > box.l && c.x - rad < box.r && c.y + rad > box.t && c.y - rad < box.b;
+    const logo = { l: s.left + lb.x * k, r: s.left + (lb.x + lb.width) * k, t: s.top + lb.y * k, b: s.top + (lb.y + lb.height) * k };
+    const margin = Math.max(logo.r - logo.l, logo.b - logo.t) * 0.16;
+    // Zona: el logo ampliado un poco, sin salirse de su columna, ni subir bajo la cabecera, ni pisar el texto de ayuda
+    const zone = {
+      l: Math.max(logo.l - margin, pr.left + 4),
+      r: Math.min(logo.r + margin, pr.right - 4),
+      t: Math.max(logo.t - margin, header + 6),
+      b: Math.min(logo.b + margin, st.top - 10),
+    };
+    const between = (a, b) => (b > a ? rand(a, b) : (a + b) / 2);
 
     const placed = [];
     pieces.forEach((p) => {
-      const rad = p.radius * k;
-      let best = null;
-      for (let n = 0; n < 80; n++) {
-        const c = { x: rand(zone.l + rad, zone.r - rad), y: rand(zone.t + rad, Math.max(zone.t + rad, zone.b - rad)) };
-        if (hits(c, rad, keepOut)) continue; // radio completo: la pieza girada nunca tapa el texto
-        best = c;
-        // Mejor candidato: fuera del logo y sin pisar a otras piezas
-        const apart = placed.every((o) => Math.hypot(o.x - c.x, o.y - c.y) > (o.rad + rad) * 0.6);
-        if (n < 50 && (hits(c, rad * 0.6, logo) || !apart)) continue;
-        break;
+      const rad = p.radius * k; // radio completo: la pieza girada nunca se sale de la zona
+      let c = null;
+      for (let n = 0; n < 60; n++) {
+        c = { x: between(zone.l + rad, zone.r - rad), y: between(zone.t + rad, zone.b - rad) };
+        // Preferible no encimarse con otras piezas
+        if (placed.every((o) => Math.hypot(o.x - c.x, o.y - c.y) > (o.rad + rad) * 0.9)) break;
       }
-      best = best || { x: (zone.l + zone.r) / 2, y: zone.t + rad };
-      placed.push({ ...best, rad });
-      p.x = (best.x - s.left) / k - p.cx;
-      p.y = (best.y - s.top) / k - p.cy;
+      placed.push({ ...c, rad });
+      p.x = (c.x - s.left) / k - p.cx;
+      p.y = (c.y - s.top) / k - p.cy;
       p.r0 = (Math.random() < 0.5 ? -1 : 1) * rand(30, 180);
       p.r = p.r0;
       p.placed = false;

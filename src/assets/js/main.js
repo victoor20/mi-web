@@ -103,17 +103,16 @@ if (dividers.length && "IntersectionObserver" in window && !reduceMotion.matches
 
   const route = (d) => {
     const box = d.getBoundingClientRect();
-    const [l1, l2] = [...d.querySelectorAll(".facet-divider__line")].map((l) => l.getBoundingClientRect());
     const shape = d.querySelector(".facet-divider__shape");
     const svg = shape.getBoundingClientRect();
-    const path = d.querySelector(".facet-divider__stroke");
+    const path = d.querySelector(".facet-divider__route"); // el recorrido completo: base y facetas, sin dibujarse
     const k = svg.width / (shape.viewBox.baseVal.width || 240);
     return {
       path, k,
-      x1: l1.left - box.left, w1: l1.width,
+      x1: 0, w1: svg.left - box.left,
       sx: svg.left - box.left, sy: svg.top - box.top, plen: path.getTotalLength() * k,
-      x2: l2.left - box.left, w2: l2.width,
-      y: l1.top + l1.height / 2 - box.top,
+      x2: svg.right - box.left, w2: box.right - svg.right,
+      y: box.height - 8, // el eje de la línea
     };
   };
   const pointAt = (r, s) => {

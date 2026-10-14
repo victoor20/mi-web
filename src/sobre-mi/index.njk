@@ -23,22 +23,30 @@ schema: "person"
     </div>
     <figure class="portrait" aria-label="Foto de Víctor Rocamora, con curiosidades en el reverso">
       <div class="flipcard" data-module="flipcard">
-        <div class="flipcard__inner">
-          <div class="flipcard__face flipcard__face--front" data-front>
-            {{ picture("victor-retrato", [360, 720], 720, 900, "Retrato de Víctor Rocamora: hombre de pelo corto oscuro y barba, con americana azul marino y camisa blanca, sobre fondo gris oscuro", "(min-width: 760px) 340px, 300px", true) }}
+        <div class="flipcard__box">
+          <div class="flipcard__inner">
+            <div class="flipcard__face flipcard__face--front" data-front>
+              {{ picture("victor-retrato", [360, 720], 720, 900, "Retrato de Víctor Rocamora: hombre de pelo corto oscuro y barba, con americana azul marino y camisa blanca, sobre fondo gris oscuro", "(min-width: 760px) 340px, 300px", true) }}
+            </div>
+            <div class="flipcard__face flipcard__face--back" data-back>
+              <p class="kicker mono">Curiosidades</p>
+              <ul class="flipcard__list">
+                {%- for cu in curiosidades %}
+                <li><span class="mono">{{ cu.tag }}</span>{{ cu.text }}</li>
+                {%- endfor %}
+              </ul>
+            </div>
           </div>
-          <div class="flipcard__face flipcard__face--back" data-back>
-            <p class="kicker mono">Curiosidades</p>
-            <ul class="flipcard__list">
-              {%- for c in curiosidades %}
-              <li><span class="mono">{{ c.tag }}</span>{{ c.text }}</li>
-              {%- endfor %}
-            </ul>
-          </div>
+          {#- Contorno facetado con un destello azul eléctrico que lo recorre (lento y sutil; se pausa fuera de pantalla) -#}
+          <svg class="flipcard__edge" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path class="flipcard__edge-base" d="M0 30 L88 0 L400 0 L400 440 L320 500 L0 500 Z" pathLength="100"/>
+            <path class="flipcard__edge-tail" d="M0 30 L88 0 L400 0 L400 440 L320 500 L0 500 Z" pathLength="100"/>
+            <path class="flipcard__edge-head" d="M0 30 L88 0 L400 0 L400 440 L320 500 L0 500 Z" pathLength="100"/>
+          </svg>
+          <button class="flipcard__toggle" type="button" aria-pressed="false" hidden data-flip>
+            <span class="visually-hidden">Dale la vuelta a la foto para ver curiosidades sobre mí</span>
+          </button>
         </div>
-        <button class="flipcard__toggle" type="button" aria-pressed="false" hidden data-flip>
-          <span class="visually-hidden">Dale la vuelta a la foto para ver curiosidades sobre mí</span>
-        </button>
         <p class="flipcard__hint mono" hidden aria-hidden="true" data-hint><span data-hint-text>Dale la vuelta</span> ↻</p>
       </div>
     </figure>
@@ -47,40 +55,42 @@ schema: "person"
 
 {{ jamMilestone() }}
 
-<section class="section about-body">
-  <div class="wrap about-body__grid">
-    <article class="about-block about-block--wide">
-      {%- if c %}
-      <h2 class="about-block__title">De dónde vengo</h2>
-      <p>Mi base está en los sistemas y el soporte técnico: equipos, redes, servidores y usuarios que necesitan que todo funcione. Sobre esa base he ido sumando cloud e inteligencia artificial.</p>
-      {%- else %}
-      <h2 class="about-block__title">Formación y trayectoria</h2>
-      <p>Empecé por la programación y los fundamentos, y de ahí pasé a los sistemas, las redes y el cloud, que es donde más he profundizado.</p>
-      {%- endif %}
-      <dl class="cv">
-        <div><dt class="mono">Base</dt><dd>Estudios de Ingeniería Informática (sin finalizar) en la Universidad Miguel Hernández de Elche: mi punto de partida en programación y fundamentos.</dd></div>
-        <div><dt class="mono">2022–2024</dt><dd>CFGS en Administración de Sistemas Informáticos en Red (ASIR), IES Severo Ochoa (Elche).</dd></div>
-        <div><dt class="mono">2025–2026</dt><dd>Curso de especialización en Administración Cloud, centrado en AWS, IES Poeta Paco Mollá (Petrer).</dd></div>
-        <div><dt class="mono">2025–2026</dt><dd>Máster en Inteligencia Artificial con doble titulación, BIG school, con el Diploma de Experto Universitario en IA de la Universidad Isabel I.</dd></div>
-        <div><dt class="mono">En curso</dt><dd>Formación autodidacta en AI Engineering, además del máster.</dd></div>
-        {%- if not c %}
-        <div><dt class="mono">Dónde vivo</dt><dd>{{ site.area.base }} ({{ site.area.region }})</dd></div>
-        {%- endif %}
-      </dl>
-    </article>
+<section class="section about-path" aria-labelledby="path-title">
+  <div class="wrap">
+    <h2 class="section-title" id="path-title">{{ "De dónde vengo" if c else "Formación y trayectoria" }}</h2>
+    <p class="lead-text">{{ "Mi base está en los sistemas y el soporte técnico: equipos, redes, servidores y usuarios que necesitan que todo funcione. Sobre esa base he ido sumando cloud e inteligencia artificial." if c else "Empecé por la programación y los fundamentos, y de ahí pasé a los sistemas, las redes y el cloud, que es donde más he profundizado." }}</p>
 
-    <article class="about-block">
-      <h2 class="about-block__title">Formación complementaria</h2>
-      <ul class="finder__checks">
-        <li>AWS Academy Cloud Security Builder (Trained).</li>
-        <li>Más de 40 laboratorios y simulaciones de AWS Skill Builder: serverless, DynamoDB, EKS, Lambda, CloudFormation, CloudFront, seguridad… Es formación práctica, no certificaciones oficiales.</li>
-        <li>Cinco cursos de Academia de Hackers (2025): seguridad y hardening en Linux, firewalls, Kali Linux, Docker Compose y Swarm.</li>
-        <li>Python Essentials 1 y 2, de Cisco Networking Academy.</li>
-      </ul>
-    </article>
+    <ol class="tlB" data-module="timeline">
+      {%- for s in trayectoria.stages %}
+      <li class="tlB__row" data-stage>
+        <span class="tlB__when mono">{{ s.when }}</span>
+        <span class="tlB__node" aria-hidden="true"></span>
+        <div class="tlB__body">
+          <h3>{{ s.title }}</h3>
+          <p class="tl__where">{{ s.where }}</p>
+          <p class="tl__note">{{ s.note }}{% if s.url %} <a class="text-link" href="{{ s.url }}">{{ s.link }}</a>{% endif %}</p>
+        </div>
+      </li>
+      {%- endfor %}
+    </ol>
+    {%- if not c %}
+    <p class="tl__live mono">Dónde vivo · {{ site.area.base }} ({{ site.area.region }})</p>
+    {%- endif %}
 
-    <article class="about-block">
-      <h2 class="about-block__title">Cómo trabajo</h2>
+    <h3 class="about-sub">Formación complementaria</h3>
+    <ul class="badges">
+      {%- for b in trayectoria.badges %}
+      <li class="badge"><span class="badge__tag mono">{{ b.tag }}</span>{{ b.text }}</li>
+      {%- endfor %}
+    </ul>
+    <p class="about-note">Los laboratorios de AWS Skill Builder son formación práctica, no certificaciones oficiales.</p>
+  </div>
+</section>
+
+<section class="section about-lite" aria-label="Cómo trabajo, hacia dónde voy y por qué escribo guías">
+  <div class="wrap lite">
+    <div class="lite__item">
+      <p class="kicker mono">Cómo trabajo</p>
       {%- if c %}
       <ul class="finder__checks">
         <li>Primero el diagnóstico, después la propuesta.</li>
@@ -91,21 +101,19 @@ schema: "person"
       {%- else %}
       <p>Me gusta tener claro qué falla antes de actuar, contarlo en un lenguaje llano y dejar anotado lo que se hizo. Y cuando algo se me escapa, lo reconozco y busco a quien sabe.</p>
       {%- endif %}
-    </article>
-
-    <article class="about-block">
-      <h2 class="about-block__title">Hacia dónde voy</h2>
+    </div>
+    <div class="lite__item">
+      <p class="kicker mono">Hacia dónde voy</p>
       {%- if c %}
       <p>Me estoy formando en AI Engineering: modelos de lenguaje, agentes, RAG y APIs. Lo aprendo construyendo, y el mejor ejemplo es <a class="text-link" href="/proyectos/jarvis/">Jarvis</a>, mi agente personal. El resto está en el <a class="text-link" href="/ia/">laboratorio</a>.</p>
       {%- else %}
       <p>Mi siguiente paso es la ingeniería de IA: agentes, RAG y APIs, aprendiendo construyendo. El mejor ejemplo es <a class="text-link" href="/proyectos/jarvis/">Jarvis</a>, mi agente personal; el resto está en el <a class="text-link" href="/ia/">laboratorio</a>.</p>
       {%- endif %}
-    </article>
-
-    <article class="about-block">
-      <h2 class="about-block__title">Por qué escribo guías</h2>
+    </div>
+    <div class="lite__item">
+      <p class="kicker mono">Por qué escribo guías</p>
       <p>{{ "Muchas consultas empiezan" if c else "Muchos problemas con los equipos empiezan" }} con una compra que no encajaba. Las <a class="text-link" href="/guias/">guías</a> recogen lo que conviene revisar antes de pagar, con un criterio que explico en la página de <a class="text-link" href="/guias/transparencia/">transparencia</a>. Soy el autor de todas.</p>
-    </article>
+    </div>
   </div>
 </section>
 

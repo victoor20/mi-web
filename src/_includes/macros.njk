@@ -4,15 +4,14 @@
 {#- Separador entre secciones con las facetas del logo. align: start | center | end -#}
 {% macro facetDivider(align="center", tone="azure") %}
 <div class="facet-divider facet-divider--{{ align }} facet-divider--{{ tone }}" aria-hidden="true" data-reveal>
-  <span class="facet-divider__line"></span>
   <svg class="facet-divider__shape" viewBox="0 0 240 48" width="240" height="48" focusable="false">
     <path class="facet-divider__fill facet-divider__fill--a" d="M40 40 L92 6 L120 40 Z"/>
     <path class="facet-divider__fill facet-divider__fill--b" d="M120 40 L148 20 L176 40 Z"/>
     <path class="facet-divider__fill facet-divider__fill--c" d="M92 6 L132 6 L120 40 Z"/>
-    <path class="facet-divider__stroke" d="M0 40 H40 L92 6 H132 L120 40 L148 20 L176 40 H240" pathLength="1"/>
+    <path class="facet-divider__stroke" d="M40 40 L92 6 H132 L120 40 L148 20 L176 40" pathLength="1"/>
+    <path class="facet-divider__route" d="M0 40 H40 L92 6 H132 L120 40 L148 20 L176 40 H240"/>
     <path class="facet-divider__spark" d="M92 0 L93.6 4.4 L98 6 L93.6 7.6 L92 12 L90.4 7.6 L86 6 L90.4 4.4 Z"/>
   </svg>
-  <span class="facet-divider__line"></span>
 </div>
 {% endmacro %}
 
@@ -52,25 +51,24 @@
 </picture>
 {% endmacro %}
 
-{#- Hito: 2.º puesto en la Final Nacional AWS JAM 2026. Solo se muestra en Sobre mí -#}
+{#- Hito: 2.º puesto en la Final Nacional AWS JAM 2026, en una banda a todo el ancho. Solo se muestra en Sobre mí -#}
 {% macro jamMilestone() %}
-<section class="section milestone" aria-labelledby="jam-title">
-  <div class="wrap">
-    <div class="milestone__card">
-      <div class="milestone__copy">
-        <p class="kicker mono">Hito destacado · 19 de junio de 2026</p>
-        <h2 class="milestone__title" id="jam-title">2.º puesto en la Final Nacional AWS JAM 2026</h2>
-        <p>En Barcelona, con mi equipo <strong>S3-less</strong> y dentro del programa Alianza Tech de AWS: retos prácticos de seguridad, automatización, infraestructura, optimización de costes y troubleshooting, todo contra reloj.</p>
-        <p class="milestone__links"><a class="text-link" href="https://builder.aws.com/content/3FGBmpVxiayeuR9USgA9QIfWapV/final-del-campeonato-nacional-aws-jam-2026-de-espana-pon-a-prueba-tus-habilidades-cloud" rel="noopener" target="_blank">Ver la publicación oficial de AWS ↗</a> <a class="text-link" href="https://www.linkedin.com/feed/update/urn:li:activity:7482830026070204416/" rel="noopener" target="_blank">Mi publicación en LinkedIn ↗</a></p>
-      </div>
-      <div class="milestone__photos">
-        <figure class="milestone__photo milestone__photo--lead">
-          {{ picture("aws-jam-equipo", [640, 1280], 1280, 853, "El equipo S3-less, cuatro integrantes con acreditación, posa junto a la pantalla de AWS JAM 2026 en el Institut TIC de Barcelona", "(min-width: 960px) 560px, 92vw") }}
-        </figure>
-        <figure class="milestone__photo milestone__photo--lead">
-          {{ picture("aws-jam-retos", [640, 1280], 1280, 853, "Los cuatro integrantes del equipo trabajando juntos en un portátil durante los retos de la final", "(min-width: 960px) 560px, 92vw") }}
-        </figure>
-      </div>
+<section class="jamA" aria-labelledby="jam-title">
+  <div class="wrap jamA__inner">
+    <span class="jam-num" aria-hidden="true">2.º</span>
+    <div class="jamA__copy">
+      <p class="kicker mono">Hito destacado · 19 de junio de 2026</p>
+      <h2 class="jam-title" id="jam-title"><span class="visually-hidden">2.º puesto en la </span>Final Nacional AWS JAM 2026</h2>
+      <p>Segundos de España con el equipo <strong>S3-less</strong>, dentro del programa Alianza Tech de AWS, en Barcelona: retos prácticos de seguridad, automatización, infraestructura, optimización de costes y troubleshooting, todo contra reloj.</p>
+      <p class="jam-links"><a class="text-link" href="https://builder.aws.com/content/3FGBmpVxiayeuR9USgA9QIfWapV/final-del-campeonato-nacional-aws-jam-2026-de-espana-pon-a-prueba-tus-habilidades-cloud" rel="noopener" target="_blank">Publicación oficial de AWS ↗</a> <a class="text-link" href="https://www.linkedin.com/feed/update/urn:li:activity:7482830026070204416/" rel="noopener" target="_blank">Mi publicación en LinkedIn ↗</a></p>
+    </div>
+    <div class="jamA__photos">
+      <figure class="facet-frame">
+        {{ picture("aws-jam-equipo", [640, 1280], 1280, 853, "El equipo S3-less, cuatro integrantes con acreditación, posa junto a la pantalla de AWS JAM 2026 en el Institut TIC de Barcelona", "(min-width: 960px) 520px, 92vw") }}
+      </figure>
+      <figure class="facet-frame">
+        {{ picture("aws-jam-retos", [640, 1280], 1280, 853, "Los cuatro integrantes del equipo trabajando juntos en un portátil durante los retos de la final", "(min-width: 960px) 420px, 92vw") }}
+      </figure>
     </div>
   </div>
 </section>

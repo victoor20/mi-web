@@ -8,14 +8,14 @@ bodyClass: "page-404"
 criticalSections: ["404"]
 eleventyExcludeFromCollections: true
 pieces:
-  - { d: "M35 5 L300 108 L120 143 Z", fill: "#00d8fa", tx: -160, ty: -90, r: -38 }
-  - { d: "M120 143 L300 108 L487 425 L385 598 Z", fill: "#1a94f8", tx: -220, ty: 60, r: 24 }
-  - { d: "M385 598 L487 425 L590 598 L487 780 Z", fill: "#0a40f6", tx: -40, ty: 190, r: -52 }
-  - { d: "M487 425 L670 108 L766 290 L590 598 Z", fill: "#0c8cf7", tx: 30, ty: -150, r: 18 }
-  - { d: "M670 108 L870 108 L766 290 Z", fill: "#00d0f8", tx: 210, ty: -170, r: 64 }
-  - { d: "M870 108 A187 187 0 0 1 940 468 L735 480 L800 357 L850 357 A41 41 0 0 0 850 275 L780 275 Z", fill: "#0b7ef5", tx: 150, ty: 20, r: -28 }
-  - { d: "M735 480 L940 480 L875 712 Z", fill: "#0757f3", tx: 120, ty: 210, r: 40 }
-  - { d: "M940 480 L1135 830 L875 712 Z", fill: "#1ca2f8", tx: 170, ty: 110, r: -16 }
+  - { d: "M35 5 L300 108 L120 143 Z", fill: "#08cdfa", g: ["#0ab5f8", "#08cdfa", "#06d8fb"], tx: -160, ty: -90, r: -38 }
+  - { d: "M120 143 L300 108 L487 425 L385 598 Z", fill: "#0b82fa", g: ["#0c85f9", "#0b82fa", "#0980fa"], tx: -220, ty: 60, r: 24 }
+  - { d: "M385 598 L487 425 L590 598 L487 780 Z", fill: "#023efa", g: ["#0152fb", "#023efa", "#051ef9"], tx: -40, ty: 190, r: -52 }
+  - { d: "M487 425 L670 108 L766 290 L590 598 Z", fill: "#0796f9", g: ["#079df9", "#0796f9", "#0888fa"], tx: 30, ty: -150, r: 18 }
+  - { d: "M670 108 L870 108 L766 290 Z", fill: "#03d2fc", g: ["#07d0fa", "#03d2fc", "#04d3fc"], tx: 210, ty: -170, r: 64 }
+  - { d: "M870 108 A187 187 0 0 1 940 468 L735 480 L800 357 L850 357 A41 41 0 0 0 850 275 L775 275 Z", fill: "#0794f9", g: ["#0777f7", "#0794f9", "#07aefa"], tx: 150, ty: 20, r: -28 }
+  - { d: "M735 480 L940 468 L875 712 Z", fill: "#0166f9", g: ["#0371f9", "#0166f9", "#036cf7"], tx: 120, ty: 210, r: 40 }
+  - { d: "M940 468 L1135 830 L875 712 Z", fill: "#089af9", g: ["#0ca1f6", "#089af9", "#0789f9"], tx: 170, ty: 110, r: -16 }
 ---
 <section class="lost" aria-labelledby="lost-title" data-module="lost">
   <div class="wrap lost__grid">
@@ -33,6 +33,11 @@ pieces:
     <div class="lost__play">
     <div class="lost__stage" aria-hidden="true">
       <svg class="lost__svg" viewBox="0 0 1170 840" width="1170" height="840" focusable="false" data-svg>
+        <defs>
+          {%- for p in pieces %}
+          <linearGradient id="lg{{ loop.index0 }}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{{ p.g[0] }}"/><stop offset="0.5" stop-color="{{ p.g[1] }}"/><stop offset="1" stop-color="{{ p.g[2] }}"/></linearGradient>
+          {%- endfor %}
+        </defs>
         <g class="lost__holes">
           {%- for p in pieces %}
           <path class="lost__hole" d="{{ p.d }}"/>
@@ -40,17 +45,16 @@ pieces:
         </g>
         <g class="lost__pieces" data-pieces>
           {%- for p in pieces %}
-          <path class="lost__piece" d="{{ p.d }}" fill="{{ p.fill }}" data-tx="{{ p.tx }}" data-ty="{{ p.ty }}" data-r="{{ p.r }}" style="--tx: {{ p.tx }}px; --ty: {{ p.ty }}px; --r: {{ p.r }}deg; --i: {{ loop.index0 }}"/>
+          <path class="lost__piece" d="{{ p.d }}" fill="url(#lg{{ loop.index0 }})" stroke="{{ p.fill }}" stroke-width="2" stroke-linejoin="round" data-tx="{{ p.tx }}" data-ty="{{ p.ty }}" data-r="{{ p.r }}" style="--tx: {{ p.tx }}px; --ty: {{ p.ty }}px; --r: {{ p.r }}deg; --i: {{ loop.index0 }}"/>
           {%- endfor %}
         </g>
         <g class="lost__burst" data-burst></g>
       </svg>
     </div>
       <div class="lost__status">
-        <p class="lost__hint" hidden data-hint>Arrastra cada pieza hasta su hueco: encajan solas cuando están cerca.</p>
+        <p class="lost__hint" hidden data-hint>Arrastra cada pieza hasta su hueco y suéltala cerca: encaja.</p>
         <p class="lost__count mono" hidden role="status" aria-live="polite" data-count data-total="{{ pieces | length }}">0/{{ pieces | length }} piezas</p>
         <p class="lost__win" hidden role="status" data-win>¡Logo recompuesto! La página sigue sin existir, pero ya no falta ninguna pieza.</p>
-        <button class="lost__sound btn btn--ghost btn--sm" type="button" hidden aria-pressed="false" data-sound><span data-sound-label>Sonido activado</span></button>
       </div>
     </div>
   </div>

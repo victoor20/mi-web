@@ -1,0 +1,33 @@
+<div class="rp" data-rp>
+  <div class="rp__tree" role="group" aria-label="Archivos del repositorio de ejemplo">
+    <p class="rp__name mono">agente-rag-pdfs</p>
+    <ul>
+      <li><button type="button" class="rp__dir" aria-expanded="true" data-rp-dir hidden>app/</button><span class="rp__dirstatic">app/</span>
+        <ul class="rp__children">
+          <li><button type="button" data-rp-file="main">main.py</button></li>
+          <li><button type="button" data-rp-file="rag">rag.py</button></li>
+        </ul></li>
+      <li><button type="button" class="rp__dir" aria-expanded="true" data-rp-dir hidden>tests/</button><span class="rp__dirstatic">tests/</span>
+        <ul class="rp__children">
+          <li><button type="button" data-rp-file="test">test_rag.py</button></li>
+        </ul></li>
+      <li><button type="button" data-rp-file="docker">Dockerfile</button></li>
+      <li><button type="button" data-rp-file="req">requirements.txt</button></li>
+      <li><button type="button" data-rp-file="readme" aria-current="true">README.md</button></li>
+    </ul>
+  </div>
+  <div class="rp__view" data-rp-view aria-live="polite">
+    <p class="rp__file mono">README.md</p>
+    <div class="rp__readme">
+      <h4>agente-rag-pdfs</h4>
+      <p class="rp__badges mono"><span>Python</span><span>FastAPI</span><span>Docker</span></p>
+      <p>Agente que responde preguntas sobre tus PDF y cita el fragmento de donde sale cada dato.</p>
+      <h5>Cómo ejecutarlo</h5>
+      <pre>docker compose up
+curl -X POST :8000/preguntar</pre>
+      <h5>Qué incluye</h5>
+      <p>Código en <code>app/</code>, pruebas en <code>tests/</code> y todo lo necesario para reproducirlo.</p>
+    </div>
+  </div>
+</div>
+<p class="demo__note">Ejemplo ilustrativo: así documentaré cada proyecto cuando lo publique.</p>

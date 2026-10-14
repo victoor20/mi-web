@@ -4,8 +4,9 @@
 // Posición del marcador ("progress"): la fase en la que estás y el porcentaje que llevas de ella.
 //   Ejemplo: { phase: 1, percent: 50 } = a mitad de la fase 1.
 //   Para terminar la fase 1 y empezar la 2: { phase: 2, percent: 0 }.
-// Cada fase muestra, al desplegarla, lo que aprendo ("learn"), los recursos ("resources") y los
-// proyectos que salen de ella ("projects"). Si una lista está vacía, esa parte no se muestra.
+// Cada fase muestra lo que aprendo ("learn"), los recursos ("resources") y los
+// proyectos que salen de ella ("projects"), junto a su demostración interactiva simulada ("demo": id del módulo
+// en src/assets/js/demos/ y título). Si una lista está vacía, esa parte no se muestra.
 export default {
   progress: { phase: 1, percent: 50 },
   states: {
@@ -19,6 +20,7 @@ export default {
       title: "Python sólido",
       summary: "La base de programación sobre la que se apoya todo lo demás.",
       state: "en-curso",
+      demo: { id: "python", title: "Ejecuta un fragmento de Python" },
       learn: ["Funciones, clases y manejo de librerías", "Entornos virtuales, ficheros y excepciones", "Pensar en Python para proyectos reales"],
       resources: [{ name: "CS50P: introducción a la programación con Python", by: "Harvard" }],
       projects: ["Proyecto final de CS50P"],
@@ -27,6 +29,7 @@ export default {
       title: "Cómo funcionan los LLMs",
       summary: "APIs, prompts, tokens y contexto.",
       state: "pendiente",
+      demo: { id: "tokens", title: "Así trocea un modelo tu frase" },
       learn: ["Llamar a las APIs de OpenAI y Anthropic", "Prompt engineering básico y parseo de respuestas", "Gestión del contexto"],
       resources: [{ name: "LangChain for LLM Application Development", by: "DeepLearning.AI" }],
       projects: [],
@@ -35,6 +38,7 @@ export default {
       title: "Agentes y RAG",
       summary: "LangGraph, RAG agéntico y memoria a largo plazo.",
       state: "pendiente",
+      demo: { id: "rag", title: "Así responde un RAG, citando sus fuentes" },
       learn: ["Agentes con LangGraph", "RAG agéntico con LlamaIndex", "Memoria a largo plazo"],
       resources: [
         { name: "AI Agents in LangGraph", by: "DeepLearning.AI" },
@@ -47,6 +51,7 @@ export default {
       title: "Despliegue",
       summary: "Que lo construido salga de mi equipo.",
       state: "pendiente",
+      demo: { id: "container", title: "Una petición entra en un contenedor" },
       learn: ["Crear APIs para modelos de IA", "Dockerizar aplicaciones", "Exponer endpoints"],
       resources: [
         { name: "Tutorial oficial de FastAPI", by: "FastAPI" },
@@ -58,6 +63,7 @@ export default {
       title: "Modelos open source",
       summary: "Trabajar con modelos abiertos a través de Hugging Face.",
       state: "pendiente",
+      demo: { id: "quant", title: "Cuantización: menos bits, menos peso" },
       learn: ["Descargar y usar modelos de Hugging Face", "Fine-tuning básico y cuantización", "Ejecutar modelos en local"],
       resources: [
         { name: "Curso oficial de Hugging Face", by: "Hugging Face" },
@@ -69,6 +75,7 @@ export default {
       title: "Portfolio de proyectos en GitHub",
       summary: "En paralelo desde la fase 3: cada fase deja algo publicado.",
       state: "permanente",
+      demo: { id: "repo", title: "Un repositorio de proyecto, por dentro" },
       learn: ["Documentar, probar y mantener cada proyecto para que se pueda reproducir"],
       resources: [{ name: "GitHub", by: "Repositorios públicos" }],
       projects: ["Agente RAG sobre PDFs, con FastAPI y Docker", "Asistente con memoria conectado a APIs", "Sistema multiagente para una tarea real"],

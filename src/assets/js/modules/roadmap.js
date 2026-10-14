@@ -1,6 +1,6 @@
 // Hoja de ruta: camino con un marcador que avanza al hacer scroll hasta la posición real
-// (fase y porcentaje en src/_data/roadmap.js) y fases que se despliegan al pulsarlas.
-// Sin JavaScript todas las fases se ven desplegadas y el marcador no aparece.
+// (fase y porcentaje en src/_data/roadmap.js) y una demostración simulada por fase, que se carga
+// solo cuando su fase se acerca a la pantalla. Sin JavaScript se ve todo el texto y las demos estáticas.
 export default function roadmap(root, { reduceMotion }) {
   const list = root.querySelector("[data-list]");
   const marker = root.querySelector("[data-marker]");
@@ -8,18 +8,20 @@ export default function roadmap(root, { reduceMotion }) {
   const phase = Number(root.dataset.phase) || 1;
   const percent = Number(root.dataset.percent) || 0;
 
-  // --- Fases desplegables (todas cerradas al empezar)
-  steps.forEach((step) => {
-    const btn = step.querySelector(".roadmap__toggle");
-    const panel = step.querySelector(".roadmap__panel");
-    const setOpen = (open) => {
-      btn.setAttribute("aria-expanded", String(open));
-      panel.inert = !open;
-    };
-    setOpen(false);
-    btn.addEventListener("click", () => setOpen(btn.getAttribute("aria-expanded") !== "true"));
-  });
   root.classList.add("is-ready");
+
+  // --- Demostraciones: un módulo por demo, carga diferida al entrar en pantalla
+  const demos = [...root.querySelectorAll("[data-demo]")];
+  if ("IntersectionObserver" in window) {
+    const loader = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      loader.unobserve(entry.target);
+      import(`/assets/js/demos/${entry.target.dataset.demo}.js`)
+        .then((m) => m.default(entry.target, { reduceMotion }))
+        .catch((err) => console.warn(`Demo ${entry.target.dataset.demo} no disponible:`, err));
+    }), { rootMargin: "250px 0px" });
+    demos.forEach((d) => loader.observe(d));
+  }
 
   // --- Marcador: la posición objetivo sale de "fase + porcentaje" sobre la altura real de los nodos
   const nodeY = () => steps.map((s) => {
@@ -86,7 +88,7 @@ export default function roadmap(root, { reduceMotion }) {
     io.observe(root);
   }
 
-  // Al desplegar fases o cambiar el ancho, los nodos cambian de sitio
+  // Al cambiar el ancho o la altura de las fases (por ejemplo al cargar una demo), los nodos cambian de sitio
   if ("ResizeObserver" in window) {
     new ResizeObserver(() => { compute(); schedule(); }).observe(list);
   }
