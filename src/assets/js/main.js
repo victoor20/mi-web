@@ -104,15 +104,16 @@ if (dividers.length && "IntersectionObserver" in window && !reduceMotion.matches
   const route = (d) => {
     const box = d.getBoundingClientRect();
     const [l1, l2] = [...d.querySelectorAll(".facet-divider__line")].map((l) => l.getBoundingClientRect());
-    const svg = d.querySelector(".facet-divider__shape").getBoundingClientRect();
+    const shape = d.querySelector(".facet-divider__shape");
+    const svg = shape.getBoundingClientRect();
     const path = d.querySelector(".facet-divider__stroke");
-    const k = svg.width / 240;
+    const k = svg.width / (shape.viewBox.baseVal.width || 240);
     return {
       path, k,
       x1: l1.left - box.left, w1: l1.width,
       sx: svg.left - box.left, sy: svg.top - box.top, plen: path.getTotalLength() * k,
       x2: l2.left - box.left, w2: l2.width,
-      y: svg.top - box.top + 39.5 * k,
+      y: l1.top + l1.height / 2 - box.top,
     };
   };
   const pointAt = (r, s) => {

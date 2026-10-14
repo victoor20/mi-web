@@ -89,10 +89,10 @@
 .facet-divider--cyan { --tone: var(--vr-cyan); }
 .facet-divider__line { height: 1px; background: var(--line-strong); margin-bottom: 8px; }
 .facet-divider--start .facet-divider__line:first-child { flex: 0 0 8%; }
-.facet-divider--start .facet-divider__line:last-child { flex: 1; }
+.facet-divider--start .facet-divider__line:nth-child(3) { flex: 1; }
 .facet-divider--center .facet-divider__line { flex: 1; }
 .facet-divider--end .facet-divider__line:first-child { flex: 1; }
-.facet-divider--end .facet-divider__line:last-child { flex: 0 0 8%; }
+.facet-divider--end .facet-divider__line:nth-child(3) { flex: 0 0 8%; }
 .facet-divider__shape { flex: none; overflow: visible; }
 .facet-divider__stroke { fill: none; stroke: var(--line-strong); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .facet-divider__fill { fill: var(--tone); }
@@ -1391,10 +1391,13 @@
 .lost__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
 .lost__fix { margin-top: 1.5rem; }
 .lost__fix[hidden], .lost__hint[hidden], .lost__count[hidden], .lost__win[hidden] { display: none; }
-.lost__status { margin-top: 1rem; text-align: center; }
+.lost__status { margin-top: 2.25rem; text-align: center; }
 .lost__hint { color: var(--text-3); font-size: 0.92rem; max-width: 32rem; margin-inline: auto; }
-.lost__count { margin-top: 0.6rem; color: var(--vr-cyan); font-size: 0.85rem; }
-.lost__win { margin: 0.6rem auto 0; max-width: 32rem; color: var(--text); font-weight: 600; }
+.lost__count { margin-top: 1.25rem; color: var(--vr-cyan); font-size: 0.85rem; }
+.lost__win { margin: 1.25rem auto 0; max-width: 32rem; color: var(--text); font-weight: 600; }
+.lost__sound { margin-top: 1.25rem; }
+.lost__sound[hidden] { display: none; }
+.lost__sound[aria-pressed="true"] { color: var(--text-3); }
 .lost__stage { user-select: none; -webkit-user-select: none; }
 .lost__svg { width: 78%; margin-inline: auto; height: auto; overflow: visible; display: block; filter: drop-shadow(0 20px 50px rgb(4 74 246 / 0.4)); }
 /* Cada hueco, con su contorno discontinuo, en el sitio que ocupa la pieza dentro del logo */
@@ -1413,13 +1416,26 @@
   transform-box: fill-box;
   transform-origin: center;
   transform: translate(var(--tx), var(--ty)) rotate(var(--r));
-  transition: transform 0.5s var(--ease-out);
+  transition: transform 0.5s var(--ease-out), opacity 0.4s;
   cursor: grab;
   touch-action: none;
 }
+/* Las piezas esperan a tener su posición aleatoria para no dar un salto */
+.js .lost:not(.is-ready) .lost__piece { opacity: 0; transition: none; }
 .lost__piece.is-dragging { transition: none; cursor: grabbing; filter: drop-shadow(0 8px 18px rgb(0 0 0 / 0.55)); }
 .lost__piece.is-placed { cursor: default; pointer-events: none; }
 .lost__piece:focus { outline: none; }
+/* Al encajar, destello en la pieza y en su hueco */
+.lost__piece.is-glow { animation: piece-glow 0.9s ease-out; }
+@keyframes piece-glow {
+  0% { filter: brightness(2.4) drop-shadow(0 0 16px var(--vr-cyan-hi)) drop-shadow(0 0 40px var(--vr-cyan)); }
+  100% { filter: none; }
+}
+.lost__hole.is-flash { animation: hole-flash 0.9s ease-out; }
+@keyframes hole-flash {
+  0% { opacity: 1; fill: rgb(0 233 254 / 0.55); stroke-opacity: 1; stroke-width: 7; filter: drop-shadow(0 0 14px var(--vr-cyan)); }
+  100% { opacity: 0; fill: transparent; stroke-width: 3; filter: none; }
+}
 .lost__spark { fill: var(--vr-cyan-hi); filter: drop-shadow(0 0 6px var(--vr-cyan)); pointer-events: none; }
 @media (prefers-reduced-motion: no-preference) {
   .lost:not(.is-complete) .lost__piece:not(.is-dragging):not(.is-placed) { animation: drift 7s ease-in-out infinite alternate; animation-delay: calc(var(--i) * -0.8s); }

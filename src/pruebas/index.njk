@@ -1,0 +1,269 @@
+---
+layout: layouts/base.njk
+permalink: /_pruebas/
+title: "Pruebas de diseño · Víctor Rocamora"
+description: "Variantes de diseño en revisión. Página interna, no indexada."
+noindex: true
+hideMobileCta: true
+bodyClass: "page-pruebas"
+eleventyExcludeFromCollections: true
+stages:
+  - { when: "Base", title: "Ingeniería Informática", where: "Universidad Miguel Hernández de Elche · sin finalizar", note: "Programación y fundamentos de la informática." }
+  - { when: "2022–2024", title: "CFGS ASIR", where: "IES Severo Ochoa · Elche", note: "Sistemas, redes y servicios." }
+  - { when: "2025–2026", title: "Especialización en Administración Cloud", where: "IES Poeta Paco Mollá · Petrer", note: "Centrada en AWS." }
+  - { when: "2025–2026", title: "Máster en Inteligencia Artificial", where: "BIG school · Universidad Isabel I", note: "Doble titulación, con el Diploma de Experto Universitario en IA." }
+  - { when: "En curso", title: "AI Engineering", where: "Formación autodidacta", note: "Agentes, RAG y APIs, siguiendo la hoja de ruta de /ia/." }
+badges:
+  - { tag: "AWS", text: "AWS Academy Cloud Security Builder (Trained)" }
+  - { tag: "LAB", text: "+40 laboratorios de AWS Skill Builder" }
+  - { tag: "SEC", text: "5 cursos de Academia de Hackers (2025)" }
+  - { tag: "PY", text: "Python Essentials 1 y 2 · Cisco" }
+lite:
+  - { kicker: "Cómo trabajo", text: "Tener claro qué falla antes de actuar, contarlo en lenguaje llano y dejar anotado lo que se hizo." }
+  - { kicker: "Hacia dónde voy", text: "Ingeniería de IA: agentes, RAG y APIs, aprendiendo construyendo. El mejor ejemplo es Jarvis.", url: "/proyectos/jarvis/", link: "Ver Jarvis" }
+  - { kicker: "Por qué escribo guías", text: "Muchos problemas empiezan con una compra que no encajaba. Las guías recogen qué revisar antes de pagar.", url: "/guias/", link: "Ver las guías" }
+---
+{%- from "macros.njk" import facetDivider, picture -%}
+<link rel="stylesheet" href="/assets/css/pruebas.css">
+
+<header class="page-hero">
+  <div class="wrap">
+    <p class="kicker mono">Página interna · sin indexar</p>
+    <h1 class="page-hero__title">Pruebas de diseño</h1>
+    <p class="page-hero__intro">Variantes de los puntos 2 a 5 para elegir en el navegador. Nada de esto está en la web pública: cuando elijas, se aplica igual en todo el sitio.</p>
+    <nav class="pr-nav" aria-label="Secciones de la página de pruebas">
+      <a class="btn btn--ghost btn--sm" href="#p2">2 · Hoja de ruta viva</a>
+      <a class="btn btn--ghost btn--sm" href="#p3">3 · Separadores</a>
+      <a class="btn btn--ghost btn--sm" href="#p4">4 · Hito AWS JAM</a>
+      <a class="btn btn--ghost btn--sm" href="#p5">5 · Trayectoria</a>
+    </nav>
+  </div>
+</header>
+
+{#- ======================= 2 · HOJA DE RUTA: FASE DE EJEMPLO ======================= -#}
+<section class="section pr-section" id="p2" aria-labelledby="p2-title">
+  <div class="wrap">
+    <p class="kicker mono">Punto 2</p>
+    <h2 class="section-title" id="p2-title">Hoja de ruta: una fase con demostración</h2>
+    <p class="lead-text">Así quedaría la fase 2 al desplegarla: la demostración va dentro del panel, junto a lo que aprendo, y solo se carga cuando se abre. Es una <strong>simulación didáctica</strong>, sin IA ni red.</p>
+
+    <div class="pr-phase" data-demo="tokens">
+      <div class="pr-phase__head">
+        <span class="mono">Fase 2</span>
+        <h3>Cómo funcionan los LLMs</h3>
+        <span class="pr-phase__state mono">Pendiente</span>
+      </div>
+      <div class="pr-phase__body">
+        <div class="pr-demo">
+          <p class="pr-demo__title mono">Demostración · así trocea un modelo tu frase</p>
+          <label class="pr-demo__label" for="tok-input">Escribe una frase</label>
+          <input class="pr-demo__input" id="tok-input" type="text" value="Los modelos de lenguaje no leen palabras: leen tokens." autocomplete="off" maxlength="160" data-tok-input>
+          <div class="pr-tokens" data-tok-out aria-hidden="true"></div>
+          <p class="pr-demo__stats mono" data-tok-stats role="status" aria-live="polite"></p>
+          <div class="pr-ctx" aria-hidden="true">
+            <div class="pr-ctx__bar"><span data-tok-bar></span></div>
+            <p class="mono">Ventana de contexto de ejemplo: 48 tokens. Si te pasas, lo más antiguo se descarta.</p>
+          </div>
+          <label class="pr-demo__check"><input type="checkbox" data-tok-ids> Ver el número de cada token</label>
+          <p class="pr-demo__note">Un tokenizador real (BPE) aprende sus trozos de millones de textos y cada modelo trocea distinto; aquí se imita con reglas sencillas para que se vea la idea.</p>
+        </div>
+        <div class="pr-learn">
+          <span class="roadmap__label mono">Qué aprendo</span>
+          <ul>
+            <li>Llamar a las APIs de OpenAI y Anthropic</li>
+            <li>Prompt engineering básico y parseo de respuestas</li>
+            <li>Gestión del contexto</li>
+          </ul>
+          <span class="roadmap__label mono">Recursos</span>
+          <ul><li>LangChain for LLM Application Development<small>DeepLearning.AI</small></li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{#- ======================= 3 · SEPARADORES ======================= -#}
+<section class="section pr-section" id="p3" aria-labelledby="p3-title">
+  <div class="wrap">
+    <p class="kicker mono">Punto 3</p>
+    <h2 class="section-title" id="p3-title">Separadores: tres variantes</h2>
+    <p class="lead-text">Todos usan el mismo destello autónomo que recorre la línea y se pausa fuera de pantalla. Cambia solo la figura central. La línea ya llega hasta el final.</p>
+  </div>
+
+  <div class="pr-dv">
+    <p class="pr-dv__label wrap mono">Actual (para comparar)</p>
+    {{ facetDivider("center") }}
+  </div>
+
+  <div class="pr-dv">
+    <p class="pr-dv__label wrap"><strong class="mono">A · Hilo y nodo.</strong> Una línea limpia con un rombo hueco, el mismo que marca los puntos de la bitácora y de la hoja de ruta. La más discreta.</p>
+    <div class="facet-divider facet-divider--center fd-a" aria-hidden="true" data-reveal>
+      <span class="facet-divider__line"></span>
+      <svg class="facet-divider__shape" viewBox="0 0 48 48" width="48" height="48" focusable="false">
+        <path class="facet-divider__stroke" d="M0 40 H48" pathLength="1"/>
+        <rect class="fd-a__node" x="19" y="35" width="10" height="10" transform="rotate(45 24 40)"/>
+      </svg>
+      <span class="facet-divider__line"></span>
+    </div>
+  </div>
+
+  <div class="pr-dv">
+    <p class="pr-dv__label wrap"><strong class="mono">B · Circuito.</strong> La línea sube en chaflán, como la pista de una placa, con dos puntos de conexión. Enlaza con el aire técnico de la web (informes, flujos, automatización).</p>
+    <div class="facet-divider facet-divider--center fd-b" aria-hidden="true" data-reveal>
+      <span class="facet-divider__line"></span>
+      <svg class="facet-divider__shape" viewBox="0 0 200 48" width="200" height="48" focusable="false">
+        <path class="facet-divider__stroke" d="M0 40 H50 L64 26 H136 L150 40 H200" pathLength="1"/>
+        <circle class="fd-b__pad" cx="64" cy="26" r="3"/>
+        <circle class="fd-b__pad" cx="136" cy="26" r="3"/>
+        <path class="fd-b__fill" d="M64 26 H136 L150 40 H50 Z"/>
+      </svg>
+      <span class="facet-divider__line"></span>
+    </div>
+  </div>
+
+  <div class="pr-dv">
+    <p class="pr-dv__label wrap"><strong class="mono">C · Una sola faceta.</strong> Un único pico triangular, recortado del logo, con una arista central. Es el recuerdo del logo sin el barullo de tres triángulos superpuestos.</p>
+    <div class="facet-divider facet-divider--center fd-c" aria-hidden="true" data-reveal>
+      <span class="facet-divider__line"></span>
+      <svg class="facet-divider__shape" viewBox="0 0 120 48" width="120" height="48" focusable="false">
+        <path class="fd-c__fill" d="M30 40 L60 8 L90 40 Z"/>
+        <path class="facet-divider__stroke" d="M0 40 H30 L60 8 L90 40 H120" pathLength="1"/>
+        <path class="fd-c__crease" d="M60 8 V40"/>
+      </svg>
+      <span class="facet-divider__line"></span>
+    </div>
+  </div>
+</section>
+
+{#- ======================= 4 · HITO AWS JAM ======================= -#}
+<section class="section pr-section" id="p4" aria-labelledby="p4-title">
+  <div class="wrap">
+    <p class="kicker mono">Punto 4</p>
+    <h2 class="section-title" id="p4-title">Hito AWS JAM: tres integraciones</h2>
+    <p class="lead-text">Las tres quitan la caja, convierten el «2.º» en elemento gráfico y enmarcan las fotos con la faceta del retrato.</p>
+  </div>
+
+  <p class="pr-label wrap"><strong class="mono">A · Banda a todo el ancho.</strong> El «2.º» grande a la izquierda y las fotos escalonadas debajo, sobre una banda con los bordes cortados en diagonal.</p>
+  <div class="jamA">
+    <div class="wrap jamA__inner">
+      <span class="jam-num" aria-hidden="true">2.º</span>
+      <div class="jamA__copy">
+        <p class="kicker mono">Hito destacado · 19 de junio de 2026</p>
+        <h3 class="jam-title">Final Nacional AWS JAM 2026</h3>
+        <p>Segundos de España con el equipo <strong>S3-less</strong>, dentro del programa Alianza Tech de AWS, en Barcelona: retos prácticos de seguridad, automatización, infraestructura, optimización de costes y troubleshooting, todo contra reloj.</p>
+        <p class="jam-links"><a class="text-link" href="https://builder.aws.com/content/3FGBmpVxiayeuR9USgA9QIfWapV/final-del-campeonato-nacional-aws-jam-2026-de-espana-pon-a-prueba-tus-habilidades-cloud" rel="noopener" target="_blank">Publicación oficial de AWS ↗</a> <a class="text-link" href="https://www.linkedin.com/feed/update/urn:li:activity:7482830026070204416/" rel="noopener" target="_blank">Mi publicación en LinkedIn ↗</a></p>
+      </div>
+      <div class="jamA__photos">
+        <figure class="facet-frame">{{ picture("aws-jam-equipo", [640, 1280], 1280, 853, "El equipo S3-less posa junto a la pantalla de AWS JAM 2026", "(min-width: 960px) 520px, 92vw") }}</figure>
+        <figure class="facet-frame">{{ picture("aws-jam-retos", [640, 1280], 1280, 853, "El equipo trabajando junto en un portátil durante los retos", "(min-width: 960px) 420px, 92vw") }}</figure>
+      </div>
+    </div>
+  </div>
+
+  <p class="pr-label wrap"><strong class="mono">B · Póster.</strong> Texto a un lado y una composición de dos fotos solapadas al otro; el «2.º» es solo contorno, para no competir con las fotos.</p>
+  <div class="wrap jamB">
+    <div class="jamB__copy">
+      <span class="jam-num jam-num--outline" aria-hidden="true">2.º</span>
+      <p class="kicker mono">Hito destacado · 19 de junio de 2026</p>
+      <h3 class="jam-title">Final Nacional AWS JAM 2026</h3>
+      <p>Segundos de España con el equipo <strong>S3-less</strong>, dentro del programa Alianza Tech de AWS, en Barcelona: retos prácticos de seguridad, automatización, infraestructura, optimización de costes y troubleshooting, todo contra reloj.</p>
+      <p class="jam-links"><a class="btn btn--ghost btn--sm" href="https://builder.aws.com/content/3FGBmpVxiayeuR9USgA9QIfWapV/final-del-campeonato-nacional-aws-jam-2026-de-espana-pon-a-prueba-tus-habilidades-cloud" rel="noopener" target="_blank">Publicación oficial ↗</a> <a class="btn btn--ghost btn--sm" href="https://www.linkedin.com/feed/update/urn:li:activity:7482830026070204416/" rel="noopener" target="_blank">LinkedIn ↗</a></p>
+    </div>
+    <div class="jamB__photos">
+      <figure class="facet-frame jamB__main">{{ picture("aws-jam-equipo", [640, 1280], 1280, 853, "El equipo S3-less posa junto a la pantalla de AWS JAM 2026", "(min-width: 960px) 560px, 92vw") }}</figure>
+      <figure class="facet-frame jamB__side">{{ picture("aws-jam-retos", [640, 1280], 1280, 853, "El equipo trabajando junto en un portátil durante los retos", "(min-width: 960px) 300px, 60vw") }}</figure>
+    </div>
+  </div>
+
+  <p class="pr-label wrap"><strong class="mono">C · Sello y cinta.</strong> Un sello facetado con el «2.º» preside la sección; debajo, las fotos en cinta. La más ordenada y la que mejor se lee en móvil.</p>
+  <div class="wrap jamC">
+    <svg class="jamC__seal" viewBox="0 0 200 220" width="200" height="220" role="img" aria-label="Segundo puesto">
+      <path class="jamC__hex" d="M100 6 L186 54 L186 166 L100 214 L14 166 L14 54 Z"/>
+      <path class="jamC__f jamC__f--a" d="M100 6 L186 54 L100 110 Z"/>
+      <path class="jamC__f jamC__f--b" d="M14 54 L100 110 L14 166 Z"/>
+      <path class="jamC__f jamC__f--c" d="M100 110 L186 166 L100 214 Z"/>
+      <text x="100" y="128" text-anchor="middle" class="jamC__num">2.º</text>
+      <text x="100" y="156" text-anchor="middle" class="jamC__cap">AWS JAM 2026</text>
+    </svg>
+    <p class="kicker mono">Hito destacado · 19 de junio de 2026</p>
+    <h3 class="jam-title">Final Nacional AWS JAM 2026</h3>
+    <p class="jamC__text">Segundos de España con el equipo <strong>S3-less</strong>, dentro del programa Alianza Tech de AWS, en Barcelona: retos prácticos de seguridad, automatización, infraestructura, optimización de costes y troubleshooting, todo contra reloj.</p>
+    <p class="jam-links"><a class="text-link" href="https://builder.aws.com/content/3FGBmpVxiayeuR9USgA9QIfWapV/final-del-campeonato-nacional-aws-jam-2026-de-espana-pon-a-prueba-tus-habilidades-cloud" rel="noopener" target="_blank">Publicación oficial de AWS ↗</a> <a class="text-link" href="https://www.linkedin.com/feed/update/urn:li:activity:7482830026070204416/" rel="noopener" target="_blank">Mi publicación en LinkedIn ↗</a></p>
+    <div class="jamC__strip">
+      <figure class="facet-frame">{{ picture("aws-jam-equipo", [640, 1280], 1280, 853, "El equipo S3-less posa junto a la pantalla de AWS JAM 2026", "(min-width: 960px) 480px, 92vw") }}</figure>
+      <figure class="facet-frame">{{ picture("aws-jam-retos", [640, 1280], 1280, 853, "El equipo trabajando junto en un portátil durante los retos", "(min-width: 960px) 480px, 92vw") }}</figure>
+    </div>
+  </div>
+</section>
+
+{#- ======================= 5 · TRAYECTORIA ======================= -#}
+<section class="section pr-section" id="p5" aria-labelledby="p5-title">
+  <div class="wrap">
+    <p class="kicker mono">Punto 5</p>
+    <h2 class="section-title" id="p5-title">Trayectoria: tres líneas de tiempo</h2>
+    <p class="lead-text">Las tres se dibujan con el scroll y cada etapa se ilumina al llegar. Debajo, la formación complementaria como insignias y los tres bloques sin caja, comunes a las tres.</p>
+
+    <p class="pr-label"><strong class="mono">A · Eje central.</strong> Etapas alternadas a ambos lados de una línea que se dibuja. La más visual; en móvil pasa a una sola columna.</p>
+    <ol class="tlA" data-timeline>
+      {%- for s in stages %}
+      <li class="tlA__item" data-stage>
+        <span class="tlA__node" aria-hidden="true"></span>
+        <span class="tlA__when mono">{{ s.when }}</span>
+        <div class="tlA__card">
+          <h3>{{ s.title }}</h3>
+          <p class="tl__where">{{ s.where }}</p>
+          <p class="tl__note">{{ s.note }}</p>
+        </div>
+      </li>
+      {%- endfor %}
+    </ol>
+
+    <p class="pr-label"><strong class="mono">B · Riel compacto.</strong> Una sola columna: año, línea y una ficha corta. Es la que un reclutador recorre más deprisa.</p>
+    <ol class="tlB" data-timeline>
+      {%- for s in stages %}
+      <li class="tlB__row" data-stage>
+        <span class="tlB__when mono">{{ s.when }}</span>
+        <span class="tlB__node" aria-hidden="true"></span>
+        <div class="tlB__body">
+          <h3>{{ s.title }}</h3>
+          <p class="tl__where">{{ s.where }}</p>
+          <p class="tl__note">{{ s.note }}</p>
+        </div>
+      </li>
+      {%- endfor %}
+    </ol>
+
+    <p class="pr-label"><strong class="mono">C · Escalera.</strong> Las etapas suben como peldaños: se lee como progresión. Más decorativa y menos escaneable; en móvil se vuelve vertical.</p>
+    <ol class="tlC" data-timeline>
+      {%- for s in stages %}
+      <li class="tlC__step" style="--i: {{ loop.index0 }}" data-stage>
+        <span class="tlC__when mono">{{ s.when }}</span>
+        <h3>{{ s.title }}</h3>
+        <p class="tl__where">{{ s.where }}</p>
+        <p class="tl__note">{{ s.note }}</p>
+      </li>
+      {%- endfor %}
+    </ol>
+
+    <h3 class="pr-sub">Formación complementaria, como insignias</h3>
+    <ul class="badges">
+      {%- for b in badges %}
+      <li class="badge"><span class="badge__tag mono">{{ b.tag }}</span>{{ b.text }}</li>
+      {%- endfor %}
+    </ul>
+    <p class="pr-note">Los laboratorios de AWS Skill Builder son formación práctica, no certificaciones oficiales (se aclara en el texto de la página real).</p>
+
+    <h3 class="pr-sub">Tres bloques sin caja</h3>
+    <div class="lite">
+      {%- for b in lite %}
+      <div class="lite__item">
+        <p class="kicker mono">{{ b.kicker }}</p>
+        <p>{{ b.text }}</p>
+        {%- if b.url %}<a class="text-link" href="{{ b.url }}">{{ b.link }}</a>{% endif %}
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<script type="module" src="/assets/js/pruebas.js"></script>
