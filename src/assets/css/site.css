@@ -805,7 +805,7 @@
 .kicker a { color: inherit; text-decoration: none; }
 .kicker a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .anatomy__tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; }
-.anatomy__tabs[hidden] { display: none; }
+.anatomy__tabs[hidden] { display: flex; visibility: hidden; }
 .anatomy__tab {
   padding: 0.7rem 1rem;
   border: 1px solid var(--line-strong);
@@ -1251,7 +1251,7 @@
 /* ---------- Guías: índice ---------- */
 .guides-index { padding-top: 0; }
 .filter { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
-.filter[hidden] { display: none; }
+.filter[hidden] { display: flex; visibility: hidden; } /* reserva su sitio hasta que el script lo muestra: sin saltos de diseño */
 .filter__chip {
   padding: 0.55rem 0.95rem;
   border: 1px solid var(--line-strong);
@@ -1635,7 +1635,7 @@
 .rag__doc li.is-cited { box-shadow: 0 0 0 2px var(--vr-cyan); }
 .rag__score { position: absolute; top: 0.25rem; right: 0.35rem; color: var(--vr-cyan); font-size: 0.6rem; }
 .rag__answer { min-height: 3.6rem; color: var(--text); font-size: 0.95rem; }
-.rag__cite { padding: 0 0.15rem; color: var(--vr-cyan); font-size: 0.72rem; background: none; border: 0; cursor: pointer; }
+.rag__cite { min-width: 24px; min-height: 24px; padding: 0 0.15rem; color: var(--vr-cyan); font-size: 0.72rem; background: none; border: 0; cursor: pointer; }
 .rag__cite:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 /* Fase 4: contenedor */
@@ -1674,7 +1674,7 @@
 .rp__name { margin-bottom: 0.4rem; color: var(--vr-cyan); font-size: 0.64rem; }
 .rp__tree ul { padding: 0; margin: 0; list-style: none; }
 .rp__children { padding-left: 0.9rem; margin-left: 0.3rem; border-left: 1px solid var(--line); }
-.rp__tree button { padding: 0.15rem 0.35rem; color: var(--text-2); font: inherit; text-align: left; background: none; border: 0; border-radius: 3px; cursor: pointer; }
+.rp__tree button { display: block; width: 100%; min-height: 28px; padding: 0.15rem 0.35rem; color: var(--text-2); font: inherit; text-align: left; background: none; border: 0; border-radius: 3px; cursor: pointer; }
 .rp__tree button:hover, .rp__tree button[aria-current="true"] { color: var(--text); background: rgb(0 208 248 / 0.12); }
 .rp__tree button:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
 .rp__dir::before { content: "▾ "; color: var(--text-3); }
