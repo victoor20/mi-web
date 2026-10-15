@@ -202,6 +202,18 @@ if (finderBox && !reduceMotion.matches) {
   }
 }
 
+/* ---------- Cinco filtros (/guias/): el producto atraviesa las puertas una sola vez al entrar en pantalla ---------- */
+const gates = document.querySelector("[data-gates]");
+if (gates && "IntersectionObserver" in window && !reduceMotion.matches) {
+  gates.classList.add("is-armed");
+  const io = new IntersectionObserver((entries) => {
+    if (!entries[0].isIntersecting) return;
+    io.disconnect();
+    gates.classList.add("is-play");
+  }, { threshold: 0.4 });
+  io.observe(gates);
+}
+
 /* ---------- Tres pasos (/lo-que-se-hacer/): el destello de las líneas corre solo mientras se ve ---------- */
 const steps3 = document.querySelector("[data-steps3]");
 if (steps3 && "IntersectionObserver" in window) {

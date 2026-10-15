@@ -27,6 +27,9 @@ schema: "person"
           <div class="flipcard__inner">
             <div class="flipcard__face flipcard__face--front" data-front>
               {{ picture("victor-retrato", [360, 720], 720, 900, "Retrato de Víctor Rocamora: hombre de pelo corto oscuro y barba, con americana azul marino y camisa blanca, sobre fondo gris oscuro", "(min-width: 760px) 340px, 300px", true) }}
+              {#- Entrada, una sola vez: un telón oscuro se abre de arriba abajo con una banda de luz (la foto ya está pintada debajo) -#}
+              <span class="flipcard__reveal" aria-hidden="true"></span>
+              <span class="flipcard__sweep" aria-hidden="true"></span>
             </div>
             <div class="flipcard__face flipcard__face--back" data-back>
               <p class="kicker mono">Curiosidades</p>
@@ -47,6 +50,17 @@ schema: "person"
               {%- endfor %}
               <path class="flipcard__edge-tip" d="{{ contorno }}" pathLength="100"/>
             </g>
+          </svg>
+          {#- Entrada, una sola vez: las facetas del marco llegan desde fuera y encajan (después queda el contorno de siempre) -#}
+          <svg class="flipcard__assemble" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path class="fa fa--tl" d="M0 0 L88 0 L0 30 Z"/>
+            <path class="fa fa--br" d="M400 440 L400 500 L320 500 Z"/>
+            <path class="fs fs--a" d="M0 30 L88 0"/>
+            <path class="fs fs--b" d="M88 0 L400 0"/>
+            <path class="fs fs--c" d="M400 0 L400 440"/>
+            <path class="fs fs--d" d="M400 440 L320 500"/>
+            <path class="fs fs--e" d="M320 500 L0 500"/>
+            <path class="fs fs--f" d="M0 500 L0 30"/>
           </svg>
           <button class="flipcard__toggle" type="button" aria-pressed="false" hidden data-flip>
             <span class="visually-hidden">Dale la vuelta a la foto para ver curiosidades sobre mí</span>

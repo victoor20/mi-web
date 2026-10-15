@@ -1390,12 +1390,40 @@
   .guide-row a { grid-template-columns: 1fr; padding: 1.4rem 0.25rem; }
   .guide-row__cat, .guide-row__desc, .guide-row__meta { grid-column: 1; grid-row: auto; padding-top: 0; }
 }
-.criteria__grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 5rem); align-items: start; }
-.criteria__list { margin: 0; padding: 0; list-style: none; counter-reset: c; border-top: 1px solid var(--line-strong); }
-.criteria__list li { counter-increment: c; display: grid; grid-template-columns: 3rem minmax(0, 1fr); padding: 1.1rem 0; border-bottom: 1px solid var(--line); color: var(--text-2); }
-.criteria__list li::before { content: counter(c, decimal-leading-zero); font-family: var(--font-mono); font-size: 0.75rem; color: var(--vr-cyan); padding-top: 0.2rem; }
-.criteria__list strong { color: var(--text); font-weight: 620; }
-@media (max-width: 860px) { .criteria__grid { grid-template-columns: 1fr; } }
+/* Cinco filtros: un producto atraviesa cinco puertas que se iluminan al pasar (una sola vez al entrar en pantalla) */
+.gates { position: relative; margin-top: clamp(2.5rem, 6vw, 4rem); }
+.gates__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem; }
+.gate { display: grid; justify-items: center; align-content: start; gap: 0.5rem; text-align: center; padding-inline: 0.25rem; }
+.gate__door { display: block; width: min(100%, 7rem); }
+.gate__title { font-size: 1.08rem; font-weight: 650; letter-spacing: -0.01em; line-height: 1.2; }
+.gate__n { display: block; color: var(--vr-cyan); font-size: 0.68rem; margin-bottom: 0.25rem; }
+.gate p { color: var(--text-2); font-size: 0.93rem; line-height: 1.5; max-width: 16rem; }
+.gates__product { position: absolute; left: 98%; top: 2.9rem; width: 3.4rem; transform: translate(-50%, -50%); z-index: 2; pointer-events: none; filter: drop-shadow(0 0 8px rgb(0 208 248 / 0.45)); }
+.gates__end { display: block; width: fit-content; max-width: 100%; margin: clamp(2rem, 5vw, 3rem) auto 0; padding: 0.85rem 1.4rem; border: 1px dashed var(--vr-cyan); border-radius: var(--radius); color: var(--vr-cyan); font-weight: 600; text-align: center; background: rgb(0 208 248 / 0.08); }
+.js .gates.is-armed .gate__door { opacity: 0.32; }
+.js .gates.is-armed .gates__product { left: 2%; }
+.js .gates.is-armed .gates__end { border-color: var(--line-strong); box-shadow: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .gates.is-play .gates__product { animation: gates-run 5s linear both; }
+  .gates.is-play .gate__door { animation: gate-on 0.7s ease both; animation-delay: calc(var(--i) * 1s + 0.3s); }
+  .gates.is-play .gates__end { animation: gates-end 0.8s ease 5s both; }
+}
+@keyframes gates-run { from { left: 2%; } to { left: 98%; } }
+@keyframes gate-on { from { opacity: 0.32; filter: none; } to { opacity: 1; filter: drop-shadow(0 0 10px rgb(0 208 248 / 0.5)); } }
+@keyframes gates-end { from { border-color: rgb(255 255 255 / 0.12); box-shadow: none; } to { border-color: #00d0f8; box-shadow: 0 0 0 4px rgb(0 208 248 / 0.1), 0 0 26px rgb(0 208 248 / 0.25); } }
+@media (max-width: 860px) {
+  .gates__list { grid-template-columns: minmax(0, 1fr); grid-auto-rows: 1fr; gap: 0; }
+  .gate { grid-template-columns: 5.5rem minmax(0, 1fr); justify-items: start; text-align: left; column-gap: 1.25rem; align-items: center; padding-block: 0.9rem; }
+  .gate__door { grid-column: 1; grid-row: 1 / span 2; width: 5.5rem; }
+  .gate__title, .gate p { grid-column: 2; }
+  .gate__title { align-self: end; }
+  .gate p { align-self: start; }
+  .gates__product { left: 2.75rem; top: 2%; width: 2.6rem; }
+  .js .gates.is-armed .gates__product { left: 2.75rem; top: 2%; }
+  .gates.is-play .gates__product { animation-name: gates-run-v; }
+  .gates__end { margin-top: 1.5rem; }
+}
+@keyframes gates-run-v { from { top: 2%; } to { top: 98%; } }
 
 /* ---------- Guías: artículo ---------- */
 .article-hero__title { max-width: 24ch; font-size: clamp(2rem, 1.1rem + 3.4vw, 3.8rem); }
@@ -1848,6 +1876,40 @@
 @media (prefers-reduced-motion: reduce) {
   .flipcard__edge .flipcard__edge-c, .flipcard__edge .flipcard__edge-tip { stroke-dashoffset: -6px; }
 }
+
+/* Entrada del retrato (una sola vez, al cargar): las facetas del marco llegan desde fuera y encajan; después, un telón se abre
+   de arriba abajo con una banda de luz. La foto está pintada debajo desde el principio (no retrasa el LCP) y todo es absoluto (sin CLS).
+   Con movimiento reducido no existe nada de esto. */
+.flipcard__assemble, .flipcard__reveal, .flipcard__sweep { display: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .flipcard__assemble { display: block; position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; overflow: visible; pointer-events: none; animation: asm-out 0.5s ease 1.75s both; }
+  .flipcard__assemble path { fill: none; stroke: #9eeeff; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  .flipcard__assemble .fa { fill: rgb(0 208 248 / 0.28); stroke: none; }
+  .flipcard__assemble .fs, .flipcard__assemble .fa { animation: 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .flipcard__assemble .fs--a, .flipcard__assemble .fa--tl { animation-name: asm-a; animation-delay: 0.2s; }
+  .flipcard__assemble .fs--b { animation-name: asm-b; animation-delay: 0.35s; }
+  .flipcard__assemble .fs--c { animation-name: asm-c; animation-delay: 0.5s; }
+  .flipcard__assemble .fs--d, .flipcard__assemble .fa--br { animation-name: asm-d; animation-delay: 0.65s; }
+  .flipcard__assemble .fs--e { animation-name: asm-e; animation-delay: 0.8s; }
+  .flipcard__assemble .fs--f { animation-name: asm-f; animation-delay: 0.95s; }
+  .flipcard__edge-base { animation: edge-in 0.5s ease 1.6s both; }
+  .flipcard__edge-comet { animation: edge-in 0.7s ease 2.2s both; }
+  .flipcard__reveal { display: block; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: linear-gradient(160deg, #08122a, #04070f 70%); animation: reveal-wipe 1.15s cubic-bezier(0.65, 0, 0.35, 1) 1.25s both; }
+  .flipcard__sweep { display: block; position: absolute; left: 0; right: 0; top: 0; height: 22%; z-index: 2; pointer-events: none;
+    background: linear-gradient(180deg, transparent, rgb(61 116 255 / 0.28) 55%, rgb(158 238 255 / 0.75) 92%, rgb(255 255 255 / 0.9)); animation: reveal-sweep 1.15s cubic-bezier(0.65, 0, 0.35, 1) 1.25s both; }
+}
+/* Valores explícitos en los keyframes (Chrome no anima bien las propiedades SVG con var()/calc()) */
+@keyframes asm-a { from { transform: translate(-60px, -46px); opacity: 0; } 55% { opacity: 1; } to { transform: translate(0, 0); opacity: 1; } }
+@keyframes asm-b { from { transform: translate(0, -70px); opacity: 0; } 55% { opacity: 1; } to { transform: translate(0, 0); opacity: 1; } }
+@keyframes asm-c { from { transform: translate(70px, 0); opacity: 0; } 55% { opacity: 1; } to { transform: translate(0, 0); opacity: 1; } }
+@keyframes asm-d { from { transform: translate(60px, 60px); opacity: 0; } 55% { opacity: 1; } to { transform: translate(0, 0); opacity: 1; } }
+@keyframes asm-e { from { transform: translate(0, 70px); opacity: 0; } 55% { opacity: 1; } to { transform: translate(0, 0); opacity: 1; } }
+@keyframes asm-f { from { transform: translate(-70px, 0); opacity: 0; } 55% { opacity: 1; } to { transform: translate(0, 0); opacity: 1; } }
+@keyframes asm-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes edge-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes reveal-wipe { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(100% 0 0 0); } }
+@keyframes reveal-sweep { from { transform: translateY(-100%); opacity: 1; } 92% { opacity: 1; } to { transform: translateY(354%); opacity: 0; } }
 
 /* ---------- Sobre mí: hito, trayectoria, insignias y bloques ---------- */
 /* Marco facetado de las fotos: el mismo ángulo cortado del retrato */

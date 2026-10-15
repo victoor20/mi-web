@@ -58,19 +58,67 @@ needs:
 {{ facetDivider("start", "cyan") }}
 
 <section class="section criteria" aria-labelledby="criterio-title">
-  <div class="wrap criteria__grid">
-    <div>
-      <h2 class="section-title" id="criterio-title">Cómo elijo lo que recomiendo</h2>
-      <p class="lead-text">El problema primero y el producto después. Cuando una guía enlaza una compra, ha pasado por estos filtros.</p>
-      <p class="actions"><a class="btn btn--ghost" href="/guias/transparencia/">Transparencia y afiliación</a></p>
+  <div class="wrap">
+    <h2 class="section-title" id="criterio-title">Cómo elijo lo que recomiendo</h2>
+    <p class="lead-text">El problema primero y el producto después. Cuando una guía enlaza una compra, ha pasado por cinco filtros.</p>
+    <p class="actions"><a class="btn btn--ghost" href="/guias/transparencia/">Transparencia y afiliación</a></p>
+
+    <div class="gates" data-gates>
+      <ol class="gates__list">
+        <li class="gate" style="--i: 0">
+          <span class="gate__door"><svg class="illo gate__svg" viewBox="0 0 120 100" aria-hidden="true" focusable="false">
+            <path class="f" d="M24 94 V34 L60 10 L96 34 V94 Z"/>
+            <path class="s" d="M24 94 V34 L60 10 L96 34 V94"/>
+            <path class="a dim" d="M38 94 V42 L60 28 L82 42 V94"/>
+            <g class="h"><circle cx="60" cy="66" r="12"/><circle cx="60" cy="66" r="3.5"/><path d="M60 48 V54 M60 78 V84 M42 66 H48 M72 66 H78"/></g>
+          </svg></span>
+          <h3 class="gate__title"><span class="gate__n mono">01</span>Uso real</h3>
+          <p>Para qué lo necesitas y qué problema resuelve.</p>
+        </li>
+        <li class="gate" style="--i: 1">
+          <span class="gate__door"><svg class="illo gate__svg" viewBox="0 0 120 100" aria-hidden="true" focusable="false">
+            <path class="f" d="M24 94 V34 L60 10 L96 34 V94 Z"/>
+            <path class="s" d="M24 94 V34 L60 10 L96 34 V94"/>
+            <path class="a dim" d="M38 94 V42 L60 28 L82 42 V94"/>
+            <g class="h"><rect x="42" y="58" width="16" height="16" rx="2"/><path d="M58 66 H64 M64 60 V72 M64 62 H78 M64 70 H78"/></g>
+          </svg></span>
+          <h3 class="gate__title"><span class="gate__n mono">02</span>Compatibilidad</h3>
+          <p>Medidas, conexiones, potencia y generación antes que la ficha llamativa.</p>
+        </li>
+        <li class="gate" style="--i: 2">
+          <span class="gate__door"><svg class="illo gate__svg" viewBox="0 0 120 100" aria-hidden="true" focusable="false">
+            <path class="f" d="M24 94 V34 L60 10 L96 34 V94 Z"/>
+            <path class="s" d="M24 94 V34 L60 10 L96 34 V94"/>
+            <path class="a dim" d="M38 94 V42 L60 28 L82 42 V94"/>
+            <g class="h"><path d="M60 50 V80 M44 58 H76 M44 58 L38 70 H50 Z M76 58 L70 70 H82 Z M52 80 H68"/></g>
+          </svg></span>
+          <h3 class="gate__title"><span class="gate__n mono">03</span>Calidad-precio</h3>
+          <p>Ni lo más barato por sistema ni pagar por lo que no vas a aprovechar.</p>
+        </li>
+        <li class="gate" style="--i: 3">
+          <span class="gate__door"><svg class="illo gate__svg" viewBox="0 0 120 100" aria-hidden="true" focusable="false">
+            <path class="f" d="M24 94 V34 L60 10 L96 34 V94 Z"/>
+            <path class="s" d="M24 94 V34 L60 10 L96 34 V94"/>
+            <path class="a dim" d="M38 94 V42 L60 28 L82 42 V94"/>
+            <g class="h"><circle cx="60" cy="66" r="14"/><path d="M60 57 V66 L67 71"/></g>
+          </svg></span>
+          <h3 class="gate__title"><span class="gate__n mono">04</span>Vigencia</h3>
+          <p>Ficha, variante y disponibilidad revisadas antes de enlazar.</p>
+        </li>
+        <li class="gate" style="--i: 4">
+          <span class="gate__door"><svg class="illo gate__svg" viewBox="0 0 120 100" aria-hidden="true" focusable="false">
+            <path class="f" d="M24 94 V34 L60 10 L96 34 V94 Z"/>
+            <path class="s" d="M24 94 V34 L60 10 L96 34 V94"/>
+            <path class="a dim" d="M38 94 V42 L60 28 L82 42 V94"/>
+            <g class="h"><path d="M43 66 Q60 50 77 66 Q60 82 43 66 Z"/><circle cx="60" cy="66" r="4.5"/></g>
+          </svg></span>
+          <h3 class="gate__title"><span class="gate__n mono">05</span>Transparencia</h3>
+          <p>Los enlaces de afiliado se marcan y la comisión no cambia el criterio.</p>
+        </li>
+      </ol>
+      <span class="gates__product" aria-hidden="true">{{ illo("producto") }}</span>
+      <p class="gates__end">Solo lo que pasa los cinco filtros llega a una guía.</p>
     </div>
-    <ol class="criteria__list">
-      <li><strong>Uso real.</strong> Para qué lo necesitas y qué problema resuelve.</li>
-      <li><strong>Compatibilidad.</strong> Medidas, conexiones, potencia y generación antes que la ficha llamativa.</li>
-      <li><strong>Calidad-precio.</strong> Ni lo más barato por sistema ni pagar por lo que no vas a aprovechar.</li>
-      <li><strong>Vigencia.</strong> Ficha, variante y disponibilidad revisadas antes de enlazar.</li>
-      <li><strong>Transparencia.</strong> Los enlaces de afiliado se marcan y la comisión no cambia el criterio.</li>
-    </ol>
   </div>
 </section>
 {%- if faqs %}
