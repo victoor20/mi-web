@@ -154,13 +154,20 @@ schema: "home"
     <h2 class="lab-home__title" id="lab-title">Aprendo IA construyendo cosas que uso cada día.</h2>
     <p class="lab-home__intro">Me estoy formando en AI Engineering: modelos de lenguaje, agentes, RAG y APIs. Lo que aprendo lo pongo a prueba en proyectos propios, y el más completo es Jarvis, un agente personal que funciona día y noche.</p>
 
-    <ol class="flow-line" aria-label="Cómo funciona Jarvis, de un vistazo">
-      <li><span class="mono">Habla</span>Telegram, texto y voz</li>
-      <li class="is-core"><span class="mono">Orquesta</span>OpenClaw</li>
-      <li><span class="mono">Razona</span>Modelo de lenguaje</li>
-      <li><span class="mono">Recuerda</span>Memoria persistente</li>
-      <li class="is-gate"><span class="mono">Pide permiso</span>Antes de cualquier acción externa</li>
-    </ol>
+    <div class="jflow" data-jflow>
+      <p class="jflow__msg"><span class="mono">Telegram</span>«Prepárame un borrador para LinkedIn sobre la AWS JAM»</p>
+      <div class="jflow__track">
+      <ol class="flow-line" aria-label="Cómo funciona Jarvis, de un vistazo">
+        <li><span class="mono">Habla</span>Telegram, texto y voz<em class="jflow__says">Lo recibe por texto o voz</em></li>
+        <li class="is-core"><span class="mono">Orquesta</span>OpenClaw<em class="jflow__says">Decide qué herramienta usar</em></li>
+        <li><span class="mono">Razona</span>Modelo de lenguaje<em class="jflow__says">Redacta el borrador</em></li>
+        <li><span class="mono">Recuerda</span>Memoria persistente<em class="jflow__says">Consulta lo que recuerda del proyecto</em></li>
+        <li class="is-gate"><span class="mono">Pide permiso</span>Antes de cualquier acción externa<em class="jflow__says">Se detiene antes de publicar</em></li>
+      </ol>
+      <span class="jflow__pulse" aria-hidden="true"></span>
+      </div>
+      <p class="jflow__ask"><span class="mono">Pide permiso</span>¿Lo publico? Esperando tu aprobación</p>
+    </div>
 
     <div class="lab-home__actions">
       <a class="btn btn--primary" href="/proyectos/jarvis/" data-magnetic>Conocer a Jarvis</a>

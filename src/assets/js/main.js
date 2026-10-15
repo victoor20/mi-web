@@ -171,6 +171,39 @@ if (dividers.length && "IntersectionObserver" in window && !reduceMotion.matches
   dividers.forEach((d) => dividerIo.observe(d));
 }
 
+/* ---------- Flujo de Jarvis (home): un mensaje recorre las etapas; en bucle solo mientras está visible ---------- */
+const jflow = document.querySelector("[data-jflow]");
+if (jflow && "IntersectionObserver" in window && !reduceMotion.matches) {
+  const stages = [...jflow.querySelectorAll(".flow-line > li")];
+  const n = stages.length;
+  let step = 0, timer = null;
+  const show = () => {
+    jflow.classList.add("is-anim");
+    jflow.classList.toggle("has-msg", step >= 1);
+    jflow.classList.toggle("has-ask", step >= n + 2);
+    stages.forEach((li, i) => {
+      li.classList.toggle("is-on", step >= i + 2);
+      li.classList.toggle("is-now", step === i + 2);
+    });
+    const at = Math.min(Math.max(step - 1, 0.001), n);
+    jflow.style.setProperty("--at", ((at - 0.5) / n).toFixed(3));
+    jflow.classList.toggle("has-pulse", step >= 2 && step <= n + 1);
+  };
+  const tick = () => {
+    step = step > n + 2 ? 0 : step + 1;
+    show();
+    // al final se mantiene la pregunta un buen rato antes de reiniciar
+    timer = setTimeout(tick, step === 0 ? 1200 : step === n + 3 ? 4200 : step === 1 ? 1300 : 1500);
+  };
+  show();
+  new IntersectionObserver((entries) => {
+    const on = entries[0].isIntersecting;
+    clearTimeout(timer);
+    timer = null;
+    if (on) timer = setTimeout(tick, 600);
+  }, { threshold: 0.4 }).observe(jflow);
+}
+
 /* ---------- Ilustraciones: se animan una vez al aparecer y al pasar el ratón; el resto del tiempo, quietas ---------- */
 const illos = [...document.querySelectorAll("[data-illo]")];
 if (illos.length && !reduceMotion.matches) {
