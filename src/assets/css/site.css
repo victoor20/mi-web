@@ -1707,15 +1707,16 @@
 .flipcard__list li::before { content: ""; position: absolute; left: 0; top: 0.35rem; width: 7px; height: 7px; border: 1px solid var(--vr-azure); transform: rotate(45deg); }
 .flipcard__list .mono { display: block; margin-bottom: 0.15rem; color: var(--vr-cyan); font-size: 0.62rem; }
 /* Con JavaScript: las dos caras se apilan y la tarjeta gira */
-.flipcard.is-ready .flipcard__inner { display: grid; transform-style: preserve-3d; transition: transform 0.8s var(--ease-io); }
-.flipcard.is-ready .flipcard__face { grid-area: 1 / 1; margin-top: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-.flipcard.is-ready .flipcard__face--back { transform: rotateY(180deg); overflow: auto; }
+.js .flipcard .flipcard__inner { display: grid; transform-style: preserve-3d; transition: transform 0.8s var(--ease-io); }
+.js .flipcard .flipcard__face { grid-area: 1 / 1; margin-top: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.js .flipcard .flipcard__face--back { transform: rotateY(180deg); overflow: auto; }
 .flipcard.is-flipped .flipcard__inner { transform: rotateY(180deg); }
 .flipcard__toggle { position: absolute; inset: 0; z-index: 2; border: 0; background: transparent; cursor: pointer; border-radius: var(--radius); }
 .flipcard__toggle[hidden] { display: none; }
 .flipcard__toggle:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
 .flipcard__hint { margin-top: 0.9rem; color: var(--vr-cyan); font-size: 0.7rem; text-align: center; }
 .flipcard__hint[hidden] { display: none; }
+.js .flipcard__hint[hidden] { display: block; visibility: hidden; } /* reserva su sitio: la tarjeta no cambia de alto al activarse el script */
 @media (hover: hover) and (pointer: fine) {
   .flipcard.is-ready:not(.is-flipped):has(.flipcard__toggle:hover) .flipcard__inner { transform: rotateY(-7deg); }
 }
@@ -1728,7 +1729,7 @@
   65% { transform: rotateY(9deg); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .flipcard.is-ready .flipcard__inner { transition: none; }
+  .js .flipcard .flipcard__inner { transition: none; }
 }
 @media (max-width: 760px) { .portrait { max-width: min(100%, 340px); } }
 
@@ -1744,6 +1745,7 @@
 .facet-frame picture, .facet-frame img { display: block; width: 100%; height: auto; }
 .jam-num {
   display: inline-block;
+  min-width: 1.3em; /* ancho fijo: la columna no cambia al cargar la tipografía */
   padding-right: 0.08em; /* el recorte del degradado comía el «º» por el interletraje negativo */
   font-size: clamp(6rem, 17vw, 14rem);
   font-weight: 800;
