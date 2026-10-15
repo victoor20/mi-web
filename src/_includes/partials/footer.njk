@@ -24,7 +24,7 @@
           <p class="label">{{ "Servicio técnico" if site.isCommercial else "Mi trabajo" }}</p>
           <ul>
             <li><a href="{{ site.servicesUrl }}">{{ "Servicios" if site.isCommercial else "Lo que sé hacer" }}</a></li>
-            <li><a href="/contacto/">{{ site.cta.label }}</a></li>
+            <li><a href="/contacto/?origen=pie">{{ site.cta.label }}</a></li>
             <li><a href="/sobre-mi/">Sobre mí</a></li>
           </ul>
         </div>

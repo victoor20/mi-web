@@ -73,3 +73,38 @@
   </div>
 </section>
 {% endmacro %}
+
+{#- Pregunta frecuente (details). i = { id, q, a, help?, link? }; cat = tema (para el filtro). La animación la pone main.js.
+     help (slug de servicio) añade «¿No se resuelve? Cuéntamelo» al cuestionario con ese tema y el origen faq-<id>. -#}
+{% macro faqItem(i, cat) %}
+<details{% if cat %} data-cat="{{ cat }}"{% endif %}>
+  <summary><span class="faq__q">{{ i.q }}</span></summary>
+  <div class="faq__a"><div>
+    <p>{{ i.a }}</p>
+    {%- if i.link %}
+    <p class="faq__cta"><a class="text-link" href="{{ i.link.url }}">{{ i.link.label }} →</a></p>
+    {%- endif %}
+    {%- if i.help %}
+    <p class="faq__cta">¿No se resuelve? <a class="text-link" href="/contacto/?servicio={{ i.help }}&amp;origen=faq-{{ i.id }}">Cuéntamelo →</a></p>
+    {%- endif %}
+  </div></div>
+</details>
+{% endmacro %}
+
+{#- Sección de preguntas frecuentes de una página: items = lista plana. id evita duplicar ids entre secciones. -#}
+{% macro faqSection(items, lead="") %}
+<section class="section faq-section" aria-labelledby="faq-title">
+  <div class="wrap">
+    <h2 class="section-title" id="faq-title">Preguntas frecuentes</h2>
+    {%- if lead %}<p class="lead-text">{{ lead }}</p>{% endif %}
+    <div class="faq faq--wide" data-faq>
+      {%- for i in items %}{{ faqItem(i) }}{% endfor %}
+    </div>
+  </div>
+</section>
+{% endmacro %}
+
+{#- Invitación breve a escribirme al final de una sección (sin saturar): texto + botón con origen y tema opcional -#}
+{% macro ctaLine(text, label, origin, topic="") %}
+<p class="cta-line">{{ text }} <a class="btn btn--ghost btn--sm" href="/contacto/?{% if topic %}servicio={{ topic }}&amp;{% endif %}origen={{ origin }}" data-magnetic>{{ label }}</a></p>
+{% endmacro %}

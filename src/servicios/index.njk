@@ -10,7 +10,7 @@ bodyClass: "page-services"
 criticalSections: ["Servicios: buscador por síntoma"]
 schema: "services"
 ---
-{% from "macros.njk" import facetDivider, reviewsBlock %}
+{% from "macros.njk" import facetDivider, reviewsBlock, faqItem, ctaLine %}
 {%- from "partials/illos.njk" import illo -%}
 {%- from "partials/checks.njk" import check -%}
 <header class="page-hero">
@@ -25,7 +25,7 @@ schema: "services"
     <p class="page-hero__intro">Reparar y mejorar portátiles y sobremesa, recuperar datos, montar equipos y automatizar tareas sencillas: esto es lo que he ido aprendiendo y resolviendo. Si tienes un problema con tu equipo, cuéntamelo.</p>
     {%- endif %}
     <div class="actions">
-      <a class="btn btn--primary" href="/contacto/" data-magnetic>{{ site.cta.label }}</a>
+      <a class="btn btn--primary" href="/contacto/?origen=servicios-hero" data-magnetic>{{ site.cta.label }}</a>
       <a class="btn btn--ghost" href="#que-le-pasa">Empezar por el síntoma</a>
     </div>
   </div>
@@ -70,12 +70,15 @@ schema: "services"
               <p>{{ s.meanwhile }}</p>
             </div>
           </div>
+          {%- if s.write and not site.isCommercial %}
+          <p class="finder__write"><span class="finder__label mono">Cuándo escribirme</span>{{ s.write }}</p>
+          {%- endif %}
           <div class="finder__foot">
             <a class="finder__service" href="#{{ svc.slug }}">{{ svc.name }} →</a>
             {%- if not site.isCommercial and svc.guide %}
             <a class="text-link" href="{{ svc.guide }}">Leer la guía relacionada</a>
             {%- endif %}
-            <a class="btn btn--primary btn--sm" href="/contacto/?servicio={{ svc.slug }}">{{ "Pedir presupuesto para esto" if site.isCommercial else "Cuéntamelo" }}</a>
+            <a class="btn btn--primary btn--sm" href="/contacto/?servicio={{ svc.slug }}&amp;sintoma={{ s.label | urlencode }}&amp;origen=sintoma-{{ s.id }}">{{ "Pedir presupuesto para esto" if site.isCommercial else "Cuéntamelo" }}</a>
           </div>
         </article>
         {%- endfor %}
@@ -131,6 +134,9 @@ schema: "services"
       </article>
       {%- endfor %}
     </div>
+    {%- if not site.isCommercial %}
+    {{ ctaLine("¿Reconoces tu caso en alguno de estos temas?", "Cuéntamelo", "servicios-temas") }}
+    {%- endif %}
   </div>
 </section>
 
@@ -160,7 +166,7 @@ schema: "services"
         <p>Un resumen de cómo estaba y qué se hizo.</p>
       </li>
     </ol>
-    <p class="steps3__contact">¿Algo no funciona en tu equipo? <a class="btn btn--ghost btn--sm" href="/contacto/" data-magnetic>Cuéntamelo</a></p>
+    {{ ctaLine("Si te suena este recorrido, cuéntame tu caso y empezamos por el primer paso.", "Escribirme", "servicios-pasos") }}
   </div>
 </section>
 {%- else %}
@@ -195,23 +201,18 @@ schema: "services"
 {{ reviewsBlock(site) }}
 
 {%- if faqs %}
-<section class="section" aria-labelledby="faq-title">
+<section class="section faq-section" aria-labelledby="faq-title">
   <div class="wrap">
     <h2 class="section-title" id="faq-title">Preguntas frecuentes</h2>
     <p class="lead-text">Dudas que me encuentro a menudo, por tema.</p>
     <div class="faq-filter" role="group" aria-label="Filtrar preguntas por tema" data-faq-filter hidden>
       <button type="button" class="chip" aria-pressed="true" data-cat="todas">Todas</button>
-      {%- for g in faqs %}
+      {%- for g in faqs.servicios %}
       <button type="button" class="chip" aria-pressed="false" data-cat="{{ g.id }}">{{ g.label }}</button>
       {%- endfor %}
     </div>
     <div class="faq faq--wide" data-faq>
-      {%- for g in faqs %}{% for i in g.items %}
-      <details data-cat="{{ g.id }}">
-        <summary><span class="faq__q">{{ i.q }}</span></summary>
-        <div class="faq__a"><div><p>{{ i.a }}</p></div></div>
-      </details>
-      {%- endfor %}{% endfor %}
+      {%- for g in faqs.servicios %}{% for i in g.items %}{{ faqItem(i, g.id) }}{% endfor %}{% endfor %}
     </div>
   </div>
 </section>
@@ -264,7 +265,7 @@ schema: "services"
     <h2 class="closing__title" id="cierre-title">¿Algo no funciona en tu equipo? <span>Cuéntamelo y vemos qué se puede hacer.</span></h2>
     {%- endif %}
     <div class="closing__actions">
-      <a class="btn btn--primary btn--lg" href="/contacto/" data-magnetic>{{ site.cta.label }}</a>
+      <a class="btn btn--primary btn--lg" href="/contacto/?origen=servicios-cierre" data-magnetic>{{ site.cta.label }}</a>
       <a class="btn btn--ghost btn--lg" href="mailto:{{ site.email }}">{{ site.email }}</a>
     </div>
   </div>

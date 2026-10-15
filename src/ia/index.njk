@@ -4,7 +4,7 @@ title: "Laboratorio de IA · Víctor Rocamora"
 description: "Lo que estoy aprendiendo de AI Engineering y los proyectos reales donde lo pruebo: agentes, modelos de lenguaje, RAG y automatizaciones. Con Jarvis como proyecto principal."
 bodyClass: "page-lab"
 criticalSections: ["Laboratorio"]
-schema: "person"
+schema: "ia"
 pipelines:
   - id: correo
     label: "Clasificar el correo entrante"
@@ -61,7 +61,7 @@ log:
   - { title: "Cloud en AWS", status: "Especialización y práctica", text: "Curso de especialización en Administración Cloud y más de 40 laboratorios de AWS Skill Builder: serverless, DynamoDB, EKS, Lambda, CloudFormation, CloudFront y seguridad. Este año, además, llegué con mi equipo a la final nacional de AWS JAM y quedamos segundos.", link: { label: "Más en Sobre mí", url: "/sobre-mi/" } }
   - { title: "Máster en IA", status: "2025–2026", text: "El máster de BIG school, con el Diploma de Experto Universitario en IA de la Universidad Isabel I, se complementa con el estudio propio que sigue la hoja de ruta de arriba." }
 ---
-{% from "macros.njk" import facetDivider %}
+{% from "macros.njk" import facetDivider, faqSection, ctaLine %}
 {%- set pipes = pipelines if site.isCommercial else pipelinesPortfolio %}
 <header class="page-hero lab-hero">
   <div class="wrap">
@@ -158,6 +158,9 @@ log:
       </ol>
       <span class="roadmap__marker" aria-hidden="true" data-marker><svg viewBox="0 0 24 24" focusable="false"><path d="M12 0 L14.6 9.4 L24 12 L14.6 14.6 L12 24 L9.4 14.6 L0 12 L9.4 9.4 Z"/></svg></span>
     </div>
+    {%- if not site.isCommercial %}
+    {{ ctaLine("¿Tienes un recurso que me convenga o una idea de proyecto?", "Cuéntamelo", "ia-hoja", "otro") }}
+    {%- endif %}
   </div>
 </section>
 
@@ -216,7 +219,10 @@ log:
       {%- else %}
       <p>Soy técnico de sistemas, con ASIR, especialización en cloud sobre AWS y máster en IA, y estoy orientando mi carrera hacia AI Engineering. Si buscas a alguien con criterio técnico y ganas de aprender en proyectos reales, hablemos.</p>
       {%- endif %}
-      <p class="offer__links"><a class="text-link" href="{{ site.linkedin }}" rel="me noopener" target="_blank">LinkedIn ↗</a> <a class="text-link" href="/sobre-mi/">Trayectoria</a> <a class="text-link" href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+      <p class="offer__links"><a class="text-link" href="{{ site.linkedin }}" rel="me noopener" target="_blank">LinkedIn ↗</a> <a class="text-link" href="/sobre-mi/">Trayectoria</a> <a class="text-link" href="/contacto/?servicio=oportunidad&amp;origen=ia-equipos">Escribirme</a></p>
     </article>
   </div>
 </section>
+{%- if faqs %}
+{{ faqSection(faqs.ia, "Sobre mi formación, la hoja de ruta y Jarvis.") }}
+{%- endif %}

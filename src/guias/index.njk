@@ -9,6 +9,7 @@ bodyClass: "page-guides"
 criticalSections: ["Guías: índice"]
 pccVerification: true
 jsonld: null
+schema: "guias"
 needs:
   - { id: "todas", label: "Todas" }
   - { id: "mejorar", label: "Mejorar mi equipo" }
@@ -16,7 +17,7 @@ needs:
   - { id: "montar", label: "Montar un PC" }
   - { id: "escritorio", label: "Escritorio" }
 ---
-{% from "macros.njk" import facetDivider %}
+{% from "macros.njk" import facetDivider, faqSection, ctaLine %}
 {%- from "partials/illos.njk" import illo -%}
 <header class="page-hero guides-hero">
   <div class="wrap">
@@ -48,6 +49,9 @@ needs:
       {%- endfor %}
     </ul>
     <p class="guide-list__empty" hidden data-empty>Todavía no hay guías en esta categoría. Pronto.</p>
+    {%- if not site.isCommercial %}
+    {{ ctaLine("¿No encuentras la guía que buscas?", "Cuéntame qué necesitas", "guias-indice", "montaje-compra") }}
+    {%- endif %}
   </div>
 </section>
 
@@ -69,3 +73,6 @@ needs:
     </ol>
   </div>
 </section>
+{%- if faqs %}
+{{ faqSection(faqs.guias, "Sobre cómo elijo, los enlaces de afiliado y la vigencia de las guías.") }}
+{%- endif %}

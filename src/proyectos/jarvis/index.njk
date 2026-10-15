@@ -110,3 +110,11 @@ schema: "person"
     </div>
   </div>
 </section>
+{%- if not site.isCommercial %}
+{%- from "macros.njk" import ctaLine %}
+<section class="section jarvis-cta">
+  <div class="wrap">
+    {{ ctaLine("¿Te interesa cómo está construido o quieres comentarme algo de Jarvis?", "Escríbeme", "jarvis-cierre", "otro") }}
+  </div>
+</section>
+{%- endif %}

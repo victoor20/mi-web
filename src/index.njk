@@ -10,7 +10,7 @@ bodyClass: "page-home"
 pccVerification: true
 schema: "home"
 ---
-{% from "macros.njk" import facetDivider %}
+{% from "macros.njk" import facetDivider, faqSection, ctaLine %}
 {%- from "partials/illos.njk" import illo -%}
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero__grid wrap">
@@ -140,7 +140,7 @@ schema: "home"
       <p>Si tienes un problema con tu equipo, cuéntamelo: me gusta echar una mano cuando puedo, y aquí tienes por dónde suelo empezar.</p>
       {%- endif %}
       <div class="services-home__actions">
-        <a class="btn btn--primary" href="/contacto/" data-magnetic>{{ site.cta.label }}</a>
+        <a class="btn btn--primary" href="/contacto/?origen=inicio-servicios" data-magnetic>{{ site.cta.label }}</a>
         <a class="btn btn--ghost" href="{{ site.servicesUrl }}">Cómo trabajo</a>
       </div>
     </div>
@@ -176,7 +176,7 @@ schema: "home"
     {%- if site.isCommercial %}
     <p class="lab-home__note">¿Tienes una tarea concreta que se repite? Las <a href="/servicios/#automatizacion">automatizaciones sencillas</a> ya forman parte de mis servicios.</p>
     {%- else %}
-    <p class="lab-home__note">¿Tienes una tarea concreta que se repite? Mira cómo resuelvo las <a href="{{ site.servicesUrl }}#automatizacion">automatizaciones sencillas</a>.</p>
+    <p class="lab-home__note">¿Tienes una tarea concreta que se repite? <a href="/contacto/?servicio=automatizacion&amp;origen=inicio-laboratorio">Cuéntamela</a> o mira cómo resuelvo las <a href="{{ site.servicesUrl }}#automatizacion">automatizaciones sencillas</a>.</p>
     {%- endif %}
   </div>
 </section>
@@ -213,14 +213,21 @@ schema: "home"
     </div>
 
     <p class="guides-home__all"><a class="btn btn--ghost" href="/guias/">Todas las guías</a></p>
+    {%- if not site.isCommercial %}
+    {{ ctaLine("¿Dudas entre dos equipos o piezas?", "Cuéntame qué buscas", "inicio-guias", "montaje-compra") }}
+    {%- endif %}
   </div>
 </section>
+
+{%- if faqs %}
+{{ faqSection(faqs.inicio, "Lo que suelen preguntarme antes de escribir.") }}
+{%- endif %}
 
 <section class="closing" id="contacto" aria-labelledby="contacto-title" data-hide-mobile-cta>
   <div class="wrap">
     <h2 class="closing__title" id="contacto-title">Cuéntame qué le pasa a tu&nbsp;ordenador. <span>O qué quieres dejar de hacer a mano.</span></h2>
     <div class="closing__actions">
-      <a class="btn btn--primary btn--lg" href="/contacto/" data-magnetic>{{ site.cta.label }}</a>
+      <a class="btn btn--primary btn--lg" href="/contacto/?origen=inicio-cierre" data-magnetic>{{ site.cta.label }}</a>
       <a class="btn btn--ghost btn--lg" href="mailto:{{ site.email }}">{{ site.email }}</a>
     </div>
     {%- if site.isCommercial %}

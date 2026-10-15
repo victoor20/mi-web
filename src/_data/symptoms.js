@@ -4,6 +4,7 @@ import site from "./site.js";
 const symptoms = [
   {
     id: "no-arranca",
+    write: "Si huele a quemado, ha sufrido líquido o un golpe, o no da ninguna señal.",
     label: "No enciende o no arranca",
     checks: ["Alimentación, cargador y batería", "Memoria y disco", "Señales de la placa al pulsar el botón"],
     usually: "Muchas veces es una pieza concreta (cargador, memoria, disco) y no el equipo entero.",
@@ -12,6 +13,7 @@ const symptoms = [
   },
   {
     id: "lento",
+    write: "Si además se cuelga, hace ruidos raros o el disco muestra errores.",
     label: "Va muy lento",
     checks: ["Tipo y estado del disco", "Memoria disponible", "Programas que arrancan solos", "Temperaturas"],
     usually: "Un cambio a SSD y algo más de memoria suelen devolverle la agilidad sin comprar otro.",
@@ -20,6 +22,7 @@ const symptoms = [
   },
   {
     id: "calor-ruido",
+    write: "Si se apaga solo, huele a quemado o el ruido sigue igual con las rejillas despejadas.",
     label: "Se calienta o hace ruido",
     checks: ["Ventiladores y polvo acumulado", "Pasta térmica", "Uso del procesador en reposo"],
     usually: "Una limpieza interna con pasta térmica nueva lo resuelve en la mayoría de los casos.",
@@ -28,6 +31,7 @@ const symptoms = [
   },
   {
     id: "virus-errores",
+    write: "Si ya has metido contraseñas o datos bancarios, o ves accesos o cargos que no reconoces.",
     label: "Virus, errores o ventanas raras",
     checks: ["Programas instalados sin querer", "Extensiones del navegador", "Estado del sistema"],
     usually: "Si el sistema está muy tocado, lo más limpio es reinstalarlo conservando tus datos.",
@@ -36,6 +40,7 @@ const symptoms = [
   },
   {
     id: "datos",
+    write: "Si el disco hace ruidos o no aparece, o si lo que has perdido es importante y no tienes copia.",
     label: "He perdido archivos o el disco falla",
     checks: ["Salud del disco", "Si los archivos son recuperables", "Copia inmediata de lo importante"],
     usually: "Cuanto antes se actúe, más posibilidades hay de recuperar los archivos.",
@@ -44,6 +49,7 @@ const symptoms = [
   },
   {
     id: "comprar",
+    write: "Si dudas entre varias opciones o quieres comprobar la compatibilidad antes de pagar.",
     label: "Quiero comprar o montar uno",
     checks: ["Para qué lo vas a usar", site.isCommercial ? "Presupuesto real" : "Cuánto quieres gastar", "Compatibilidad entre piezas"],
     usually: "Una buena elección evita pagar por potencia que no vas a aprovechar.",
@@ -52,6 +58,7 @@ const symptoms = [
   },
   {
     id: "negocio",
+    write: "Si no hay copia de seguridad o hay equipos y cuentas sin controlar.",
     label: "Mi negocio necesita orden",
     checks: ["Equipos y red del local", "Copias de seguridad", "Correo y cuentas"],
     usually: "Un mantenimiento periódico y unas copias automáticas evitan la mayoría de los sustos.",
@@ -60,6 +67,7 @@ const symptoms = [
   },
   {
     id: "tarea",
+    write: "Si la tarea se repite cada semana y ya sabes cuánto tiempo te lleva.",
     label: "Una tarea me roba horas",
     checks: ["Cómo se hace hoy, paso a paso", "Qué datos intervienen", "Dónde hace falta una persona"],
     usually: "Muchas tareas repetitivas se pueden automatizar con reglas sencillas o con ayuda de IA.",

@@ -45,7 +45,7 @@ criticalSections: ["Prosa (artículos y páginas legales)", "Guías: artículo"]
         <p class="article__service-title">{{ svc.name }}</p>
         <p>{{ svc.short }}</p>
         <div class="actions">
-          <a class="btn btn--primary btn--sm" href="/contacto/?servicio={{ svc.slug }}">Pedir presupuesto</a>
+          <a class="btn btn--primary btn--sm" href="/contacto/?servicio={{ svc.slug }}&amp;origen=guia-{{ page.fileSlug | truncate(30, true, '') }}">Pedir presupuesto</a>
           <a class="btn btn--ghost btn--sm" href="/servicios/#{{ svc.slug }}">Ver el servicio</a>
         </div>
       </aside>
@@ -55,7 +55,7 @@ criticalSections: ["Prosa (artículos y páginas legales)", "Guías: artículo"]
         <p class="article__service-title">{{ svc.name }}</p>
         <p>{{ svc.short }}</p>
         <div class="actions">
-          <a class="btn btn--primary btn--sm" href="/contacto/?servicio={{ svc.slug }}">Contactar</a>
+          <a class="btn btn--primary btn--sm" href="/contacto/?servicio={{ svc.slug }}&amp;origen=guia-{{ page.fileSlug | truncate(30, true, '') }}">Contactar</a>
           <a class="btn btn--ghost btn--sm" href="{{ site.servicesUrl }}#{{ svc.slug }}">Lo que sé hacer</a>
         </div>
       </aside>

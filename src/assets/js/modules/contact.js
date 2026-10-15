@@ -30,6 +30,20 @@ export default function contact(form) {
   if (preInput) preInput.checked = true;
   const origin = params.get("origen") || params.get("ref");
   if (origin) form.querySelector("[data-origin]").value = origin.slice(0, 40);
+  // Síntoma elegido en la página «Lo que sé hacer»: viaja como campo y se muestra en los detalles del caso
+  const symptom = (params.get("sintoma") || "").trim().slice(0, 80);
+  if (symptom) {
+    const hidden = document.createElement("input");
+    hidden.type = "hidden"; hidden.name = "sintoma"; hidden.value = symptom;
+    form.append(hidden);
+    const note = document.createElement("p");
+    note.className = "field__hint quiz__symptom";
+    note.append("Partimos de: ");
+    const strong = document.createElement("strong");
+    strong.textContent = symptom;
+    note.append(strong);
+    steps[1]?.querySelector("legend")?.after(note);
+  }
 
   const show = (i, focus = true) => {
     current = i;
@@ -70,7 +84,7 @@ export default function contact(form) {
 
   const fillSummary = () => {
     const data = new FormData(form);
-    const rows = [["Necesitas", data.get("servicio")], ["Equipo", data.get("equipo")], ["Urgencia", data.get("urgencia")], ["Contacto", [data.get("nombre"), data.get("email"), data.get("municipio")].filter(Boolean).join(" · ")]];
+    const rows = [["Necesitas", data.get("servicio")], ["Síntoma", data.get("sintoma")], ["Equipo", data.get("equipo")], ["Urgencia", data.get("urgencia")], ["Contacto", [data.get("nombre"), data.get("email"), data.get("municipio")].filter(Boolean).join(" · ")]];
     summary.replaceChildren(...rows.filter(([, v]) => v).map(([k, v]) => {
       const row = document.createElement("div");
       const dt = document.createElement("dt"); dt.className = "mono"; dt.textContent = k;

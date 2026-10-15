@@ -277,7 +277,9 @@ export async function initHero3D(stage, threeUrl) {
 
     logo.rotation.y = current.x * 0.32 + s * 0.55 + Math.sin(time * 0.35) * 0.04;
     logo.rotation.x = current.y * 0.2 + s * 0.18;
-    logo.position.y = Math.sin(time * 0.6) * 0.07 + s * 0.4;
+    // Flotación vertical continua (ciclo de 5,6 s): entra al acabar la intro y se desvanece con el despiece
+    const float = Math.sin((time * Math.PI * 2) / 5.6) * 0.22 * smooth(Math.min(1, Math.max(0, (time - INTRO) / 1.5))) * (1 - s);
+    logo.position.y = float + s * 0.4;
 
     pointer.position.set(current.x * 7, -current.y * 5, 6);
     edgeMat.opacity = 0.1 + s * 0.55;

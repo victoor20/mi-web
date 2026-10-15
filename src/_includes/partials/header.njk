@@ -17,7 +17,7 @@
       </ul>
     </nav>
 
-    <a class="btn btn--primary btn--sm site-header__cta" href="{{ site.cta.url }}">{{ site.cta.label }}</a>
+    <a class="btn btn--primary btn--sm site-header__cta" href="{{ site.cta.url }}?origen=cabecera">{{ site.cta.label }}</a>
 
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-movil" data-menu-toggle>
       <span class="visually-hidden" data-menu-label>Abrir menú</span>
@@ -38,7 +38,7 @@
       </ol>
     </nav>
     <div class="mobile-menu__foot">
-      <a class="btn btn--primary" href="{{ site.cta.url }}">{{ site.cta.label }}</a>
+      <a class="btn btn--primary" href="{{ site.cta.url }}?origen=menu-movil">{{ site.cta.label }}</a>
       <a class="mobile-menu__mail" href="mailto:{{ site.email }}">{{ site.email }}</a>
       <a class="mobile-menu__mail" href="{{ site.linkedin }}" rel="me noopener" target="_blank">LinkedIn ↗</a>
     </div>

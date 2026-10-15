@@ -58,21 +58,31 @@ const website = {
   publisher: { "@id": id("persona") },
 };
 
-// FAQPage con todas las preguntas de /lo-que-se-hacer/ (solo modo portfolio, donde faqs no es null)
-const faqPage = {
+// FAQPage de cada página (solo modo portfolio, donde faqs no es null). Un grupo de preguntas por página.
+const faqPage = (items) => ({
   "@type": "FAQPage",
   inLanguage: "es-ES",
-  mainEntity: (faqs || []).flatMap((g) => g.items.map((i) => ({
-    "@type": "Question",
-    name: i.q,
-    acceptedAnswer: { "@type": "Answer", text: i.a },
-  }))),
-};
+  mainEntity: items.map((i) => ({ "@type": "Question", name: i.q, acceptedAnswer: { "@type": "Answer", text: i.a } })),
+});
+const faq = faqs
+  ? {
+    inicio: faqPage(faqs.inicio),
+    servicios: faqPage(faqs.servicios.flatMap((g) => g.items)),
+    ia: faqPage(faqs.ia),
+    guias: faqPage(faqs.guias),
+    contacto: faqPage(faqs.contacto),
+  }
+  : null;
 
 // Modo portfolio: solo Person (sin ProfessionalService ni areaServed)
 export default {
-  home: { "@context": "https://schema.org", "@graph": site.isCommercial ? [website, person, business] : [website, person] },
-  services: { "@context": "https://schema.org", "@graph": site.isCommercial ? [business, person] : [person, faqPage] },
+  home: { "@context": "https://schema.org", "@graph": site.isCommercial ? [website, person, business] : [website, person, faq.inicio] },
+  services: { "@context": "https://schema.org", "@graph": site.isCommercial ? [business, person] : [person, faq.servicios] },
+  ia: { "@context": "https://schema.org", "@graph": site.isCommercial ? [person] : [person, faq.ia] },
+  ...(faq ? {
+    guias: { "@context": "https://schema.org", "@graph": [faq.guias] },
+    contacto: { "@context": "https://schema.org", "@graph": [faq.contacto] },
+  } : {}),
   person: { "@context": "https://schema.org", "@graph": [person] },
   ids: { person: id("persona"), website: id("web") },
 };

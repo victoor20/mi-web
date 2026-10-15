@@ -7,8 +7,10 @@ portfolioMeta:
   description: "Escríbeme en cuatro pasos cortos o directamente por correo. Te respondo en cuanto pueda."
 bodyClass: "page-contact"
 criticalSections: ["Contacto: cuestionario"]
+schema: "contacto"
 hideMobileCta: true
 ---
+{%- from "macros.njk" import faqSection %}
 {%- set turnstile = site.turnstileSiteKey | isSet %}
 <header class="page-hero contact-hero">
   <div class="wrap">
@@ -162,6 +164,9 @@ hideMobileCta: true
     </aside>
   </div>
 </section>
+{%- if faqs %}
+{{ faqSection(faqs.contacto, "Antes de enviar el formulario.") }}
+{%- endif %}
 {%- if turnstile %}
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 {%- endif %}
