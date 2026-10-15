@@ -3,6 +3,7 @@ title: "Cómo elegir un portátil para estudiar o trabajar · Guías"
 h1: "Cómo elegir un portátil para estudiar o trabajar"
 description: "Memoria, almacenamiento, procesador, pantalla, batería y conectividad: qué priorizar en un portátil para estudiar, teletrabajar o programar sin pagar de más."
 category: "Portátiles"
+illo: "portatil"
 need: "comprar"
 published: 2026-08-01
 updated: 2026-08-01

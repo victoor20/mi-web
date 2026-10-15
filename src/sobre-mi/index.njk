@@ -40,10 +40,13 @@ schema: "person"
           {#- Contorno facetado con un destello azul eléctrico que lo recorre (lento y sutil; se pausa fuera de pantalla) -#}
           <svg class="flipcard__edge" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true" focusable="false">
             <path class="flipcard__edge-base" d="M0 30 L88 0 L400 0 L400 440 L320 500 L0 500 Z" pathLength="100"/>
-            <path class="flipcard__edge-l4" d="M0 30 L88 0 L400 0 L400 440 L320 500 L0 500 Z" pathLength="100"/>
-            <path class="flipcard__edge-l3" d="M0 30 L88 0 L400 0 L400 440 L320 500 L0 500 Z" pathLength="100"/>
-            <path class="flipcard__edge-l2" d="M0 30 L88 0 L400 0 L400 440 L320 500 L0 500 Z" pathLength="100"/>
-            <path class="flipcard__edge-l1" d="M0 30 L88 0 L400 0 L400 440 L320 500 L0 500 Z" pathLength="100"/>
+            {%- set contorno = "M0 30 L88 0 L400 0 L400 440 L320 500 L0 500 Z" %}
+            <g class="flipcard__edge-comet">
+              {%- for i in range(0, 26) %}{% set largo = ((i + 1) * 1.2) | round(1) %}
+              <path class="flipcard__edge-c" d="{{ contorno }}" pathLength="100" style="stroke-dasharray: 0 {{ (100 - largo) | round(1) }} {{ largo }} 0"/>
+              {%- endfor %}
+              <path class="flipcard__edge-tip" d="{{ contorno }}" pathLength="100"/>
+            </g>
           </svg>
           <button class="flipcard__toggle" type="button" aria-pressed="false" hidden data-flip>
             <span class="visually-hidden">Dale la vuelta a la foto para ver curiosidades sobre mí</span>

@@ -11,6 +11,7 @@ criticalSections: ["Servicios: buscador por síntoma"]
 schema: "services"
 ---
 {% from "macros.njk" import facetDivider, reviewsBlock %}
+{%- from "partials/illos.njk" import illo -%}
 <header class="page-hero">
   <div class="wrap">
     {%- if site.isCommercial %}
@@ -88,6 +89,7 @@ schema: "services"
       {%- for s in services %}
       <article class="spec" id="{{ s.slug }}" data-reveal>
         <header class="spec__head">
+          {%- if s.illo %}<span class="spec__illo">{{ illo(s.illo) }}</span>{% endif %}
           <h3 class="spec__name">{{ s.name }}</h3>
           <p class="spec__short">{{ s.short }}</p>
         </header>

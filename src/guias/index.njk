@@ -17,6 +17,7 @@ needs:
   - { id: "escritorio", label: "Escritorio" }
 ---
 {% from "macros.njk" import facetDivider %}
+{%- from "partials/illos.njk" import illo -%}
 <header class="page-hero guides-hero">
   <div class="wrap">
     <p class="kicker mono">Guías</p>
@@ -36,7 +37,8 @@ needs:
     <ul class="guide-list" data-guide-list>
       {%- for g in collections.guias %}
       <li class="guide-row" data-need="{{ g.data.need }}">
-        <a href="{{ g.url }}">
+        <a href="{{ g.url }}"{% if g.data.illo %} class="has-illo"{% endif %}>
+          {%- if g.data.illo %}<span class="guide-row__illo">{{ illo(g.data.illo) }}</span>{% endif %}
           <span class="guide-row__cat mono">{{ g.data.category }}</span>
           <span class="guide-row__title">{{ g.data.h1 or g.data.title }}</span>
           <span class="guide-row__desc">{{ g.data.description }}</span>

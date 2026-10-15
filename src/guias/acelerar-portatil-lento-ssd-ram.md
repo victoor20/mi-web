@@ -3,6 +3,7 @@ title: "Cómo acelerar un portátil lento con SSD y RAM · Guías"
 h1: "Cómo acelerar un portátil lento sin comprar otro"
 description: "Cuándo compensa cambiar a SSD o ampliar la RAM de un portátil lento, qué comprobar antes de comprar y cuándo es mejor renovar."
 category: "Mejora de equipo"
+illo: "acelerar"
 need: "mejorar"
 published: 2026-08-01
 updated: 2026-08-01

@@ -32,7 +32,7 @@ const symptoms = [
     checks: ["Programas instalados sin querer", "Extensiones del navegador", "Estado del sistema"],
     usually: "Si el sistema está muy tocado, lo más limpio es reinstalarlo conservando tus datos.",
     meanwhile: "No introduzcas contraseñas ni datos bancarios en ese equipo hasta revisarlo.",
-    service: "formateo",
+    service: site.isCommercial ? "formateo" : "seguridad",
   },
   {
     id: "datos",

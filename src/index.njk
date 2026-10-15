@@ -11,6 +11,7 @@ pccVerification: true
 schema: "home"
 ---
 {% from "macros.njk" import facetDivider %}
+{%- from "partials/illos.njk" import illo -%}
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero__grid wrap">
     <div class="hero__copy">
@@ -18,7 +19,11 @@ schema: "home"
         <span class="hero__line">Arreglo lo que falla.</span>
         <span class="hero__line hero__line--facet">Automatizo lo que se repite.</span>
       </h1>
+      {%- if site.isCommercial %}
       <p class="hero__lead">Diagnostico antes de tocar nada, recupero equipos que ya dabas por perdidos y quito de en medio las tareas que te roban tiempo. Al terminar, te lo dejo todo explicado por escrito.</p>
+      {%- else %}
+      <p class="hero__lead">Técnico de sistemas en camino a la ingeniería de IA. Recupero equipos que parecían perdidos y quito de en medio las tareas que roban tiempo.</p>
+      {%- endif %}
 
       <ul class="doors">
         {%- if site.isCommercial %}
@@ -119,7 +124,8 @@ schema: "home"
 
     <ul class="index-list index-list--two">
       {%- for s in services %}{% if s.group != "automatizacion" %}
-      <li data-reveal><a href="{{ site.servicesUrl }}#{{ s.slug }}">
+      <li data-reveal><a href="{{ site.servicesUrl }}#{{ s.slug }}"{% if s.illo %} class="has-illo"{% endif %}>
+        {%- if s.illo %}<span class="index-list__illo">{{ illo(s.illo) }}</span>{% endif %}
         <span class="index-list__name">{{ s.name }}</span>
         <span class="index-list__desc">{{ s.short }}</span>
         <span class="index-list__arrow" aria-hidden="true">→</span>
@@ -179,17 +185,20 @@ schema: "home"
 
     <div class="guides">
       <a class="guide guide--lead" href="/guias/compatibilidad-componentes-pc/" data-reveal>
+        <span class="guide__illo">{{ illo("componentes") }}</span>
         <span class="guide__tag mono">Componentes</span>
         <h3 class="guide__title">Checklist de compatibilidad antes de comprar piezas</h3>
         <p>Socket, memoria, almacenamiento, gráfica, fuente, caja y refrigeración: lo que conviene revisar antes de pagar.</p>
         <span class="guide__more mono">Leer guía →</span>
       </a>
       <a class="guide" href="/guias/acelerar-portatil-lento-ssd-ram/" data-reveal>
+        <span class="guide__illo">{{ illo("acelerar") }}</span>
         <span class="guide__tag mono">Mejora</span>
         <h3 class="guide__title">Cómo acelerar un portátil lento sin comprar otro</h3>
         <span class="guide__more mono">Leer guía →</span>
       </a>
       <a class="guide" href="/guias/portatil-estudiar-trabajar/" data-reveal>
+        <span class="guide__illo">{{ illo("portatil") }}</span>
         <span class="guide__tag mono">Compra</span>
         <h3 class="guide__title">Qué mirar al elegir un portátil para estudiar o trabajar</h3>
         <span class="guide__more mono">Leer guía →</span>

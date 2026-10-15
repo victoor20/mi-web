@@ -3,6 +3,7 @@ title: "Monitor y periféricos para trabajar cómodo · Guías"
 h1: "Monitor y periféricos para trabajar cómodo"
 description: "Cómo elegir monitor, teclado, ratón y accesorios para estudiar, programar o teletrabajar muchas horas: tamaño, resolución, ergonomía y conectividad."
 category: "Escritorio"
+illo: "escritorio"
 need: "escritorio"
 published: 2026-08-01
 updated: 2026-08-01

@@ -661,7 +661,7 @@
   font-size: 0.7rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--text-3);
+  color: var(--vr-cyan);
   margin-bottom: 0.9rem;
 }
 .site-footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.55rem; }
@@ -1737,32 +1737,22 @@
 .flipcard__box { position: relative; }
 .flipcard__edge { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; overflow: visible; pointer-events: none; transition: opacity 0.2s; }
 .flipcard__edge path { fill: none; vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; }
-.flipcard__edge-base { stroke: rgb(47 102 255 / 0.6); stroke-width: 1; }
-/* Cuatro capas con el mismo frente y largos decrecientes: una línea fina eléctrica con estela que se desvanece */
-.flipcard__edge-l1, .flipcard__edge-l2, .flipcard__edge-l3, .flipcard__edge-l4 { stroke: #3d74ff; stroke-dashoffset: var(--o); }
-.flipcard__edge-l4 { --o: 30; stroke-dasharray: 30 70; stroke-width: 2; opacity: 0.35; filter: drop-shadow(0 0 5px #2f66ff); }
-.flipcard__edge-l3 { --o: 18; stroke-dasharray: 18 82; stroke-width: 2.5; opacity: 0.6; filter: drop-shadow(0 0 6px #2f66ff); }
-.flipcard__edge-l2 { --o: 8; stroke-dasharray: 8 92; stroke-width: 3; opacity: 0.9; filter: drop-shadow(0 0 7px #2f66ff); }
-.flipcard__edge-l1 { --o: 3; stroke-dasharray: 3 97; stroke: #d6e4ff; stroke-width: 3; filter: drop-shadow(0 0 4px #9bbcff) drop-shadow(0 0 12px #2f66ff) drop-shadow(0 0 22px rgb(47 102 255 / 0.9)); }
+/* Un único cometa continuo: veinte capas con el mismo frente y largos crecientes, todas del mismo azul y muy transparentes,
+   se suman en una estela que se funde con el borde (mismo color) y se aviva hacia la punta. Misma animación para todas. */
+.flipcard__edge-base { stroke: rgb(61 116 255 / 0.4); stroke-width: 1.5; }
+.flipcard__edge .flipcard__edge-c { stroke: #3d74ff; stroke-width: 1.5; stroke-linecap: butt; opacity: 0.13; }
+.flipcard__edge .flipcard__edge-tip { stroke: #cfe0ff; stroke-width: 2.25; stroke-linecap: butt; stroke-dasharray: 0 97.5 2.5 0; }
+.flipcard__edge-comet { filter: drop-shadow(0 0 5px rgb(61 116 255 / 1)); }
 .flipcard.is-turning .flipcard__edge { opacity: 0; }
 @media (prefers-reduced-motion: no-preference) {
-  .flipcard__edge-l1 { animation: edge-run-1 12s linear infinite paused; }
-  .flipcard__edge-l2 { animation: edge-run-2 12s linear infinite paused; }
-  .flipcard__edge-l3 { animation: edge-run-3 12s linear infinite paused; }
-  .flipcard__edge-l4 { animation: edge-run-4 12s linear infinite paused; }
-  .flipcard.is-live .flipcard__edge-l1, .flipcard.is-live .flipcard__edge-l2, .flipcard.is-live .flipcard__edge-l3, .flipcard.is-live .flipcard__edge-l4 { animation-play-state: running; }
+  .flipcard__edge .flipcard__edge-c, .flipcard__edge .flipcard__edge-tip { animation: edge-run 12s linear infinite paused; }
+  .flipcard.is-live .flipcard__edge-c, .flipcard.is-live .flipcard__edge-tip { animation-play-state: running; }
 }
-/* Keyframes explícitos: Chrome no anima stroke-dashoffset si el keyframe usa var()/calc(). Cada capa avanza 100 unidades */
-@keyframes edge-run-1 { from { stroke-dashoffset: 3px; } to { stroke-dashoffset: -97px; } }
-@keyframes edge-run-2 { from { stroke-dashoffset: 8px; } to { stroke-dashoffset: -92px; } }
-@keyframes edge-run-3 { from { stroke-dashoffset: 18px; } to { stroke-dashoffset: -82px; } }
-@keyframes edge-run-4 { from { stroke-dashoffset: 30px; } to { stroke-dashoffset: -70px; } }
-/* Con movimiento reducido el destello queda quieto, en la esquina superior izquierda */
+/* Keyframes con valores explícitos: Chrome no anima stroke-dashoffset si el keyframe usa var()/calc() */
+@keyframes edge-run { from { stroke-dashoffset: 0px; } to { stroke-dashoffset: -100px; } }
+/* Con movimiento reducido el cometa queda quieto, cerca de la esquina superior izquierda */
 @media (prefers-reduced-motion: reduce) {
-  .flipcard__edge-l1 { stroke-dashoffset: -4; }
-  .flipcard__edge-l2 { stroke-dashoffset: 4; }
-  .flipcard__edge-l3 { stroke-dashoffset: 14; }
-  .flipcard__edge-l4 { stroke-dashoffset: 26; }
+  .flipcard__edge .flipcard__edge-c, .flipcard__edge .flipcard__edge-tip { stroke-dashoffset: -6px; }
 }
 
 /* ---------- Sobre mí: hito, trayectoria, insignias y bloques ---------- */
@@ -1850,3 +1840,79 @@
 .lite__item:hover { border-top-color: var(--vr-cyan); }
 .lite__item .kicker { margin-bottom: 0.5rem; }
 @media (max-width: 760px) { .lite { grid-template-columns: 1fr; } }
+
+/* ---------- Ilustraciones de línea ---------- */
+/* Una familia de SVG en línea: trazos cian y azul con facetas como las del logo. En reposo se ve el estado final;
+   main.js añade .is-play una vez al aparecer y al pasar el ratón. Con movimiento reducido nunca se añade. */
+.illo { display: block; width: 100%; height: auto; overflow: visible; transition: filter 0.4s; }
+.illo path, .illo rect, .illo circle { fill: none; stroke: var(--vr-cyan); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.illo .a { stroke: var(--vr-azure); }
+.illo .h { stroke: var(--vr-cyan-hi); }
+.illo .warn { stroke: #ff8a7a; }
+.illo .dim { opacity: 0.45; }
+.illo .f { fill: rgb(0 208 248 / 0.12); stroke: none; }
+.illo .fa { fill: rgb(12 140 247 / 0.22); stroke: none; }
+.illo .bar { fill: var(--vr-cyan); stroke: none; }
+.illo .i-hdd { opacity: 0.4; }
+.illo .i-ring { opacity: 0.55; }
+.illo .i-draw { stroke-dasharray: 1; }
+.illo .i-top, .illo .i-left, .illo .i-right, .illo .i-bottom, .illo .i-pop, .illo .i-bar, .illo .i-lid, .illo .i-spec,
+.illo .i-sweep, .illo .i-ring, .illo .i-doc1, .illo .i-doc2, .illo .i-doc3 { transform-box: fill-box; transform-origin: center; }
+.illo .i-bar { transform-origin: left center; }
+.illo .i-lid { transform-origin: 50% 100%; }
+a:hover .illo, article:hover .illo, a:focus-visible .illo { filter: drop-shadow(0 0 8px rgb(0 208 248 / 0.3)); }
+
+@keyframes illo-top { from { transform: translateY(-20px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes illo-bottom { from { transform: translateY(18px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes illo-left { from { transform: translateX(-26px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes illo-right { from { transform: translateX(26px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes illo-pop { from { transform: scale(0.5); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes illo-bar { from { transform: scaleX(0.12); } to { transform: none; } }
+@keyframes illo-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes illo-open { from { transform: scaleY(0.04); } to { transform: none; } }
+@keyframes illo-fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes illo-ring { 0% { transform: scale(0.5); opacity: 0; } 40% { opacity: 1; } 100% { transform: none; opacity: 0.55; } }
+@keyframes illo-sweep { 0% { transform: translate(-96px, 12px); opacity: 0; } 12% { opacity: 1; } 38% { transform: translate(-44px, -32px); } 64% { transform: translate(-72px, 6px); } 100% { transform: none; } }
+@keyframes illo-hdd { from { opacity: 1; } to { opacity: 0.4; } }
+@keyframes illo-doc1 { from { transform: translate(-34px, 76px) rotate(-30deg); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes illo-doc2 { from { transform: translate(6px, 90px) rotate(16deg); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes illo-doc3 { from { transform: translate(38px, 80px) rotate(28deg); opacity: 0; } to { transform: none; opacity: 1; } }
+
+.illo.is-play .i-top { animation: illo-top 0.7s var(--ease-out) both; animation-delay: var(--d, 0s); }
+.illo.is-play .i-bottom { animation: illo-bottom 0.7s var(--ease-out) both; animation-delay: var(--d, 0s); }
+.illo.is-play .i-left { animation: illo-left 0.7s var(--ease-out) both; animation-delay: var(--d, 0s); }
+.illo.is-play .i-right { animation: illo-right 0.7s var(--ease-out) both; animation-delay: var(--d, 0s); }
+.illo.is-play .i-pop { animation: illo-pop 0.6s var(--ease-out) both; animation-delay: var(--d, 0s); }
+.illo.is-play .i-bar { animation: illo-bar 1.4s var(--ease-io) both; animation-delay: var(--d, 0s); }
+.illo.is-play .i-draw { animation: illo-draw 0.9s ease-in-out both; animation-delay: var(--d, 0s); }
+.illo.is-play .i-lid { animation: illo-open 0.9s var(--ease-out) both; }
+.illo.is-play .i-spec { animation: illo-fade 0.5s var(--ease-out) both; animation-delay: var(--d, 0s); }
+.illo.is-play .i-ring { animation: illo-ring 0.9s ease-out both; animation-delay: var(--d, 0s); }
+.illo.is-play .i-sweep { animation: illo-sweep 1.7s var(--ease-io) both; }
+.illo.is-play .i-hdd { animation: illo-hdd 0.8s ease-out both; }
+.illo.is-play .i-doc1 { animation: illo-doc1 0.9s var(--ease-out) both; animation-delay: 0.1s; }
+.illo.is-play .i-doc2 { animation: illo-doc2 0.9s var(--ease-out) both; animation-delay: 0.3s; }
+.illo.is-play .i-doc3 { animation: illo-doc3 0.9s var(--ease-out) both; animation-delay: 0.5s; }
+@media (prefers-reduced-motion: reduce) { .illo * { animation: none !important; } }
+
+/* Dónde se usan */
+.guide__illo { display: block; width: min(100%, 11rem); margin-bottom: 0.6rem; }
+.guide--lead { grid-template-rows: 1fr repeat(4, auto); }
+.guide--lead .guide__illo { width: min(78%, 21rem); align-self: start; margin-bottom: 0; }
+.index-list a.has-illo { grid-template-columns: 6.5rem minmax(0, 1fr) 2rem; align-items: center; column-gap: 1.25rem; }
+.index-list__illo { grid-column: 1; grid-row: 1 / span 2; width: 100%; }
+.index-list a.has-illo .index-list__name, .index-list a.has-illo .index-list__desc { grid-column: 2; }
+.index-list a.has-illo .index-list__arrow { grid-column: 3; grid-row: 1 / span 2; align-self: center; }
+.guide-row a.has-illo { grid-template-columns: 9rem 8.5rem minmax(0, 1fr) auto; align-items: center; }
+.guide-row__illo { grid-column: 1; grid-row: 1 / span 2; width: 100%; }
+.guide-row a.has-illo .guide-row__cat { grid-column: 2; align-self: start; }
+.guide-row a.has-illo .guide-row__title, .guide-row a.has-illo .guide-row__desc { grid-column: 3; }
+.guide-row a.has-illo .guide-row__meta { grid-column: 4; }
+.spec__illo { display: block; width: min(100%, 11rem); margin-bottom: 1rem; }
+@media (max-width: 760px) {
+  .guide-row a.has-illo { grid-template-columns: 1fr; align-items: start; }
+  .guide-row a.has-illo .guide-row__illo, .guide-row a.has-illo .guide-row__cat, .guide-row a.has-illo .guide-row__title,
+  .guide-row a.has-illo .guide-row__desc, .guide-row a.has-illo .guide-row__meta { grid-column: 1; grid-row: auto; }
+  .guide-row__illo { width: 9rem; }
+}
+@media (max-width: 520px) { .index-list a.has-illo { grid-template-columns: 4.75rem minmax(0, 1fr) 1.5rem; column-gap: 0.9rem; } }

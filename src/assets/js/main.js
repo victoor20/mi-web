@@ -171,6 +171,32 @@ if (dividers.length && "IntersectionObserver" in window && !reduceMotion.matches
   dividers.forEach((d) => dividerIo.observe(d));
 }
 
+/* ---------- Ilustraciones: se animan una vez al aparecer y al pasar el ratón; el resto del tiempo, quietas ---------- */
+const illos = [...document.querySelectorAll("[data-illo]")];
+if (illos.length && !reduceMotion.matches) {
+  const timers = new WeakMap();
+  const play = (el) => {
+    clearTimeout(timers.get(el));
+    el.classList.remove("is-play");
+    void el.getBoundingClientRect(); // reinicia las animaciones
+    el.classList.add("is-play");
+    timers.set(el, setTimeout(() => el.classList.remove("is-play"), 3400));
+  };
+  const io = "IntersectionObserver" in window ? new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (!e.isIntersecting) return;
+    io.unobserve(e.target);
+    play(e.target);
+  }), { threshold: 0.6 }) : null;
+  illos.forEach((el) => {
+    io?.observe(el);
+    const host = el.closest("a, article, li") || el;
+    // Al pasar el ratón (o el foco) se repite, sin solaparse con una animación en marcha
+    const again = () => { if (!el.classList.contains("is-play")) play(el); };
+    host.addEventListener("pointerenter", again);
+    host.addEventListener("focusin", again);
+  });
+}
+
 /* ---------- Botones magnéticos (solo ratón) ---------- */
 if (finePointer.matches && !reduceMotion.matches) {
   document.querySelectorAll("[data-magnetic]").forEach((el) => {

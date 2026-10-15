@@ -3,6 +3,7 @@ title: "Checklist de compatibilidad de componentes de PC · Guías"
 h1: "Checklist antes de comprar componentes para tu PC: compatibilidad sin sustos"
 description: "Qué revisar antes de comprar CPU, placa base, RAM, SSD, gráfica, fuente, caja y refrigeración para que todas las piezas encajen."
 category: "Componentes"
+illo: "componentes"
 need: "montar"
 published: 2026-08-01
 updated: 2026-08-01
