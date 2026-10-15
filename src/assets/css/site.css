@@ -443,14 +443,14 @@
 }
 .jflow.is-anim .jflow__pulse { display: block; left: calc(var(--at, 0) * 100%); transition: left 1.1s ease-in-out, opacity 0.4s; }
 .jflow.is-anim.has-pulse .jflow__pulse { opacity: 1; }
-.jflow.is-anim .jflow__msg, .jflow.is-anim .jflow__ask { opacity: 0.18; transform: translateY(6px); }
-.jflow.is-anim.has-msg .jflow__msg { opacity: 1; transform: none; border-color: var(--vr-cyan); }
-.jflow.is-anim.has-ask .jflow__ask { opacity: 1; transform: none; }
-.jflow.is-anim .flow-line li { color: var(--text-3); }
+/* El texto nunca se apaga (contraste): lo que cambia es el borde, el fondo y el brillo */
+.jflow.is-anim .jflow__msg, .jflow.is-anim .jflow__ask { color: var(--text-2); border-color: var(--line-strong); border-style: solid; background: var(--bg-2); box-shadow: none; }
+.jflow.is-anim.has-msg .jflow__msg { color: #fff; border-color: var(--vr-cyan); }
+.jflow.is-anim.has-ask .jflow__ask { color: #fff; border-style: dashed; border-color: var(--vr-cyan); background: rgb(0 208 248 / 0.1); box-shadow: 0 0 0 4px rgb(0 208 248 / 0.1), 0 0 26px rgb(0 208 248 / 0.25); }
+.jflow.is-anim .flow-line li { color: var(--text-2); }
 .jflow.is-anim .flow-line li .jflow__says { opacity: 0; }
 .jflow.is-anim .flow-line li.is-on { color: #fff; }
-.jflow.is-anim .flow-line li.is-gate { color: rgb(0 208 248 / 0.5); }
-.jflow.is-anim .flow-line li.is-gate.is-on { color: var(--vr-cyan); }
+.jflow.is-anim .flow-line li.is-gate, .jflow.is-anim .flow-line li.is-gate.is-on { color: var(--vr-cyan); }
 .jflow.is-anim .flow-line li.is-on .jflow__says { opacity: 1; }
 .jflow.is-anim .flow-line li.is-now { border-color: var(--vr-cyan); background: #07263b; box-shadow: 0 0 0 4px rgb(0 208 248 / 0.14), 0 0 26px rgb(0 208 248 / 0.28); }
 .lab-home__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: clamp(2rem, 5vw, 3rem); }
