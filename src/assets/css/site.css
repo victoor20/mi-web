@@ -1733,6 +1733,38 @@
 }
 @media (max-width: 760px) { .portrait { max-width: min(100%, 340px); } }
 
+/* Retrato: destello azul eléctrico que recorre el contorno facetado (lento, sutil, solo en pantalla) */
+.flipcard__box { position: relative; }
+.flipcard__edge { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; overflow: visible; pointer-events: none; transition: opacity 0.2s; }
+.flipcard__edge path { fill: none; vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; }
+.flipcard__edge-base { stroke: rgb(47 102 255 / 0.6); stroke-width: 1; }
+/* Cuatro capas con el mismo frente y largos decrecientes: una línea fina eléctrica con estela que se desvanece */
+.flipcard__edge-l1, .flipcard__edge-l2, .flipcard__edge-l3, .flipcard__edge-l4 { stroke: #3d74ff; stroke-dashoffset: var(--o); }
+.flipcard__edge-l4 { --o: 30; stroke-dasharray: 30 70; stroke-width: 2; opacity: 0.35; filter: drop-shadow(0 0 5px #2f66ff); }
+.flipcard__edge-l3 { --o: 18; stroke-dasharray: 18 82; stroke-width: 2.5; opacity: 0.6; filter: drop-shadow(0 0 6px #2f66ff); }
+.flipcard__edge-l2 { --o: 8; stroke-dasharray: 8 92; stroke-width: 3; opacity: 0.9; filter: drop-shadow(0 0 7px #2f66ff); }
+.flipcard__edge-l1 { --o: 3; stroke-dasharray: 3 97; stroke: #d6e4ff; stroke-width: 3; filter: drop-shadow(0 0 4px #9bbcff) drop-shadow(0 0 12px #2f66ff) drop-shadow(0 0 22px rgb(47 102 255 / 0.9)); }
+.flipcard.is-turning .flipcard__edge { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .flipcard__edge-l1 { animation: edge-run-1 12s linear infinite paused; }
+  .flipcard__edge-l2 { animation: edge-run-2 12s linear infinite paused; }
+  .flipcard__edge-l3 { animation: edge-run-3 12s linear infinite paused; }
+  .flipcard__edge-l4 { animation: edge-run-4 12s linear infinite paused; }
+  .flipcard.is-live .flipcard__edge-l1, .flipcard.is-live .flipcard__edge-l2, .flipcard.is-live .flipcard__edge-l3, .flipcard.is-live .flipcard__edge-l4 { animation-play-state: running; }
+}
+/* Keyframes explícitos: Chrome no anima stroke-dashoffset si el keyframe usa var()/calc(). Cada capa avanza 100 unidades */
+@keyframes edge-run-1 { from { stroke-dashoffset: 3px; } to { stroke-dashoffset: -97px; } }
+@keyframes edge-run-2 { from { stroke-dashoffset: 8px; } to { stroke-dashoffset: -92px; } }
+@keyframes edge-run-3 { from { stroke-dashoffset: 18px; } to { stroke-dashoffset: -82px; } }
+@keyframes edge-run-4 { from { stroke-dashoffset: 30px; } to { stroke-dashoffset: -70px; } }
+/* Con movimiento reducido el destello queda quieto, en la esquina superior izquierda */
+@media (prefers-reduced-motion: reduce) {
+  .flipcard__edge-l1 { stroke-dashoffset: -4; }
+  .flipcard__edge-l2 { stroke-dashoffset: 4; }
+  .flipcard__edge-l3 { stroke-dashoffset: 14; }
+  .flipcard__edge-l4 { stroke-dashoffset: 26; }
+}
+
 /* ---------- Sobre mí: hito, trayectoria, insignias y bloques ---------- */
 /* Marco facetado de las fotos: el mismo ángulo cortado del retrato */
 .facet-frame {
@@ -1818,35 +1850,3 @@
 .lite__item:hover { border-top-color: var(--vr-cyan); }
 .lite__item .kicker { margin-bottom: 0.5rem; }
 @media (max-width: 760px) { .lite { grid-template-columns: 1fr; } }
-
-/* Retrato: destello azul eléctrico que recorre el contorno facetado (lento, sutil, solo en pantalla) */
-.flipcard__box { position: relative; }
-.flipcard__edge { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; overflow: visible; pointer-events: none; transition: opacity 0.2s; }
-.flipcard__edge path { fill: none; vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; }
-.flipcard__edge-base { stroke: rgb(47 102 255 / 0.6); stroke-width: 1; }
-/* Cuatro capas con el mismo frente y largos decrecientes: una línea fina eléctrica con estela que se desvanece */
-.flipcard__edge-l1, .flipcard__edge-l2, .flipcard__edge-l3, .flipcard__edge-l4 { stroke: #3d74ff; stroke-dashoffset: var(--o); }
-.flipcard__edge-l4 { --o: 30; stroke-dasharray: 30 70; stroke-width: 2; opacity: 0.35; filter: drop-shadow(0 0 5px #2f66ff); }
-.flipcard__edge-l3 { --o: 18; stroke-dasharray: 18 82; stroke-width: 2.5; opacity: 0.6; filter: drop-shadow(0 0 6px #2f66ff); }
-.flipcard__edge-l2 { --o: 8; stroke-dasharray: 8 92; stroke-width: 3; opacity: 0.9; filter: drop-shadow(0 0 7px #2f66ff); }
-.flipcard__edge-l1 { --o: 3; stroke-dasharray: 3 97; stroke: #d6e4ff; stroke-width: 3; filter: drop-shadow(0 0 4px #9bbcff) drop-shadow(0 0 12px #2f66ff) drop-shadow(0 0 22px rgb(47 102 255 / 0.9)); }
-.flipcard.is-turning .flipcard__edge { opacity: 0; }
-@media (prefers-reduced-motion: no-preference) {
-  .flipcard__edge-l1 { animation: edge-run-1 12s linear infinite paused; }
-  .flipcard__edge-l2 { animation: edge-run-2 12s linear infinite paused; }
-  .flipcard__edge-l3 { animation: edge-run-3 12s linear infinite paused; }
-  .flipcard__edge-l4 { animation: edge-run-4 12s linear infinite paused; }
-  .flipcard.is-live .flipcard__edge-l1, .flipcard.is-live .flipcard__edge-l2, .flipcard.is-live .flipcard__edge-l3, .flipcard.is-live .flipcard__edge-l4 { animation-play-state: running; }
-}
-/* Keyframes explícitos: Chrome no anima stroke-dashoffset si el keyframe usa var()/calc(). Cada capa avanza 100 unidades */
-@keyframes edge-run-1 { from { stroke-dashoffset: 3px; } to { stroke-dashoffset: -97px; } }
-@keyframes edge-run-2 { from { stroke-dashoffset: 8px; } to { stroke-dashoffset: -92px; } }
-@keyframes edge-run-3 { from { stroke-dashoffset: 18px; } to { stroke-dashoffset: -82px; } }
-@keyframes edge-run-4 { from { stroke-dashoffset: 30px; } to { stroke-dashoffset: -70px; } }
-/* Con movimiento reducido el destello queda quieto, en la esquina superior izquierda */
-@media (prefers-reduced-motion: reduce) {
-  .flipcard__edge-l1 { stroke-dashoffset: -4; }
-  .flipcard__edge-l2 { stroke-dashoffset: 4; }
-  .flipcard__edge-l3 { stroke-dashoffset: 14; }
-  .flipcard__edge-l4 { stroke-dashoffset: 26; }
-}
