@@ -18,18 +18,21 @@ const servicios = [
       {
         id: "por-donde",
         help: "diagnostico-reparacion",
+        ask: ["¿Quieres que lo mire contigo?","Cuéntamelo"],
         q: "¿Por dónde empiezas ante un fallo?",
         a: "Por lo más sencillo y probable: voy descartando causas una a una y solo cambio una pieza cuando sé cuál es la culpable. Si quieres adelantar trabajo, apunta cuándo empezó, qué estabas haciendo y qué mensajes de error aparecen. Y si hay olor a quemado, un golpe o líquido de por medio, mejor no seguir probando.",
       },
       {
         id: "no-enciende",
         help: "diagnostico-reparacion",
+        ask: ["¿Sigue sin dar señales?","Escríbeme"],
         q: "Mi portátil no enciende, ¿qué puedo comprobar?",
         a: "Puede ser el cargador, la batería, una pieza interna o la placa. Sin abrirlo, prueba otra toma de corriente, mira si el cargador está dañado o muy caliente y si se enciende algún piloto. Si no da ninguna señal, huele a quemado o ha sufrido líquido o un golpe, deja de insistir: seguir probando puede empeorarlo.",
       },
       {
         id: "limpieza",
         help: "diagnostico-reparacion",
+        ask: ["Si prefieres que lo mire yo,","cuéntamelo"],
         q: "¿Cada cuánto conviene limpiar un portátil por dentro?",
         a: "Como orientación, una vez al año si lo usas a diario, y antes si se calienta o el ventilador suena más de lo normal. Mientras tanto, mantén libres las rejillas y úsalo sobre una superficie dura. Abrirlo sin experiencia no es buena idea: hay tornillos y cintas frágiles, y puede afectar a la garantía.",
       },
@@ -42,18 +45,19 @@ const servicios = [
       {
         id: "perder-archivos",
         help: "formateo",
+        ask: ["¿Tus datos corren riesgo?","Pregúntame antes de tocar nada"],
         q: "¿Pierdo mis archivos si formateo?",
         a: "No, si hay forma de conservarlos: antes se hace copia de lo importante y se comprueba que se abre bien. Tú puedes adelantar copiando tus documentos y fotos a un disco externo o a la nube. Si el equipo no arranca o el disco da errores, no lo fuerces: ahí lo primero es asegurar los datos.",
       },
       {
         id: "reinstalar",
         help: "formateo",
+        ask: ["¿Dudas con tu caso concreto?","Pregúntame"],
         q: "¿Cuándo merece la pena reinstalar Windows?",
         a: "Cuando el sistema arrastra años de programas, errores repetidos o restos de un virus y limpiar por encima ya no basta. Si el fallo viene de una pieza (disco, memoria), reinstalar no lo arregla y solo hace perder tiempo. Si no tienes claro cuál es tu caso, no reinstales a ciegas.",
       },
       {
         id: "antes-reinstalar",
-        help: "formateo",
         q: "¿Qué conviene tener a mano antes de reinstalar?",
         a: "Las cuentas y licencias que uses, una lista de los programas que necesitas y los controladores del equipo (o conexión a internet para descargarlos). Lo que no conviene es borrar particiones sin tener antes una copia de lo importante.",
       },
@@ -66,18 +70,19 @@ const servicios = [
       {
         id: "portatil-antiguo",
         help: "ssd-ram",
+        ask: ["¿No sabes si compensa el tuyo?","Cuéntame el modelo"],
         q: "¿Merece la pena arreglar un portátil antiguo?",
         a: "A menudo sí: un SSD y más memoria cambian por completo un equipo de varios años. Depende del procesador y de lo que se le pida; si es muy antiguo o el resto de piezas está al límite, ampliar puede no compensar.",
       },
       {
         id: "mas-memoria",
         help: "ssd-ram",
+        ask: ["¿No encuentras el dato de tu modelo?","Dime cuál es"],
         q: "¿Cómo sé si mi portátil admite más memoria?",
         a: "Busca el modelo exacto (en la etiqueta o en la información del sistema) y consulta en la web del fabricante el tipo de memoria, la capacidad máxima y las ranuras. En algunos portátiles va soldada y no se puede ampliar. Comprar sin comprobarlo es el error más habitual; si no lo tienes claro, no compres todavía.",
       },
       {
         id: "ssd-se-nota",
-        help: "ssd-ram",
         q: "¿Se nota de verdad cambiar a un SSD?",
         a: "Sí, sobre todo si el equipo tiene un disco mecánico: el arranque, la apertura de programas y la respuesta general mejoran mucho. Con un procesador muy antiguo la mejora tiene su techo. El cambio implica clonar o reinstalar, así que solo conviene hacerlo con copia de lo importante.",
       },
@@ -90,18 +95,19 @@ const servicios = [
       {
         id: "recuperar-datos",
         help: "discos-datos",
+        ask: ["¿Los datos son importantes?","Cuéntamelo antes de seguir"],
         q: "¿Se pueden recuperar los datos de un disco estropeado?",
         a: "Muchas veces sí, cuando el problema es lógico (borrados, particiones dañadas, un sistema que no arranca). Si el disco hace ruidos, no aparece o se desconecta, apágalo y no sigas usándolo: cada intento puede empeorarlo. Con daño físico grave, lo prudente es un laboratorio especializado.",
       },
       {
         id: "borre-archivo",
         help: "discos-datos",
+        ask: ["¿No aparece por ningún lado?","Escríbeme"],
         q: "He borrado un archivo sin querer, ¿qué hago?",
         a: "Usa lo menos posible ese disco: lo que se escriba después puede sobrescribir lo borrado. Mira primero la papelera, las versiones anteriores y la nube. Si es importante y no aparece, evita instalar programas en ese mismo disco y consúltalo antes de seguir probando.",
       },
       {
         id: "copia-casa",
-        help: "discos-datos",
         q: "¿Qué copia de seguridad es suficiente para casa?",
         a: "Una regla sencilla es la 3-2-1: tres copias de lo importante, en dos soportes distintos y una fuera de casa (por ejemplo, el equipo, un disco externo y la nube). Y de vez en cuando, comprobar que se puede restaurar: una copia que no se ha probado es solo una esperanza.",
       },
@@ -113,14 +119,12 @@ const servicios = [
     items: [
       {
         id: "comprar-piezas",
-        help: "montaje-compra",
         q: "¿Qué reviso antes de comprar piezas para un sobremesa?",
         a: "Que el socket del procesador coincida con la placa, que la memoria sea del tipo que admite, que la fuente tenga potencia y conectores suficientes y que todo quepa en la caja. Si hay una pieza que no tienes clara, mejor no comprarla todavía.",
         link: { label: "Ver la guía de compatibilidad", url: "/guias/compatibilidad-componentes-pc/" },
       },
       {
         id: "portatil-o-sobremesa",
-        help: "montaje-compra",
         q: "¿Portátil o sobremesa?",
         a: "Depende del uso. El portátil, si necesitas moverte; el sobremesa suele dar más potencia por lo mismo y es más fácil de ampliar y de reparar. Si dudas entre dos opciones concretas, contrástalas con lo que vas a hacer a diario antes de decidir.",
       },
@@ -133,18 +137,19 @@ const servicios = [
       {
         id: "antivirus",
         help: "seguridad",
+        ask: ["¿Sospechas que ya tienes algo?","Cuéntamelo"],
         q: "¿Hace falta un antivirus de pago en casa?",
         a: "Para un uso doméstico, Microsoft Defender actualizado suele bastar si además mantienes el sistema al día y no instalas software de procedencia dudosa. Si crees que ya tienes un virus, no instales varios programas a la vez: desconecta el equipo de internet, no introduzcas contraseñas y consúltalo.",
       },
       {
         id: "correo-sospechoso",
         help: "seguridad",
+        ask: ["¿Llegaste a pulsar o a poner tus datos?","Escríbeme cuanto antes"],
         q: "¿Cómo reconozco un correo o una web sospechosos?",
         a: "Desconfía de la urgencia, de los remitentes raros, de los enlaces que no coinciden con la web real y de los adjuntos que no esperabas. Ante la duda, entra escribiendo tú la dirección. Si ya pulsaste o pusiste tus datos, cambia las contraseñas desde otro dispositivo y consúltalo cuanto antes.",
       },
       {
         id: "gestor-contrasenas",
-        help: "seguridad",
         q: "¿Merece la pena usar un gestor de contraseñas?",
         a: "Sí: permite tener una contraseña larga y distinta en cada sitio sin memorizarlas. Conviene activar además la verificación en dos pasos, al menos en el correo y el banco. Y guarda con cuidado la clave maestra y los códigos de recuperación: si se pierden, no hay atajo.",
       },
@@ -182,8 +187,18 @@ const ia = [
   {
     id: "formacion",
     q: "¿Qué has estudiado de IA?",
-    a: "Un máster en Inteligencia Artificial de BIG school con doble titulación, que incluye el Diploma de Experto Universitario en IA de la Universidad Isabel I, y estudio propio siguiendo la hoja de ruta de esta página. Vengo de ASIR y de una especialización en cloud sobre AWS.",
+    a: "Un máster de IA de BIG school, de más de 240 horas y con enfoque práctico de IA aplicada, con doble titulación que incluye el Diploma de Experto Universitario en IA de la Universidad Isabel I. Recorre los fundamentos de IA y modelos de lenguaje, asistentes, automatización con herramientas sin código, modelos en local y en la nube, aspectos legales y éticos y casos de uso reales, y termina con un examen final de certificación. A eso sumo estudio propio, y vengo de ASIR y de cloud sobre AWS. No me presento como experto: sigo aprendiendo.",
     link: { label: "Ver mi formación completa", url: "/sobre-mi/" },
+  },
+  {
+    id: "master-vs-ruta",
+    q: "¿Qué diferencia hay entre el máster y tu hoja de ruta?",
+    a: "El máster me dio la parte aplicada: usar y automatizar con IA con criterio, herramientas sin código y aspectos legales. La hoja de ruta es la parte de ingeniería: programar con Python, APIs, agentes, RAG y despliegue. Se complementan, y la segunda es la que estoy construyendo por mi cuenta.",
+  },
+  {
+    id: "no-code",
+    q: "¿Has trabajado con automatizaciones sin código?",
+    a: "Sí, con Make, n8n y Botpress durante el máster. Me sirvió para saber cuándo una herramienta sin código basta para resolver una tarea y cuándo conviene programarla.",
   },
   {
     id: "hoja-ruta",

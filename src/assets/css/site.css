@@ -671,7 +671,6 @@
 .faq details[hidden] { display: none; }
 .faq--wide { max-width: 56rem; margin-top: 1.5rem; }
 .faq__cta { margin-top: 0.75rem; font-size: 0.95rem; }
-.faq-section .lead-text { margin-bottom: 0; }
 .faq--wide details > div { max-width: none; padding: 0 0 0 0.25rem; }
 .faq--wide .faq__a > div { padding: 0 2.5rem 1.4rem 0; color: var(--text-2); max-width: 46rem; }
 .faq-filter { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.75rem; }

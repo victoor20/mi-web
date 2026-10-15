@@ -85,18 +85,17 @@
     <p class="faq__cta"><a class="text-link" href="{{ i.link.url }}">{{ i.link.label }} →</a></p>
     {%- endif %}
     {%- if i.help %}
-    <p class="faq__cta">¿No se resuelve? <a class="text-link" href="/contacto/?servicio={{ i.help }}&amp;origen=faq-{{ i.id }}">Cuéntamelo →</a></p>
+    <p class="faq__cta">{{ i.ask[0] if i.ask else "¿No se resuelve?" }} <a class="text-link" href="/contacto/?servicio={{ i.help }}&amp;origen=faq-{{ i.id }}">{{ i.ask[1] if i.ask else "Cuéntamelo" }} →</a></p>
     {%- endif %}
   </div></div>
 </details>
 {% endmacro %}
 
 {#- Sección de preguntas frecuentes de una página: items = lista plana. id evita duplicar ids entre secciones. -#}
-{% macro faqSection(items, lead="") %}
+{% macro faqSection(items) %}
 <section class="section faq-section" aria-labelledby="faq-title">
   <div class="wrap">
     <h2 class="section-title" id="faq-title">Preguntas frecuentes</h2>
-    {%- if lead %}<p class="lead-text">{{ lead }}</p>{% endif %}
     <div class="faq faq--wide" data-faq>
       {%- for i in items %}{{ faqItem(i) }}{% endfor %}
     </div>
