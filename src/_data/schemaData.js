@@ -14,6 +14,7 @@ const person = {
   image: `${site.url}/assets/img/icon-512.png`,
   jobTitle: "Técnico de sistemas",
   sameAs: [site.linkedin],
+  homeLocation: { "@type": "Place", address: { "@type": "PostalAddress", addressLocality: site.area.base, addressRegion: site.area.region, addressCountry: "ES" } },
   knowsAbout: ["Reparación de ordenadores", "Sistemas informáticos", "Cloud", "Automatización", "Inteligencia artificial"],
 };
 

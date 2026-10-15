@@ -40,8 +40,10 @@ schema: "person"
           {#- Contorno facetado con un destello azul eléctrico que lo recorre (lento y sutil; se pausa fuera de pantalla) -#}
           <svg class="flipcard__edge" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true" focusable="false">
             <path class="flipcard__edge-base" d="M0 30 L88 0 L400 0 L400 440 L320 500 L0 500 Z" pathLength="100"/>
-            <path class="flipcard__edge-tail" d="M0 30 L88 0 L400 0 L400 440 L320 500 L0 500 Z" pathLength="100"/>
-            <path class="flipcard__edge-head" d="M0 30 L88 0 L400 0 L400 440 L320 500 L0 500 Z" pathLength="100"/>
+            <path class="flipcard__edge-l4" d="M0 30 L88 0 L400 0 L400 440 L320 500 L0 500 Z" pathLength="100"/>
+            <path class="flipcard__edge-l3" d="M0 30 L88 0 L400 0 L400 440 L320 500 L0 500 Z" pathLength="100"/>
+            <path class="flipcard__edge-l2" d="M0 30 L88 0 L400 0 L400 440 L320 500 L0 500 Z" pathLength="100"/>
+            <path class="flipcard__edge-l1" d="M0 30 L88 0 L400 0 L400 440 L320 500 L0 500 Z" pathLength="100"/>
           </svg>
           <button class="flipcard__toggle" type="button" aria-pressed="false" hidden data-flip>
             <span class="visually-hidden">Dale la vuelta a la foto para ver curiosidades sobre mí</span>
@@ -73,9 +75,6 @@ schema: "person"
       </li>
       {%- endfor %}
     </ol>
-    {%- if not c %}
-    <p class="tl__live mono">Dónde vivo · {{ site.area.base }} ({{ site.area.region }})</p>
-    {%- endif %}
 
     <h3 class="about-sub">Formación complementaria</h3>
     <ul class="badges">
@@ -83,7 +82,6 @@ schema: "person"
       <li class="badge"><span class="badge__tag mono">{{ b.tag }}</span>{{ b.text }}</li>
       {%- endfor %}
     </ul>
-    <p class="about-note">Los laboratorios de AWS Skill Builder son formación práctica, no certificaciones oficiales.</p>
   </div>
 </section>
 

@@ -1,4 +1,4 @@
-// 404: las piezas del logo están sueltas y se arrastran (ratón o dedo) hasta su hueco.
+// 404: las piezas del logo flotan despacio, como en el espacio, sin salir de la zona cercana al logo, y se arrastran (ratón o dedo) hasta su hueco.
 // En cada visita aparecen en posiciones y giros aleatorios por la zona de juego (sin tapar el texto ni los botones).
 // Encajan al soltarlas cerca de su hueco y entonces se corrige su giro. "Recomponer el logo" es la alternativa
 // sin arrastrar, también para teclado. Sin JavaScript se ve el logo desmontado con sus huecos.
@@ -65,8 +65,8 @@ export default function lost(root, { reduceMotion }) {
   const snapSound = () => { tone(520, 0, 0.16, 0.05); tone(1040, 0.02, 0.12, 0.02, "triangle"); };
   const winSound = () => [523, 659, 784, 1047].forEach((f, i) => tone(f, i * 0.09, 0.28, 0.045));
 
-  // --- Dispersión: posiciones y giros aleatorios dentro del logo y su entorno cercano (nunca lejos ni en los bordes)
-  const scatter = () => {
+  // --- Zona de juego: el logo ampliado un poco, sin salirse de su columna, ni subir bajo la cabecera, ni pisar el texto de ayuda
+  const zoneInfo = () => {
     const s = svg.getBoundingClientRect();
     const k = s.width / 1170;
     const pr = play.getBoundingClientRect();
@@ -75,14 +75,31 @@ export default function lost(root, { reduceMotion }) {
     const lb = svg.querySelector(".lost__holes").getBBox();
     const logo = { l: s.left + lb.x * k, r: s.left + (lb.x + lb.width) * k, t: s.top + lb.y * k, b: s.top + (lb.y + lb.height) * k };
     const margin = Math.max(logo.r - logo.l, logo.b - logo.t) * 0.16;
-    // Zona: el logo ampliado un poco, sin salirse de su columna, ni subir bajo la cabecera, ni pisar el texto de ayuda
     const zone = {
       l: Math.max(logo.l - margin, pr.left + 4),
       r: Math.min(logo.r + margin, pr.right - 4),
       t: Math.max(logo.t - margin, header + 6),
       b: Math.min(logo.b + margin, st.top - 10),
     };
-    const between = (a, b) => (b > a ? rand(a, b) : (a + b) / 2);
+    return { s, k, zone };
+  };
+  const between = (a, b) => (b > a ? rand(a, b) : (a + b) / 2);
+
+  // Límites del movimiento de cada pieza (desplazamiento en unidades del SVG): su centro nunca sale de la zona
+  const setBounds = (p, { s, k, zone }) => {
+    const rad = p.radius * k;
+    p.bounds = {
+      minX: (zone.l + rad - s.left) / k - p.cx, maxX: (zone.r - rad - s.left) / k - p.cx,
+      minY: (zone.t + rad - s.top) / k - p.cy, maxY: (zone.b - rad - s.top) / k - p.cy,
+    };
+    if (p.bounds.maxX < p.bounds.minX) p.bounds.minX = p.bounds.maxX = (p.bounds.minX + p.bounds.maxX) / 2;
+    if (p.bounds.maxY < p.bounds.minY) p.bounds.minY = p.bounds.maxY = (p.bounds.minY + p.bounds.maxY) / 2;
+  };
+
+  // --- Dispersión: posiciones, giros y rumbos aleatorios dentro de la zona
+  const scatter = () => {
+    const info = zoneInfo();
+    const { s, k, zone } = info;
 
     const placed = [];
     pieces.forEach((p) => {
@@ -99,6 +116,12 @@ export default function lost(root, { reduceMotion }) {
       p.r0 = (Math.random() < 0.5 ? -1 : 1) * rand(30, 180);
       p.r = p.r0;
       p.placed = false;
+      // Rumbo y giro propios, muy lentos (unidades del SVG y grados por segundo)
+      const angle = rand(0, Math.PI * 2), speed = rand(5, 11);
+      p.vx = Math.cos(angle) * speed; p.vy = Math.sin(angle) * speed;
+      p.vr = (Math.random() < 0.5 ? -1 : 1) * rand(1.2, 3.5);
+      setBounds(p, info);
+      p.el.classList.toggle("is-floating", !reduceMotion);
       p.el.classList.remove("is-placed", "is-glow");
       p.hole.classList.remove("is-filled", "is-flash");
       apply(p);
@@ -121,6 +144,7 @@ export default function lost(root, { reduceMotion }) {
   const place = (p, { sound = true } = {}) => {
     p.x = 0; p.y = 0; p.r = 0;
     p.placed = true;
+    p.el.classList.remove("is-floating"); // deja de flotar para que el encaje se anime
     apply(p);
     p.el.classList.remove("is-dragging");
     p.el.classList.add("is-placed", "is-glow");
@@ -222,6 +246,33 @@ export default function lost(root, { reduceMotion }) {
       setTimeout(() => pieces.forEach((p) => { p.el.style.transitionDelay = ""; }), 900);
     }
   });
+
+  // --- Flotación continua: cada pieza deriva con su rumbo y rebota suavemente en los límites de la zona.
+  // Se detiene al cogerla y al encajar; solo corre con la sección en pantalla; no existe con movimiento reducido.
+  if (!reduceMotion) {
+    let last = 0, frame = 0, visible = true;
+    const step = (t) => {
+      frame = 0;
+      const dt = Math.min((t - last) / 1000, 0.1);
+      last = t;
+      pieces.forEach((p) => {
+        if (p.placed || (drag && drag.p === p)) return;
+        const b = p.bounds;
+        p.x += p.vx * dt; p.y += p.vy * dt;
+        // Fuera de los límites: se gira el rumbo hacia dentro, sin saltos
+        if (p.x < b.minX) p.vx = Math.abs(p.vx); else if (p.x > b.maxX) p.vx = -Math.abs(p.vx);
+        if (p.y < b.minY) p.vy = Math.abs(p.vy); else if (p.y > b.maxY) p.vy = -Math.abs(p.vy);
+        p.r0 += p.vr * dt;
+        p.r = p.r0;
+        apply(p);
+      });
+      if (visible) frame = requestAnimationFrame(step);
+    };
+    const start = () => { if (!frame && visible) { last = performance.now(); frame = requestAnimationFrame(step); } };
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) start(); }).observe(root);
+    window.addEventListener("resize", () => { const info = zoneInfo(); pieces.forEach((p) => setBounds(p, info)); });
+    start();
+  }
 
   scatter();
   update();
