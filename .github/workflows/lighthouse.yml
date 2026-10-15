@@ -28,6 +28,8 @@ jobs:
       - run: npm run build
       - run: npx --yes @lhci/cli@0.15 autorun
       - if: always()
+        run: node scripts/lhci-report.mjs
+      - if: always()
         uses: actions/upload-artifact@v7
         with:
           name: lighthouse
