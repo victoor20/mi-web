@@ -101,6 +101,8 @@ export default function (eleventyConfig) {
   );
   // Busca un elemento de una lista por su slug (selectattr de Nunjucks no admite comparar valores)
   eleventyConfig.addFilter("bySlug", (list, slug) => (list || []).find((item) => item.slug === slug));
+  // Resalta una frase clave dentro de un texto (el texto procede de nuestros datos, no de usuarios)
+  eleventyConfig.addFilter("markKey", (text, key) => (key && text.includes(key) ? text.replace(key, `<strong class="spec__key">${key}</strong>`) : text));
   eleventyConfig.addFilter("setOnly", (list) => (list || []).filter(isSet));
   eleventyConfig.addFilter("json", (value) => JSON.stringify(value));
   eleventyConfig.addFilter("pad2", (n) => String(n).padStart(2, "0"));

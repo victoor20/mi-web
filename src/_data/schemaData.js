@@ -1,6 +1,7 @@
 // Datos estructurados (JSON-LD) generados desde site.js y services.js.
 import site from "./site.js";
 import services from "./services.js";
+import faqs from "./faqs.js";
 
 const isSet = (v) => typeof v === "string" && v.trim() !== "" && !/\[[^\]]+\]/.test(v);
 const id = (frag) => `${site.url}/#${frag}`;
@@ -57,10 +58,21 @@ const website = {
   publisher: { "@id": id("persona") },
 };
 
+// FAQPage con todas las preguntas de /lo-que-se-hacer/ (solo modo portfolio, donde faqs no es null)
+const faqPage = {
+  "@type": "FAQPage",
+  inLanguage: "es-ES",
+  mainEntity: (faqs || []).flatMap((g) => g.items.map((i) => ({
+    "@type": "Question",
+    name: i.q,
+    acceptedAnswer: { "@type": "Answer", text: i.a },
+  }))),
+};
+
 // Modo portfolio: solo Person (sin ProfessionalService ni areaServed)
 export default {
   home: { "@context": "https://schema.org", "@graph": site.isCommercial ? [website, person, business] : [website, person] },
-  services: { "@context": "https://schema.org", "@graph": site.isCommercial ? [business, person] : [person] },
+  services: { "@context": "https://schema.org", "@graph": site.isCommercial ? [business, person] : [person, faqPage] },
   person: { "@context": "https://schema.org", "@graph": [person] },
   ids: { person: id("persona"), website: id("web") },
 };

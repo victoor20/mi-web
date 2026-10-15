@@ -171,6 +171,84 @@ if (dividers.length && "IntersectionObserver" in window && !reduceMotion.matches
   dividers.forEach((d) => dividerIo.observe(d));
 }
 
+/* ---------- Buscador por síntoma: al elegir uno, la lista y la ilustración se iluminan a la vez, en orden ---------- */
+const finderBox = document.querySelector(".finder__box");
+if (finderBox && !reduceMotion.matches) {
+  let timers = [];
+  const run = () => {
+    timers.forEach(clearTimeout);
+    timers = [];
+    const radio = finderBox.querySelector("input[name=sintoma]:checked");
+    const panel = radio && finderBox.querySelector(`.finder__panel[data-panel="${radio.value}"]`);
+    if (!panel) return;
+    const items = [...panel.querySelectorAll(".finder__checks li")];
+    const parts = [...panel.querySelectorAll(".chk")];
+    panel.classList.add("is-seq");
+    items.forEach((li) => li.classList.remove("on"));
+    parts.forEach((p) => p.classList.remove("on"));
+    items.forEach((li, i) => timers.push(setTimeout(() => {
+      li.classList.add("on");
+      parts.filter((p) => +p.dataset.c === i).forEach((p) => p.classList.add("on"));
+    }, 450 + i * 800)));
+  };
+  finderBox.addEventListener("change", run);
+  if ("IntersectionObserver" in window) {
+    const once = new IntersectionObserver((entries) => {
+      if (!entries[0].isIntersecting) return;
+      once.disconnect();
+      run();
+    }, { threshold: 0.5 });
+    once.observe(finderBox);
+  }
+}
+
+/* ---------- Tres pasos (/lo-que-se-hacer/): el destello de las líneas corre solo mientras se ve ---------- */
+const steps3 = document.querySelector("[data-steps3]");
+if (steps3 && "IntersectionObserver" in window) {
+  new IntersectionObserver((entries) => steps3.classList.toggle("is-live", entries[0].isIntersecting)).observe(steps3);
+}
+
+/* ---------- Preguntas frecuentes: apertura y cierre suaves (altura + fundido) y filtro por tema ---------- */
+document.querySelectorAll(".faq details").forEach((d) => {
+  const summary = d.querySelector("summary");
+  const body = summary?.nextElementSibling;
+  if (!body || reduceMotion.matches) return;
+  let anim = null;
+  const run = (opening) => {
+    anim?.cancel();
+    const cs = getComputedStyle(body);
+    const full = { height: cs.height, paddingBottom: cs.paddingBottom };
+    const none = { height: "0px", paddingBottom: "0px" };
+    body.style.overflow = "hidden";
+    anim = body.animate(
+      opening ? [{ ...none, opacity: 0 }, { ...full, opacity: 1 }] : [{ ...full, opacity: 1 }, { ...none, opacity: 0 }],
+      { duration: opening ? 320 : 240, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
+    );
+    const mine = anim;
+    mine.onfinish = () => {
+      body.style.overflow = "";
+      anim = null;
+      if (!opening) { d.open = false; d.classList.remove("is-closing"); }
+    };
+  };
+  summary.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (!d.open || d.classList.contains("is-closing")) { d.classList.remove("is-closing"); d.open = true; run(true); }
+    else { d.classList.add("is-closing"); run(false); }
+  });
+});
+const faqFilter = document.querySelector("[data-faq-filter]");
+const faqList = document.querySelector("[data-faq]");
+if (faqFilter && faqList) {
+  faqFilter.hidden = false;
+  faqFilter.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-cat]");
+    if (!btn) return;
+    faqFilter.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+    faqList.querySelectorAll("details").forEach((d) => { d.hidden = btn.dataset.cat !== "todas" && d.dataset.cat !== btn.dataset.cat; });
+  });
+}
+
 /* ---------- Flujo de Jarvis (home): un mensaje recorre las etapas; en bucle solo mientras está visible ---------- */
 const jflow = document.querySelector("[data-jflow]");
 if (jflow && "IntersectionObserver" in window && !reduceMotion.matches) {

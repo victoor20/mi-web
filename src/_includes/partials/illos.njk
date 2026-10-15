@@ -89,6 +89,26 @@
   <path class="f" d="M100 12 L156 32 V68 C156 96 130 116 100 128 Z"/>
   <g class="i-pop" style="--d:.7s"><rect class="h" x="82" y="62" width="36" height="30" rx="4"/><path class="h" d="M88 62 V52 C88 40 112 40 112 52 V62"/><circle class="a" cx="100" cy="76" r="3.5"/><path class="a" d="M100 80 V85"/></g>
   <circle class="a i-ring" style="--d:1.2s" cx="100" cy="72" r="46"/>
+{%- elif name == "paso-causa" %}
+  <rect class="s" x="34" y="30" width="96" height="72" rx="6"/>
+  <path class="f" d="M34 102 L130 30 V102 Z"/>
+  <rect class="a" x="52" y="46" width="28" height="22" rx="3"/><rect class="a" x="90" y="46" width="28" height="22" rx="3"/>
+  <path class="a dim" d="M66 68 V84 H104 V68"/>
+  <circle class="h i-sweep" cx="118" cy="82" r="22"/><path class="h i-sweep" d="M134 98 L162 124"/>
+{%- elif name == "paso-salida" %}
+  <circle class="h" cx="40" cy="70" r="9"/>
+  <path class="s i-draw" pathLength="1" style="--d:.2s" d="M49 70 H82 L108 38 H150"/>
+  <path class="a i-draw" pathLength="1" style="--d:.5s" d="M82 70 H150"/>
+  <path class="a i-draw" pathLength="1" style="--d:.8s" d="M82 70 L108 102 H150"/>
+  <path class="h" d="M142 31 L152 38 L142 45"/>
+  <g class="i-pop" style="--d:.9s"><rect class="h" x="154" y="26" width="30" height="24" rx="4"/><path class="a" d="M162 38 L167 43 L177 32"/></g>
+  <rect class="a dim" x="154" y="58" width="30" height="24" rx="4"/><rect class="a dim" x="154" y="90" width="30" height="24" rx="4"/>
+{%- elif name == "paso-resumen" %}
+  <rect class="s" x="52" y="16" width="86" height="108" rx="6"/>
+  <path class="f" d="M52 124 L138 16 V124 Z"/>
+  <path class="h i-draw" pathLength="1" style="--d:.2s" d="M66 38 H112"/>
+  <path class="a i-draw" pathLength="1" style="--d:.5s" d="M66 54 H122 M66 68 H104"/>
+  <g class="i-pop" style="--d:.9s"><circle class="h" cx="132" cy="102" r="22"/><path class="h" d="M121 102 L129 110 L144 94"/></g>
 {%- endif %}
 </svg>
 {% endmacro %}

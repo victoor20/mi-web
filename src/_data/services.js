@@ -76,6 +76,7 @@ const portfolio = [
     illo: "diagnostico",
     name: "Diagnóstico y reparación",
     short: "Portátiles y sobremesa que no arrancan, se calientan, hacen ruido o se apagan solos.",
+    key: "casi siempre era un cargador, un disco o una limpieza pendiente, y no el equipo entero",
     story: "He tenido entre manos portátiles que no encendían, torres que se apagaban solas y equipos que sonaban como un secador. Lo que más me ha enseñado es a localizar la causa antes de cambiar piezas: casi siempre era un cargador, un disco o una limpieza pendiente, y no el equipo entero.",
   },
   {
@@ -83,6 +84,7 @@ const portfolio = [
     illo: "formateo",
     name: "Formateo y puesta a punto",
     short: "Windows limpio, controladores al día y archivos y programas de vuelta en su sitio.",
+    key: "devuelve la agilidad sin que se pierdan documentos ni fotos",
     story: "Sistemas que arrastraban años de programas, errores y algún virus. Reinstalarlos desde cero, con copia previa de lo importante y los controladores al día, devuelve la agilidad sin que se pierdan documentos ni fotos.",
   },
   {
@@ -90,6 +92,7 @@ const portfolio = [
     illo: "seguridad",
     name: "Seguridad del equipo",
     short: "Virus, actualizaciones, contraseñas y copias de seguridad: lo básico para no tener sustos.",
+    key: "casi siempre bastan unos hábitos sencillos",
     story: "Equipos con un virus que llegó dentro de un programa «gratuito», sistemas sin actualizar durante años y la misma contraseña repetida en todas partes. Lo que más me ha enseñado es que casi siempre bastan unos hábitos sencillos: mantener todo al día, desconfiar de lo que se instala, usar un gestor de contraseñas y tener una copia de seguridad que de verdad se haya probado.",
   },
   {
@@ -97,6 +100,7 @@ const portfolio = [
     illo: "segunda-vida",
     name: "Segunda vida a un portátil",
     short: "Cambio a SSD y ampliación de memoria cuando un equipo lento aún tiene recorrido.",
+    key: "Muchos portátiles que parecían acabados solo necesitaban un SSD y algo más de memoria",
     story: "Muchos portátiles que parecían acabados solo necesitaban un SSD y algo más de memoria. Lo primero es comprobar qué admite cada modelo; después, clonar el disco y ajustar el arranque cambia por completo el día a día. De ahí salió una de mis guías.",
     guide: "/guias/acelerar-portatil-lento-ssd-ram/",
   },
@@ -105,6 +109,7 @@ const portfolio = [
     illo: "discos",
     name: "Discos y datos",
     short: "Sustitución y clonado de discos, copias de seguridad y recuperación de archivos.",
+    key: "si el daño es físico, lo prudente es dejarlo en manos de un laboratorio especializado antes que arriesgar los datos",
     story: "Discos que hacían ruidos, carpetas borradas por error y equipos que no tenían copia de nada. Cuando el fallo es lógico suele haber recuperación; si el daño es físico, lo prudente es dejarlo en manos de un laboratorio especializado antes que arriesgar los datos.",
   },
   {
@@ -112,6 +117,7 @@ const portfolio = [
     illo: "montaje",
     name: "Montaje y elección de equipos",
     short: "Torres a medida o criterio para elegir sin pagar por lo que no se va a usar.",
+    key: "portátiles elegidos según el uso real, no según la ficha más llamativa",
     story: "Sobremesas montados con piezas que encajan y portátiles elegidos según el uso real, no según la ficha más llamativa. Esa experiencia está detrás de mis guías de compatibilidad y de compra.",
     guide: "/guias/compatibilidad-componentes-pc/",
   },
@@ -119,6 +125,7 @@ const portfolio = [
     slug: "automatizacion",
     name: "Automatizaciones sencillas",
     short: "Tareas repetitivas que pueden hacerse solas: correos, hojas de cálculo, avisos y documentos.",
+    key: "Prefiero lo pequeño y comprobable",
     story: "Trabajo manual que se repite cada semana y que puede resolverse con reglas sencillas o con ayuda de IA. Prefiero lo pequeño y comprobable, dejarlo documentado y reconocer cuándo una tarea no compensa automatizarla; eso también forma parte del oficio.",
     group: "automatizacion",
   },
