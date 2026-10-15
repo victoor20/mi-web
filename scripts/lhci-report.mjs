@@ -20,6 +20,12 @@ for (const f of fs.readdirSync(dir).filter((n) => /^lhr-.*\.json$/.test(n))) {
     for (const ref of c[cat].auditRefs) { const a = r.audits[ref.id]; if (ref.weight > 0 && a.score !== null && a.score < 1) row.bad.add(a.id); }
   }
   rows.set(path, row);
+  // Qué elementos se desplazan (solo si el CLS es apreciable)
+  const shifts = r.audits["layout-shifts"]?.details?.items || [];
+  if (r.audits["cumulative-layout-shift"].numericValue > 0.05) {
+    const top = shifts.slice(0, 4).map((i) => `${i.node?.selector || i.node?.nodeLabel || "?"} (${Number(i.score).toFixed(3)})`).join(" ; ");
+    console.log(`::warning title=LHCI CLS ${path}::${r.audits["cumulative-layout-shift"].numericValue.toFixed(3)} → ${top}`);
+  }
 }
 for (const [path, r] of rows) {
   console.log(`::notice title=LHCI ${path}::perf ${r.perf} · a11y ${r.a11y} · bp ${r.bp} · seo ${r.seo} · CLS ${r.cls.toFixed(3)}${r.bad.size ? ` · fallos: ${[...r.bad].join(", ")}` : ""}`);
