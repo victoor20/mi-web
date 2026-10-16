@@ -22,7 +22,10 @@ profiles:
   - { label: "Para la mayoría", who: "El equilibrio sensato para dar el salto a NVMe sin complicarse.", product: "kingston-nv3-1tb" }
   - { label: "Si quieres ahorrar", who: "Para quien quiere 1 TB sin pagar por la máxima velocidad.", product: "crucial-p3-plus-1tb" }
   - { label: "Si quieres lo mejor", who: "Un paso por encima en rendimiento, para el equipo principal.", product: "wd-black-sn770-1tb" }
-caso: true
+# Cuando haya un trabajo anonimizado que contar, descomenta y rellena (la sección aparece sola, con su entrada en el índice):
+# caso:
+#   title: "Un caso real"
+#   text: "<p>…</p>"
 summary: "si el portátil tiene un procesador razonable y usa disco mecánico, el SSD suele ser la mejora más rentable. Si ya tiene SSD pero se ahoga con varias tareas, la memoria es el siguiente paso. Si hay calor, ruido o apagones, revisa antes el mantenimiento."
 ---
 Cuando un portátil va lento, comprar otro no tiene por qué ser lo primero. Muchas veces el salto real está en cambiar un disco duro antiguo por un SSD, ampliar la memoria o limpiar el sistema. La clave es identificar el cuello de botella, comprobar qué admite el equipo y no invertir en uno que ya no merece la pena.

@@ -35,6 +35,30 @@ const escenarios = [
     eleccion: "SSD SATA de 500 GB, con copia de seguridad antes de clonar el disco.",
   },
   {
+    id: "se-calienta",
+    label: "Mi portátil se calienta",
+    contexto: "Supuesto: se calienta y el ventilador suena fuerte; el equipo, por lo demás, va bien.",
+    scene: `<rect class="s" x="60" y="22" width="280" height="150" rx="8"/>
+      <rect class="a dim" x="74" y="36" width="252" height="122" rx="4"/>
+      <path class="f" d="M74 158 L326 36 V158 Z"/>
+      <path class="s" d="M30 180 H370 L392 316 H8 Z"/>
+      <path class="warn" d="M120 168 q-8 -12 0 -24 q8 -12 0 -24 M200 168 q-8 -12 0 -24 q8 -12 0 -24 M280 168 q-8 -12 0 -24 q8 -12 0 -24"/>
+      <path class="a dim" d="M152 302 H248"/>`,
+    hole: { x: 150, y: 248, w: 120, h: 62, label: "Ventilador y disipador" },
+    slot: { x: 200, y: 366, w: 180, h: 22, label: "Debajo del portátil" },
+    piezas: [
+      { id: "limpieza", short: "Limpieza y pasta térmica", name: "Limpieza interna y pasta térmica", rule: "fit",
+        shape: `<rect class="h" x="-50" y="-12" width="76" height="24" rx="6"/><path class="fa" d="M-50 12 L26 -12 V12 Z"/><path class="h" d="M26 -5 L48 0 L26 5"/><circle class="a" cx="58" cy="0" r="5"/>`, ly: 34 },
+      { id: "base", short: "Base refrigeradora", name: "Base refrigeradora", rule: "elsewhere", filter: 0, reason: "Alivia la temperatura, pero no resuelve la causa: el polvo y la pasta seguirán donde están.",
+        shape: `<rect class="h" x="-60" y="-12" width="120" height="24" rx="4"/><circle class="a" cx="-26" cy="0" r="8"/><circle class="a" cx="26" cy="0" r="8"/>`, ly: 34 },
+      { id: "ventilador", short: "Ventilador nuevo", name: "Ventilador nuevo", rule: "bounce", filter: 2, reason: "Solo compensa si el actual está roto: antes hay que comprobar si gira bien o si solo está lleno de polvo.",
+        shape: `<circle class="h" cx="0" cy="0" r="30"/><circle class="a" cx="0" cy="0" r="5"/><path class="a" d="M0 -5 C0 -22 12 -26 15 -19 C6 -18 3 -10 0 -5 Z M5 0 C22 0 26 12 19 15 C18 6 10 3 5 0 Z M0 5 C0 22 -12 26 -15 19 C-6 18 -3 10 0 5 Z M-5 0 C-22 0 -26 -12 -19 -15 C-18 -6 -10 -3 -5 0 Z"/>`, ly: 48 },
+      { id: "portatil-nuevo", short: "Portátil nuevo", name: "Portátil nuevo", rule: "bounce", filter: 2, reason: "Es pagar un equipo entero por un problema de mantenimiento.",
+        shape: `<rect class="h" x="-56" y="-34" width="112" height="54" rx="5"/><path class="fa" d="M-50 16 L50 -28 V16 Z"/><path class="h" d="M-70 22 H70 L74 30 H-74 Z"/>`, ly: 48 },
+    ],
+    eleccion: "Limpieza interna y pasta térmica nueva, que es lo que suele resolver el calor y el ruido.",
+  },
+  {
     id: "pc-estudiar",
     label: "Quiero montar un PC para estudiar",
     contexto: "Supuesto: ofimática, clases en línea y algo de programación, sobre una placa ya elegida.",
@@ -86,11 +110,11 @@ for (const e of escenarios) e.piezas.forEach((p, i) => { p.homeWide = homesWide[
 
 export default {
   filtros: [
-    { id: "uso", name: "Uso real", ask: "¿Resuelve lo que de verdad necesitas?" },
-    { id: "compat", name: "Compatibilidad", ask: "¿Encaja con tu equipo: formato, conexiones, potencia, generación?" },
-    { id: "precio", name: "Calidad-precio", ask: "¿Compensa lo que cuesta frente a lo que mejora?" },
-    { id: "vigencia", name: "Vigencia", ask: "¿Ficha, variante y disponibilidad siguen siendo válidas hoy?" },
-    { id: "transparencia", name: "Transparencia", ask: "¿Lo recomendaría igual sin comisión?" },
+    { id: "uso", short: "Uso", name: "Uso real", ask: "¿Resuelve lo que de verdad necesitas?" },
+    { id: "compat", short: "Compat.", name: "Compatibilidad", ask: "¿Encaja con tu equipo: formato, conexiones, potencia, generación?" },
+    { id: "precio", short: "Precio", name: "Calidad-precio", ask: "¿Compensa lo que cuesta frente a lo que mejora?" },
+    { id: "vigencia", short: "Vigencia", name: "Vigencia", ask: "¿Ficha, variante y disponibilidad siguen siendo válidas hoy?" },
+    { id: "transparencia", short: "Transp.", name: "Transparencia", ask: "¿Lo recomendaría igual sin comisión?" },
   ],
   escenarios,
 };

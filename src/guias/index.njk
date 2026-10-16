@@ -71,48 +71,55 @@ needs:
       <p class="fit__badge"><strong>Ejemplo ilustrativo.</strong> Las piezas son genéricas: no hay marcas ni precios reales.</p>
 
       {%- for e in filtros.escenarios %}
-      <div class="fit__panel{{ ' is-on' if loop.first }}" data-panel="{{ e.id }}">
+      <div class="fit__panel{{ ' is-on' if loop.first }}" data-panel="{{ e.id }}" data-pick="{{ e.eleccion }}">
         <p class="fit__context">{{ e.contexto }}</p>
-        <div class="fit__stage">
-          <svg class="fit__svg illo" viewBox="0 0 680 400" preserveAspectRatio="xMidYMid meet" data-svg role="img" aria-label="{{ e.label }}: ilustración con un hueco y cuatro piezas para probar">
-            <g class="fit__scene">{{ e.scene | safe }}</g>
-            <g class="fit__hole" data-hole data-x="{{ e.hole.x }}" data-y="{{ e.hole.y }}">
-              <rect x="{{ e.hole.x - e.hole.w / 2 }}" y="{{ e.hole.y - e.hole.h / 2 }}" width="{{ e.hole.w }}" height="{{ e.hole.h }}" rx="5"/>
-              <text class="fit__hole-label" x="{{ e.hole.x }}" y="{{ e.hole.y + 5 }}">{{ e.hole.label }}</text>
-            </g>
-            {%- if e.slot %}
-            <g class="fit__slot" data-slot data-x="{{ e.slot.x }}" data-y="{{ e.slot.y }}">
-              <rect x="{{ e.slot.x - e.slot.w / 2 }}" y="{{ e.slot.y - e.slot.h / 2 }}" width="{{ e.slot.w }}" height="{{ e.slot.h }}" rx="3"/>
-              <text class="fit__hole-label" x="{{ e.slot.x }}" y="{{ e.slot.y - e.slot.h / 2 - 6 }}">{{ e.slot.label }}</text>
-            </g>
-            {%- endif %}
-            <g class="fit__pieces" data-pieces>
-              {%- for p in e.piezas %}
-              <g class="fit__piece" data-piece="{{ p.id }}" data-rule="{{ p.rule }}" data-wide="{{ p.homeWide | join(',') }}" data-narrow="{{ p.homeNarrow | join(',') }}" style="--hx: {{ p.homeWide[0] }}px; --hy: {{ p.homeWide[1] }}px">
-                <rect class="fit__hit" x="-76" y="-46" width="152" height="{{ p.ly + 60 }}"/>
-                <g class="fit__shape">{{ p.shape | safe }}</g>
-                <text class="fit__label" y="{{ p.ly }}">{{ p.short or p.name }}</text>
-              </g>
+        <div class="fit__cols">
+          <div class="fit__left">
+            <ol class="fit__bar" aria-label="Los cinco filtros">
+              {%- for f in filtros.filtros %}
+              <li><button class="fit__f" type="button" data-f="{{ loop.index0 }}" data-name="{{ f.name }}" data-ask="{{ f.ask }}"><span class="mono">0{{ loop.index }}</span><span class="long">{{ f.name }}</span><span class="short">{{ f.short }}</span></button></li>
               {%- endfor %}
-            </g>
-          </svg>
-        </div>
-        <p class="fit__msg" data-msg aria-live="polite">Arrastra una pieza al hueco o usa «Probar esta pieza».</p>
-        <ul class="fit__try">
-          {%- for p in e.piezas %}
-          <li data-row="{{ p.id }}">
-            <span class="fit__try-name">{{ p.name }}</span>
-            <button class="btn btn--ghost btn--sm" type="button" data-try="{{ p.id }}">Probar esta pieza</button>
-            <span class="fit__result" data-result data-filter="{{ filtros.filtros[p.filter].name if p.rule != 'fit' else '' }}" data-reason="{{ p.reason }}"></span>
-          </li>
-          {%- endfor %}
-        </ul>
-        <div class="fit__win" data-win>
-          <p class="fit__win-title"><span class="mono">Recomendación</span>{{ e.eleccion }}</p>
-          <ol class="fit__passed" aria-label="Filtros superados">
-            {%- for f in filtros.filtros %}<li>✓ {{ f.name }}</li>{% endfor %}
-          </ol>
-          <button class="fit__reset" type="button" data-reset>Volver a probar</button>
+            </ol>
+            <p class="fit__info" data-info>Toca o pasa el ratón por un filtro para ver qué comprueba.</p>
+            <div class="fit__stage">
+              <svg class="fit__svg illo" viewBox="0 0 680 400" preserveAspectRatio="xMidYMid meet" data-svg role="img" aria-label="{{ e.label }}: ilustración con un hueco y cuatro piezas para probar">
+                <g class="fit__scene">{{ e.scene | safe }}</g>
+                <g class="fit__hole" data-hole data-x="{{ e.hole.x }}" data-y="{{ e.hole.y }}">
+                  <rect x="{{ e.hole.x - e.hole.w / 2 }}" y="{{ e.hole.y - e.hole.h / 2 }}" width="{{ e.hole.w }}" height="{{ e.hole.h }}" rx="5"/>
+                  <text class="fit__hole-label" x="{{ e.hole.x }}" y="{{ e.hole.y + 5 }}">{{ e.hole.label }}</text>
+                </g>
+                {%- if e.slot %}
+                <g class="fit__slot" data-slot data-x="{{ e.slot.x }}" data-y="{{ e.slot.y }}">
+                  <rect x="{{ e.slot.x - e.slot.w / 2 }}" y="{{ e.slot.y - e.slot.h / 2 }}" width="{{ e.slot.w }}" height="{{ e.slot.h }}" rx="3"/>
+                  <text class="fit__hole-label" x="{{ e.slot.x }}" y="{{ e.slot.y - e.slot.h / 2 - 6 }}">{{ e.slot.label }}</text>
+                </g>
+                {%- endif %}
+                <g class="fit__pieces" data-pieces>
+                  {%- for p in e.piezas %}
+                  <g class="fit__piece" data-piece="{{ p.id }}" data-rule="{{ p.rule }}" data-wide="{{ p.homeWide | join(',') }}" data-narrow="{{ p.homeNarrow | join(',') }}" style="--hx: {{ p.homeWide[0] }}px; --hy: {{ p.homeWide[1] }}px">
+                    <rect class="fit__hit" x="-76" y="-46" width="152" height="{{ p.ly + 60 }}"/>
+                    <g class="fit__shape">{{ p.shape | safe }}</g>
+                    <text class="fit__label" y="{{ p.ly }}">{{ p.short or p.name }}</text>
+                  </g>
+                  {%- endfor %}
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <div class="fit__right">
+            <div class="fit__banner" data-banner aria-live="polite"><p class="fit__banner-hint">Arrastra una pieza al hueco o usa «Probar esta pieza».</p></div>
+            <ul class="fit__try">
+              {%- for p in e.piezas %}
+              <li data-row="{{ p.id }}">
+                <span class="fit__try-name">{{ p.name }}</span>
+                <button class="btn btn--ghost btn--sm" type="button" data-try="{{ p.id }}">Probar esta pieza</button>
+                <span class="fit__result" data-result data-fidx="{{ p.filter if p.rule != 'fit' else '' }}" data-filter="{{ filtros.filtros[p.filter].name if p.rule != 'fit' else '' }}" data-reason="{{ p.reason }}"></span>
+              </li>
+              {%- endfor %}
+            </ul>
+            <button class="fit__reset" type="button" data-reset>Volver a probar</button>
+          </div>
         </div>
       </div>
       {%- endfor %}

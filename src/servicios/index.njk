@@ -131,6 +131,17 @@ schema: "services"
           </div>
         </div>
         {%- endif %}
+        {%- if casos[s.slug] %}{% set c = casos[s.slug] %}
+        <aside class="case-card" aria-labelledby="caso-{{ s.slug }}">
+          <p class="case-card__tag mono">Caso real · anonimizado</p>
+          <h4 class="case-card__title" id="caso-{{ s.slug }}">{{ c.title }}</h4>
+          <ol class="case-card__steps">
+            {%- for st in c.steps %}<li><strong>{{ st.label }}</strong> {{ st.text }}</li>{% endfor %}
+          </ol>
+          <p class="case-card__result"><span class="mono">Resultado</span>{{ c.result }}</p>
+          <p class="case-card__lesson"><span class="mono">Lo que me llevo</span>{{ c.lesson }}</p>
+        </aside>
+        {%- endif %}
       </article>
       {%- endfor %}
     </div>

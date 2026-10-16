@@ -1,11 +1,13 @@
 // «Cómo elijo lo que recomiendo» (/guias/): encajar piezas, con el mismo arrastre e imán que la 404.
 // Cada pieza se arrastra (ratón, dedo o lápiz) al hueco: la buena encaja con destello y sonido; las demás rebotan
-// o se van a otra ranura, y siempre aparece su motivo. «Probar esta pieza» hace lo mismo con teclado y lector de pantalla.
-// Sin JavaScript se ven la ilustración, las piezas y los cinco filtros (texto siempre legible).
+// o se van a otra ranura, y siempre aparece un cartel con su motivo. «Probar esta pieza» hace lo mismo con teclado y lector de pantalla.
+// Los cinco filtros, encima del escenario, se encienden uno a uno si la pieza los supera y el que falla se pone en rojo.
+// Sin JavaScript se ven la ilustración, las piezas y los cinco filtros explicados (texto siempre legible).
 import { createSound } from "../lib/sound.js";
 
 const SNAP = 70; // distancia (unidades del SVG) a la que una pieza suelta se evalúa en el hueco
 const NEAR = 120; // distancia a la que el hueco se ilumina
+const STAGGER = 170; // ms entre un filtro y el siguiente al encenderse
 
 export default function encaje(root, { reduceMotion }) {
   const sound = createSound(!reduceMotion);
@@ -15,13 +17,12 @@ export default function encaje(root, { reduceMotion }) {
 
   const games = panels.map((panel) => setup(panel));
 
-  // Cambio de situación
   tabs.forEach((t) => t.addEventListener("click", () => {
     tabs.forEach((x) => x.setAttribute("aria-pressed", String(x === t)));
     panels.forEach((p) => p.classList.toggle("is-on", p.dataset.panel === t.dataset.scenario));
   }));
 
-  // Encuadre: ancho (piezas a la derecha) o estrecho (piezas debajo). El hueco del escenario no cambia de sitio.
+  // Encuadre: ancho (piezas a la derecha) o estrecho (piezas debajo)
   const layout = () => games.forEach((g) => g.layout(narrowMq.matches));
   narrowMq.addEventListener("change", layout);
   layout();
@@ -30,8 +31,11 @@ export default function encaje(root, { reduceMotion }) {
     const svg = panel.querySelector("[data-svg]");
     const holeEl = panel.querySelector("[data-hole]");
     const slotEl = panel.querySelector("[data-slot]");
-    const msg = panel.querySelector("[data-msg]");
-    const win = panel.querySelector("[data-win]");
+    const banner = panel.querySelector("[data-banner]");
+    const info = panel.querySelector("[data-info]");
+    const filters = [...panel.querySelectorAll(".fit__f")];
+    const hint = banner.innerHTML;
+    const pick = panel.dataset.pick;
     const hole = { x: +holeEl.dataset.x, y: +holeEl.dataset.y };
     const slot = slotEl ? { x: +slotEl.dataset.x, y: +slotEl.dataset.y } : null;
     const pieces = [...panel.querySelectorAll("[data-piece]")].map((el) => {
@@ -45,8 +49,8 @@ export default function encaje(root, { reduceMotion }) {
       };
     });
     const byEl = new Map(pieces.map((p) => [p.el, p]));
-    let narrow = false;
     let busy = null;
+    let litTimers = [];
 
     const apply = (p) => {
       p.el.style.setProperty("--hx", `${p.hx}px`);
@@ -57,11 +61,55 @@ export default function encaje(root, { reduceMotion }) {
     const target = (p) => (p.at === "hole" ? hole : p.at === "slot" ? slot : null);
     const moveTo = (p, pt) => { p.tx = pt ? pt.x - p.hx : 0; p.ty = pt ? pt.y - p.hy : 0; apply(p); };
 
-    const say = (text, ok) => {
-      msg.textContent = text;
-      msg.classList.toggle("is-ok", ok === true);
-      msg.classList.toggle("is-ko", ok === false);
+    // --- Los cinco filtros: encendidos uno a uno; el que falla, en rojo
+    const clearBar = () => {
+      litTimers.forEach(clearTimeout);
+      litTimers = [];
+      filters.forEach((f) => { f.classList.remove("is-pass", "is-fail"); f.style.transitionDelay = ""; });
     };
+    const lightBar = (passed, failAt) => {
+      clearBar();
+      for (let i = 0; i < passed; i++) {
+        if (reduceMotion) filters[i].classList.add("is-pass");
+        else litTimers.push(setTimeout(() => filters[i].classList.add("is-pass"), 120 + i * STAGGER));
+      }
+      if (failAt != null) {
+        const at = 120 + passed * STAGGER;
+        if (reduceMotion) filters[failAt].classList.add("is-fail");
+        else litTimers.push(setTimeout(() => filters[failAt].classList.add("is-fail"), at));
+      }
+    };
+    // Explicación de cada filtro al pasar el ratón, enfocar o tocar
+    const explain = (f) => { info.textContent = ""; const b = document.createElement("strong"); b.textContent = `${f.dataset.name}. `; info.append(b, f.dataset.ask); };
+    filters.forEach((f) => {
+      f.addEventListener("mouseenter", () => explain(f));
+      f.addEventListener("focus", () => explain(f));
+      f.addEventListener("click", () => explain(f));
+    });
+
+    // --- Cartel de resultado
+    const showBanner = (kind, title, text) => {
+      banner.className = `fit__banner is-${kind}`;
+      banner.textContent = "";
+      const h = document.createElement("p");
+      h.className = "fit__banner-title";
+      h.textContent = title;
+      const t = document.createElement("p");
+      t.className = "fit__banner-text";
+      t.textContent = text;
+      banner.append(h, t);
+      if (kind === "ok") {
+        const ul = document.createElement("ul");
+        ul.className = "fit__banner-passed";
+        filters.forEach((f) => { const li = document.createElement("li"); li.textContent = `✓ ${f.dataset.name}`; ul.append(li); });
+        banner.append(ul);
+      }
+      // Reinicia la animación de aparición
+      banner.classList.remove("is-new");
+      void banner.offsetWidth;
+      banner.classList.add("is-new");
+    };
+    const resetBanner = () => { banner.className = "fit__banner"; banner.innerHTML = hint; };
     const mark = (p, ok, text) => {
       p.result.textContent = text;
       p.row.classList.toggle("is-ok", ok);
@@ -78,8 +126,9 @@ export default function encaje(root, { reduceMotion }) {
     const evaluate = (p) => {
       const filter = p.result.dataset.filter;
       const reason = p.result.dataset.reason;
+      const fidx = p.result.dataset.fidx === "" ? null : Number(p.result.dataset.fidx);
       if (p.rule === "fit") {
-        pieces.forEach((o) => { if (o !== p && o.at === "hole") { o.at = "home"; moveTo(o, null); } });
+        pieces.forEach((o) => { if (o !== p && o.at === "hole") { o.at = "home"; o.el.classList.remove("is-placed"); moveTo(o, null); } });
         p.at = "hole";
         moveTo(p, hole);
         p.el.classList.add("is-placed");
@@ -88,24 +137,27 @@ export default function encaje(root, { reduceMotion }) {
         flash(holeEl, "is-flash");
         sound.snap();
         setTimeout(() => sound.win(), 180);
-        say(`✓ ${p.name}: encaja y pasa los cinco filtros.`, true);
+        lightBar(filters.length, null);
+        showBanner("ok", "✓ Encaja", `Recomendación: ${pick}`);
         mark(p, true, "✓ Encaja y pasa los cinco filtros.");
-        win.classList.add("is-on");
-      } else if (p.rule === "elsewhere" && slot) {
-        p.at = "slot";
-        moveTo(p, slot);
-        p.el.classList.add("is-parked");
-        sound.snap();
-        say(`✕ ${filter}: ${reason}`, false);
-        mark(p, false, `✕ ${filter}: ${reason}`);
       } else {
-        // Rebota: vuelve a su sitio con un temblor y el hueco se enciende en rojo
-        p.at = "home";
-        moveTo(p, null);
-        flash(p.el, "is-shake");
-        flash(holeEl, "is-reject");
-        sound.thud();
-        say(`✕ ${filter}: ${reason}`, false);
+        holeEl.classList.remove("is-filled");
+        if (p.rule === "elsewhere" && slot) {
+          p.at = "slot";
+          moveTo(p, slot);
+          p.el.classList.add("is-parked");
+          flash(slotEl, "is-reject");
+          sound.snap();
+        } else {
+          // Rebota: vuelve a su sitio con un temblor y el hueco destella en rojo
+          p.at = "home";
+          moveTo(p, null);
+          flash(p.el, "is-shake");
+          flash(holeEl, "is-reject");
+          sound.thud();
+        }
+        lightBar(fidx, fidx);
+        showBanner("ko", `✕ ${filter}`, reason);
         mark(p, false, `✕ ${filter}: ${reason}`);
       }
     };
@@ -142,8 +194,7 @@ export default function encaje(root, { reduceMotion }) {
       p.tx = pos.x + drag.dx - p.hx;
       p.ty = pos.y + drag.dy - p.hy;
       apply(p);
-      const d = Math.hypot(p.hx + p.tx - hole.x, p.hy + p.ty - hole.y);
-      holeEl.classList.toggle("is-near", d < NEAR);
+      holeEl.classList.toggle("is-near", Math.hypot(p.hx + p.tx - hole.x, p.hy + p.ty - hole.y) < NEAR);
       if (slotEl) slotEl.classList.toggle("is-near", Math.hypot(p.hx + p.tx - slot.x, p.hy + p.ty - slot.y) < NEAR);
     });
     const release = (e) => {
@@ -167,7 +218,7 @@ export default function encaje(root, { reduceMotion }) {
       const p = pieces.find((x) => x.id === btn.dataset.try);
       if (!p || busy) return;
       sound.unlock();
-      if (p.at === "hole") { say(`✓ ${p.name}: ya está en su sitio.`, true); return; }
+      if (p.at === "hole") { showBanner("ok", "✓ Encaja", `Recomendación: ${pick}`); return; }
       p.el.classList.remove("is-parked");
       layer.append(p.el);
       if (reduceMotion) { evaluate(p); return; }
@@ -186,20 +237,19 @@ export default function encaje(root, { reduceMotion }) {
         p.row.classList.remove("is-ok", "is-ko");
       });
       holeEl.classList.remove("is-filled");
-      win.classList.remove("is-on");
-      say("Arrastra una pieza al hueco o usa «Probar esta pieza».");
+      clearBar();
+      resetBanner();
       panel.querySelector("[data-try]")?.focus();
     });
 
     return {
       layout(isNarrow) {
-        narrow = isNarrow;
         // Al colocar las piezas por primera vez (o al cambiar de encuadre) no se anima el salto
         pieces.forEach((p) => p.el.classList.add("is-instant"));
         requestAnimationFrame(() => requestAnimationFrame(() => pieces.forEach((p) => p.el.classList.remove("is-instant"))));
-        svg.setAttribute("viewBox", narrow ? "0 0 400 620" : "0 0 680 400");
+        svg.setAttribute("viewBox", isNarrow ? "0 0 400 620" : "0 0 680 400");
         pieces.forEach((p) => {
-          [p.hx, p.hy] = narrow ? p.narrow : p.wide;
+          [p.hx, p.hy] = isNarrow ? p.narrow : p.wide;
           moveTo(p, target(p));
         });
       },

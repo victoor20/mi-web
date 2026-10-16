@@ -11,7 +11,7 @@ criticalSections: ["Prosa (artículos y páginas legales)", "Guías: artículo",
       workshop  nombre de un parcial de src/_includes/partials/workshops/ (taller «Hazlo conmigo», cerca del principio)
       tool      nombre de un parcial de src/_includes/partials/tools/ (herramienta interactiva propia)
       profiles  [{ label, who, product }]                         → recomendaciones por perfil con tarjetas de producto
-      caso      true                                              → hueco marcado para «Un caso real» (se rellena a mano)
+      caso      { title?, text }                                  → «Un caso real» (text admite HTML). Sin text no se muestra ni entra en el índice.
     Todas las secciones con <h2 id> entran en el índice lateral y en la barra de lectura. -#}
 {% from "macros.njk" import affiliateDisclosure, facetDivider %}
 {%- set svc = services | bySlug(service) if service else null %}
@@ -78,12 +78,10 @@ criticalSections: ["Prosa (artículos y páginas legales)", "Guías: artículo",
       </section>
       {%- endif %}
 
-      {%- if caso %}
+      {%- if caso and caso.text %}
       <section class="case-slot" aria-labelledby="un-caso-real">
-        <h2 id="un-caso-real">Un caso real</h2>
-        <div class="case-slot__box">
-          <p class="placeholder">[CASO REAL: aquí irá un trabajo anonimizado: el equipo y el síntoma, qué se comprobó, qué se cambió y cómo quedó.]</p>
-        </div>
+        <h2 id="un-caso-real">{{ caso.title or "Un caso real" }}</h2>
+        <div class="case-slot__box">{{ caso.text | safe }}</div>
       </section>
       {%- endif %}
 
