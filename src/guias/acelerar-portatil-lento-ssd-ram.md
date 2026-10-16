@@ -9,6 +9,19 @@ published: 2026-08-01
 updated: 2026-08-01
 service: "ssd-ram"
 affiliate: true
+verdict:
+  lead: "Si tienes prisa, esto es lo esencial."
+  items:
+    - { label: "Casi siempre", text: "Cambiar el disco mecánico por un SSD.", href: "#ssd-la-mejora-que-mas-se-nota", tone: "go" }
+    - { label: "Después", text: "Subir a 16 GB de memoria, si el portátil lo permite y se ahoga con la multitarea.", href: "#memoria-cuando-merece-la-pena", tone: "go" }
+    - { label: "Antes de gastar", text: "Si hay calor, ruido o apagones, revisa el mantenimiento: puede que no falte ninguna pieza.", href: "#primero-identificar-el-cuello-de-botella", tone: "wait" }
+    - { label: "Cuándo no", text: "Si el procesador, la batería y la pantalla ya están muy limitados, quizá compense renovar.", href: "#que-hacer-segun-tu-caso", tone: "stop" }
+tool: "ampliar"
+profiles:
+  - { label: "Para la mayoría", who: "El equilibrio sensato para dar el salto a NVMe sin complicarse.", product: "kingston-nv3-1tb" }
+  - { label: "Si quieres ahorrar", who: "Para quien quiere 1 TB sin pagar por la máxima velocidad.", product: "crucial-p3-plus-1tb" }
+  - { label: "Si quieres lo mejor", who: "Un paso por encima en rendimiento, para el equipo principal.", product: "wd-black-sn770-1tb" }
+caso: true
 summary: "si el portátil tiene un procesador razonable y usa disco mecánico, el SSD suele ser la mejora más rentable. Si ya tiene SSD pero se ahoga con varias tareas, la memoria es el siguiente paso. Si hay calor, ruido o apagones, revisa antes el mantenimiento."
 ---
 Cuando un portátil va lento, comprar otro no tiene por qué ser lo primero. Muchas veces el salto real está en cambiar un disco duro antiguo por un SSD, ampliar la memoria o limpiar el sistema. La clave es identificar el cuello de botella, comprobar qué admite el equipo y no invertir en uno que ya no merece la pena.
@@ -27,11 +40,7 @@ Pasar de HDD a SSD transforma equipos antiguos: arranca antes, los programas abr
 
 Para un uso normal con documentos y nube, 500 GB pueden bastar. Para el equipo principal, 1 TB da más margen. No hace falta el SSD más rápido si el portátil no aprovecha PCIe 4.0 o si lo usarás para ofimática y navegación.
 
-Si tu portátil tiene ranura **M.2 NVMe** (compruébalo antes en el manual o la ficha del fabricante), estas son opciones de referencia:
-
-{% product "kingston-nv3-1tb" %}
-{% product "crucial-p3-plus-1tb" %}
-{% product "wd-black-sn770-1tb" %}
+Si tu portátil tiene ranura **M.2 NVMe** (compruébalo antes en el manual o la ficha del fabricante), más abajo, en las recomendaciones por perfil, tienes opciones de referencia.
 
 ## Memoria: cuándo merece la pena
 

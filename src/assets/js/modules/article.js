@@ -3,7 +3,8 @@ export default function article(root) {
   const body = root.querySelector("[data-article-body]");
   const toc = root.querySelector("[data-toc]");
   const list = root.querySelector("[data-toc-list]");
-  const headings = [...body.querySelectorAll("h2[id]")];
+  const main = root.querySelector(".article__main") || body;
+  const headings = [...main.querySelectorAll("h2[id]")];
 
   if (headings.length >= 3) {
     headings.forEach((h) => {
@@ -34,7 +35,7 @@ export default function article(root) {
   let ticking = false;
   const update = () => {
     ticking = false;
-    const r = body.getBoundingClientRect();
+    const r = main.getBoundingClientRect();
     const total = r.height - window.innerHeight * 0.5;
     const p = Math.min(1, Math.max(0, -r.top / (total || 1)));
     bar.style.transform = `scaleX(${p.toFixed(3)})`;

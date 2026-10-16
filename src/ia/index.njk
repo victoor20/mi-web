@@ -226,3 +226,14 @@ log:
 {%- if faqs %}
 {{ faqSection(faqs.ia) }}
 {%- endif %}
+{%- if not site.isCommercial %}
+<section class="closing" aria-labelledby="cierre-title" data-hide-mobile-cta>
+  <div class="wrap">
+    <h2 class="closing__title" id="cierre-title">¿Tienes una tarea que se repite? <span>O un proyecto en mente.</span></h2>
+    <div class="closing__actions">
+      <a class="btn btn--primary btn--lg" href="/contacto/?servicio=automatizacion&amp;origen=ia-cierre" data-magnetic>{{ site.cta.label }}</a>
+      <a class="btn btn--ghost btn--lg" href="mailto:{{ site.email }}">{{ site.email }}</a>
+    </div>
+  </div>
+</section>
+{%- endif %}

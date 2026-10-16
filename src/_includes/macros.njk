@@ -74,6 +74,22 @@
 </section>
 {% endmacro %}
 
+{#- Selector de idioma («ES · VA · EN»): el idioma activo se marca; los que aún no existen se muestran como «Próximamente», sin enlace. -#}
+{% macro langSwitch(site, pageUrl="/", current="es") %}
+{%- if site.languages.show %}
+<ul class="lang-switch" aria-label="Idioma">
+  {%- for l in site.languages.items %}
+  <li>
+    {%- if l.code == current %}<span class="lang-switch__item is-current" lang="{{ l.hreflang }}" aria-current="true"><span aria-hidden="true">{{ l.label }}</span><span class="visually-hidden">{{ l.name }}, idioma actual</span></span>
+    {%- elif l.available %}<a class="lang-switch__item" href="{{ l.url }}{{ pageUrl }}" hreflang="{{ l.hreflang }}" lang="{{ l.hreflang }}"><span aria-hidden="true">{{ l.label }}</span><span class="visually-hidden">{{ l.name }}</span></a>
+    {%- else %}<span class="lang-switch__item is-soon" title="Próximamente" lang="{{ l.hreflang }}"><span aria-hidden="true">{{ l.label }}</span><span class="visually-hidden">{{ l.name }}: próximamente</span></span>
+    {%- endif %}
+  </li>
+  {%- endfor %}
+</ul>
+{%- endif %}
+{% endmacro %}
+
 {#- Pregunta frecuente (details). i = { id, q, a, help?, link? }; cat = tema (para el filtro). La animación la pone main.js.
      help (slug de servicio) añade «¿No se resuelve? Cuéntamelo» al cuestionario con ese tema y el origen faq-<id>. -#}
 {% macro faqItem(i, cat) %}

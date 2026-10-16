@@ -87,4 +87,16 @@ export default {
     { label: "Sobre mí", url: "/sobre-mi/" },
   ],
   cta: { label: comercial ? "Pedir presupuesto" : "Contactar", url: "/contacto/" },
+
+  // Idiomas. show: false oculta el selector de la cabecera y del menú móvil.
+  // Cada idioma con available: false se muestra como «Próximamente» (sin enlace) y aún no genera hreflang.
+  // Cuando exista una traducción: available: true y url con el prefijo de sus páginas (p. ej. "/en"); el hreflang sale solo.
+  languages: {
+    show: true,
+    items: [
+      { code: "es", label: "ES", name: "Español", hreflang: "es-ES", available: true, url: "" },
+      { code: "va", label: "VA", name: "Valencià", hreflang: "ca-ES-valencia", available: false, url: "/va" },
+      { code: "en", label: "EN", name: "English", hreflang: "en", available: false, url: "/en" },
+    ],
+  },
 };

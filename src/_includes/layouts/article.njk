@@ -2,10 +2,16 @@
 layout: layouts/base.njk
 ogType: article
 bodyClass: page-article
-criticalSections: ["Prosa (artículos y páginas legales)", "Guías: artículo"]
+criticalSections: ["Prosa (artículos y páginas legales)", "Guías: artículo", "Guía modelo: veredicto rápido, herramienta, perfiles y caso real"]
 ---
 {#- Plantilla de guía. Front matter: title, h1, description, category, need, published, updated,
-    summary, service (slug de services.js), affiliate (true si hay enlaces de afiliado) -#}
+    summary, service (slug de services.js), affiliate (true si hay enlaces de afiliado).
+    Bloques opcionales (la guía modelo «acelerar-portatil-lento-ssd-ram» los usa todos):
+      verdict   { lead, items: [{ label, text, href?, tone? }] }  → «Veredicto rápido» arriba (sustituye a summary)
+      tool      nombre de un parcial de src/_includes/partials/tools/ (herramienta interactiva propia)
+      profiles  [{ label, who, product }]                         → recomendaciones por perfil con tarjetas de producto
+      caso      true                                              → hueco marcado para «Un caso real» (se rellena a mano)
+    Todas las secciones con <h2 id> entran en el índice lateral y en la barra de lectura. -#}
 {% from "macros.njk" import affiliateDisclosure, facetDivider %}
 {%- set svc = services | bySlug(service) if service else null %}
 <article class="article" data-module="article">
@@ -15,7 +21,7 @@ criticalSections: ["Prosa (artículos y páginas legales)", "Guías: artículo"]
       <h1 class="page-hero__title article-hero__title">{{ h1 or title }}</h1>
       <p class="article-meta">
         <span>Por <a href="/sobre-mi/">{{ site.name }}</a></span>
-        <span>Actualizada: <time datetime="{{ updated | dateIso }}">{{ updated | dateEs }}</time></span>
+        <span>Actualizada en <time datetime="{{ updated | dateIso }}">{{ updated | dateEs }}</time></span>
         <span>{{ content | readingTime }} min de lectura</span>
       </p>
       {%- if affiliate %}
@@ -31,13 +37,52 @@ criticalSections: ["Prosa (artículos y páginas legales)", "Guías: artículo"]
     </aside>
 
     <div class="article__main">
-      {%- if summary %}
+      {%- if verdict %}
+      <section class="verdict" aria-labelledby="veredicto-rapido">
+        <h2 class="verdict__title" id="veredicto-rapido">Veredicto rápido</h2>
+        <p class="verdict__lead">{{ verdict.lead }}</p>
+        <ul class="verdict__list">
+          {%- for v in verdict.items %}
+          <li class="verdict__item verdict__item--{{ v.tone or 'go' }}">
+            <span class="verdict__label mono">{{ v.label }}</span>
+            <p>{{ v.text }}</p>
+            {%- if v.href %}<a class="text-link" href="{{ v.href }}">Ver el detalle →</a>{% endif %}
+          </li>
+          {%- endfor %}
+        </ul>
+      </section>
+      {%- elif summary %}
       <div class="callout article__summary"><strong>En resumen:</strong> {{ summary }}</div>
       {%- endif %}
+
+      {%- if tool %}{% include "partials/tools/" + tool + ".njk" %}{% endif %}
 
       <div class="prose" data-article-body>
         {{ content | safe }}
       </div>
+
+      {%- if profiles %}
+      <section class="profiles" aria-labelledby="recomendaciones-por-perfil">
+        <h2 id="recomendaciones-por-perfil">Recomendaciones por perfil</h2>
+        <p class="profiles__lead">Si ya sabes que tu portátil admite el formato (compruébalo antes en el manual o en la ficha del fabricante), estas son las opciones que yo miraría según lo que busques.</p>
+        {%- for p in profiles %}
+        <div class="profile">
+          <h3 class="profile__label">{{ p.label }}</h3>
+          <p class="profile__who">{{ p.who }}</p>
+          {% product p.product %}
+        </div>
+        {%- endfor %}
+      </section>
+      {%- endif %}
+
+      {%- if caso %}
+      <section class="case-slot" aria-labelledby="un-caso-real">
+        <h2 id="un-caso-real">Un caso real</h2>
+        <div class="case-slot__box">
+          <p class="placeholder">[CASO REAL: aquí irá un trabajo anonimizado: el equipo y el síntoma, qué se comprobó, qué se cambió y cómo quedó.]</p>
+        </div>
+      </section>
+      {%- endif %}
 
       {%- if svc and site.isCommercial %}
       <aside class="article__service" aria-label="Servicio relacionado">

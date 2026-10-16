@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ site.lang }}" class="no-js">
+<html lang="{{ lang or site.lang }}" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -11,6 +11,11 @@
   <meta name="description" content="{{ pageDescription }}">
   {%- set canonical = (canonicalUrl or page.url) | absoluteUrl(site.url) %}
   <link rel="canonical" href="{{ canonical }}">
+  {#- Estructura para futuras traducciones: un hreflang por cada idioma con available: true (hoy solo el español) y x-default -#}
+  {%- for l in site.languages.items %}{% if l.available %}
+  <link rel="alternate" hreflang="{{ l.hreflang }}" href="{{ (l.url + page.url) | absoluteUrl(site.url) }}">
+  {%- endif %}{% endfor %}
+  <link rel="alternate" hreflang="x-default" href="{{ page.url | absoluteUrl(site.url) }}">
   {%- if noindex %}
   <meta name="robots" content="noindex, follow">
   {%- endif %}

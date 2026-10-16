@@ -1,0 +1,41 @@
+{#- Herramienta de la guía «Cómo acelerar un portátil lento»: cuatro preguntas y un veredicto razonado con enlace a su sección.
+    La lógica está en src/assets/js/modules/ampliar.js. Sin JavaScript no se muestra (el veredicto rápido de arriba cubre lo esencial). -#}
+<section class="tool" aria-labelledby="compensa-ampliar-tu-portatil" data-module="ampliar">
+  <h2 id="compensa-ampliar-tu-portatil">¿Compensa ampliar tu portátil?</h2>
+  <p class="tool__lead">Cuatro preguntas y un veredicto razonado. Es orientativo: no sustituye a mirar el equipo, pero te dice por dónde empezar.</p>
+  <form class="tool__form" data-form>
+      <fieldset class="tool__q">
+        <legend><span class="mono">1 de 4</span>¿Qué almacenamiento tiene?</legend>
+        <div class="tool__opts">
+          <label class="tool__opt"><input type="radio" name="disk" value="hdd"><span>Disco duro mecánico (HDD)</span></label>
+          <label class="tool__opt"><input type="radio" name="disk" value="ssd"><span>Ya tiene SSD</span></label>
+          <label class="tool__opt"><input type="radio" name="disk" value="nose"><span>No lo sé</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="tool__q">
+        <legend><span class="mono">2 de 4</span>¿Cuánta memoria RAM tiene?</legend>
+        <div class="tool__opts">
+          <label class="tool__opt"><input type="radio" name="ram" value="4"><span>4 GB o menos</span></label>
+          <label class="tool__opt"><input type="radio" name="ram" value="8"><span>8 GB</span></label>
+          <label class="tool__opt"><input type="radio" name="ram" value="16"><span>16 GB o más</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="tool__q">
+        <legend><span class="mono">3 de 4</span>¿Cómo está el resto del equipo?</legend>
+        <div class="tool__opts">
+          <label class="tool__opt"><input type="radio" name="cpu" value="ok"><span>Aceptable: el procesador, la batería y la pantalla aguantan</span></label>
+          <label class="tool__opt"><input type="radio" name="cpu" value="justo"><span>Muy justo: procesador limitado, batería agotada o pantalla pobre</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="tool__q">
+        <legend><span class="mono">4 de 4</span>¿Se calienta, hace ruido o se apaga solo?</legend>
+        <div class="tool__opts">
+          <label class="tool__opt"><input type="radio" name="heat" value="no"><span>No</span></label>
+          <label class="tool__opt"><input type="radio" name="heat" value="si"><span>Sí</span></label>
+        </div>
+      </fieldset>
+  </form>
+  <div class="tool__result" data-result aria-live="polite">
+    <p class="tool__hint" data-hint>Responde las cuatro preguntas para ver el veredicto.</p>
+  </div>
+</section>
