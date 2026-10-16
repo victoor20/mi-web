@@ -15,6 +15,8 @@ const paths = [
   "/guias/acelerar-portatil-lento-ssd-ram/",
   "/sobre-mi/",
   "/casos/windows-no-arrancaba/",
+  "/gracias/",
+  "/contacto/enviado/",
   "/privacidad/",
 ];
 
@@ -25,14 +27,30 @@ module.exports = {
       url: paths.map((p) => `http://localhost${p}`),
       numberOfRuns: 3,
     },
+    // /gracias/ y /contacto/enviado/ son noindex a propósito: Lighthouse les resta SEO por no poder indexarse,
+    // así que a esas dos no se les exige la nota de SEO (todo lo demás, sí).
     assert: {
-      assertions: {
-        "categories:accessibility": ["error", { minScore: 0.95 }],
-        "categories:best-practices": ["error", { minScore: 0.95 }],
-        "categories:seo": ["error", { minScore: 0.95 }],
-        "categories:performance": ["warn", { minScore: 0.85 }],
-        "cumulative-layout-shift": ["error", { maxNumericValue: 0.1 }],
-      },
+      assertMatrix: [
+        {
+          matchingUrlPattern: "^http://localhost/(?!gracias/|contacto/enviado/)",
+          assertions: {
+            "categories:accessibility": ["error", { minScore: 0.95 }],
+            "categories:best-practices": ["error", { minScore: 0.95 }],
+            "categories:seo": ["error", { minScore: 0.95 }],
+            "categories:performance": ["warn", { minScore: 0.85 }],
+            "cumulative-layout-shift": ["error", { maxNumericValue: 0.1 }],
+          },
+        },
+        {
+          matchingUrlPattern: "^http://localhost/(gracias|contacto/enviado)/",
+          assertions: {
+            "categories:accessibility": ["error", { minScore: 0.95 }],
+            "categories:best-practices": ["error", { minScore: 0.95 }],
+            "categories:performance": ["warn", { minScore: 0.85 }],
+            "cumulative-layout-shift": ["error", { maxNumericValue: 0.1 }],
+          },
+        },
+      ],
     },
     upload: { target: "filesystem", outputDir: ".lighthouseci" },
   },

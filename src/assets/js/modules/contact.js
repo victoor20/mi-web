@@ -3,6 +3,48 @@
 // Con JavaScript: un paso cada vez, barra de progreso, validación por paso y envío sin recargar.
 
 const MIN_SECONDS = 4; // menos que esto suele ser un bot
+const MAX_LINKS = 2; // más enlaces que esto en un mensaje es casi siempre spam
+
+// Erratas comunes en el dominio del correo → dominio que probablemente se quería escribir
+const TYPOS = {
+  "gmial.com": "gmail.com", "gmal.com": "gmail.com", "gmai.com": "gmail.com", "gmail.con": "gmail.com", "gmail.cm": "gmail.com", "gnail.com": "gmail.com", "gmail.comm": "gmail.com",
+  "hotmial.com": "hotmail.com", "hotmal.com": "hotmail.com", "hotmail.con": "hotmail.com", "hotmai.com": "hotmail.com", "hotmail.es.com": "hotmail.es",
+  "outlok.com": "outlook.com", "outlook.con": "outlook.com", "outloo.com": "outlook.com", "outlook.es.com": "outlook.es",
+  "yaho.com": "yahoo.es", "yaho.es": "yahoo.es", "yahoo.con": "yahoo.com", "yahooo.com": "yahoo.com", "yahoo.es.com": "yahoo.es",
+  "icloud.con": "icloud.com", "iclod.com": "icloud.com", "live.con": "live.com",
+};
+const EMAIL_RE = /^[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)*\.[A-Za-z]{2,}$/;
+const NAME_RE = /^\p{L}[\p{L} '’-]*$/u;
+const clean = (v) => v.replace(/\s+/g, " ").trim();
+const countLinks = (v) => (v.match(/(?:https?:\/\/|www\.)\S+/gi) || []).length;
+
+// Cada validador devuelve un mensaje de error o "" si el valor es válido (y, en el correo, una sugerencia opcional)
+const VALIDATORS = {
+  nombre(v) {
+    if (!v) return "Dime tu nombre para saber a quién responder.";
+    if (v.length < 2) return "El nombre es muy corto: pon al menos 2 letras.";
+    if (v.length > 60) return "El nombre es muy largo: máximo 60 caracteres.";
+    if (!NAME_RE.test(v)) return "Usa solo letras, espacios, guiones y apóstrofos.";
+    return "";
+  },
+  email(v) {
+    if (!v) return "Escribe tu correo para que pueda responderte.";
+    if (/\s/.test(v)) return "El correo no puede llevar espacios.";
+    if (v.length > 120 || !EMAIL_RE.test(v)) return "Ese correo no parece válido. Revisa que tenga la forma nombre@dominio.com.";
+    return "";
+  },
+  descripcion(v) {
+    if (v.length < 20) return `Cuéntame un poco más: faltan ${20 - v.length} caracteres para llegar al mínimo de 20.`;
+    if (v.length > 2000) return "El mensaje es demasiado largo: máximo 2000 caracteres.";
+    if (countLinks(v) > MAX_LINKS) return "Has incluido más de 2 enlaces. Por seguridad no los admito en el mensaje: quita alguno o cuéntamelo con palabras.";
+    return "";
+  },
+  equipo(v) {
+    if (v.length > 120) return "Este campo admite como máximo 120 caracteres.";
+    if (countLinks(v) > 0) return "Aquí basta con el modelo o el tipo de equipo, sin enlaces.";
+    return "";
+  },
+};
 
 export default function contact(form) {
   const steps = [...form.querySelectorAll("[data-step]")];
@@ -59,26 +101,88 @@ export default function contact(form) {
     if (focus && form.getBoundingClientRect().top < 0) form.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  // --- Errores junto al campo (anunciados al lector de pantalla con role="alert") y sugerencia de erratas en el correo
+  const errEl = (f) => form.querySelector(`[data-err="${f.name}"]`);
+  const setError = (f, msg, suggestion = "") => {
+    const el = errEl(f);
+    f.setAttribute("aria-invalid", String(Boolean(msg)));
+    if (!el) return;
+    el.textContent = "";
+    if (!msg) return;
+    el.append(msg);
+    if (suggestion) {
+      el.append(" ");
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "field__suggest";
+      btn.textContent = `¿Querías decir ${suggestion}?`;
+      btn.addEventListener("click", () => { f.value = suggestion; setError(f, ""); f.focus(); });
+      el.append(btn);
+    }
+  };
+  const acknowledged = new Set(); // correos con posible errata que la persona ha decidido mantener
+  const checkField = (f, { blocking = true } = {}) => {
+    const rule = VALIDATORS[f.name];
+    if (!rule) return true;
+    const value = f.name === "descripcion" ? clean(f.value) : clean(f.value);
+    if (f.name !== "descripcion") f.value = value; // recortar espacios al salir
+    let msg = rule(value);
+    if (!msg && f.name === "email") {
+      const domain = value.split("@")[1]?.toLowerCase();
+      const fix = TYPOS[domain];
+      if (fix && !acknowledged.has(value)) {
+        const suggestion = value.split("@")[0] + "@" + fix;
+        setError(f, "Ese dominio parece una errata.", suggestion);
+        if (blocking) acknowledged.add(value); // la primera vez frena; si insiste con el mismo correo, se respeta
+        return !blocking;
+      }
+    }
+    if (f.required === false && !value) msg = "";
+    setError(f, msg);
+    return !msg;
+  };
+  const updateCounter = (f) => {
+    const el = form.querySelector(`[data-count-for="${f.name}"]`);
+    if (!el) return;
+    const n = clean(f.value).length;
+    el.textContent = `${n} / 2000 · mínimo 20`;
+    el.classList.toggle("is-ok", n >= 20 && n <= 2000);
+  };
+  // Al salir del campo se valida; al escribir, se corrige el error en cuanto deja de serlo
+  form.querySelectorAll("input, textarea").forEach((f) => {
+    if (!VALIDATORS[f.name]) return;
+    f.addEventListener("blur", () => { if (f.value || f.dataset.touched) checkField(f, { blocking: false }); f.dataset.touched = "1"; });
+    f.addEventListener("input", () => {
+      if (f.name === "descripcion") updateCounter(f);
+      if (f.getAttribute("aria-invalid") === "true") checkField(f, { blocking: false });
+    });
+  });
+  const desc = form.querySelector("#descripcion");
+  if (desc) updateCounter(desc);
+
   const validate = (step) => {
     const fields = [...step.querySelectorAll("input, textarea")].filter((f) => f.type !== "hidden" && f.name !== "botcheck");
     let ok = true;
+    let first = null;
     const radios = new Set();
     fields.forEach((f) => {
       if (f.type === "radio") { radios.add(f.name); return; }
-      const valid = f.checkValidity() && (f.minLength <= 0 || f.value.trim().length >= f.minLength || !f.required);
-      f.setAttribute("aria-invalid", String(!valid));
-      if (!valid) ok = false;
+      if (f.type === "checkbox") {
+        const valid = f.checked || !f.required;
+        f.setAttribute("aria-invalid", String(!valid));
+        if (!valid) { ok = false; first ||= f; }
+        return;
+      }
+      if (!checkField(f)) { ok = false; first ||= f; }
     });
     radios.forEach((name) => {
-      const checked = step.querySelector(`input[name="${name}"]:checked`);
-      if (!checked) ok = false;
+      if (!step.querySelector(`input[name="${name}"]:checked`)) { ok = false; first ||= step.querySelector(`input[name="${name}"]`); }
     });
     const error = step.querySelector("[data-error]");
-    error.hidden = ok;
-    if (!ok) {
-      const firstBad = step.querySelector('[aria-invalid="true"]') || step.querySelector("input");
-      firstBad?.focus();
-    }
+    // Los mensajes van junto a cada campo; el aviso general solo se usa en los pasos de botones o casillas
+    const generic = !step.querySelector("[data-err]");
+    error.hidden = ok || !generic;
+    if (!ok) first?.focus();
     return ok;
   };
 
@@ -87,7 +191,7 @@ export default function contact(form) {
     const rows = [["Necesitas", data.get("servicio")], ["Síntoma", data.get("sintoma")], ["Equipo", data.get("equipo")], ["Urgencia", data.get("urgencia")], ["Contacto", [data.get("nombre"), data.get("email"), data.get("municipio")].filter(Boolean).join(" · ")]];
     summary.replaceChildren(...rows.filter(([, v]) => v).map(([k, v]) => {
       const row = document.createElement("div");
-      const dt = document.createElement("dt"); dt.className = "mono"; dt.textContent = k;
+      const dt = document.createElement("dt"); dt.textContent = k;
       const dd = document.createElement("dd"); dd.textContent = v;
       row.append(dt, dd);
       return row;
@@ -134,8 +238,26 @@ export default function contact(form) {
     submit.disabled = true;
     status.textContent = "Enviando…";
     try {
-      const payload = Object.fromEntries(new FormData(form));
-      delete payload.redirect;
+      const data = new FormData(form);
+      const tema = String(data.get("servicio") || "");
+      const nombre = String(data.get("nombre") || "");
+      // Web3Forms muestra los campos tal cual se llaman y en este orden
+      const payload = {
+        access_key: data.get("access_key"),
+        subject: `Nueva consulta · ${tema} · ${nombre}`,
+        from_name: "Web de Víctor Rocamora",
+        replyto: String(data.get("email") || ""),
+        "Nombre": nombre,
+        "Correo": data.get("email"),
+        "Tema": tema,
+        ...(data.get("sintoma") ? { "Síntoma": data.get("sintoma") } : {}),
+        ...(data.get("equipo") ? { "Equipo": data.get("equipo") } : {}),
+        ...(data.get("urgencia") ? { "Urgencia": data.get("urgencia") } : {}),
+        ...(data.get("municipio") ? { "Municipio": data.get("municipio") } : {}),
+        "Descripción": clean(String(data.get("descripcion") || "")),
+        "Origen": data.get("origen"),
+        "Privacidad": data.get("privacidad"),
+      };
       const res = await fetch(form.action, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
@@ -143,7 +265,7 @@ export default function contact(form) {
       });
       const json = await res.json().catch(() => ({}));
       if (!res.ok || json.success === false) throw new Error(json.message || res.statusText);
-      window.umami?.track?.("solicitud-enviada", { servicio: payload.servicio, urgencia: payload.urgencia, origen: payload.origen });
+      window.umami?.track?.("solicitud-enviada", { servicio: tema, urgencia: payload["Urgencia"], origen: payload["Origen"] });
       location.href = "/contacto/enviado/";
     } catch (err) {
       submit.disabled = false;

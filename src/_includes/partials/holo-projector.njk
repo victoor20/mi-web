@@ -1,0 +1,38 @@
+{#- Holograma proyectado (tarjeta «Directo» de /contacto/): una pequeña base emisora con anillos finos, un haz de luz cian
+    translúcido hacia arriba y el logo VR flotando dentro, con líneas de escaneo, brillo de bordes, parpadeo ocasional y oscilación
+    de ±35°. SVG + CSS (sin Three.js). Solo anima mientras se ve (main.js pone .is-live en [data-lholo]); estático con reduced-motion. -#}
+{% macro holoProjector(id="hp") %}
+{%- set facetas = [
+  ["M35 5 L300 108 L120 143 Z", "#00d8fa"],
+  ["M120 143 L300 108 L487 425 L385 598 Z", "#1a94f8"],
+  ["M385 598 L487 425 L590 598 L487 780 Z", "#0a40f6"],
+  ["M487 425 L670 108 L766 290 L590 598 Z", "#0c8cf7"],
+  ["M670 108 L870 108 L766 290 Z", "#00d0f8"],
+  ["M870 108 A187 187 0 0 1 940 468 L735 480 L800 357 L850 357 A41 41 0 0 0 850 275 L780 275 Z", "#0b7ef5"],
+  ["M800 357 L935 470 L735 480 Z", "#22b6f8"],
+  ["M735 480 L940 480 L875 712 Z", "#0757f3"],
+  ["M940 480 L1135 830 L875 712 Z", "#1ca2f8"]
+] %}
+<div class="hproj" data-lholo aria-hidden="true">
+  <svg class="hproj__base" viewBox="0 0 120 150" width="96" height="120" focusable="false">
+    <defs>
+      <linearGradient id="{{ id }}-beam" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#00d0f8" stop-opacity="0.5"/><stop offset="0.6" stop-color="#00d0f8" stop-opacity="0.12"/><stop offset="1" stop-color="#00d0f8" stop-opacity="0"/></linearGradient>
+    </defs>
+    <path class="hproj__beam" d="M40 128 L14 18 H106 L80 128 Z" fill="url(#{{ id }}-beam)"/>
+    <ellipse class="hproj__disk" cx="60" cy="132" rx="30" ry="7"/>
+    <ellipse class="hproj__ring hproj__ring--1" cx="60" cy="131" rx="38" ry="9"/>
+    <ellipse class="hproj__ring hproj__ring--2" cx="60" cy="130" rx="46" ry="11"/>
+  </svg>
+  <div class="hproj__logo">
+    <svg viewBox="20 0 1130 850" width="64" height="48" focusable="false">
+      <defs>
+        <clipPath id="{{ id }}-clip">{% for f in facetas %}<path d="{{ f[0] }}"/>{% endfor %}</clipPath>
+        <pattern id="{{ id }}-lines" width="40" height="28" patternUnits="userSpaceOnUse"><rect width="40" height="5" fill="#d6faff" fill-opacity="0.55"/></pattern>
+      </defs>
+      <g class="hproj__facets">{% for f in facetas %}<path d="{{ f[0] }}" fill="{{ f[1] }}"/>{% endfor %}</g>
+      <g class="hproj__edges">{% for f in facetas %}<path d="{{ f[0] }}"/>{% endfor %}</g>
+      <g clip-path="url(#{{ id }}-clip)"><rect class="hproj__scan" x="0" y="-60" width="1200" height="960" fill="url(#{{ id }}-lines)"/></g>
+    </svg>
+  </div>
+</div>
+{% endmacro %}
