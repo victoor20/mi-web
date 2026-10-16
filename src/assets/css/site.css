@@ -1420,7 +1420,7 @@
 .step--drop .step__mark { color: #ff8a7a; }
 .step--skip .step__mark { color: var(--text-3); }
 .cand__reason { grid-column: 1 / -1; color: var(--text-2); font-size: 0.93rem; line-height: 1.5; transition: opacity 0.5s; }
-.cand--out { opacity: 0.78; }
+.cand--out { border-color: rgb(255 138 122 / 0.3); }
 .cand--pick { border-color: var(--vr-cyan); box-shadow: 0 0 0 4px rgb(0 208 248 / 0.1), 0 0 26px rgb(0 208 248 / 0.18); }
 .cand--pick .cand__reason { color: var(--text); }
 .demo-f__pick { display: grid; gap: 0.3rem; margin-top: 1.25rem; padding: 0.9rem 1.1rem; border-left: 2px solid var(--vr-cyan); background: rgb(0 208 248 / 0.07); border-radius: 0 var(--radius) var(--radius) 0; transition: opacity 0.5s; }
@@ -1431,8 +1431,8 @@
 .demo-f__panel.is-armed .step.is-shown { opacity: 1; }
 .demo-f__panel.is-armed .demo-f__head li { color: var(--text-3); }
 .demo-f__panel.is-armed .demo-f__head li.is-now { color: #fff; }
-.demo-f__panel.is-armed .cand--out { opacity: 1; }
-.demo-f__panel.is-armed .cand--out.is-out { opacity: 0.78; transform: translateY(5px); border-color: rgb(255 138 122 / 0.45); }
+.demo-f__panel.is-armed .cand--out { border-color: var(--line-strong); }
+.demo-f__panel.is-armed .cand--out.is-out { transform: translateY(5px); border-color: rgb(255 138 122 / 0.45); }
 .demo-f__panel.is-armed .cand--pick { border-color: var(--line-strong); box-shadow: none; }
 .demo-f__panel.is-armed .cand--pick.is-pick { border-color: var(--vr-cyan); box-shadow: 0 0 0 4px rgb(0 208 248 / 0.1), 0 0 26px rgb(0 208 248 / 0.18); }
 .demo-f__panel.is-armed .cand__reason, .demo-f__panel.is-armed .demo-f__pick { opacity: 0; }
