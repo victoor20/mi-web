@@ -54,7 +54,7 @@ export default {
   },
 
   // Formulario (Web3Forms) y anti-spam
-  web3formsKey: "[WEB3FORMS_ACCESS_KEY]",
+  web3formsKey: "7498a9e6-3158-410a-bc7b-51cc78486fad",
   // Cloudflare Turnstile: requiere plan Pro de Web3Forms. Vacío = desactivado.
   turnstileSiteKey: "",
 

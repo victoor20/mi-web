@@ -6,11 +6,12 @@ portfolioMeta:
   title: "Contactar · Víctor Rocamora"
   description: "Escríbeme en cuatro pasos cortos o directamente por correo. Te respondo en cuanto pueda."
 bodyClass: "page-contact"
-criticalSections: ["Contacto: cuestionario"]
+criticalSections: ["Contacto: cuestionario", "Logo holograma"]
 schema: "contacto"
 hideMobileCta: true
 ---
 {%- from "macros.njk" import faqSection %}
+{%- from "partials/logo-holo.njk" import logoHolo %}
 {%- set turnstile = site.turnstileSiteKey | isSet %}
 <header class="page-hero contact-hero">
   <div class="wrap">
@@ -156,10 +157,13 @@ hideMobileCta: true
           {%- endif %}
         </ol>
       </div>
-      <div class="contact__card">
-        <p class="kicker mono">Directo</p>
-        <p><a class="text-link" href="mailto:{{ site.email }}">{{ site.email }}</a></p>
-        <p><a class="text-link" href="{{ site.linkedin }}" rel="me noopener" target="_blank">LinkedIn ↗</a></p>
+      <div class="contact__card contact__card--direct">
+        <div class="contact__direct">
+          <p class="kicker mono">Directo</p>
+          <p><a class="text-link" href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+          <p><a class="text-link" href="{{ site.linkedin }}" rel="me noopener" target="_blank">LinkedIn ↗</a></p>
+        </div>
+        {{ logoHolo("lh-contacto", "sm") }}
       </div>
     </aside>
   </div>

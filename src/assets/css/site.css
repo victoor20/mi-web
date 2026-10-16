@@ -1104,13 +1104,17 @@
 /* Núcleo del holograma (compartido) */
 .jcore { overflow: visible; }
 @media (prefers-reduced-motion: no-preference) {
-  .jcore__orbit--a { transform-origin: 160px 160px; animation: orbit 18s linear infinite; }
+  /* La bolita recorre la elipse de forma continua (dos movimientos senoidales desfasados un cuarto de vuelta); solo mientras se ve */
+  .is-seen .jorb--x { animation: jorb-x 16s cubic-bezier(0.37, 0, 0.63, 1) infinite alternate; }
+  .is-seen .jorb--y { animation: jorb-y 16s cubic-bezier(0.37, 0, 0.63, 1) infinite alternate; animation-delay: -8s; }
   .jcore__orbit--b { transform-origin: 160px 160px; animation: orbit 40s linear infinite reverse; }
   .jcore__gem { transform-origin: 160px 160px; animation: float-gem 6s ease-in-out infinite; }
   .jcore__facet { animation: facet-shimmer 5s ease-in-out infinite; animation-delay: calc(var(--d) * 0.5s); }
   .jcore__eye { transform-origin: 160px 160px; animation: eye-pulse 3.2s ease-in-out infinite; }
 }
 @keyframes orbit { to { transform: rotate(360deg); } }
+@keyframes jorb-x { from { transform: translateX(-138px); } to { transform: translateX(138px); } }
+@keyframes jorb-y { from { transform: translateY(-42px); } to { transform: translateY(42px); } }
 @keyframes float-gem { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 @keyframes facet-shimmer { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
 @keyframes eye-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.75); opacity: 0.7; } }
@@ -1393,6 +1397,9 @@
 .contact__aside { display: grid; gap: 1rem; position: sticky; top: calc(var(--header-h) + 1.5rem); }
 .contact__card { padding: 1.25rem; border: 1px solid var(--line); border-radius: var(--radius-lg); background: rgb(6 11 21 / 0.75); color: var(--text-2); }
 .contact__card .kicker { margin-bottom: 0.75rem; }
+.contact__card--direct { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.contact__direct { min-width: 0; }
+.contact__card--direct .lholo--sm { width: 5rem; }
 .contact__next { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.5rem; }
 .contact__next li::marker { color: var(--vr-cyan); font-family: var(--font-mono); font-size: 0.85em; }
 @media (max-width: 900px) {
@@ -1425,6 +1432,36 @@
 }
 .thanks__card .actions { margin-top: 0.5rem; }
 .thanks__title { font-size: 1.35rem; font-weight: 680; letter-spacing: -0.015em; color: var(--text); }
+/* Cabecera en dos columnas: el agradecimiento y el logo holográfico grande */
+.thanks-hero__grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(1.5rem, 5vw, 4rem); align-items: center; }
+.thanks-hero__logo { display: grid; justify-items: center; }
+@media (max-width: 860px) { .thanks-hero__grid { grid-template-columns: minmax(0, 1fr); } .thanks-hero__logo { order: -1; } .thanks-hero__logo .lholo--lg { width: min(15rem, 70vw); } }
+/* Bloque principal, tres tarjetas iguales y firma */
+.thanks__main { padding: clamp(1.5rem, 4vw, 2.5rem); border: 1px solid var(--vr-cyan); border-radius: var(--radius-lg); background: linear-gradient(120deg, rgb(12 140 247 / 0.16), transparent 60%), rgb(6 11 21 / 0.9); box-shadow: 0 0 0 4px rgb(0 208 248 / 0.06), 0 0 36px rgb(0 208 248 / 0.12); }
+.thanks__main-title { font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.2rem); font-weight: 700; letter-spacing: -0.02em; color: var(--text); }
+.thanks__main p { margin-top: 0.6rem; max-width: 40rem; color: var(--text-2); }
+.thanks__main .actions { margin-top: 1.25rem; }
+.thanks__trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
+.thanks__tile { display: grid; align-content: start; gap: 0.6rem; padding: clamp(1.1rem, 2.5vw, 1.6rem); border: 1px solid var(--line); border-radius: var(--radius-lg); background: rgb(6 11 21 / 0.8); color: var(--text-2); transition: border-color 0.3s, transform 0.4s var(--ease-out); }
+.thanks__tile:hover, .thanks__tile:focus-within { border-color: var(--vr-cyan); transform: translateY(-3px); }
+.thanks__tile p { margin: 0; }
+.thanks__tile .share, .thanks__tile .actions { margin-top: 0.25rem; }
+.thanks__icon { display: block; width: 3rem; height: 3rem; color: var(--vr-cyan); }
+.thanks__icon .ico { width: 100%; height: 100%; stroke-width: 1.4; }
+.thanks__sign { margin-top: clamp(1.75rem, 4vw, 2.5rem); text-align: center; color: var(--text-2); font-size: 1.05rem; }
+.thanks__sign span { color: var(--vr-cyan); font-weight: 600; white-space: nowrap; }
+@media (max-width: 860px) { .thanks__trio { grid-template-columns: minmax(0, 1fr); } }
+/* Los iconos se animan al pasar el ratón o enfocar la tarjeta (estáticos con movimiento reducido) */
+@media (prefers-reduced-motion: no-preference) {
+  .thanks__tile:hover .ic-n, .thanks__tile:focus-within .ic-n { animation: ic-pulse 0.9s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .thanks__tile:hover .ic-n2, .thanks__tile:focus-within .ic-n2 { animation-delay: 0.15s; }
+  .thanks__tile:hover .ic-n3, .thanks__tile:focus-within .ic-n3 { animation-delay: 0.3s; }
+  .thanks__tile:hover .ic-card, .thanks__tile:focus-within .ic-card { animation: ic-tilt 1.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .thanks__tile:hover .ic-page, .thanks__tile:focus-within .ic-page { animation: ic-flip 1.2s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 50%; }
+}
+@keyframes ic-pulse { 50% { transform: scale(1.5); } }
+@keyframes ic-tilt { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-7deg); } 70% { transform: rotate(6deg); } }
+@keyframes ic-flip { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(-1); } }
 .share { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .share [hidden] { display: none; }
 .share__status { font-size: 0.88rem; color: var(--vr-cyan); min-height: 1.3em; }
@@ -2452,6 +2489,9 @@ a:hover .illo, article:hover .illo, a:focus-visible .illo { filter: drop-shadow(
 .holo__tomap { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.9rem; padding: 0.6rem 1.1rem; border: 1px solid var(--vr-cyan); border-radius: 999px; background: var(--vr-cyan); color: #04121f; font: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer; box-shadow: 0 0 0 0 rgb(0 208 248 / 0.5); transition: filter 0.25s, transform 0.25s; }
 .holo__tomap[hidden] { display: none; }
 .holo__tomap:hover { filter: brightness(1.1); transform: translateY(-1px); }
+/* Respira de forma continua y suave (ciclo de 2,5 s) hasta que se pulsa por primera vez */
+@media (prefers-reduced-motion: no-preference) { .holo__tomap.is-breathing { animation: tomap-breathe 2.5s ease-in-out infinite; } }
+@keyframes tomap-breathe { 0%, 100% { box-shadow: 0 0 6px 0 rgb(0 208 248 / 0.35); filter: brightness(1); } 50% { box-shadow: 0 0 24px 5px rgb(0 208 248 / 0.65); filter: brightness(1.12); } }
 .holo__tomap__arrow { display: inline-block; }
 @media (prefers-reduced-motion: no-preference) {
   .holo__tomap.is-new { animation: tomap-pulse 1.4s ease-out 1; }
@@ -2526,3 +2566,41 @@ a:hover .illo, article:hover .illo, a:focus-visible .illo { filter: drop-shadow(
 @keyframes idle-flash { 0%, 75%, 100% { filter: none; } 85% { filter: brightness(1.8) drop-shadow(0 0 6px rgb(0 208 248 / 0.9)); } }
 @keyframes idle-scan { from { top: 0; } 50% { top: 82%; } to { top: 0; } }
 @keyframes idle-step { 0%, 15%, 100% { color: var(--text-3); border-color: var(--line); background: transparent; } 5%, 10% { color: var(--vr-cyan); border-color: var(--vr-cyan); background: rgb(0 208 248 / 0.08); } }
+
+/* ---------- Logo holograma ---------- */
+.sent { display: grid; justify-items: center; text-align: center; gap: 0.5rem; }
+.sent .lholo { margin-bottom: 0.75rem; }
+.sent__title { max-width: 20ch; margin-inline: auto; }
+.sent .page-hero__intro { margin-inline: auto; }
+.sent__spam { max-width: 38rem; color: var(--text-2); }
+.sent .actions { justify-content: center; }
+.lholo { position: relative; display: inline-block; perspective: 900px; line-height: 0; flex: none; }
+.lholo svg { display: block; width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 0 12px rgb(0 208 248 / 0.35)); }
+.lholo--sm { width: 7.5rem; }
+.lholo--md { width: min(15rem, 62vw); }
+.lholo--lg { width: min(26rem, 100%); }
+.lholo__facet { fill-opacity: 0.8; }
+.lholo__edge { fill: none; stroke: #8cecff; stroke-opacity: 0.7; stroke-width: 6; stroke-linejoin: round; }
+.lholo__scan { pointer-events: none; }
+.lholo__ring { position: absolute; left: 50%; top: 50%; width: 100%; aspect-ratio: 1; margin: -50% 0 0 -50%; border: 2px solid var(--vr-cyan); border-radius: 50%; opacity: 0; pointer-events: none; }
+@media (prefers-reduced-motion: no-preference) {
+  /* Giro lento sobre su eje, brillo y línea de escaneo: solo mientras se ve (main.js pone .is-live) */
+  .lholo.is-live svg { animation: lholo-spin 22s linear infinite, lholo-glow 5s ease-in-out infinite; }
+  .lholo.is-live .lholo__scan { animation: lholo-scan 4.4s linear infinite; }
+  /* Se materializa: se dibuja el contorno y se rellena de luz */
+  .lholo--draw .lholo__edge { stroke-dasharray: 1; stroke-dashoffset: 1; animation: lholo-draw 1.7s ease-out 0.2s forwards; }
+  .lholo--draw .lholo__facet { opacity: 0; animation: lholo-fill 1s ease-out calc(1.2s + var(--i) * 0.08s) forwards; }
+  .lholo--draw.is-live svg { animation-delay: 2.8s, 0s; }
+  /* Recibido: destello y anillos que se expanden */
+  .lholo--recv svg { animation: lholo-flash 1.3s ease-out 1; }
+  .lholo--recv .lholo__ring { animation: lholo-ring 1.6s ease-out 0.15s forwards; }
+  .lholo--recv .lholo__ring--2 { animation-delay: 0.45s; }
+  .lholo--recv.is-live svg { animation: lholo-flash 1.3s ease-out 1, lholo-spin 22s linear infinite 1.6s, lholo-glow 5s ease-in-out infinite 1.6s; }
+}
+@keyframes lholo-spin { to { transform: rotateY(360deg); } }
+@keyframes lholo-glow { 0%, 100% { filter: drop-shadow(0 0 10px rgb(0 208 248 / 0.3)); } 50% { filter: drop-shadow(0 0 22px rgb(0 208 248 / 0.6)); } }
+@keyframes lholo-scan { from { transform: translateY(0); } to { transform: translateY(1010px); } }
+@keyframes lholo-draw { to { stroke-dashoffset: 0; } }
+@keyframes lholo-fill { to { opacity: 1; } }
+@keyframes lholo-flash { 0% { filter: brightness(3) drop-shadow(0 0 40px #9ef2ff); } 100% { filter: brightness(1) drop-shadow(0 0 12px rgb(0 208 248 / 0.35)); } }
+@keyframes lholo-ring { 0% { transform: scale(0.25); opacity: 0.9; } 100% { transform: scale(1.9); opacity: 0; } }

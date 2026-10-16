@@ -7,23 +7,27 @@ portfolioMeta:
   description: "Un agradecimiento personal y algunas formas de seguir en contacto."
 noindex: true
 bodyClass: "page-thanks"
-criticalSections: ["Gracias"]
+criticalSections: ["Gracias", "Logo holograma"]
 ---
 {%- set reviews = site.googleReviewsUrl | isSet %}
+{%- from "partials/logo-holo.njk" import logoHolo %}
+{%- from "partials/icons.njk" import icon %}
 <header class="page-hero thanks-hero">
-  <div class="wrap">
-    {%- if site.isCommercial %}
-    <p class="kicker mono"><span class="spark" aria-hidden="true"></span> Desde tu informe</p>
-    <h1 class="page-hero__title">Gracias por confiar en mí.</h1>
-    <p class="page-hero__intro">Espero que tu equipo vuelva a ir como debe. Si llegas desde el informe del trabajo, aquí tienes lo que puedes hacer a partir de ahora.</p>
-    {%- else %}
-    <p class="kicker mono"><span class="spark" aria-hidden="true"></span> Gracias</p>
-    <h1 class="page-hero__title">Gracias de verdad.</h1>
-    <p class="page-hero__intro">Gracias por la confianza y por dedicarme un rato. Espero haber podido echarte una mano; aquí tienes algunas formas de seguir en contacto.</p>
-    {%- endif %}
+  <div class="wrap thanks-hero__grid">
+    <div class="thanks-hero__copy">
+      {%- if site.isCommercial %}
+      <h1 class="page-hero__title">Gracias por confiar en mí.</h1>
+      <p class="page-hero__intro">Espero que tu equipo vuelva a ir como debe. Si llegas desde el informe del trabajo, aquí tienes lo que puedes hacer a partir de ahora.</p>
+      {%- else %}
+      <h1 class="page-hero__title">Gracias de verdad.</h1>
+      <p class="page-hero__intro">Gracias por la confianza y por dedicarme un rato. Espero haber podido echarte una mano; aquí tienes algunas formas de seguir en contacto.</p>
+      {%- endif %}
+    </div>
+    <div class="thanks-hero__logo">{{ logoHolo("lh-gracias", "lg", "draw") }}</div>
   </div>
 </header>
 
+{%- if site.isCommercial %}
 <section class="section thanks" data-module="share">
   <div class="wrap thanks__grid">
     <article class="thanks__card thanks__card--wide">
@@ -85,3 +89,43 @@ criticalSections: ["Gracias"]
     </article>
   </div>
 </section>
+{%- else %}
+<section class="section thanks" data-module="share">
+  <div class="wrap">
+    <article class="thanks__main">
+      <h2 class="thanks__main-title">¿Algo pendiente?</h2>
+      <p>Si algo no ha quedado como esperabas o te ha surgido una duda, dímelo. Prefiero saberlo cuanto antes.</p>
+      <div class="actions"><a class="btn btn--primary btn--lg" href="/contacto/?origen=gracias" data-magnetic>Escribirme</a></div>
+    </article>
+
+    <div class="thanks__trio">
+      <article class="thanks__tile">
+        <span class="thanks__icon">{{ icon("compartir") }}</span>
+        <h2 class="thanks__title">Comparte la web</h2>
+        <p>Si conoces a alguien al que le pueda venir bien, pásale la web.</p>
+        {%- set shareText = "Te paso la web de Víctor Rocamora, por si te sirve:" %}
+        <div class="share" data-share data-url="{{ site.url }}/" data-text="{{ shareText }}">
+          <button class="btn btn--ghost btn--sm" type="button" data-share-native hidden>Compartir…</button>
+          <a class="btn btn--ghost btn--sm" href="https://wa.me/?text={{ (shareText + ' ' + site.url + '/') | urlencode }}" rel="noopener" target="_blank" data-umami-event="recomendar-whatsapp">Enviar por WhatsApp ↗</a>
+          <button class="btn btn--ghost btn--sm" type="button" data-copy hidden>Copiar enlace</button>
+        </div>
+        <p class="share__status" data-share-status role="status" aria-live="polite"></p>
+      </article>
+      <article class="thanks__tile">
+        <span class="thanks__icon">{{ icon("contacto") }}</span>
+        <h2 class="thanks__title">Guarda mi contacto</h2>
+        <p>Añádeme a la agenda de tu móvil para tenerme a mano.</p>
+        <div class="actions"><a class="btn btn--ghost btn--sm" href="/assets/victor-rocamora.vcf" download data-umami-event="vcard">Descargar contacto</a></div>
+      </article>
+      <article class="thanks__tile">
+        <span class="thanks__icon">{{ icon("guias") }}</span>
+        <h2 class="thanks__title">Mientras tanto</h2>
+        <p>Si vas a comprar algo nuevo, quizá te sirvan las guías.</p>
+        <div class="actions"><a class="btn btn--ghost btn--sm" href="/guias/">Ver las guías</a></div>
+      </article>
+    </div>
+
+    <p class="thanks__sign">Si algo se queda en el tintero, ya sabes dónde encontrarme. <span>— Víctor</span></p>
+  </div>
+</section>
+{%- endif %}

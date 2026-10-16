@@ -9,13 +9,16 @@ portfolioMeta:
 noindex: true
 hideMobileCta: true
 bodyClass: "page-sent"
+criticalSections: ["Logo holograma"]
 ---
 {% from "macros.njk" import facetDivider %}
+{%- from "partials/logo-holo.njk" import logoHolo %}
 <header class="page-hero sent-hero">
-  <div class="wrap">
-    <p class="kicker mono"><span class="spark" aria-hidden="true"></span> Recibido</p>
-    <h1 class="page-hero__title">Gracias, ya tengo tu mensaje.</h1>
-    <p class="page-hero__intro">Lo leo con calma y te respondo por correo{{ " con los siguientes pasos" if site.isCommercial }}. Si no ves mi respuesta, revisa la carpeta de spam o escríbeme a <a class="text-link" href="mailto:{{ site.email }}">{{ site.email }}</a>.</p>
+  <div class="wrap sent">
+    {{ logoHolo("lh-enviado", "md", "recv") }}
+    <h1 class="page-hero__title sent__title">Recibido: tu mensaje ha llegado.</h1>
+    <p class="page-hero__intro">Lo leo con calma y te respondo por correo{{ " con los siguientes pasos" if site.isCommercial }}. Suelo hacerlo en cuanto puedo, aunque no puedo asegurar un plazo fijo.</p>
+    <p class="sent__spam">Si pasan unos días y no ves mi respuesta, mira la carpeta de spam. Y si no está ahí, escríbeme a <a class="text-link" href="mailto:{{ site.email }}">{{ site.email }}</a>.</p>
     <div class="actions">
       <a class="btn btn--primary" href="/">Volver al inicio</a>
       <a class="btn btn--ghost" href="/guias/">Mientras tanto, las guías</a>

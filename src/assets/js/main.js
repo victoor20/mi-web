@@ -220,6 +220,12 @@ document.querySelectorAll("[data-stages]").forEach((el) => {
   new IntersectionObserver(([e]) => el.classList.toggle("is-live", e.isIntersecting)).observe(el);
 });
 
+/* ---------- Logo holograma: gira y escanea solo mientras se ve ---------- */
+document.querySelectorAll("[data-lholo]").forEach((el) => {
+  if (reduceMotion.matches || !("IntersectionObserver" in window)) return;
+  new IntersectionObserver(([e]) => el.classList.toggle("is-live", e.isIntersecting)).observe(el);
+});
+
 /* ---------- Tres pasos (/lo-que-se-hacer/): el destello de las líneas corre solo mientras se ve ---------- */
 const steps3 = document.querySelector("[data-steps3]");
 if (steps3 && "IntersectionObserver" in window) {
