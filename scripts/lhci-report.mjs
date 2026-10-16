@@ -22,7 +22,7 @@ for (const f of fs.readdirSync(dir).filter((n) => /^lhr-.*\.json$/.test(n))) {
   rows.set(path, row);
   // Qué elementos se desplazan (solo si el CLS es apreciable)
   const shifts = r.audits["layout-shifts"]?.details?.items || [];
-  if (r.audits["cumulative-layout-shift"].numericValue > 0.05) {
+  if (r.audits["cumulative-layout-shift"].numericValue > 0.01) {
     const top = shifts.slice(0, 4).map((i) => `${i.node?.selector || i.node?.nodeLabel || "?"} (${Number(i.score).toFixed(3)})`).join(" ; ");
     console.log(`::warning title=LHCI CLS ${path}::${r.audits["cumulative-layout-shift"].numericValue.toFixed(3)} → ${top}`);
   }

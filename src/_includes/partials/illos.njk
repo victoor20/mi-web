@@ -89,6 +89,18 @@
   <path class="f" d="M100 12 L156 32 V68 C156 96 130 116 100 128 Z"/>
   <g class="i-pop" style="--d:.7s"><rect class="h" x="82" y="62" width="36" height="30" rx="4"/><path class="h" d="M88 62 V52 C88 40 112 40 112 52 V62"/><circle class="a" cx="100" cy="76" r="3.5"/><path class="a" d="M100 80 V85"/></g>
   <circle class="a i-ring" style="--d:1.2s" cx="100" cy="72" r="46"/>
+{%- elif name == "flujo" %}
+  <rect class="s i-pop" style="--d:.1s" x="14" y="52" width="40" height="36" rx="6"/>
+  <path class="a i-draw" pathLength="1" style="--d:.35s" d="M54 70 H80"/>
+  <rect class="h i-pop" style="--d:.6s" x="80" y="48" width="44" height="44" rx="22"/>
+  <path class="a i-draw" pathLength="1" style="--d:.85s" d="M124 70 H146"/>
+  <rect class="s i-pop" style="--d:1.1s" x="146" y="52" width="40" height="36" rx="6"/>
+  <path class="h i-draw" pathLength="1" style="--d:1.3s" d="M156 70 l7 7 l13 -14"/>
+{%- elif name == "perfil" %}
+  <circle class="s i-pop" style="--d:.1s" cx="70" cy="52" r="18"/>
+  <path class="s i-draw" pathLength="1" style="--d:.3s" d="M38 112 C38 86 102 86 102 112"/>
+  <path class="a i-draw" pathLength="1" style="--d:.6s" d="M120 112 V92 M140 112 V78 M160 112 V62"/>
+  <path class="h i-draw" pathLength="1" style="--d:.9s" d="M118 80 L140 66 L162 48"/>
 {%- elif name == "paso-causa" %}
   <rect class="s" x="34" y="30" width="96" height="72" rx="6"/>
   <path class="f" d="M34 102 L130 30 V102 Z"/>

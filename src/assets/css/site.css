@@ -901,117 +901,118 @@
 /* ---------- Laboratorio ---------- */
 .kicker a { color: inherit; text-decoration: none; }
 .kicker a:hover { text-decoration: underline; text-underline-offset: 3px; }
-.anatomy__tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; }
-.anatomy__tabs[hidden] { display: flex; visibility: hidden; }
-.anatomy__tab {
-  padding: 0.7rem 1rem;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius);
-  background: rgb(6 11 21 / 0.7);
-  cursor: pointer;
-  font-weight: 560;
-  transition: border-color 0.25s, background-color 0.25s, color 0.25s;
+/* Simulador «Anatomía de una automatización»: avanza fase a fase con «Siguiente» / «Anterior» */
+.sim { margin-top: clamp(1.5rem, 4vw, 2.25rem); }
+.sim__tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.sim__badge { margin-top: 0.9rem; color: var(--text-3); font-size: 0.9rem; }
+.sim__badge strong { color: var(--vr-cyan); font-weight: 600; }
+.js .sim__scenario:not(.is-on) { display: none; }
+.sim__scenario { margin-top: 1.25rem; padding: clamp(1.1rem, 3vw, 1.75rem); border: 1px solid var(--line-strong); border-radius: var(--radius-lg); background: rgb(6 11 21 / 0.85); }
+.sim__scenario + .sim__scenario { margin-top: 1.5rem; }
+.sim__kind { display: inline-block; padding: 0.2rem 0.75rem; border: 1px solid rgb(0 208 248 / 0.4); border-radius: 999px; color: var(--vr-cyan); font-size: 0.85rem; }
+.sim__kind--rules { border-color: var(--vr-azure); color: #9ec0ff; }
+.sim__samples { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; margin-top: 1rem; }
+.sim__sample { display: grid; gap: 0.25rem; padding: 0.7rem 0.85rem; border: 1px solid var(--line-strong); border-radius: var(--radius); background: transparent; color: var(--text); font: inherit; font-size: 0.92rem; text-align: left; line-height: 1.35; cursor: pointer; transition: border-color 0.25s, background-color 0.25s; }
+.sim__sample:hover { border-color: var(--vr-cyan); }
+.sim__sample[aria-pressed="true"] { border-color: var(--vr-cyan); background: rgb(12 140 247 / 0.14); }
+.sim__sample:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.sim__sample-tag { color: var(--vr-cyan); font-size: 0.8rem; font-weight: 600; }
+.sim__track { --p: 0; position: relative; list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.75rem; }
+.sim__scenario { --p: 0; }
+.sim__track::before, .sim__track::after { content: ""; position: absolute; left: 12.5%; top: 9px; height: 2px; border-radius: 2px; }
+.sim__track::before { right: 12.5%; background: var(--line-strong); }
+.sim__track::after { width: calc(75% * var(--p)); background: linear-gradient(90deg, var(--vr-electric), var(--vr-cyan)); box-shadow: 0 0 10px rgb(0 208 248 / 0.5); transition: width 0.5s var(--ease-out); }
+.sim__node { position: relative; z-index: 1; display: grid; justify-items: center; gap: 0.3rem; text-align: center; }
+.sim__dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--line-strong); background: var(--bg); transition: border-color 0.35s, background-color 0.35s, box-shadow 0.35s; }
+.sim__name { font-weight: 650; font-size: 0.98rem; }
+.sim__hint { color: var(--text-2); font-size: 0.82rem; line-height: 1.35; }
+.js .sim.is-ready .sim__node.is-done .sim__dot { border-color: var(--vr-cyan); background: rgb(0 208 248 / 0.35); }
+.js .sim.is-ready .sim__node.is-on .sim__dot { border-color: var(--vr-cyan); background: var(--vr-cyan); box-shadow: 0 0 0 5px rgb(0 208 248 / 0.18), 0 0 18px rgb(0 208 248 / 0.6); }
+.js .sim.is-ready .sim__node.is-on .sim__name { color: var(--vr-cyan); }
+.sim__panel { margin-top: 1.25rem; }
+.sim__body + .sim__body { margin-top: 1rem; }
+.js .sim.is-ready .sim__body:not(.is-current) { display: none; }
+.js .sim.is-ready .sim__body + .sim__body { margin-top: 0; }
+.sim__body { padding: 1rem 1.15rem; border: 1px solid var(--line); border-left: 2px solid var(--vr-cyan); border-radius: var(--radius); background: rgb(0 208 248 / 0.04); color: var(--text-2); line-height: 1.55; }
+.js .sim.is-ready .sim__body.is-current { animation: panel-in 0.35s var(--ease-out); }
+.sim__body p + p, .sim__body p + div, .sim__body div + p { margin-top: 0.6rem; }
+.sim__body strong { color: var(--text); }
+.sim__what { color: var(--vr-cyan); font-size: 0.85rem; font-weight: 600; }
+.sim__mail, .sim__doc, .sim__invoice { padding: 0.75rem 0.9rem; border: 1px solid var(--line-strong); border-radius: var(--radius); background: rgb(6 11 21 / 0.9); color: var(--text); }
+.sim__invoice-title { font-weight: 650; margin-bottom: 0.5rem; }
+.sim__invoice dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 0.4rem 1rem; margin: 0; }
+.sim__invoice dt { color: var(--text-3); font-size: 0.82rem; }
+.sim__invoice dd { margin: 0; font-weight: 600; }
+.sim__note { color: var(--text-3); font-size: 0.9rem; }
+.sim__alert { padding: 0.6rem 0.8rem; border-left: 2px solid #ff8a7a; background: rgb(255 138 122 / 0.1); border-radius: 0 var(--radius) var(--radius) 0; color: var(--text); }
+.sim__quote { padding: 0.6rem 0.8rem; border-left: 2px solid var(--vr-azure); background: rgb(12 140 247 / 0.08); border-radius: 0 var(--radius) var(--radius) 0; color: var(--text); font-style: italic; }
+.sim__quote span, .sim__points span { color: var(--text-3); font-style: normal; font-size: 0.88rem; }
+.sim__points { margin: 0.5rem 0 0; padding-left: 1.25rem; display: grid; gap: 0.3rem; color: var(--text); }
+.sim__choices { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+.sim__result { color: var(--text) !important; font-weight: 600; }
+.sim__sheet { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.sim__sheet th, .sim__sheet td { padding: 0.4rem 0.6rem; border: 1px solid var(--line); text-align: left; white-space: nowrap; }
+.sim__sheet th { color: var(--text-3); font-weight: 500; }
+.sim__sheet .is-new td { color: #fff; background: rgb(0 208 248 / 0.12); border-color: rgb(0 208 248 / 0.45); }
+.sim__controls { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-top: 1rem; }
+.sim__controls[hidden] { display: flex; visibility: hidden; }
+.sim__controls .btn:disabled { opacity: 0.45; cursor: default; }
+.sim__count { flex: 1; text-align: center; color: var(--text); font-weight: 600; font-size: 0.95rem; }
+.sim__wait { margin-top: 0.5rem; text-align: center; color: var(--text-2); font-size: 0.9rem; }
+.sim__how { margin-top: 1.25rem; padding: 0.9rem 1.1rem; border: 1px dashed var(--line-strong); border-radius: var(--radius); color: var(--text-2); }
+.sim__how p + p { margin-top: 0.25rem; }
+.sim__how strong { color: var(--text); }
+.sim__how-title { color: var(--vr-cyan); font-weight: 650; margin-bottom: 0.35rem; }
+.js .sim.is-ready .sim__how:not(.is-shown) { display: none; }
+@media (max-width: 760px) {
+  .sim__samples { grid-template-columns: minmax(0, 1fr); }
+  .sim__count { font-size: 0.85rem; }
+  .sim__track { grid-template-columns: minmax(0, 1fr); gap: 0.6rem; }
+  .sim__track::before, .sim__track::after { left: 9px; top: 10px; width: 2px; height: auto; }
+  .sim__track::before { bottom: 10px; right: auto; }
+  .sim__track::after { height: calc((100% - 20px) * var(--p)); width: 2px; bottom: auto; transition: height 0.5s var(--ease-out); }
+  .sim__node { grid-template-columns: 20px minmax(0, 1fr); justify-items: start; text-align: left; column-gap: 0.75rem; }
+  .sim__dot { grid-row: 1 / span 2; }
+  .sim__name, .sim__hint { grid-column: 2; }
 }
-.anatomy__tab:hover { border-color: var(--vr-cyan); }
-.anatomy__tab[aria-selected="true"] { border-color: var(--vr-cyan); background: rgb(12 140 247 / 0.14); color: #fff; }
-.pipe { margin-top: 1.5rem; }
-.pipe + .pipe { margin-top: 2.5rem; }
-.is-tabs .pipe + .pipe { margin-top: 1.5rem; }
-.pipe__title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.75rem; font-weight: 620; font-size: 1.1rem; }
-.pipe__title .mono { color: var(--vr-cyan); font-size: 0.66rem; }
-.is-tabs .pipe__title { display: none; }
-.pipe__stages {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.75rem;
-  margin-top: 1rem;
+@media (prefers-reduced-motion: reduce) {
+  .sim__track::after, .sim__dot { transition: none; }
+  .js .sim.is-ready .sim__body.is-current { animation: none; }
 }
-.pipe__stages::before {
-  content: "";
-  position: absolute;
-  left: 4%; right: 4%; top: 2.1rem;
-  height: 1px;
-  background: var(--line-strong);
-}
-/* Pulso de luz que viaja de Disparador a Resultado recorriendo las cuatro tarjetas */
-.pipe__stages::after {
-  content: "";
-  position: absolute;
-  top: calc(2.1rem - 3px);
-  left: 0;
-  width: 84px; height: 6px;
-  border-radius: 6px;
-  background: linear-gradient(90deg, transparent, var(--vr-cyan) 70%, #fff);
-  box-shadow: 0 0 18px 4px rgb(0 208 248 / 0.55);
-  opacity: 0;
-  z-index: 2;
-  pointer-events: none;
-}
-.is-running .pipe__stages::after { animation: pipe-pulse 2.4s linear forwards; }
-@keyframes pipe-pulse {
-  0% { left: 0; opacity: 0; }
-  6% { opacity: 1; }
-  94% { opacity: 1; }
-  100% { left: calc(100% - 84px); opacity: 0; }
-}
-.pipe__stage {
-  position: relative;
-  display: grid;
-  gap: 0.6rem;
-  align-content: start;
-  padding: 1.1rem;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius);
-  background: var(--bg-2);
-}
-/* Cada tarjeta se enciende cuando el pulso pasa por ella */
-.is-running .pipe__stage { animation: stage-lit 1.3s var(--ease-out) both; animation-delay: calc(var(--i) * 0.63s + 0.05s); }
-@keyframes stage-lit {
-  0% { border-color: var(--line-strong); background: var(--bg-2); }
-  14% { border-color: var(--vr-cyan); background: rgb(0 208 248 / 0.12); box-shadow: 0 0 0 4px rgb(0 208 248 / 0.14), 0 0 26px rgb(0 208 248 / 0.28); }
-  100% { border-color: var(--line-strong); background: var(--bg-2); box-shadow: none; }
-}
-.pipe__stage--gate { border-style: dashed; border-color: var(--vr-cyan); }
-.pipe__name { color: var(--vr-cyan); font-size: 0.66rem; }
-.pipe__text { color: var(--text-2); font-size: 0.95rem; }
 .anatomy__note { margin-top: 2rem; color: var(--text-3); max-width: 44rem; }
-@media (max-width: 860px) {
-  .pipe__stages { grid-template-columns: 1fr; }
-  .pipe__stages::before { left: 1.1rem; right: auto; top: 0; bottom: 0; width: 1px; height: auto; }
-  /* En vertical el pulso baja por la línea de la izquierda */
-  .pipe__stages::after { top: 0; left: calc(1.1rem - 3px); width: 6px; height: 84px; background: linear-gradient(180deg, transparent, var(--vr-cyan) 70%, #fff); }
-  .is-running .pipe__stages::after { animation-name: pipe-pulse-v; }
-  .pipe__stage { animation-delay: 0s; }
-}
-@keyframes pipe-pulse-v {
-  0% { top: 0; opacity: 0; }
-  6% { opacity: 1; }
-  94% { opacity: 1; }
-  100% { top: calc(100% - 84px); opacity: 0; }
-}
 
 .log-wrap { display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); gap: clamp(2rem, 6vw, 5rem); align-items: start; }
 .log-wrap__intro { position: sticky; top: calc(var(--header-h) + 2rem); }
-.log { position: relative; display: grid; gap: 0; border-left: 1px solid var(--line-strong); }
-.log__entry { position: relative; padding: 0 0 2rem clamp(1.25rem, 3vw, 2rem); }
-.log__entry::before {
-  content: "";
-  position: absolute;
-  left: -5px; top: 0.35rem;
-  width: 9px; height: 9px;
-  background: var(--bg);
-  border: 1px solid var(--vr-azure);
-  transform: rotate(45deg);
-}
-.log__entry--live::before { background: var(--vr-cyan); border-color: var(--vr-cyan); box-shadow: 0 0 12px var(--vr-cyan); }
-.log__status { color: var(--text-3); font-size: 0.66rem; }
-.log__entry--live .log__status { color: var(--vr-cyan); }
-.log__title { margin: 0.35rem 0 0.4rem; font-size: 1.2rem; font-weight: 650; letter-spacing: -0.015em; }
+.log-art { position: relative; width: min(100%, 15rem); aspect-ratio: 200 / 150; margin-top: 2rem; }
+.log-art__item { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; opacity: 0; transition: opacity 0.4s; }
+.log-art__item path, .log-art__item rect, .log-art__item circle { fill: none; stroke: var(--vr-azure); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.log-art__item .acc { stroke: var(--vr-cyan); }
+.log-art__item.is-active { opacity: 1; }
+.bitacora.is-armed .log-art__item path, .bitacora.is-armed .log-art__item rect, .bitacora.is-armed .log-art__item circle { stroke-dashoffset: 1; transition: stroke-dashoffset 1.4s var(--ease-io); }
+.bitacora.is-armed .log-art__item.is-active path, .bitacora.is-armed .log-art__item.is-active rect, .bitacora.is-armed .log-art__item.is-active circle { stroke-dashoffset: 0; }
+.log { --fill: 0px; position: relative; list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.log::before, .log::after { content: ""; position: absolute; left: 0; top: 0; width: 2px; margin-left: -1px; border-radius: 2px; }
+.log::before { bottom: 0; background: var(--line-strong); }
+.log::after { height: 100%; background: linear-gradient(180deg, var(--vr-electric), var(--vr-cyan)); box-shadow: 0 0 10px rgb(0 208 248 / 0.5); }
+.bitacora.is-armed .log::after { height: var(--fill); }
+.log__marker { position: absolute; left: 0; top: 0; z-index: 2; width: 18px; height: 18px; margin: -9px 0 0 -9px; color: var(--vr-cyan-hi); filter: drop-shadow(0 0 6px var(--vr-cyan)); pointer-events: none; display: none; }
+.bitacora.is-armed .log__marker { display: block; transform: translateY(var(--fill)); }
+.log__marker svg { width: 100%; height: 100%; fill: currentColor; }
+.log__entry { position: relative; padding: 0 0 2.25rem clamp(1.4rem, 3vw, 2rem); transition: opacity 0.4s; }
+.log__entry::before { content: ""; position: absolute; left: -5px; top: 0.45rem; width: 10px; height: 10px; background: var(--bg); border: 1px solid var(--vr-azure); transform: rotate(45deg); transition: background-color 0.4s, border-color 0.4s, box-shadow 0.4s; }
+.log__entry--live::before, .bitacora.is-static .log__entry::before, .bitacora:not(.is-armed) .log__entry::before, .bitacora.is-armed .log__entry.is-lit::before { background: var(--vr-cyan); border-color: var(--vr-cyan); box-shadow: 0 0 12px var(--vr-cyan); }
+.bitacora.is-armed .log__entry:not(.is-lit)::before { background: var(--bg); border-color: var(--vr-azure); box-shadow: none; }
+.log__status { display: inline-block; padding: 0.15rem 0.7rem; border: 1px solid var(--line-strong); border-radius: 999px; color: var(--text-2); font-size: 0.85rem; transition: border-color 0.4s, color 0.4s; }
+.log__entry--live .log__status, .bitacora.is-armed .log__entry.is-lit .log__status { border-color: var(--vr-cyan); color: var(--vr-cyan); }
+.log__title { margin: 0.55rem 0 0.4rem; font-size: 1.2rem; font-weight: 650; letter-spacing: -0.015em; }
 .log__title a { text-decoration: none; }
 .log__title a:hover { color: var(--vr-cyan); }
 .log__entry p { color: var(--text-2); max-width: 36rem; }
-@media (max-width: 860px) { .log-wrap { grid-template-columns: 1fr; } .log-wrap__intro { position: static; } }
+@media (max-width: 860px) { .log-wrap { grid-template-columns: 1fr; } .log-wrap__intro { position: static; } .log-art { display: none; } }
+@media (prefers-reduced-motion: reduce) { .log-art__item, .log__entry, .log__entry::before, .log__status { transition: none; } }
+
+/* Etiqueta superior en texto normal, pequeña y en color de acento */
+.label-accent { color: var(--vr-cyan); font-size: 0.92rem; font-weight: 600; }
 
 .jarvis-teaser__inner {
   display: grid;
@@ -1036,8 +1037,16 @@
   border-radius: var(--radius-lg);
   background: rgb(6 11 21 / 0.8);
 }
-.offer__card:first-child { border-left: 2px solid var(--vr-azure); }
-.offer__card .kicker { margin-bottom: 0; }
+.offer__card { position: relative; isolation: isolate; }
+.offer__card .label-accent { margin-bottom: 0; }
+.offer__icon { display: block; width: 6rem; margin-bottom: 0.25rem; }
+.offer__card .offer__links { align-items: center; }
+/* Brillo radial que sigue al cursor por el borde y el fondo (ofertas.js; solo puntero fino y sin movimiento reducido) */
+.offer__card.has-glow::before, .offer__card.has-glow::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 0.35s; }
+.offer__card.has-glow::before { z-index: -1; background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgb(0 208 248 / 0.1), transparent 60%); }
+.offer__card.has-glow::after { padding: 1px; background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgb(0 208 248 / 0.85), transparent 65%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+.offer__card.has-glow:hover::before, .offer__card.has-glow:hover::after { opacity: 1; }
 .offer__title { font-size: clamp(1.4rem, 1.15rem + 1vw, 1.9rem); font-weight: 680; letter-spacing: -0.02em; line-height: 1.15; }
 .offer__card p { color: var(--text-2); }
 .offer__links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; }
@@ -1655,7 +1664,20 @@
 @media (max-width: 760px) { .shots__grid { grid-template-columns: 1fr; } }
 
 /* ---------- Laboratorio: hoja de ruta ---------- */
-.roadmap__now { margin-top: 1rem; color: var(--vr-cyan); font-size: 0.72rem; }
+.roadmap__now { margin-top: 1rem; max-width: 40rem; color: var(--text-2); }
+.roadmap__bar { height: 6px; margin-top: 0.6rem; border-radius: 6px; background: var(--line-strong); overflow: hidden; }
+.roadmap__bar span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--vr-electric), var(--vr-cyan)); box-shadow: 0 0 10px rgb(0 208 248 / 0.5); transform-origin: left center; transform: scaleX(var(--v, 0)); }
+.roadmap__bar.is-armed span { transform: scaleX(0); transition: transform 1.4s var(--ease-out); }
+.roadmap__bar.is-armed.is-in span { transform: scaleX(var(--v, 0)); }
+.roadmap__use { margin-top: 0.6rem; color: var(--text); }
+.roadmap__use strong { color: var(--vr-cyan); font-weight: 600; }
+/* La fase actual, con un brillo de borde suave y lento (ambiente); con movimiento reducido, fijo */
+.roadmap__step--en-curso .demo { border-color: rgb(0 208 248 / 0.55); }
+@media (prefers-reduced-motion: no-preference) { .roadmap__step--en-curso .demo { animation: demo-glow 5s ease-in-out infinite alternate; } }
+@keyframes demo-glow { from { box-shadow: 0 0 0 0 rgb(0 208 248 / 0); } to { box-shadow: 0 0 0 3px rgb(0 208 248 / 0.12), 0 0 26px rgb(0 208 248 / 0.22); } }
+/* Inclinación leve al pasar el ratón (lib/tilt.js) */
+.tilt { transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform 0.6s var(--ease-out); }
+.tilt.is-tilting { transition: transform 0.12s linear; }
 .roadmap__path { --track-x: 14px; --track-pad: 3rem; position: relative; margin-top: clamp(1.5rem, 4vw, 2.5rem); }
 .roadmap__path .roadmap__list { position: relative; padding-left: var(--track-pad); }
 /* El camino: una línea que une las fases y se ilumina hasta el marcador */
@@ -1692,7 +1714,7 @@
 /* Cada fase: la explicación a un lado y la demostración al otro */
 .roadmap__row { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 1.5rem clamp(1.5rem, 4vw, 3rem); align-items: start; }
 .roadmap__head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.9rem; }
-.roadmap__num { color: var(--text-3); font-size: 0.66rem; }
+.roadmap__num { color: var(--text-2); font-size: 0.9rem; font-weight: 600; }
 .roadmap__status {
   padding: 0.2rem 0.55rem;
   border: 1px solid var(--line-strong);
@@ -1706,7 +1728,7 @@
 .roadmap__title { margin-top: 0.4rem; font-size: 1.35rem; font-weight: 680; letter-spacing: -0.02em; line-height: 1.15; }
 .roadmap__summary { margin-top: 0.4rem; color: var(--text-2); }
 .roadmap__detail { display: grid; gap: 1rem; margin-top: 1.1rem; color: var(--text-2); font-size: 0.95rem; }
-.roadmap__label { display: block; margin-bottom: 0.4rem; color: var(--vr-cyan); font-size: 0.62rem; }
+.roadmap__label { display: block; margin-bottom: 0.4rem; color: var(--vr-cyan); font-size: 0.9rem; font-weight: 600; }
 .roadmap__detail ul { padding-left: 1.1rem; list-style: disc; }
 .roadmap__detail li + li { margin-top: 0.3rem; }
 .roadmap__detail small { display: block; color: var(--text-3); font-size: 0.8rem; }

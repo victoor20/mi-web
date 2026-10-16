@@ -4,7 +4,7 @@
 // Posición del marcador ("progress"): la fase en la que estás y el porcentaje que llevas de ella.
 //   Ejemplo: { phase: 1, percent: 50 } = a mitad de la fase 1.
 //   Para terminar la fase 1 y empezar la 2: { phase: 2, percent: 0 }.
-// Cada fase muestra lo que aprendo ("learn"), los recursos ("resources") y los
+// Cada fase lleva una línea «Para qué sirve» en lenguaje llano ("use"), lo que aprendo ("learn"), los recursos ("resources") y los
 // proyectos que salen de ella ("projects"), junto a su demostración interactiva simulada ("demo": id del módulo
 // en src/assets/js/demos/ y título). Si una lista está vacía, esa parte no se muestra.
 export default {
@@ -18,6 +18,7 @@ export default {
   phases: [
     {
       title: "Python sólido",
+      use: "Es el idioma con el que se construye casi todo en IA: sin él, lo demás se queda en teoría.",
       summary: "La base de programación sobre la que se apoya todo lo demás.",
       state: "en-curso",
       demo: { id: "python", title: "Ejecuta un fragmento de Python" },
@@ -27,6 +28,7 @@ export default {
     },
     {
       title: "Cómo funcionan los LLMs",
+      use: "Entender qué hay detrás de un chat de IA para usarlo bien: qué puede hacer, cuánto cuesta y dónde falla.",
       summary: "APIs, prompts, tokens y contexto.",
       state: "pendiente",
       demo: { id: "tokens", title: "Así trocea un modelo tu frase" },
@@ -36,6 +38,7 @@ export default {
     },
     {
       title: "Agentes y RAG",
+      use: "Que la IA trabaje con tus documentos y use herramientas, diciendo de dónde saca cada dato.",
       summary: "LangGraph, RAG agéntico y memoria a largo plazo.",
       state: "pendiente",
       demo: { id: "rag", title: "Así responde un RAG, citando sus fuentes" },
@@ -49,6 +52,7 @@ export default {
     },
     {
       title: "Despliegue",
+      use: "Que lo que funciona en mi ordenador funcione también para otras personas, de forma estable.",
       summary: "Que lo construido salga de mi equipo.",
       state: "pendiente",
       demo: { id: "container", title: "Una petición entra en un contenedor" },
@@ -61,6 +65,7 @@ export default {
     },
     {
       title: "Modelos open source",
+      use: "Poder usar modelos que funcionan en un equipo propio, sin depender siempre de un servicio externo.",
       summary: "Trabajar con modelos abiertos a través de Hugging Face.",
       state: "pendiente",
       demo: { id: "quant", title: "Cuantización: menos bits, menos peso" },
@@ -73,6 +78,7 @@ export default {
     },
     {
       title: "Portfolio de proyectos en GitHub",
+      use: "Que cada cosa aprendida quede publicada y cualquiera pueda comprobarla.",
       summary: "En paralelo desde la fase 3: cada fase deja algo publicado.",
       state: "permanente",
       demo: { id: "repo", title: "Un repositorio de proyecto, por dentro" },

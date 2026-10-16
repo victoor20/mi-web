@@ -14,6 +14,7 @@ const paths = [
   "/guias/",
   "/guias/acelerar-portatil-lento-ssd-ram/",
   "/sobre-mi/",
+  "/casos/windows-no-arrancaba/",
   "/privacidad/",
 ];
 

@@ -1,6 +1,8 @@
 // Hoja de ruta: camino con un marcador que avanza al hacer scroll hasta la posición real
 // (fase y porcentaje en src/_data/roadmap.js) y una demostración simulada por fase, que se carga
 // solo cuando su fase se acerca a la pantalla. Sin JavaScript se ve todo el texto y las demos estáticas.
+import { tilt } from "../lib/tilt.js";
+
 export default function roadmap(root, { reduceMotion }) {
   const list = root.querySelector("[data-list]");
   const marker = root.querySelector("[data-marker]");
@@ -9,6 +11,16 @@ export default function roadmap(root, { reduceMotion }) {
   const percent = Number(root.dataset.percent) || 0;
 
   root.classList.add("is-ready");
+
+  // Barra de progreso de la fase actual: se rellena al entrar en pantalla
+  const bar = document.querySelector("[data-bar]");
+  if (bar && !reduceMotion && "IntersectionObserver" in window) {
+    bar.classList.add("is-armed");
+    const bio = new IntersectionObserver(([e]) => { if (e.isIntersecting) { bar.classList.add("is-in"); bio.disconnect(); } }, { threshold: 0.6 });
+    bio.observe(bar);
+  }
+  // Inclinación leve de las demostraciones al pasar el ratón (puntero fino)
+  root.querySelectorAll(".demo").forEach((d) => tilt(d, 4));
 
   // --- Demostraciones: un módulo por demo, carga diferida al entrar en pantalla
   const demos = [...root.querySelectorAll("[data-demo]")];

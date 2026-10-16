@@ -1,0 +1,159 @@
+{#- Simulador «Anatomía de una automatización» (/ia/). Cuatro escenarios; cada uno avanza fase a fase solo cuando el usuario pulsa
+    «Siguiente» o «Anterior» (src/assets/js/modules/simulador.js). Mecánicas genéricas por atributos:
+      data-step-body="0-3"           contenido de cada fase (con JS se ve solo el de la fase actual; sin JS, todos)
+      data-variant / data-pick-variant  muestras alternativas (los tres correos)
+      data-choice-group + data-choice   decisiones del usuario; data-show-if="grupo=valor" muestra lo que depende de ella
+      data-needs="grupo" o "grupo=valor" en una fase: «Siguiente» espera a que el usuario decida
+    Ejemplos inventados: sin marcas ni datos reales. -#}
+{%- set fases = [
+  { name: "Disparador", hint: "Lo que pone en marcha el flujo" },
+  { name: "Proceso", hint: "Donde se transforma el dato" },
+  { name: "Control humano", hint: "Una persona revisa lo dudoso" },
+  { name: "Resultado", hint: "Lo que queda hecho" }
+] %}
+{%- macro track(fases) %}
+<ol class="sim__track" aria-label="Fases de la automatización">
+  {%- for f in fases %}
+  <li class="sim__node" data-node="{{ loop.index0 }}"><span class="sim__dot" aria-hidden="true"></span><span class="sim__name">{{ f.name }}</span><span class="sim__hint">{{ f.hint }}</span></li>
+  {%- endfor %}
+</ol>
+{%- endmacro %}
+{%- macro controls() %}
+<div class="sim__controls" hidden data-controls>
+  <button class="btn btn--ghost btn--sm" type="button" data-prev>Anterior</button>
+  <p class="sim__count" data-count aria-live="polite">Fase 1 de 4: Disparador</p>
+  <button class="btn btn--primary btn--sm" type="button" data-next>Siguiente</button>
+</div>
+<p class="sim__wait" data-wait hidden>Decide en esta fase para seguir.</p>
+{%- endmacro %}
+{%- macro how(tool, first) %}
+<div class="sim__how" data-how>
+  <p class="sim__how-title">Cómo montarlo</p>
+  <p><strong>Herramienta:</strong> {{ tool }}</p>
+  <p><strong>Primer paso:</strong> {{ first }}</p>
+</div>
+{%- endmacro %}
+
+<div class="sim" data-module="simulador">
+  <div class="sim__tabs" role="group" aria-label="Elige una tarea">
+    <button class="chip" type="button" aria-pressed="true" data-scenario="correo">Clasificar el correo entrante</button>
+    <button class="chip" type="button" aria-pressed="false" data-scenario="facturas">Facturas a una hoja de cálculo</button>
+    <button class="chip" type="button" aria-pressed="false" data-scenario="resumir">Resumir documentos largos</button>
+    <button class="chip" type="button" aria-pressed="false" data-scenario="recordatorios">Recordatorios de fechas</button>
+  </div>
+  <p class="sim__badge"><strong>Ejemplo ilustrativo.</strong> Correos, facturas y documentos inventados.</p>
+
+  {#- ========== Correo ========== -#}
+  <section class="sim__scenario is-on" data-scenario-panel="correo" aria-label="Clasificar el correo entrante">
+    <p class="sim__kind">Con IA</p>
+    <div class="sim__samples" role="group" aria-label="Elige un correo de muestra">
+      <button class="sim__sample" type="button" aria-pressed="true" data-pick-variant="urgente"><span class="sim__sample-tag">Incidencia urgente</span>«El servidor no responde desde esta mañana»</button>
+      <button class="sim__sample" type="button" aria-pressed="false" data-pick-variant="factura"><span class="sim__sample-tag">Factura</span>«Factura de octubre»</button>
+      <button class="sim__sample" type="button" aria-pressed="false" data-pick-variant="ambiguo"><span class="sim__sample-tag">Ambiguo</span>«Una cosa rápida»</button>
+    </div>
+    {{ track(fases) }}
+    <div class="sim__panel">
+      <div data-variant="urgente">
+        <div class="sim__body" data-step-body="0"><p class="sim__what">Qué le pasa al dato</p><div class="sim__mail"><p><strong>Asunto:</strong> El servidor no responde desde esta mañana</p><p>«No podemos entrar en la aplicación y tenemos clientes esperando.»</p></div><p>Llega a la bandeja de trabajo y pone en marcha el flujo.</p></div>
+        <div class="sim__body" data-step-body="1"><p class="sim__what">Qué le pasa al dato</p><p>Un modelo de lenguaje lo lee y propone: <strong>Incidencia · prioridad alta</strong>, porque habla de un servicio caído y de clientes esperando.</p><p class="sim__note">Seguridad de la clasificación: alta.</p></div>
+        <div class="sim__body" data-step-body="2"><p class="sim__what">Qué le pasa al dato</p><p>La clasificación es clara, así que no hace falta revisarla. Queda registrada por si quieres comprobarla después.</p></div>
+        <div class="sim__body" data-step-body="3"><p class="sim__what">Qué le pasa al dato</p><p class="sim__result">Etiquetado como «Incidencia · alta» y aviso inmediato a quien está de guardia.</p></div>
+      </div>
+      <div data-variant="factura" hidden>
+        <div class="sim__body" data-step-body="0"><p class="sim__what">Qué le pasa al dato</p><div class="sim__mail"><p><strong>Asunto:</strong> Factura de octubre</p><p>«Adjunto la factura del mes. Cualquier duda, me dices.» · factura.pdf</p></div><p>Llega a la bandeja de trabajo y pone en marcha el flujo.</p></div>
+        <div class="sim__body" data-step-body="1"><p class="sim__what">Qué le pasa al dato</p><p>El modelo propone: <strong>Factura · prioridad normal</strong>, y detecta un PDF adjunto.</p><p class="sim__note">Seguridad de la clasificación: alta.</p></div>
+        <div class="sim__body" data-step-body="2"><p class="sim__what">Qué le pasa al dato</p><p>La clasificación es clara, así que no hace falta revisarla.</p></div>
+        <div class="sim__body" data-step-body="3"><p class="sim__what">Qué le pasa al dato</p><p class="sim__result">Etiquetado como «Factura» y el PDF va a la carpeta de facturas pendientes.</p></div>
+      </div>
+      <div data-variant="ambiguo" hidden>
+        <div class="sim__body" data-step-body="0"><p class="sim__what">Qué le pasa al dato</p><div class="sim__mail"><p><strong>Asunto:</strong> Una cosa rápida</p><p>«¿Podemos hablar del tema de la semana pasada? Creo que hay algo que no cuadra.»</p></div><p>Llega a la bandeja de trabajo y pone en marcha el flujo.</p></div>
+        <div class="sim__body" data-step-body="1"><p class="sim__what">Qué le pasa al dato</p><p>El modelo duda: podría ser una consulta, una incidencia o una factura. Como la seguridad es baja, <strong>no decide solo</strong>.</p></div>
+        <div class="sim__body" data-step-body="2" data-needs="cat"><p class="sim__what">Qué le pasa al dato</p><p>Te lo pasa a ti con lo que ha visto. ¿Qué categoría le pones?</p>
+          <div class="sim__choices" data-choice-group="cat">
+            <button class="chip" type="button" aria-pressed="false" data-choice="consulta">Consulta</button>
+            <button class="chip" type="button" aria-pressed="false" data-choice="incidencia">Incidencia</button>
+            <button class="chip" type="button" aria-pressed="false" data-choice="factura">Factura</button>
+          </div>
+        </div>
+        <div class="sim__body" data-step-body="3"><p class="sim__what">Qué le pasa al dato</p>
+          <p class="sim__result" data-show-if="cat=consulta">Etiquetado como «Consulta», por tu decisión. Queda anotada para revisar casos parecidos.</p>
+          <p class="sim__result" data-show-if="cat=incidencia" hidden>Etiquetado como «Incidencia», por tu decisión, y aviso a quien está de guardia.</p>
+          <p class="sim__result" data-show-if="cat=factura" hidden>Etiquetado como «Factura», por tu decisión, y a la carpeta de facturas pendientes.</p>
+        </div>
+      </div>
+    </div>
+    {{ controls() }}
+    {{ how("n8n o Make, con un paso de modelo de lenguaje.", "conecta la bandeja de entrada como disparador y prueba la clasificación con correos antiguos antes de activarla.") }}
+  </section>
+
+  {#- ========== Facturas ========== -#}
+  <section class="sim__scenario" data-scenario-panel="facturas" aria-label="Facturas a una hoja de cálculo">
+    <p class="sim__kind">Con IA</p>
+    {{ track(fases) }}
+    <div class="sim__panel">
+      <div class="sim__body" data-step-body="0"><p class="sim__what">Qué le pasa al dato</p>
+        <div class="sim__invoice"><p class="sim__invoice-title">Factura de ejemplo · PDF</p><dl><div><dt>Proveedor</dt><dd>Suministros Norte (inventado)</dd></div><div><dt>Fecha</dt><dd>3 de marzo</dd></div><div><dt>Base imponible</dt><dd>200,00 €</dd></div><div><dt>IVA (21 %)</dt><dd>42,00 €</dd></div><div><dt>Total</dt><dd>245,00 €</dd></div></dl></div>
+        <p>Llega un PDF a la carpeta de facturas y pone en marcha el flujo.</p></div>
+      <div class="sim__body" data-step-body="1"><p class="sim__what">Qué le pasa al dato</p><p>Se extraen los cinco datos: proveedor, fecha, base, IVA y total. Y se comprueba que cuadran:</p>
+        <p class="sim__alert">Base + IVA = 242,00 €, pero el total dice 245,00 €. <strong>No cuadra.</strong></p></div>
+      <div class="sim__body" data-step-body="2" data-needs="total"><p class="sim__what">Qué le pasa al dato</p><p>Un dato no cuadra, así que te pregunta antes de apuntarlo. Puede ser un error o un recargo que no aparece desglosado.</p>
+        <div class="sim__choices" data-choice-group="total">
+          <button class="chip" type="button" aria-pressed="false" data-choice="pdf">Confirmar 245,00 € (manda el PDF)</button>
+          <button class="chip" type="button" aria-pressed="false" data-choice="suma">Corregir a 242,00 € (base + IVA)</button>
+        </div>
+      </div>
+      <div class="sim__body" data-step-body="3"><p class="sim__what">Qué le pasa al dato</p><p>Se añade la fila a la hoja de cálculo:</p>
+        <div class="table-scroll"><table class="sim__sheet">
+          <thead><tr><th>Proveedor</th><th>Fecha</th><th>Base</th><th>IVA</th><th>Total</th><th>Estado</th></tr></thead>
+          <tbody>
+            <tr><td>Papelería Ejemplo</td><td>1 mar</td><td>80,00</td><td>16,80</td><td>96,80</td><td>Automático</td></tr>
+            <tr><td>Limpiezas Demo</td><td>2 mar</td><td>150,00</td><td>31,50</td><td>181,50</td><td>Automático</td></tr>
+            <tr class="is-new" data-show-if="total=pdf"><td>Suministros Norte</td><td>3 mar</td><td>200,00</td><td>42,00</td><td>245,00</td><td>Revisado por ti</td></tr>
+            <tr class="is-new" data-show-if="total=suma" hidden><td>Suministros Norte</td><td>3 mar</td><td>200,00</td><td>42,00</td><td>242,00</td><td>Corregido por ti</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+    {{ controls() }}
+    {{ how("Power Automate o Make, con extracción de datos de PDF.", "reúne diez facturas de proveedores distintos y comprueba qué campos se extraen bien antes de automatizar nada.") }}
+  </section>
+
+  {#- ========== Resumir ========== -#}
+  <section class="sim__scenario" data-scenario-panel="resumir" aria-label="Resumir documentos largos">
+    <p class="sim__kind">Con IA</p>
+    {{ track(fases) }}
+    <div class="sim__panel">
+      <div class="sim__body" data-step-body="0"><p class="sim__what">Qué le pasa al dato</p><div class="sim__doc"><p><strong>Informe anual de ejemplo</strong> · 24 páginas</p><p>«…en el segundo semestre las ventas crecieron… el coste de envío supone la mayor partida de gasto variable… se propone revisar proveedores…»</p></div><p>Dejas el PDF en una carpeta compartida y pone en marcha el flujo.</p></div>
+      <div class="sim__body" data-step-body="1"><p class="sim__what">Qué le pasa al dato</p><p>Se extrae el texto y se resume en tres puntos, cada uno con la página de donde sale:</p>
+        <ol class="sim__points"><li>Las ventas crecieron en el segundo semestre <span>(pág. 4)</span></li><li>El envío es el mayor gasto variable <span>(pág. 11)</span></li><li>Se propone revisar proveedores el año que viene <span>(pág. 19)</span></li></ol></div>
+      <div class="sim__body" data-step-body="2" data-needs="cita=ok"><p class="sim__what">Qué le pasa al dato</p><p>Compruébalo tú: abre la cita del punto 2 y compárala con el original.</p>
+        <div class="sim__choices" data-choice-group="cita">
+          <button class="chip" type="button" aria-pressed="false" data-choice="abierta">Ver la página 11</button>
+        </div>
+        <div data-show-if="cita=abierta cita=ok" hidden>
+          <p class="sim__quote">«…el coste de envío supone la mayor partida de gasto variable del ejercicio…» <span>(pág. 11)</span></p>
+          <div class="sim__choices" data-choice-group="cita"><button class="chip" type="button" aria-pressed="false" data-choice="ok">Coincide con el resumen</button></div>
+        </div>
+      </div>
+      <div class="sim__body" data-step-body="3"><p class="sim__what">Qué le pasa al dato</p><p class="sim__result">Resumen listo, con las citas a la vista y el punto 2 comprobado por ti. Va a una ficha en tu hoja de cálculo.</p></div>
+    </div>
+    {{ controls() }}
+    {{ how("n8n o Make, con un modelo que admita documentos largos.", "pide siempre la página de cada dato y comprueba unas cuantas a mano durante las primeras semanas.") }}
+  </section>
+
+  {#- ========== Recordatorios ========== -#}
+  <section class="sim__scenario" data-scenario-panel="recordatorios" aria-label="Recordatorios de fechas">
+    <p class="sim__kind sim__kind--rules">Aquí no hace falta IA: con reglas basta</p>
+    {{ track(fases) }}
+    <div class="sim__panel">
+      <div class="sim__body" data-step-body="0"><p class="sim__what">Qué le pasa al dato</p><div class="sim__doc"><p><strong>Hoja de cálculo</strong> · «Revisión del equipo: 20 de noviembre»</p><p>Regla: avisar tres días antes.</p></div><p>Cada mañana se revisan las fechas de la hoja.</p></div>
+      <div class="sim__body" data-step-body="1"><p class="sim__what">Qué le pasa al dato</p><p>Una regla compara fechas: hoy es 17 de noviembre y faltan 3 días, así que <strong>se cumple la condición</strong>. El mensaje sale de una plantilla, sin ningún modelo de lenguaje.</p></div>
+      <div class="sim__body" data-step-body="2" data-needs="ok"><p class="sim__what">Qué le pasa al dato</p><p class="sim__quote">«Recordatorio: la revisión del equipo es el 20 de noviembre.»</p><p>¿Apruebas el envío?</p>
+        <div class="sim__choices" data-choice-group="ok"><button class="chip" type="button" aria-pressed="false" data-choice="si">Aprobar el envío</button></div>
+      </div>
+      <div class="sim__body" data-step-body="3"><p class="sim__what">Qué le pasa al dato</p><p class="sim__result">Aviso enviado a tiempo y marcado en la hoja como «Avisado».</p></div>
+    </div>
+    {{ controls() }}
+    {{ how("Apps Script (si ya usas Google Sheets) o Power Automate.", "añade una columna «Avisado» para no mandar el mismo aviso dos veces.") }}
+  </section>
+</div>
