@@ -16,6 +16,7 @@ verdict:
     - { label: "Después", text: "Subir a 16 GB de memoria, si el portátil lo permite y se ahoga con la multitarea.", href: "#memoria-cuando-merece-la-pena", tone: "go" }
     - { label: "Antes de gastar", text: "Si hay calor, ruido o apagones, revisa el mantenimiento: puede que no falte ninguna pieza.", href: "#primero-identificar-el-cuello-de-botella", tone: "wait" }
     - { label: "Cuándo no", text: "Si el procesador, la batería y la pantalla ya están muy limitados, quizá compense renovar.", href: "#que-hacer-segun-tu-caso", tone: "stop" }
+workshop: "ssd"
 tool: "ampliar"
 profiles:
   - { label: "Para la mayoría", who: "El equilibrio sensato para dar el salto a NVMe sin complicarse.", product: "kingston-nv3-1tb" }

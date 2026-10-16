@@ -202,57 +202,6 @@ if (finderBox && !reduceMotion.matches) {
   }
 }
 
-/* ---------- Cómo elijo lo que recomiendo (/guias/): cuatro candidatos atraviesan cinco filtros; los descartados caen con su motivo ---------- */
-const demoF = document.querySelector("[data-filtros]");
-if (demoF) {
-  const panels = [...demoF.querySelectorAll("[data-panel]")];
-  const tabs = [...demoF.querySelectorAll("[data-scenario]")];
-  const STEP = 900;
-  let timers = [];
-  const clear = () => { timers.forEach(clearTimeout); timers = []; };
-  const settle = (panel) => {
-    panel.classList.remove("is-armed");
-    panel.querySelectorAll(".is-shown, .is-out, .is-pick, .is-on, .is-now").forEach((el) => el.classList.remove("is-shown", "is-out", "is-pick", "is-on", "is-now"));
-  };
-  const run = (panel) => {
-    clear();
-    if (reduceMotion.matches) return;
-    settle(panel);
-    panel.classList.add("is-armed");
-    const heads = [...panel.querySelectorAll(".demo-f__head li")];
-    const cands = [...panel.querySelectorAll(".cand")];
-    for (let f = 0; f < 5; f++) {
-      timers.push(setTimeout(() => {
-        heads.forEach((h, i) => h.classList.toggle("is-now", i === f));
-        cands.forEach((c) => {
-          c.querySelector(`.step[data-f="${f}"]`)?.classList.add("is-shown");
-          const reason = c.querySelector(".cand__reason");
-          if (reason.dataset.drop === String(f)) { c.classList.add("is-out"); reason.classList.add("is-on"); }
-        });
-      }, 500 + f * STEP));
-    }
-    timers.push(setTimeout(() => {
-      heads.forEach((h) => h.classList.remove("is-now"));
-      cands.forEach((c) => { if (c.classList.contains("cand--pick")) { c.classList.add("is-pick"); c.querySelector(".cand__reason").classList.add("is-on"); } });
-      panel.querySelector(".demo-f__pick").classList.add("is-on");
-    }, 500 + 5 * STEP + 200));
-  };
-  const show = (id) => {
-    tabs.forEach((t) => t.setAttribute("aria-pressed", String(t.dataset.scenario === id)));
-    panels.forEach((p) => { p.classList.toggle("is-on", p.dataset.panel === id); if (p.dataset.panel !== id) settle(p); });
-    run(panels.find((p) => p.dataset.panel === id));
-  };
-  tabs.forEach((t) => t.addEventListener("click", () => show(t.dataset.scenario)));
-  if ("IntersectionObserver" in window && !reduceMotion.matches) {
-    const io = new IntersectionObserver((entries) => {
-      if (!entries[0].isIntersecting) return;
-      io.disconnect();
-      run(demoF.querySelector(".demo-f__panel.is-on"));
-    }, { threshold: 0.45 });
-    io.observe(demoF);
-  }
-}
-
 /* ---------- Tres pasos (/lo-que-se-hacer/): el destello de las líneas corre solo mientras se ve ---------- */
 const steps3 = document.querySelector("[data-steps3]");
 if (steps3 && "IntersectionObserver" in window) {
@@ -358,6 +307,17 @@ if (illos.length && !reduceMotion.matches) {
     host.addEventListener("focusin", again);
   });
 }
+
+/* ---------- Selector de idioma: desplegable accesible (Escape, clic fuera y salida del foco lo cierran) ---------- */
+document.querySelectorAll("[data-lang]").forEach((box) => {
+  const btn = box.querySelector("[data-lang-btn]");
+  const list = box.querySelector("[data-lang-list]");
+  const set = (open) => { btn.setAttribute("aria-expanded", String(open)); list.hidden = !open; };
+  btn.addEventListener("click", () => set(list.hidden));
+  box.addEventListener("keydown", (e) => { if (e.key === "Escape" && !list.hidden) { set(false); btn.focus(); } });
+  box.addEventListener("focusout", (e) => { if (!box.contains(e.relatedTarget)) set(false); });
+  document.addEventListener("click", (e) => { if (!list.hidden && !box.contains(e.target)) set(false); });
+});
 
 /* ---------- Botones magnéticos (solo ratón) ---------- */
 if (finePointer.matches && !reduceMotion.matches) {

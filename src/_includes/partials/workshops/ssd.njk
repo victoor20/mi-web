@@ -1,0 +1,63 @@
+{#- Taller «Hazlo conmigo» de la guía «Cómo acelerar un portátil lento»: el portátil (visto por debajo) cambia con cada paso.
+    Avanza solo cuando el usuario pulsa «Siguiente», «Anterior» o un paso de la lista (nunca solo). La lógica está en
+    src/assets/js/modules/taller.js. Sin JavaScript se ve la ilustración inicial y la lista completa de pasos. -#}
+{%- set pasos = [
+  { t: "Apágalo del todo y desconecta el cargador", tip: "Apágalo desde el sistema (suspender no basta) y quita también cualquier USB conectado.", warn: "" },
+  { t: "Haz una copia de seguridad", tip: "Copia documentos y fotos a un disco externo o a la nube, y comprueba que se abren.", warn: "Sin copia, no sigas: es el paso que evita los disgustos." },
+  { t: "Quita la tapa inferior", tip: "Fotografía dónde va cada tornillo: a veces tienen largos distintos.", warn: "Si no tienes experiencia o la tapa va con pestañas frágiles, mejor que lo haga alguien que sí." },
+  { t: "Saca el disco mecánico", tip: "Toca antes algo metálico para descargar la electricidad estática y desliza el disco para soltarlo del conector.", warn: "No fuerces el conector ni tires del cable plano." },
+  { t: "Coloca el SSD", tip: "Pasa el soporte o los tornillos del disco antiguo al SSD y deslízalo hasta el conector.", warn: "" },
+  { t: "Clona o reinstala el sistema", tip: "Clonar conserva todo tal cual; reinstalar lo deja limpio. En los dos casos, con la copia del paso 2 a mano.", warn: "" },
+  { t: "Arranca y comprueba", tip: "Comprueba que el SSD aparece en el sistema y que el arranque es mucho más rápido.", warn: "" }
+] %}
+<section class="ws" aria-labelledby="hazlo-conmigo" data-module="taller">
+  <h2 id="hazlo-conmigo">Hazlo conmigo: del disco mecánico al SSD</h2>
+  <p class="ws__lead">Pulsa «Siguiente» y el portátil irá cambiando contigo. Es una guía visual: cada modelo se abre de una forma, así que consulta también su manual.</p>
+
+  <figure class="ws__figure">
+    <svg class="illo ws__svg" viewBox="0 0 520 330" data-step="0" data-ws-svg role="img" aria-label="Portátil visto por debajo, con su disco mecánico">
+      <g class="ws-slow"><rect class="warn" x="150" y="296" width="280" height="9" rx="4.5"/><rect class="ws-fill-slow" x="150" y="296" width="60" height="9" rx="4.5"/><text x="150" y="324">Arranque lento: disco al 100 %</text></g>
+      <g class="ws-speed"><rect class="a" x="150" y="296" width="280" height="9" rx="4.5"/><rect class="ws-fill" x="150" y="296" width="280" height="9" rx="4.5"/><text x="150" y="324">Arranque rápido</text></g>
+      <g class="ws-clone"><rect class="a" x="150" y="296" width="280" height="9" rx="4.5"/><rect class="ws-fill" x="150" y="296" width="280" height="9" rx="4.5"/><text x="150" y="324">Clonando o reinstalando…</text>
+        <rect class="h" x="24" y="122" width="56" height="26" rx="4"/><path class="h" d="M80 129 h10 v12 h-10"/><path class="a" d="M96 135 H108 M102 129 L108 135 L102 141"/></g>
+      <g class="ws-backup"><rect class="h" x="14" y="108" width="76" height="54" rx="6"/><path class="a" d="M108 135 H96 M102 129 L96 135 L102 141"/><path class="h" d="M38 136 l8 8 l18 -18"/></g>
+
+      <rect class="s" x="110" y="30" width="360" height="252" rx="14"/>
+      <path class="f" d="M110 282 L470 30 V282 Z"/>
+      <circle class="ws-led" cx="130" cy="48" r="4"/>
+
+      <g class="ws-inside">
+        <rect class="a dim" x="140" y="196" width="300" height="56" rx="4"/>
+        <circle class="a" cx="398" cy="112" r="28"/><circle class="a" cx="398" cy="112" r="6"/>
+        <rect class="a dim" x="300" y="72" width="60" height="20" rx="2"/>
+        <rect class="a dim ws-bay" x="150" y="70" width="130" height="86" rx="4"/>
+      </g>
+      <g class="ws-hdd"><rect class="s" x="158" y="78" width="114" height="70" rx="4"/><circle class="a" cx="215" cy="113" r="24"/><circle class="a" cx="215" cy="113" r="4"/><path class="a" d="M258 88 L232 108"/></g>
+      <g class="ws-ssd"><rect class="h" x="158" y="78" width="114" height="70" rx="4"/><path class="fa" d="M158 148 L272 78 V148 Z"/><text class="ws-ssd-label" x="215" y="118">SSD</text></g>
+      <g class="ws-cover">
+        <rect class="s ws-plate" x="128" y="48" width="324" height="216" rx="8"/>
+        <path class="a dim" d="M330 92 h86 M330 104 h86 M330 116 h86 M330 128 h86"/>
+        <circle class="a" cx="140" cy="60" r="4"/><circle class="a" cx="440" cy="60" r="4"/><circle class="a" cx="140" cy="252" r="4"/><circle class="a" cx="440" cy="252" r="4"/>
+      </g>
+      <g class="ws-cable"><path class="h" d="M470 160 H498"/><rect class="h" x="498" y="152" width="14" height="16" rx="2"/></g>
+    </svg>
+  </figure>
+
+  <div class="ws__controls" hidden data-controls>
+    <button class="btn btn--ghost btn--sm" type="button" data-prev>Anterior</button>
+    <p class="ws__count" data-count aria-live="polite">Antes de empezar</p>
+    <button class="btn btn--primary btn--sm" type="button" data-next>Siguiente</button>
+  </div>
+
+  <ol class="ws__steps" data-steps>
+    {%- for p in pasos %}
+    <li class="ws__step" data-n="{{ loop.index }}">
+      <button class="ws__go" type="button" data-go="{{ loop.index }}"><span class="ws__n mono">{{ loop.index }}</span><span class="ws__t">{{ p.t }}</span></button>
+      <p class="ws__tip">{{ p.tip }}</p>
+      {%- if p.warn %}<p class="ws__warn">{{ p.warn }}</p>{% endif %}
+    </li>
+    {%- endfor %}
+  </ol>
+
+  <p class="ws__end">Cuando lo tengas: <a class="text-link" href="#recomendaciones-por-perfil">mira qué SSD elegir según tu caso</a>. ¿Prefieres que lo haga alguien con experiencia? <a class="text-link" href="/contacto/?servicio=ssd-ram&amp;origen=guia-acelerar-taller">Cuéntamelo</a>.</p>
+</section>

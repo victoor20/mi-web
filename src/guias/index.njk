@@ -43,7 +43,7 @@ needs:
           <span class="guide-row__cat mono">{{ g.data.category }}</span>
           <span class="guide-row__title">{{ g.data.h1 or g.data.title }}</span>
           <span class="guide-row__desc">{{ g.data.description }}</span>
-          <span class="guide-row__meta">Actualizada en {{ g.data.updated | dateEs }} · {{ g.templateContent | readingTime }} min de lectura{% if g.data.affiliate %}<span class="meta-icon" title="Incluye recomendaciones de productos"><svg viewBox="0 0 20 20" width="15" height="15" aria-hidden="true" focusable="false"><path d="M3 3h6l8 8-6 6-8-8z M6.5 6.5h.01"/></svg><span class="visually-hidden">Incluye recomendaciones de productos</span></span>{% endif %}</span>
+          <span class="guide-row__meta"><span>Actualizada en {{ g.data.updated | dateEs }}</span><span>{{ g.templateContent | readingTime }} min de lectura{% if g.data.affiliate %}<span class="meta-icon" title="Incluye recomendaciones de productos"><svg viewBox="0 0 20 20" width="15" height="15" aria-hidden="true" focusable="false"><path d="M3 3h6l8 8-6 6-8-8z M6.5 6.5h.01"/></svg><span class="visually-hidden">Incluye recomendaciones de productos</span></span>{% endif %}</span></span>
         </a>
       </li>
       {%- endfor %}
@@ -60,45 +60,73 @@ needs:
 <section class="section criteria" aria-labelledby="criterio-title">
   <div class="wrap">
     <h2 class="section-title" id="criterio-title">Cómo elijo lo que recomiendo</h2>
-    <p class="lead-text">En lugar de explicarlo, te lo enseño: elige una situación y mira qué pasa con cuatro candidatos al pasar por cinco filtros.</p>
+    <p class="lead-text">Cada recomendación tiene que pasar cinco filtros. Pruébalo: elige una situación y arrastra cada pieza al hueco.</p>
 
-    <div class="demo-f" data-filtros>
-      <div class="demo-f__tabs" role="group" aria-label="Elige una situación">
+    <div class="fit" data-module="encaje">
+      <div class="fit__tabs" role="group" aria-label="Elige una situación">
         {%- for e in filtros.escenarios %}
         <button class="chip" type="button" aria-pressed="{{ 'true' if loop.first else 'false' }}" data-scenario="{{ e.id }}">{{ e.label }}</button>
         {%- endfor %}
       </div>
-      <p class="demo-f__badge"><strong>Ejemplo ilustrativo.</strong> Los productos son genéricos: no hay marcas ni precios reales.</p>
+      <p class="fit__badge"><strong>Ejemplo ilustrativo.</strong> Las piezas son genéricas: no hay marcas ni precios reales.</p>
 
       {%- for e in filtros.escenarios %}
-      <div class="demo-f__panel{{ ' is-on' if loop.first }}" data-panel="{{ e.id }}">
-        <p class="demo-f__context">{{ e.contexto }}</p>
-        <div class="demo-f__head" aria-hidden="true">
-          <span></span>
-          <ol class="cand__steps">
-            {%- for f in filtros.filtros %}<li><span class="mono">0{{ loop.index }}</span><span class="long">{{ f.name }}</span><span class="short">{{ f.short }}</span></li>{% endfor %}
-          </ol>
-        </div>
-        <ul class="demo-f__list">
-          {%- for c in e.candidatos %}
-          <li class="cand {{ 'cand--pick' if c.cae === null else 'cand--out' }}">
-            <p class="cand__name">{{ c.name }}</p>
-            <ol class="cand__steps">
-              {%- for f in filtros.filtros %}
-              {%- set fate = 'pass' if (c.cae === null or loop.index0 < c.cae) else ('drop' if loop.index0 == c.cae else 'skip') %}
-              <li class="step step--{{ fate }}" data-f="{{ loop.index0 }}"><span class="step__n mono" aria-hidden="true">0{{ loop.index }}</span><span class="step__mark" aria-hidden="true">{{ '✓' if fate == 'pass' else ('✕' if fate == 'drop' else '–') }}</span><span class="visually-hidden">{{ f.name }}: {{ 'superado' if fate == 'pass' else ('descartado' if fate == 'drop' else 'no llega') }}.</span></li>
+      <div class="fit__panel{{ ' is-on' if loop.first }}" data-panel="{{ e.id }}">
+        <p class="fit__context">{{ e.contexto }}</p>
+        <div class="fit__stage">
+          <svg class="fit__svg illo" viewBox="0 0 680 400" preserveAspectRatio="xMidYMid meet" data-svg role="img" aria-label="{{ e.label }}: ilustración con un hueco y cuatro piezas para probar">
+            <g class="fit__scene">{{ e.scene | safe }}</g>
+            <g class="fit__hole" data-hole data-x="{{ e.hole.x }}" data-y="{{ e.hole.y }}">
+              <rect x="{{ e.hole.x - e.hole.w / 2 }}" y="{{ e.hole.y - e.hole.h / 2 }}" width="{{ e.hole.w }}" height="{{ e.hole.h }}" rx="5"/>
+              <text class="fit__hole-label" x="{{ e.hole.x }}" y="{{ e.hole.y + 5 }}">{{ e.hole.label }}</text>
+            </g>
+            {%- if e.slot %}
+            <g class="fit__slot" data-slot data-x="{{ e.slot.x }}" data-y="{{ e.slot.y }}">
+              <rect x="{{ e.slot.x - e.slot.w / 2 }}" y="{{ e.slot.y - e.slot.h / 2 }}" width="{{ e.slot.w }}" height="{{ e.slot.h }}" rx="3"/>
+              <text class="fit__hole-label" x="{{ e.slot.x }}" y="{{ e.slot.y - e.slot.h / 2 - 6 }}">{{ e.slot.label }}</text>
+            </g>
+            {%- endif %}
+            <g class="fit__pieces" data-pieces>
+              {%- for p in e.piezas %}
+              <g class="fit__piece" data-piece="{{ p.id }}" data-rule="{{ p.rule }}" data-wide="{{ p.homeWide | join(',') }}" data-narrow="{{ p.homeNarrow | join(',') }}" style="--hx: {{ p.homeWide[0] }}px; --hy: {{ p.homeWide[1] }}px">
+                <rect class="fit__hit" x="-76" y="-46" width="152" height="{{ p.ly + 60 }}"/>
+                <g class="fit__shape">{{ p.shape | safe }}</g>
+                <text class="fit__label" y="{{ p.ly }}">{{ p.short or p.name }}</text>
+              </g>
               {%- endfor %}
-            </ol>
-            <p class="cand__reason" data-drop="{{ c.cae if c.cae !== null else 'ok' }}">{{ c.motivo }}</p>
+            </g>
+          </svg>
+        </div>
+        <p class="fit__msg" data-msg aria-live="polite">Arrastra una pieza al hueco o usa «Probar esta pieza».</p>
+        <ul class="fit__try">
+          {%- for p in e.piezas %}
+          <li data-row="{{ p.id }}">
+            <span class="fit__try-name">{{ p.name }}</span>
+            <button class="btn btn--ghost btn--sm" type="button" data-try="{{ p.id }}">Probar esta pieza</button>
+            <span class="fit__result" data-result data-filter="{{ filtros.filtros[p.filter].name if p.rule != 'fit' else '' }}" data-reason="{{ p.reason }}"></span>
           </li>
           {%- endfor %}
         </ul>
-        <p class="demo-f__pick"><span class="mono">Recomendación</span>{{ e.eleccion }}</p>
+        <div class="fit__win" data-win>
+          <p class="fit__win-title"><span class="mono">Recomendación</span>{{ e.eleccion }}</p>
+          <ol class="fit__passed" aria-label="Filtros superados">
+            {%- for f in filtros.filtros %}<li>✓ {{ f.name }}</li>{% endfor %}
+          </ol>
+          <button class="fit__reset" type="button" data-reset>Volver a probar</button>
+        </div>
       </div>
       {%- endfor %}
     </div>
 
-    <p class="demo-f__foot">Solo lo que pasa los cinco filtros llega a una guía. <a class="btn btn--ghost btn--sm" href="/guias/transparencia/">Transparencia y afiliación</a></p>
+    <div class="fit__rules">
+      <h3 class="fit__rules-title">Los cinco filtros</h3>
+      <ol class="fit__filters">
+        {%- for f in filtros.filtros %}
+        <li><strong>{{ f.name }}.</strong> {{ f.ask }}</li>
+        {%- endfor %}
+      </ol>
+      <p class="fit__foot">Solo lo que pasa los cinco llega a una guía. <a class="btn btn--ghost btn--sm" href="/guias/transparencia/">Transparencia y afiliación</a></p>
+    </div>
   </div>
 </section>
 {%- if faqs %}

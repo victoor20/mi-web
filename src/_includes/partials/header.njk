@@ -19,7 +19,7 @@
     </nav>
 
     <a class="btn btn--primary btn--sm site-header__cta" href="{{ site.cta.url }}?origen=cabecera">{{ site.cta.label }}</a>
-    <div class="site-header__lang">{{ langSwitch(site, page.url) }}</div>
+    <div class="site-header__lang">{{ langSwitch(site, page.url, "idioma-cabecera") }}</div>
 
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-movil" data-menu-toggle>
       <span class="visually-hidden" data-menu-label>Abrir menú</span>
@@ -43,6 +43,6 @@
       <a class="btn btn--primary" href="{{ site.cta.url }}?origen=menu-movil">{{ site.cta.label }}</a>
       <a class="mobile-menu__mail" href="mailto:{{ site.email }}">{{ site.email }}</a>
       <a class="mobile-menu__mail" href="{{ site.linkedin }}" rel="me noopener" target="_blank">LinkedIn ↗</a>
-      {{ langSwitch(site, page.url) }}
+      {{ langSwitch(site, page.url, "idioma-menu", true) }}
     </div>
 </div>

@@ -8,6 +8,7 @@ criticalSections: ["Prosa (artículos y páginas legales)", "Guías: artículo",
     summary, service (slug de services.js), affiliate (true si hay enlaces de afiliado).
     Bloques opcionales (la guía modelo «acelerar-portatil-lento-ssd-ram» los usa todos):
       verdict   { lead, items: [{ label, text, href?, tone? }] }  → «Veredicto rápido» arriba (sustituye a summary)
+      workshop  nombre de un parcial de src/_includes/partials/workshops/ (taller «Hazlo conmigo», cerca del principio)
       tool      nombre de un parcial de src/_includes/partials/tools/ (herramienta interactiva propia)
       profiles  [{ label, who, product }]                         → recomendaciones por perfil con tarjetas de producto
       caso      true                                              → hueco marcado para «Un caso real» (se rellena a mano)
@@ -54,6 +55,8 @@ criticalSections: ["Prosa (artículos y páginas legales)", "Guías: artículo",
       {%- elif summary %}
       <div class="callout article__summary"><strong>En resumen:</strong> {{ summary }}</div>
       {%- endif %}
+
+      {%- if workshop %}{% include "partials/workshops/" + workshop + ".njk" %}{% endif %}
 
       {%- if tool %}{% include "partials/tools/" + tool + ".njk" %}{% endif %}
 

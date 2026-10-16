@@ -2,6 +2,8 @@
 // En cada visita aparecen en posiciones y giros aleatorios por la zona de juego (sin tapar el texto ni los botones).
 // Encajan al soltarlas cerca de su hueco y entonces se corrige su giro. "Recomponer el logo" es la alternativa
 // sin arrastrar, también para teclado. Sin JavaScript se ve el logo desmontado con sus huecos.
+import { createSound } from "../lib/sound.js";
+
 const SNAP = 52; // distancia (unidades del SVG) a la que una pieza encaja al soltarla (no encaja sola: hay que soltarla)
 const NEAR = 120; // distancia a la que su hueco se ilumina
 
@@ -37,33 +39,11 @@ export default function lost(root, { reduceMotion }) {
     p.el.style.setProperty("--r", `${p.r.toFixed(1)}deg`);
   };
 
-  // --- Sonido: Web Audio, sin archivos. Activado por defecto; con movimiento reducido no suena.
-  let ctx = null;
-  const audioOk = !reduceMotion && (window.AudioContext || window.webkitAudioContext);
-  const audio = () => {
-    if (!audioOk) return null;
-    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
-    if (ctx.state === "suspended") ctx.resume();
-    return ctx;
-  };
-  const tone = (freq, start, dur, gain, type = "sine") => {
-    const a = audio();
-    if (!a) return;
-    const osc = a.createOscillator();
-    const g = a.createGain();
-    const t = a.currentTime + start;
-    osc.type = type;
-    osc.frequency.setValueAtTime(freq, t);
-    osc.frequency.exponentialRampToValueAtTime(freq * 1.5, t + dur * 0.6);
-    g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(gain, t + 0.01);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    osc.connect(g).connect(a.destination);
-    osc.start(t);
-    osc.stop(t + dur + 0.02);
-  };
-  const snapSound = () => { tone(520, 0, 0.16, 0.05); tone(1040, 0.02, 0.12, 0.02, "triangle"); };
-  const winSound = () => [523, 659, 784, 1047].forEach((f, i) => tone(f, i * 0.09, 0.28, 0.045));
+  // --- Sonido: Web Audio, sin archivos (compartido con /guias/). Activado por defecto; con movimiento reducido no suena.
+  const sound = createSound(!reduceMotion);
+  const audio = sound.unlock;
+  const snapSound = sound.snap;
+  const winSound = sound.win;
 
   // --- Zona de juego: el logo ampliado un poco, sin salirse de su columna, ni subir bajo la cabecera, ni pisar el texto de ayuda
   const zoneInfo = () => {
