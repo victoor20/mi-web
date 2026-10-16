@@ -1,0 +1,13 @@
+{#- Iconos pixelados de las habitaciones del Control Center (rejilla 8×8). Uso: {{ pixelIcon("terminal") }} -#}
+{% macro pixelIcon(name) %}
+<svg class="pix" viewBox="0 0 8 8" width="22" height="22" shape-rendering="crispEdges" aria-hidden="true" focusable="false">
+{%- if name == "terminal" %}<rect x="0" y="1" width="8" height="5" fill="#26324a"/><rect x="1" y="2" width="6" height="3" fill="#0d1626"/><rect x="2" y="3" width="4" height="1" fill="#5ff2ff"/><rect x="3" y="6" width="2" height="1" fill="#26324a"/>
+{%- elif name == "biblioteca" %}<rect x="0" y="1" width="8" height="7" fill="#5a3a22"/><rect x="1" y="3" width="1" height="4" fill="#4aa8ff"/><rect x="2" y="2" width="1" height="5" fill="#5ff2ff"/><rect x="4" y="3" width="1" height="4" fill="#ffd84a"/><rect x="5" y="2" width="1" height="5" fill="#b08cff"/>
+{%- elif name == "seguridad" %}<rect x="1" y="1" width="6" height="6" fill="#55607a"/><rect x="3" y="3" width="2" height="2" fill="#0d1626"/><rect x="5" y="2" width="1" height="1" fill="#6ef0a0"/>
+{%- elif name == "tablon" %}<rect x="0" y="1" width="8" height="6" fill="#8a5a32"/><rect x="1" y="2" width="1" height="2" fill="#ffd84a"/><rect x="3" y="2" width="4" height="1" fill="#f3e6c8"/><rect x="3" y="4" width="4" height="1" fill="#f3e6c8"/>
+{%- elif name == "comunicaciones" %}<rect x="1" y="0" width="1" height="4" fill="#8892a8"/><rect x="6" y="0" width="1" height="4" fill="#8892a8"/><rect x="0" y="4" width="8" height="3" fill="#26324a"/><rect x="1" y="5" width="1" height="1" fill="#6ef0a0"/><rect x="3" y="5" width="1" height="1" fill="#5ff2ff"/><rect x="5" y="5" width="1" height="1" fill="#ff7a8a"/>
+{%- elif name == "servidor" %}<rect x="1" y="0" width="6" height="8" fill="#26324a"/><rect x="2" y="1" width="1" height="1" fill="#5ff2ff"/><rect x="2" y="3" width="1" height="1" fill="#6ef0a0"/><rect x="2" y="5" width="1" height="1" fill="#ffd84a"/><rect x="4" y="1" width="2" height="1" fill="#0d1626"/><rect x="4" y="3" width="2" height="1" fill="#0d1626"/><rect x="4" y="5" width="2" height="1" fill="#0d1626"/>
+{%- else %}<rect x="1" y="4" width="6" height="2" fill="#c8823e"/><rect x="3" y="1" width="2" height="2" fill="#e04a4a"/><rect x="3" y="2" width="2" height="1" fill="#5ff2ff"/><rect x="0" y="4" width="1" height="3" fill="#c8823e"/><rect x="7" y="4" width="1" height="3" fill="#c8823e"/>
+{%- endif %}
+</svg>
+{% endmacro %}

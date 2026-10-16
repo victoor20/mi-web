@@ -214,6 +214,12 @@ if (timeline && "IntersectionObserver" in window && !reduceMotion.matches) {
   timeline.querySelectorAll("[data-stage]").forEach((s) => io.observe(s));
 }
 
+/* ---------- Miniescenas de «Estado actual» (Jarvis): solo se animan mientras se ven ---------- */
+document.querySelectorAll("[data-stages]").forEach((el) => {
+  if (reduceMotion.matches || !("IntersectionObserver" in window)) return;
+  new IntersectionObserver(([e]) => el.classList.toggle("is-live", e.isIntersecting)).observe(el);
+});
+
 /* ---------- Tres pasos (/lo-que-se-hacer/): el destello de las líneas corre solo mientras se ve ---------- */
 const steps3 = document.querySelector("[data-steps3]");
 if (steps3 && "IntersectionObserver" in window) {
@@ -310,7 +316,14 @@ if (illos.length && !reduceMotion.matches) {
     io.unobserve(e.target);
     play(e.target);
   }), { threshold: 0.6 }) : null;
+  // Las marcadas con data-illo-loop se repiten en bucle lento mientras están en pantalla
+  const loops = new Map();
+  const lio = "IntersectionObserver" in window ? new IntersectionObserver((entries) => entries.forEach((e) => {
+    clearInterval(loops.get(e.target));
+    if (e.isIntersecting) loops.set(e.target, setInterval(() => play(e.target), 5200));
+  }), { threshold: 0.3 }) : null;
   illos.forEach((el) => {
+    if (el.hasAttribute("data-illo-loop")) lio?.observe(el);
     io?.observe(el);
     const host = el.closest("a, article, li") || el;
     // Al pasar el ratón (o el foco) se repite, sin solaparse con una animación en marcha

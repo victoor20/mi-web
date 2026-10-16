@@ -24,6 +24,14 @@ function mountHologram(root, provider, script, { reduceMotion }) {
   const figure = root.querySelector("[data-holo-figure]");
   const arch = root.querySelector(".arch");
   const buttons = [...root.querySelectorAll("[data-q]")];
+  const toMap = root.querySelector("[data-tomap]");
+  const beam = root.querySelector("[data-beam]");
+  const seeing = root.querySelector("[data-seeing]");
+  const seeingQ = root.querySelector("[data-seeing-q]");
+  const wrap = root.querySelector("[data-arch-wrap]");
+  // El botón lleva al esquema solo cuando el usuario lo pulsa (nunca solo)
+  toMap?.addEventListener("click", () => wrap.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" }));
+  const restart = (el, cls) => { el.classList.remove(cls); void el.getBoundingClientRect(); el.classList.add(cls); };
 
   root.querySelectorAll("[data-holo-ui]").forEach((el) => (el.hidden = false));
   root.querySelector("[data-holo-static]").hidden = true;
@@ -71,6 +79,10 @@ function mountHologram(root, provider, script, { reduceMotion }) {
       const { text, focus } = await provider.ask(btn.dataset.q);
       highlight(focus);
       type(text);
+      seeingQ.textContent = btn.textContent;
+      seeing.hidden = false;
+      toMap.hidden = false;
+      if (!reduceMotion) { restart(beam, "is-pulse"); restart(arch, "is-beat"); }
     });
     btn.setAttribute("aria-pressed", "false");
   });

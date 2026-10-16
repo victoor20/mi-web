@@ -1,179 +1,143 @@
-// Simulador «Anatomía de una automatización» (/ia/): cada escenario avanza fase a fase solo cuando el usuario pulsa
-// «Siguiente» o «Anterior». La fase activa se ilumina, la línea se rellena hasta ella y el panel muestra qué le pasa al dato.
-// Las decisiones del usuario (data-choice) cambian lo que se ve después (data-show-if) y algunas fases esperan a que decida
-// (data-needs). Sin JavaScript se ven todas las fases en texto.
-export default function simulador(root, { reduceMotion }) {
+// Simulador «Anatomía de una automatización» (/ia/): una estación cada vez, grande, con un único botón con verbo.
+// Momentos: el ejemplo (intro) y las cuatro fases (0 Disparador, 1 Proceso, 2 Control humano, 3 Resultado).
+// El contenido solo avanza cuando el usuario pulsa el botón o decide; el minimapa permite volver a las fases ya vistas.
+// Sin JavaScript se ve todo el texto seguido; con movimiento reducido no hay animaciones (lo gestiona el CSS).
+export default function simulador(root) {
   const tabs = [...root.querySelectorAll("[data-scenario]")];
   const panels = [...root.querySelectorAll("[data-scenario-panel]")];
-  const names = [...root.querySelectorAll(".sim__scenario.is-on .sim__name")].map((n) => n.textContent);
-  const hints = [...root.querySelectorAll(".sim__scenario.is-on .sim__hint")].map((n) => n.textContent);
-  const updaters = new Map();
+  const art = root.querySelector("[data-art]");
+  const tagEl = art.querySelector("[data-tag]");
+  const renders = new Map();
 
   root.classList.add("is-ready");
-  const scene = setupScene(root.querySelector("[data-scene]"), reduceMotion);
 
   tabs.forEach((t) => t.addEventListener("click", () => {
     tabs.forEach((x) => x.setAttribute("aria-pressed", String(x === t)));
     panels.forEach((p) => p.classList.toggle("is-on", p.dataset.scenarioPanel === t.dataset.scenario));
-    const active = panels.find((p) => p.dataset.scenarioPanel === t.dataset.scenario);
-    updaters.get(active)?.(true);
+    renders.get(panels.find((p) => p.dataset.scenarioPanel === t.dataset.scenario))?.({ animate: false });
   }));
 
+  const restart = (el, cls) => { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); };
+
   panels.forEach((panel) => {
-    const nodes = [...panel.querySelectorAll("[data-node]")];
-    const controls = panel.querySelector("[data-controls]");
-    const prev = panel.querySelector("[data-prev]");
-    const next = panel.querySelector("[data-next]");
-    const count = panel.querySelector("[data-count]");
-    const wait = panel.querySelector("[data-wait]");
-    const how = panel.querySelector("[data-how]");
+    const verbs = panel.dataset.verbs.split("|");
+    const mapItems = [...panel.querySelectorAll("[data-node]")];
+    const action = panel.querySelector("[data-action]");
+    const act = panel.querySelector("[data-act]");
+    const end = panel.querySelector("[data-end]");
+    const retry = panel.querySelector("[data-retry]");
+    const mean = panel.querySelector("[data-mean]");
     const variantBtns = [...panel.querySelectorAll("[data-pick-variant]")];
     const variants = [...panel.querySelectorAll("[data-variant]")];
-    const total = nodes.length;
-    let step = 0;
+    const hasVariants = variants.length > 0;
+    let step = -1; // -1 = el ejemplo
+    let seen = -1;
     let choices = {};
+    let variant = null;
 
-    const scope = () => panel.querySelector("[data-variant]:not([hidden])") || panel.querySelector(".sim__panel");
-    const bodyAt = (n) => scope().querySelector(`[data-step-body="${n}"]`);
-
-    // ¿Se cumple la condición de una fase (data-needs="grupo" o "grupo=valor")?
     const met = (need) => {
       if (!need) return true;
       const [g, v] = need.split("=");
       return v ? choices[g] === v : Boolean(choices[g]);
     };
+    const scope = () => (hasVariants ? variants.find((v) => !v.hidden) : panel.querySelector(".sim__panel"));
+    const bodyAt = (n) => (n < 0 ? panel.querySelector('[data-step-body="intro"]') : scope()?.querySelector(`[data-step-body="${n}"]`));
 
     const refreshChoices = () => {
-      panel.querySelectorAll("[data-show-if]").forEach((el) => {
-        el.hidden = !el.dataset.showIf.split(" ").some((c) => met(c));
-      });
+      panel.querySelectorAll("[data-show-if]").forEach((el) => { el.hidden = !el.dataset.showIf.split(" ").some((c) => met(c)); });
       panel.querySelectorAll("[data-choice-group]").forEach((g) => {
         g.querySelectorAll("[data-choice]").forEach((b) => b.setAttribute("aria-pressed", String(choices[g.dataset.choiceGroup] === b.dataset.choice)));
       });
     };
 
-    const show = (n) => {
-      step = Math.max(0, Math.min(total - 1, n));
-      panel.style.setProperty("--p", String(step / (total - 1)));
-      nodes.forEach((node, i) => {
-        node.classList.toggle("is-on", i === step);
-        node.classList.toggle("is-done", i < step);
+    const render = ({ animate = false } = {}) => {
+      // Contenido: solo el momento actual
+      panel.querySelectorAll("[data-step-body]").forEach((b) => b.classList.toggle("is-current", b === bodyAt(step)));
+      // Minimapa
+      mapItems.forEach((li, i) => {
+        li.classList.toggle("is-done", i < step);
+        li.classList.toggle("is-on", i === step);
+        const btn = li.querySelector("[data-goto]");
+        btn.disabled = i > seen;
+        if (i === step) btn.setAttribute("aria-current", "step"); else btn.removeAttribute("aria-current");
       });
-      scope().querySelectorAll("[data-step-body]").forEach((b) => b.classList.toggle("is-current", Number(b.dataset.stepBody) === step));
+      // «Qué significa» la fase actual
+      mean.hidden = step < 0;
+      if (step >= 0) { const b = document.createElement("strong"); b.textContent = "Qué significa: "; mean.replaceChildren(b, mapItems[step].querySelector(".sim__map-mean").textContent); }
+      // Acción: botón con verbo, opciones de decisión o final
       const body = bodyAt(step);
-      const blocked = !met(body?.dataset.needs);
-      count.textContent = `Fase ${step + 1} de ${total}: ${names[step]}`;
-      prev.disabled = step === 0;
-      next.disabled = blocked;
-      next.textContent = step === total - 1 ? "Empezar de nuevo" : "Siguiente";
-      wait.hidden = !blocked;
-      how.classList.toggle("is-shown", step === total - 1);
-      panel.classList.toggle("is-end", step === total - 1);
-      syncScene();
-    };
-
-    // La escena (compartida) refleja este escenario cuando está activo
-    const syncScene = (jump = false) => {
-      if (!scene || !panel.classList.contains("is-on")) return;
-      const variant = panel.querySelector("[data-variant]:not([hidden])");
-      const tagChoice = variant?.dataset.tagChoice;
-      let tag = variant?.dataset.tag || panel.dataset.tag || "";
-      if (tagChoice) {
-        const pressed = panel.querySelector(`[data-choice-group="${tagChoice}"] [aria-pressed="true"]`);
-        tag = pressed ? pressed.textContent : "¿?";
+      const waiting = step >= 0 && !met(body?.dataset.needs);
+      const atEnd = step === 3;
+      action.hidden = atEnd || waiting;
+      act.textContent = verbs[step + 1] || "Siguiente";
+      act.disabled = step === -1 && hasVariants && !variant;
+      end.classList.toggle("is-shown", atEnd);
+      retry.hidden = !atEnd;
+      panel.classList.toggle("is-intro", step === -1);
+      // La estación grande (compartida) refleja este escenario cuando está activo
+      if (panel.classList.contains("is-on")) {
+        art.dataset.at = step < 0 ? "intro" : String(step);
+        art.dataset.obj = panel.dataset.obj;
+        art.classList.toggle("is-noai", panel.hasAttribute("data-noai"));
+        art.classList.toggle("is-waiting", step === 2 && waiting);
+        art.classList.toggle("is-decided", step === 2 && Boolean(body?.dataset.needs) && !waiting);
+        let tag = (hasVariants ? variant?.dataset.tag : panel.dataset.tag) || "";
+        const tagChoice = variant?.dataset.tagChoice;
+        if (tagChoice) tag = choices[tagChoice] ? panel.querySelector(`[data-choice-group="${tagChoice}"] [aria-pressed="true"]`)?.textContent || "" : "¿?";
+        tagEl.textContent = step >= 1 ? tag : "";
+        if (animate) restart(art, "is-arrive"); else art.classList.remove("is-arrive");
       }
-      const body = bodyAt(step);
-      const now = body ? [...body.querySelectorAll("p:not(.sim__what)")].map((p) => p.textContent.trim()).filter(Boolean)[0] || "" : "";
-      scene.update({
-        obj: panel.dataset.obj, noai: panel.hasAttribute("data-noai"), step, total, tag,
-        waiting: !met(body?.dataset.needs), decided: Boolean(body?.dataset.needs) && met(body.dataset.needs),
-        def: hints[step], now, jump,
-      });
     };
-    updaters.set(panel, syncScene);
 
-    const reset = () => { choices = {}; refreshChoices(); show(0); };
+    const go = (n, { animate = true } = {}) => {
+      step = n;
+      seen = Math.max(seen, n);
+      render({ animate });
+      // El foco sigue al usuario: en las decisiones, a la primera opción; al final, a «Probar otro ejemplo»
+      const body = bodyAt(step);
+      if (step === 3) retry.focus({ preventScroll: true });
+      else if (step >= 0 && !met(body?.dataset.needs)) body.querySelector("[data-choice]")?.focus({ preventScroll: true });
+    };
 
-    controls.hidden = false;
-    prev.addEventListener("click", () => show(step - 1));
-    next.addEventListener("click", () => (step === total - 1 ? reset() : show(step + 1)));
+    const reset = () => {
+      choices = {};
+      seen = -1;
+      if (hasVariants) {
+        variant = null;
+        variantBtns.forEach((b) => b.setAttribute("aria-pressed", "false"));
+        variants.forEach((v, i) => { v.hidden = i !== 0; });
+      }
+      refreshChoices();
+      step = -1;
+      render();
+    };
 
-    // Muestras alternativas (los tres correos): elegir una vuelve al principio
+    action.hidden = false;
+    act.addEventListener("click", () => go(step + 1));
+    retry.addEventListener("click", () => { reset(); (variantBtns[0] || act).focus({ preventScroll: true }); });
+    mapItems.forEach((li, i) => li.querySelector("[data-goto]").addEventListener("click", () => { if (i <= seen) go(i, { animate: false }); }));
+
+    // Paso 0 del correo: elegir el ejemplo
     variantBtns.forEach((b) => b.addEventListener("click", () => {
       variantBtns.forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
       variants.forEach((v) => { v.hidden = v.dataset.variant !== b.dataset.pickVariant; });
-      reset();
+      variant = variants.find((v) => !v.hidden);
+      choices = {};
+      refreshChoices();
+      render();
     }));
 
-    // Decisiones del usuario
+    // Decisiones: si cumplen lo que la fase espera, se pasa a la siguiente
     panel.addEventListener("click", (e) => {
       const btn = e.target.closest("[data-choice]");
       if (!btn) return;
-      const group = btn.closest("[data-choice-group]").dataset.choiceGroup;
-      choices[group] = btn.dataset.choice;
+      choices[btn.closest("[data-choice-group]").dataset.choiceGroup] = btn.dataset.choice;
       refreshChoices();
-      show(step);
+      if (met(bodyAt(step)?.dataset.needs)) go(step + 1);
+      else render();
     });
 
+    renders.set(panel, render);
     reset();
   });
-}
-
-// Escena ilustrada: cuatro estaciones y el objeto del escenario, que viaja de una a otra.
-// Cada llegada dispara una microanimación (buzón, máquina, lupa, carpeta); con movimiento reducido no hay animación.
-function setupScene(scene, reduceMotion) {
-  if (!scene) return null;
-  const stations = [...scene.querySelectorAll("[data-st]")];
-  const obj = scene.querySelector("[data-obj]");
-  const tagEl = scene.querySelector("[data-tag]");
-  const balloon = scene.querySelector("[data-balloon]");
-  const bDef = scene.querySelector("[data-b-def]");
-  const bNow = scene.querySelector("[data-b-now]");
-  let last = null;
-  let state = null;
-  scene.classList.add("is-live");
-  balloon.hidden = false;
-
-  const place = (instant) => {
-    if (!state) return;
-    const box = scene.getBoundingClientRect();
-    const svg = stations[state.step].querySelector("svg").getBoundingClientRect();
-    const x = svg.left - box.left + svg.width / 2;
-    const y = svg.top - box.top + svg.height * 0.18;
-    if (instant || reduceMotion) obj.classList.add("is-instant");
-    obj.style.setProperty("--ox", `${x.toFixed(1)}px`);
-    obj.style.setProperty("--oy", `${y.toFixed(1)}px`);
-    if (instant || reduceMotion) requestAnimationFrame(() => obj.classList.remove("is-instant"));
-    // Globo junto a la estación activa
-    const bw = balloon.offsetWidth;
-    const left = Math.min(Math.max(x - bw / 2, 0), box.width - bw);
-    balloon.style.setProperty("--bl", `${left.toFixed(1)}px`);
-    balloon.style.setProperty("--ba", `${(x - left).toFixed(1)}px`);
-  };
-
-  window.addEventListener("resize", () => place(true));
-
-  return {
-    update(s) {
-      const moved = !last || last.step !== s.step || last.obj !== s.obj || s.jump;
-      state = s;
-      scene.dataset.obj = s.obj;
-      scene.classList.toggle("is-noai", s.noai);
-      scene.style.setProperty("--p", String(s.step / (s.total - 1)));
-      stations.forEach((st, i) => { st.classList.toggle("is-on", i === s.step); st.classList.toggle("is-done", i < s.step); });
-      for (let i = 0; i < 4; i++) scene.classList.toggle(`is-at-${i}`, i === s.step);
-      scene.classList.toggle("is-waiting", s.step === 2 && s.waiting);
-      scene.classList.toggle("is-decided", s.step === 2 && s.decided);
-      tagEl.textContent = s.step >= 1 ? s.tag : "";
-      bDef.textContent = s.def;
-      bNow.textContent = s.now;
-      if (moved && !reduceMotion) {
-        scene.classList.remove("is-arrive");
-        void scene.offsetWidth;
-        scene.classList.add("is-arrive");
-      }
-      place(!last || s.jump);
-      last = s;
-    },
-  };
 }

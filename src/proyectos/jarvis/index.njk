@@ -9,6 +9,7 @@ schema: "person"
 ---
 {%- from "macros.njk" import picture -%}
 {%- from "partials/illos.njk" import illo -%}
+{%- from "partials/pixel-icons.njk" import pixelIcon -%}
 <header class="page-hero jarvis-hero">
   <div class="wrap">
     <p class="kicker mono"><a href="/ia/">Laboratorio</a> · Proyecto</p>
@@ -32,6 +33,7 @@ schema: "person"
         <div class="holo__screen" hidden data-holo-ui>
           <p class="holo__asked mono" data-holo-asked aria-hidden="true">Jarvis</p>
           <p class="holo__answer" data-holo-answer aria-live="polite">{{ jarvis.greeting }}</p>
+          <button class="holo__tomap" type="button" hidden data-tomap>Míralo en el esquema ↓</button>
         </div>
         <div class="holo__questions" hidden data-holo-ui role="group" aria-label="Preguntas">
           {%- for item in jarvis.questions %}
@@ -52,7 +54,9 @@ schema: "person"
       </div>
     </div>
 
-    <figure class="arch-wrap">
+    <div class="holo__beam" aria-hidden="true" data-beam><span></span></div>
+    <figure class="arch-wrap" id="esquema" data-arch-wrap>
+      <p class="arch__seeing" hidden data-seeing>Estás viendo: <strong data-seeing-q></strong></p>
       <div class="arch-scroll" tabindex="0" aria-label="Diagrama de arquitectura (desplazable)">
         {% include "partials/jarvis-architecture.svg.njk" %}
       </div>
@@ -67,10 +71,10 @@ schema: "person"
     <article class="case__block case__block--wide">
       <h2 class="case__title">Principios de diseño</h2>
       <ul class="principles">
-        <li><span class="principles__illo">{{ illo("p-autonomia") }}</span><strong>Autonomía controlada.</strong> Automatiza lo de bajo riesgo; enviar, publicar, hacer push o borrar requiere mi aprobación.</li>
-        <li><span class="principles__illo">{{ illo("p-herramientas") }}</span><strong>Herramientas justas.</strong> Cada herramienta tiene un propósito claro y un alcance limitado.</li>
-        <li><span class="principles__illo">{{ illo("p-legible") }}</span><strong>Comportamiento legible.</strong> Nada de reglas escondidas: lo que hace y por qué está escrito en archivos que se pueden revisar.</li>
-        <li><span class="principles__illo">{{ illo("p-fiabilidad") }}</span><strong>Fiabilidad primero.</strong> Servicio persistente, copias cifradas en dos capas y un panel privado de supervisión.</li>
+        <li><span class="principles__illo">{{ illo("p-autonomia", true) }}</span><strong>Autonomía controlada.</strong> Automatiza lo de bajo riesgo; enviar, publicar, hacer push o borrar requiere mi aprobación.</li>
+        <li><span class="principles__illo">{{ illo("p-herramientas", true) }}</span><strong>Herramientas justas.</strong> Cada herramienta tiene un propósito claro y un alcance limitado.</li>
+        <li><span class="principles__illo">{{ illo("p-legible", true) }}</span><strong>Comportamiento legible.</strong> Nada de reglas escondidas: lo que hace y por qué está escrito en archivos que se pueden revisar.</li>
+        <li><span class="principles__illo">{{ illo("p-fiabilidad", true) }}</span><strong>Fiabilidad primero.</strong> Servicio persistente, copias cifradas en dos capas y un panel privado de supervisión.</li>
       </ul>
     </article>
     <article class="case__block status">
@@ -78,17 +82,44 @@ schema: "person"
       <p class="status__live"><span class="status__dot" aria-hidden="true"></span>En marcha</p>
       <p class="status__lead">Funciona a diario como:</p>
       <ul class="status__pills">
-        <li>Asistente técnico y de desarrollo</li>
-        <li>Memoria de proyectos</li>
-        <li>Apoyo editorial para LinkedIn</li>
-        <li>Radar de ofertas y oportunidades</li>
-        <li>Redactor de correos con confirmación</li>
+        <li><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M6 5 2 8l4 3M10 5l4 3-4 3"/></svg>Asistente técnico y de desarrollo</li>
+        <li><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M3 4h4l1 1.5h5V12H3z"/></svg>Memoria de proyectos</li>
+        <li><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M10.5 3.5 12.5 5.5 6 12H4v-2z"/></svg>Apoyo editorial para LinkedIn</li>
+        <li><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="5.5"/><path d="M8 8 12 4.5"/></svg>Radar de ofertas y oportunidades</li>
+        <li><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><rect x="2.5" y="4" width="11" height="8" rx="1"/><path d="m2.5 4.5 5.5 4 5.5-4"/></svg>Redactor de correos con confirmación</li>
       </ul>
-      <p class="status__lead">La siguiente etapa:</p>
-      <ol class="status__path">
-        <li class="is-now"><span class="visually-hidden">Ahora: </span>Reaccionar</li>
-        <li>Vigilar</li>
-        <li>Proponer</li>
+      <ol class="stages" data-stages>
+        <li class="stage is-now">
+          <svg class="stage__svg" viewBox="0 0 160 90" aria-hidden="true" focusable="false">
+            <rect class="stage__frame" x="44" y="6" width="72" height="78" rx="9"/>
+            <g class="stg-in"><rect x="52" y="22" width="40" height="13" rx="6"/></g>
+            <g class="stg-out"><rect class="acc" x="68" y="44" width="40" height="13" rx="6"/></g>
+            <g class="stg-dots"><circle cx="76" cy="70" r="2"/><circle cx="84" cy="70" r="2"/><circle cx="92" cy="70" r="2"/></g>
+          </svg>
+          <p class="stage__tag">Hoy</p>
+          <p class="stage__name">Reaccionar</p>
+          <p class="stage__text">Responde cuando le hablo.</p>
+        </li>
+        <li class="stage">
+          <svg class="stage__svg" viewBox="0 0 160 90" aria-hidden="true" focusable="false">
+            <circle class="stage__frame" cx="80" cy="45" r="36"/><circle class="stage__ring" cx="80" cy="45" r="22"/><circle class="stage__ring" cx="80" cy="45" r="9"/>
+            <g class="stg-sweep"><path class="acc" d="M80 45 L80 9"/><path class="stg-trail" d="M80 45 L80 9 A36 36 0 0 0 54.5 19.5 Z"/></g>
+            <circle class="stg-blip" cx="98" cy="30" r="3"/>
+          </svg>
+          <p class="stage__tag">Próximo</p>
+          <p class="stage__name">Vigilar</p>
+          <p class="stage__text">Revisará por su cuenta lo que le encargue.</p>
+        </li>
+        <li class="stage">
+          <svg class="stage__svg" viewBox="0 0 160 90" aria-hidden="true" focusable="false">
+            <circle class="stage__frame" cx="128" cy="34" r="9"/><path class="stage__frame" d="M114 72 C114 54 142 54 142 72"/>
+            <g class="stg-card"><rect x="22" y="30" width="34" height="26" rx="3"/><path d="M28 39 H50 M28 46 H44"/></g>
+            <g class="stg-ok"><circle class="acc" cx="128" cy="34" r="13"/><path class="acc" d="M122 34 l4 4 l8 -9"/></g>
+          </svg>
+          <p class="stage__tag">Próximo</p>
+          <p class="stage__name">Proponer</p>
+          <p class="stage__text">Me propondrá acciones, y yo decido.</p>
+        </li>
       </ol>
       <p class="status__note">Siempre con la decisión final en mis manos.</p>
     </article>
@@ -112,32 +143,54 @@ schema: "person"
 <section class="section shots" aria-labelledby="shots-title">
   <div class="wrap">
     <h2 class="section-title" id="shots-title">Cómo se ve por dentro</h2>
-    <p class="lead-text">Un recorrido por el Control Center, el panel privado donde superviso a Jarvis. Pulsa una habitación para entrar.</p>
-    <div class="tour" data-module="tour">
-      <div class="tour__map">
-        {{ picture("jarvis-control-center", [640, 1229], 1229, 860, "Panel Jarvis Control Center: una casa en pixel art con habitaciones para terminal, biblioteca de skills, seguridad, avisos, comunicaciones, servidor y sala central", "(min-width: 960px) 700px, 100vw") }}
-        {%- for r in jarvisBase.rooms %}
-        <button class="tour__spot" type="button" hidden data-spot="{{ r.id }}" aria-controls="tour-{{ r.id }}" aria-pressed="false" style="left: {{ r.spot[0] }}%; top: {{ r.spot[1] }}%; width: {{ r.spot[2] }}%; height: {{ r.spot[3] }}%"><span class="visually-hidden">Entrar en {{ r.name }}</span></button>
-        {%- endfor %}
-      </div>
-      <div class="tour__rooms" aria-live="polite">
-        {%- for r in jarvisBase.rooms %}
-        <article class="tour__room" id="tour-{{ r.id }}" data-room="{{ r.id }}">
-          <h3 class="tour__name">{{ r.name }}</h3>
-          {%- if r.img %}
-          <figure class="tour__shot">{{ picture(r.img.name, r.img.ws, r.img.w, r.img.h, "Captura de la habitación «" + r.name + "» del Jarvis Control Center", "(min-width: 960px) 460px, 100vw") }}</figure>
-          {%- else %}
-          <p class="tour__noshot">Sin captura publicada</p>
-          {%- endif %}
-          <p class="tour__text">{{ r.text }}</p>
-        </article>
-        {%- endfor %}
-      </div>
-    </div>
-    <figure class="shots__item tour__end">
-      {{ picture("jarvis-telegram", [640, 885], 885, 470, "Respuesta de Jarvis por Telegram: resume que una simulación no muestra migraciones destructivas ni capacidades nuevas y recomienda seguir por la vía manual, con verificación previa", "(min-width: 960px) 720px, 100vw") }}
-      <figcaption>Y para terminar, Telegram: Jarvis revisa un plan de actualización y propone el siguiente paso, a la espera de mi aprobación.</figcaption>
+    <p class="lead-text">El Control Center es el panel privado donde superviso a Jarvis: una base con habitaciones. Elige una para entrar.</p>
+    <figure class="tour__cover">
+      {{ picture("jarvis-control-center", [640, 1229], 1229, 860, "Portada del Jarvis Control Center: una casa en pixel art con habitaciones para terminal, biblioteca de skills, seguridad, avisos, comunicaciones, servidor y sala central", "(min-width: 960px) 1100px, 100vw") }}
     </figure>
+    <div class="tour" data-module="tour">
+      <div class="tour__tabs" role="tablist" aria-label="Habitaciones del Control Center" hidden data-tabs>
+        {%- for r in jarvisBase.rooms %}
+        <button class="tour__tab" type="button" role="tab" id="tab-{{ r.id }}" aria-controls="room-{{ r.id }}" aria-selected="{{ 'true' if loop.first else 'false' }}" tabindex="{{ '0' if loop.first else '-1' }}">{{ pixelIcon(r.icon) }}<span>{{ r.name }}</span></button>
+        {%- endfor %}
+      </div>
+      {%- for r in jarvisBase.rooms %}
+      <section class="tour__panel" role="tabpanel" id="room-{{ r.id }}" aria-labelledby="tab-{{ r.id }}" data-panel>
+        <div class="tour__car" data-car aria-roledescription="carrusel" aria-label="Capturas de {{ r.name }}">
+          <div class="tour__track" data-track>
+            {%- for s in r.shots %}
+            <figure class="tour__slide" aria-roledescription="diapositiva" aria-label="{{ loop.index }} de {{ r.shots.length }}">
+              {{ picture("jarvis/" + s.name, [480, s.w], s.w, s.h, "Captura de «" + r.name + "» en el Jarvis Control Center, con los datos sensibles pixelados", "(min-width: 960px) 620px, 100vw") }}
+            </figure>
+            {%- endfor %}
+          </div>
+          {%- if r.shots.length > 1 %}
+          <div class="tour__nav" hidden data-nav>
+            <button class="tour__arrow" type="button" data-prev aria-label="Captura anterior">←</button>
+            <div class="tour__dots">{% for s in r.shots %}<button class="tour__dot" type="button" data-dot="{{ loop.index0 }}" aria-label="Captura {{ loop.index }} de {{ r.shots.length }}"></button>{% endfor %}</div>
+            <button class="tour__arrow" type="button" data-next aria-label="Captura siguiente">→</button>
+          </div>
+          {%- endif %}
+        </div>
+        <div class="tour__info">
+          <h3 class="tour__name">{{ pixelIcon(r.icon) }}{{ r.name }}</h3>
+          <p class="tour__label">Qué muestra</p>
+          <p>{{ r.shows }}</p>
+          <p class="tour__label">Por qué importa</p>
+          <p>{{ r.why }}</p>
+        </div>
+      </section>
+      {%- endfor %}
+    </div>
+
+    <div class="phone-block">
+      <h3 class="phone-block__title">Y así me habla</h3>
+      <p class="phone-block__lead">Jarvis revisa un plan de actualización por Telegram y propone el siguiente paso, a la espera de mi aprobación.</p>
+      <figure class="phone">
+        <div class="phone__screen">
+          {{ picture("jarvis-telegram", [640, 885], 885, 470, "Respuesta de Jarvis por Telegram: resume que una simulación no muestra migraciones destructivas ni capacidades nuevas y recomienda seguir por la vía manual, con verificación previa", "(min-width: 760px) 420px, 90vw") }}
+        </div>
+      </figure>
+    </div>
   </div>
 </section>
 {%- if not site.isCommercial %}

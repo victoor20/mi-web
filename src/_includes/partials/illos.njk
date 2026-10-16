@@ -1,8 +1,8 @@
 {#- Familia de ilustraciones de línea (SVG en línea, sin librerías). Uso: {% from "partials/illos.njk" import illo %}  {{ illo("seguridad") }}
     Clases internas: s (trazo cian), a (azul), h (cian brillante), warn (aviso), f/fa/fe (facetas rellenas, como las del logo), dim (apagado),
     bar (relleno de barra) y las de movimiento i-* (main.js añade .is-play una vez al aparecer y al pasar el ratón; en reposo se ve el estado final). -#}
-{% macro illo(name) %}
-<svg class="illo illo--{{ name }}" data-illo viewBox="0 0 200 140" aria-hidden="true" focusable="false">
+{% macro illo(name, loop=false) %}
+<svg class="illo illo--{{ name }}" data-illo{% if loop %} data-illo-loop{% endif %} viewBox="0 0 200 140" aria-hidden="true" focusable="false">
 {%- if name == "componentes" %}
   <rect class="s" x="20" y="18" width="160" height="104" rx="8"/>
   <path class="f" d="M20 122 L180 18 V122 Z"/>

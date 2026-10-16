@@ -24,7 +24,10 @@ const QUESTIONS = [
   },
 ];
 
+import { idle } from "../lib/idle.js";
+
 export default function rag(root, { reduceMotion }) {
+  idle(root, reduceMotion);
   const sel = root.querySelector("[data-rag-q]");
   const run = root.querySelector("[data-rag-run]");
   const steps = [...root.querySelectorAll("[data-rag-steps] li")];

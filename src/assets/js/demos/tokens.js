@@ -1,5 +1,8 @@
 // Demo de la fase 2: así trocea un modelo una frase (simulación didáctica, sin tokenizador real).
-export default function tokens(root) {
+import { idle } from "../lib/idle.js";
+
+export default function tokens(root, { reduceMotion } = {}) {
+  idle(root, reduceMotion);
   const input = root.querySelector("[data-tok-input]");
   const out = root.querySelector("[data-tok-out]");
   const stats = root.querySelector("[data-tok-stats]");

@@ -81,8 +81,8 @@ log:
             </div>
             <div class="demo" data-demo="{{ p.demo.id }}">
               <div class="demo__head">
-                <span class="demo__title mono">{{ p.demo.title }}</span>
-                <span class="demo__sim mono">Simulación</span>
+                <span class="demo__title">{{ p.demo.title }}</span>
+                <span class="demo__sim">Simulación</span>
               </div>
               <div class="demo__body">
                 {%- include "partials/demos/" + p.demo.id + ".njk" %}

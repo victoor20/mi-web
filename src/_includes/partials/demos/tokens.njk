@@ -2,10 +2,10 @@
   <label class="demo__label" for="tok-input">Escribe una frase</label>
   <input class="demo__input" id="tok-input" type="text" value="Los modelos de lenguaje no leen palabras: leen tokens." autocomplete="off" maxlength="160" data-tok-input>
   <div class="tk__tokens" data-tok-out aria-hidden="true"></div>
-  <p class="demo__stats mono" data-tok-stats role="status" aria-live="polite">16 tokens · 9 palabras · 54 caracteres</p>
+  <p class="demo__stats" data-tok-stats role="status" aria-live="polite">16 tokens · 9 palabras · 54 caracteres</p>
   <div class="tk__ctx" aria-hidden="true">
     <div class="tk__bar"><span data-tok-bar style="width: 33%"></span></div>
-    <p class="mono">Ventana de contexto de ejemplo: 48 tokens. Si te pasas, lo más antiguo se descarta.</p>
+    <p>Ventana de contexto de ejemplo: 48 tokens. Si te pasas, lo más antiguo se descarta.</p>
   </div>
   <label class="demo__check"><input type="checkbox" data-tok-ids> Ver el número de cada token</label>
   <p class="demo__note">Un tokenizador real (BPE) aprende sus trozos de millones de textos y cada modelo trocea distinto; aquí se imita con reglas sencillas.</p>
