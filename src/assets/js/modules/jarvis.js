@@ -82,7 +82,7 @@ function mountHologram(root, provider, script, { reduceMotion }) {
       seeingQ.textContent = btn.textContent;
       seeing.hidden = false;
       toMap.hidden = false;
-      if (!reduceMotion) { restart(beam, "is-pulse"); restart(arch, "is-beat"); }
+      if (!reduceMotion) { restart(beam, "is-pulse"); restart(arch, "is-beat"); restart(toMap, "is-new"); }
     });
     btn.setAttribute("aria-pressed", "false");
   });

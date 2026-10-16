@@ -33,7 +33,7 @@ schema: "person"
         <div class="holo__screen" hidden data-holo-ui>
           <p class="holo__asked mono" data-holo-asked aria-hidden="true">Jarvis</p>
           <p class="holo__answer" data-holo-answer aria-live="polite">{{ jarvis.greeting }}</p>
-          <button class="holo__tomap" type="button" hidden data-tomap>Míralo en el esquema ↓</button>
+          <button class="holo__tomap" type="button" hidden data-tomap>Míralo en el esquema <span class="holo__tomap__arrow" aria-hidden="true">↓</span></button>
         </div>
         <div class="holo__questions" hidden data-holo-ui role="group" aria-label="Preguntas">
           {%- for item in jarvis.questions %}
@@ -143,9 +143,12 @@ schema: "person"
 <section class="section shots" aria-labelledby="shots-title">
   <div class="wrap">
     <h2 class="section-title" id="shots-title">Cómo se ve por dentro</h2>
-    <p class="lead-text">El Control Center es el panel privado donde superviso a Jarvis: una base con habitaciones. Elige una para entrar.</p>
+    <p class="lead-text">El Control Center es el panel privado donde superviso a Jarvis: una base con habitaciones. Pulsa una habitación en el plano o elígela en las pestañas.</p>
     <figure class="tour__cover">
       {{ picture("jarvis-control-center", [640, 1229], 1229, 860, "Portada del Jarvis Control Center: una casa en pixel art con habitaciones para terminal, biblioteca de skills, seguridad, avisos, comunicaciones, servidor y sala central", "(min-width: 960px) 1100px, 100vw") }}
+      {%- for r in jarvisBase.rooms %}{% if r.spot %}
+      <button class="tour__spot" type="button" hidden data-spot="{{ r.id }}" aria-controls="room-{{ r.id }}" style="left: {{ r.spot[0] }}%; top: {{ r.spot[1] }}%; width: {{ r.spot[2] }}%; height: {{ r.spot[3] }}%"><span class="tour__spot-name">{{ r.name }}</span><span class="visually-hidden">Ver {{ r.name }}</span></button>
+      {%- endif %}{% endfor %}
     </figure>
     <div class="tour" data-module="tour">
       <div class="tour__tabs" role="tablist" aria-label="Habitaciones del Control Center" hidden data-tabs>

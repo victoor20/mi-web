@@ -7,16 +7,28 @@ export default function tour(root, { reduceMotion }) {
   root.classList.add("is-ready");
   tablist.hidden = false;
 
-  const select = (i, focus = false) => {
+  // scroll: solo cuando el usuario lo provoca (pulsar una zona del plano). Al cargar, la página no se mueve.
+  const select = (i, focus = false, scroll = false) => {
     tabs.forEach((t, j) => {
       const on = i === j;
       t.setAttribute("aria-selected", String(on));
       t.tabIndex = on ? 0 : -1;
       panels[j].hidden = !on;
     });
-    if (focus) tabs[i].focus();
-    tabs[i].scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest", inline: "nearest" });
+    if (focus) tabs[i].focus({ preventScroll: true });
+    // Mantiene visible la pestaña activa dentro de la fila desplazable, sin mover la página
+    const bar = tablist;
+    if (bar.scrollWidth > bar.clientWidth) bar.scrollTo({ left: tabs[i].offsetLeft - 16, behavior: reduceMotion ? "auto" : "smooth" });
+    if (scroll) root.querySelector(".tour__tabs").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
   };
+  // Plano de la portada: cada habitación es una zona pulsable que activa su pestaña y baja al visor
+  document.querySelectorAll("[data-spot]").forEach((spot) => {
+    spot.hidden = false;
+    spot.addEventListener("click", () => {
+      const i = tabs.findIndex((t) => t.id === `tab-${spot.dataset.spot}`);
+      if (i >= 0) select(i, true, true);
+    });
+  });
   tabs.forEach((t, i) => {
     t.addEventListener("click", () => select(i));
     t.addEventListener("keydown", (e) => {

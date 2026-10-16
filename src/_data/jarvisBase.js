@@ -1,11 +1,13 @@
 // Recorrido por el Jarvis Control Center (/proyectos/jarvis/): una pestaña por habitación y un visor con sus capturas.
 // Las capturas salen de material/jarvis/ ya pixeladas (scripts/jarvis-images.mjs, que guarda qué se tapa en cada una)
 // y se publican en src/assets/img/jarvis/<nombre>-<ancho>.
+// spot: zona de la habitación en el plano de la portada, en % [x, y, ancho, alto] (1229×860). «Acciones futuras» no tiene (está bloqueada).
 // review: true = texto redactado a partir de las capturas, pendiente de que Víctor lo revise.
 export default {
   rooms: [
   {
     "id": "sala-central",
+      "spot": [27.3,50.8,44.6,25.7],
     "name": "Sala central",
     "icon": "sala",
     "review": true,
@@ -31,6 +33,7 @@ export default {
   },
   {
     "id": "terminal",
+      "spot": [4.9,28.5,21.3,20.9],
     "name": "Cuarto terminal",
     "icon": "terminal",
     "review": true,
@@ -46,6 +49,7 @@ export default {
   },
   {
     "id": "biblioteca",
+      "spot": [27.5,28.5,21.3,20.9],
     "name": "Biblioteca de skills",
     "icon": "biblioteca",
     "review": true,
@@ -66,6 +70,7 @@ export default {
   },
   {
     "id": "seguridad",
+      "spot": [50.1,28.5,21.5,20.9],
     "name": "Cuarto de seguridad",
     "icon": "seguridad",
     "review": true,
@@ -86,6 +91,7 @@ export default {
   },
   {
     "id": "tablon",
+      "spot": [72.8,28.5,21.6,20.9],
     "name": "Tablón de avisos",
     "icon": "tablon",
     "review": true,
@@ -101,6 +107,7 @@ export default {
   },
   {
     "id": "comunicaciones",
+      "spot": [4.9,51.2,21.3,25],
     "name": "Comunicaciones",
     "icon": "comunicaciones",
     "review": true,
@@ -116,6 +123,7 @@ export default {
   },
   {
     "id": "servidor",
+      "spot": [72.8,51.2,21.6,25],
     "name": "Servidor",
     "icon": "servidor",
     "review": true,

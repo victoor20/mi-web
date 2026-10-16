@@ -996,6 +996,7 @@
 .sim__objsvg .o { display: none; }
 .sim__art[data-obj="sobre"] .o--sobre, .sim__art:not([data-obj]) .o--sobre, .sim__art[data-obj="factura"] .o--factura, .sim__art[data-obj="doc"] .o--doc, .sim__art[data-obj="calendario"] .o--calendario { display: inline; }
 .sim__objsvg .h { fill: #0a1220; }
+.sim__objsvg .eur { fill: var(--vr-cyan-hi); stroke: none; font-size: 12px; font-weight: 700; text-anchor: middle; font-family: inherit; }
 .sim__tag { padding: 0.1rem 0.55rem; border-radius: 999px; background: var(--vr-cyan); color: #04121f; font-size: 0.78rem; font-weight: 700; white-space: nowrap; }
 .sim__tag:empty { display: none; }
 @media (prefers-reduced-motion: no-preference) {
@@ -1733,7 +1734,15 @@
 .spec__body--prose { grid-template-columns: minmax(0, 80ch); }
 .about-block--wide { grid-column: 1 / -1; }
 /* Recorrido por la base: portada, pestañas por habitación y visor (carrusel + explicación) */
-.tour__cover { margin: clamp(1.5rem, 4vw, 2.25rem) 0 0; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-lg); }
+.tour__cover { position: relative; margin: clamp(1.5rem, 4vw, 2.25rem) 0 0; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-lg); }
+/* Plano clicable: cada habitación se ilumina con un contorno cian y su nombre al pasar el ratón o enfocar (no en móvil) */
+.tour__spot { position: absolute; padding: 0; border: 2px solid transparent; border-radius: 6px; background: transparent; cursor: pointer; transition: border-color 0.25s, background-color 0.25s, box-shadow 0.25s; }
+.tour__spot[hidden] { display: none; }
+.tour__spot-name { position: absolute; left: 50%; bottom: calc(100% + 4px); transform: translate(-50%, 4px); padding: 0.15rem 0.6rem; border-radius: 999px; background: var(--vr-cyan); color: #04121f; font-size: 0.8rem; font-weight: 700; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; }
+.tour__spot:hover, .tour__spot:focus-visible { border-color: var(--vr-cyan); background: rgb(0 208 248 / 0.12); box-shadow: 0 0 0 3px rgb(0 208 248 / 0.2), 0 0 24px rgb(0 208 248 / 0.4); outline: none; }
+.tour__spot:hover .tour__spot-name, .tour__spot:focus-visible .tour__spot-name { opacity: 1; transform: translate(-50%, 0); }
+@media (hover: none), (max-width: 760px) { .tour__spot { display: none !important; } }
+@media (prefers-reduced-motion: reduce) { .tour__spot, .tour__spot-name { transition: none; } }
 .tour__cover img { display: block; width: 100%; height: auto; }
 .tour { margin-top: 1.25rem; }
 .tour__tabs { display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.4rem; scrollbar-width: thin; }
@@ -2440,8 +2449,16 @@ a:hover .illo, article:hover .illo, a:focus-visible .illo { filter: drop-shadow(
 
 /* ---------- Jarvis y laboratorio: ronda de interacción ---------- */
 /* Preguntas y esquema unidos: haz de luz, «Estás viendo» y botón para ir al esquema */
-.holo__tomap { margin-top: 0.9rem; padding: 0.5rem 0.9rem; border: 1px solid rgb(0 208 248 / 0.5); border-radius: 999px; background: rgb(0 208 248 / 0.08); color: var(--vr-cyan); font: inherit; font-size: 0.92rem; font-weight: 600; cursor: pointer; transition: background-color 0.25s; }
-.holo__tomap:hover { background: rgb(0 208 248 / 0.16); }
+.holo__tomap { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.9rem; padding: 0.6rem 1.1rem; border: 1px solid var(--vr-cyan); border-radius: 999px; background: var(--vr-cyan); color: #04121f; font: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer; box-shadow: 0 0 0 0 rgb(0 208 248 / 0.5); transition: filter 0.25s, transform 0.25s; }
+.holo__tomap[hidden] { display: none; }
+.holo__tomap:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.holo__tomap__arrow { display: inline-block; }
+@media (prefers-reduced-motion: no-preference) {
+  .holo__tomap.is-new { animation: tomap-pulse 1.4s ease-out 1; }
+  .holo__tomap.is-new .holo__tomap__arrow { animation: tomap-bounce 0.7s ease-in-out 3; }
+}
+@keyframes tomap-pulse { 0% { box-shadow: 0 0 0 0 rgb(0 208 248 / 0.7); } 100% { box-shadow: 0 0 0 16px rgb(0 208 248 / 0); } }
+@keyframes tomap-bounce { 0%, 100% { transform: translateY(0); } 45% { transform: translateY(5px); } }
 .holo__tomap:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .holo__beam { position: relative; height: 3rem; margin: 0.5rem auto 0; width: 2px; background: linear-gradient(180deg, rgb(0 208 248 / 0.05), rgb(0 208 248 / 0.45)); }
 .holo__beam span { position: absolute; left: -2px; top: 0; width: 6px; height: 40%; border-radius: 6px; background: linear-gradient(180deg, transparent, #9ef2ff); opacity: 0; }
