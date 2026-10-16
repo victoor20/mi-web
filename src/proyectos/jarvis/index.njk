@@ -8,6 +8,7 @@ ogType: "article"
 schema: "person"
 ---
 {%- from "macros.njk" import picture -%}
+{%- from "partials/illos.njk" import illo -%}
 <header class="page-hero jarvis-hero">
   <div class="wrap">
     <p class="kicker mono"><a href="/ia/">Laboratorio</a> · Proyecto</p>
@@ -24,7 +25,7 @@ schema: "person"
       <div class="holo__figure" data-holo-figure>
         {% include "partials/jarvis-core.svg.njk" %}
         <div class="holo__wave" aria-hidden="true">{% for i in range(0, 14) %}<span style="--i:{{ i }}"></span>{% endfor %}</div>
-        <p class="holo__name mono">Jarvis · demostración guiada</p>
+        <p class="holo__name mono">Jarvis</p>
       </div>
 
       <div class="holo__dialog">
@@ -48,7 +49,6 @@ schema: "person"
           </details>
           {%- endfor %}
         </div>
-        <p class="holo__disclaimer">Respuestas escritas de antemano. No está conectado al Jarvis real ni a ningún modelo.</p>
       </div>
     </div>
 
@@ -64,31 +64,46 @@ schema: "person"
 
 <section class="section case" aria-label="Detalles técnicos">
   <div class="wrap case__grid">
-    <article class="case__block">
-      <h2 class="case__title">Qué es</h2>
-      <p>Un agente que trabaja en segundo plano sobre un equipo dedicado. Le hablo por Telegram, por escrito o con voz, y él recuerda el contexto de cada proyecto, prepara tareas y me avisa de lo que detecta.</p>
-    </article>
-    <article class="case__block">
-      <h2 class="case__title">Arquitectura</h2>
-      <p>OpenClaw orquesta; un modelo de OpenAI razona. El comportamiento está definido en archivos separados de identidad, reglas, herramientas y memoria, que puedo leer y corregir. La voz se transcribe en local con Whisper y la respuesta sale con síntesis de voz.</p>
-    </article>
     <article class="case__block case__block--wide">
       <h2 class="case__title">Principios de diseño</h2>
       <ul class="principles">
-        <li><strong>Autonomía controlada.</strong> Automatiza lo de bajo riesgo; enviar, publicar, hacer push o borrar requiere mi aprobación.</li>
-        <li><strong>Comportamiento legible.</strong> Nada de reglas escondidas: lo que hace y por qué está escrito en archivos que se pueden revisar.</li>
-        <li><strong>Herramientas justas.</strong> Cada herramienta tiene un propósito claro y un alcance limitado.</li>
-        <li><strong>Fiabilidad primero.</strong> Servicio persistente, copias cifradas en dos capas y un panel privado de supervisión.</li>
+        <li><span class="principles__illo">{{ illo("p-autonomia") }}</span><strong>Autonomía controlada.</strong> Automatiza lo de bajo riesgo; enviar, publicar, hacer push o borrar requiere mi aprobación.</li>
+        <li><span class="principles__illo">{{ illo("p-herramientas") }}</span><strong>Herramientas justas.</strong> Cada herramienta tiene un propósito claro y un alcance limitado.</li>
+        <li><span class="principles__illo">{{ illo("p-legible") }}</span><strong>Comportamiento legible.</strong> Nada de reglas escondidas: lo que hace y por qué está escrito en archivos que se pueden revisar.</li>
+        <li><span class="principles__illo">{{ illo("p-fiabilidad") }}</span><strong>Fiabilidad primero.</strong> Servicio persistente, copias cifradas en dos capas y un panel privado de supervisión.</li>
       </ul>
     </article>
-    <article class="case__block">
+    <article class="case__block status">
       <h2 class="case__title">Estado actual</h2>
-      <p>Funciona a diario como asistente técnico y de desarrollo, memoria de proyectos, apoyo editorial para LinkedIn, radar de ofertas y oportunidades y redactor de correos con confirmación.</p>
-      <p>La siguiente etapa: pasar de reaccionar a vigilar, detectar y proponer, siempre con la decisión final en mis manos.</p>
+      <p class="status__live"><span class="status__dot" aria-hidden="true"></span>En marcha</p>
+      <p class="status__lead">Funciona a diario como:</p>
+      <ul class="status__pills">
+        <li>Asistente técnico y de desarrollo</li>
+        <li>Memoria de proyectos</li>
+        <li>Apoyo editorial para LinkedIn</li>
+        <li>Radar de ofertas y oportunidades</li>
+        <li>Redactor de correos con confirmación</li>
+      </ul>
+      <p class="status__lead">La siguiente etapa:</p>
+      <ol class="status__path">
+        <li class="is-now"><span class="visually-hidden">Ahora: </span>Reaccionar</li>
+        <li>Vigilar</li>
+        <li>Proponer</li>
+      </ol>
+      <p class="status__note">Siempre con la decisión final en mis manos.</p>
     </article>
-    <article class="case__block">
+    <article class="case__block redacted">
       <h2 class="case__title">Lo que no se publica</h2>
-      <p>Rutas, cuentas, horarios de copia y accesos remotos se quedan fuera a propósito. Contar la arquitectura no exige exponer la instalación.</p>
+      <div class="redacted__doc">
+        <div class="redacted__lines" aria-hidden="true">
+          <p>Ruta de instalación: <span class="bar" style="--w: 70%"></span></p>
+          <p>Usuario y cuentas: <span class="bar" style="--w: 55%"></span></p>
+          <p>Horario de copias: <span class="bar" style="--w: 32%"></span></p>
+          <p>Acceso remoto: <span class="bar" style="--w: 62%"></span></p>
+          <p><span class="bar" style="--w: 88%"></span></p>
+        </div>
+        <p class="redacted__text">Rutas, cuentas, horarios de copia y accesos remotos se quedan fuera a propósito. Contar la arquitectura no exige exponer la instalación.</p>
+      </div>
       <p><a class="text-link" href="/ia/">Volver al laboratorio</a></p>
     </article>
   </div>
@@ -97,17 +112,32 @@ schema: "person"
 <section class="section shots" aria-labelledby="shots-title">
   <div class="wrap">
     <h2 class="section-title" id="shots-title">Cómo se ve por dentro</h2>
-    <p class="lead-text">Dos capturas reales: el panel donde superviso a Jarvis y una de sus respuestas por Telegram, cuando prepara un plan y espera mi aprobación.</p>
-    <div class="shots__grid">
-      <figure class="shots__item">
-        {{ picture("jarvis-control-center", [640, 1229], 1229, 860, "Panel Jarvis Control Center: una casa en pixel art con habitaciones para terminal, biblioteca de skills, seguridad, avisos, comunicaciones, servidor y sala central, donde patrulla el robot Jarvis", "(min-width: 960px) 640px, 92vw") }}
-        <figcaption>Control Center: el estado de Jarvis como una base con habitaciones.</figcaption>
-      </figure>
-      <figure class="shots__item">
-        {{ picture("jarvis-telegram", [640, 885], 885, 470, "Respuesta de Jarvis por Telegram: resume que una simulación no muestra migraciones destructivas ni capacidades nuevas y recomienda seguir por la vía manual, con verificación posterior", "(min-width: 960px) 520px, 92vw") }}
-        <figcaption>Telegram: Jarvis revisa un plan de actualización y propone el siguiente paso.</figcaption>
-      </figure>
+    <p class="lead-text">Un recorrido por el Control Center, el panel privado donde superviso a Jarvis. Pulsa una habitación para entrar.</p>
+    <div class="tour" data-module="tour">
+      <div class="tour__map">
+        {{ picture("jarvis-control-center", [640, 1229], 1229, 860, "Panel Jarvis Control Center: una casa en pixel art con habitaciones para terminal, biblioteca de skills, seguridad, avisos, comunicaciones, servidor y sala central", "(min-width: 960px) 700px, 100vw") }}
+        {%- for r in jarvisBase.rooms %}
+        <button class="tour__spot" type="button" hidden data-spot="{{ r.id }}" aria-controls="tour-{{ r.id }}" aria-pressed="false" style="left: {{ r.spot[0] }}%; top: {{ r.spot[1] }}%; width: {{ r.spot[2] }}%; height: {{ r.spot[3] }}%"><span class="visually-hidden">Entrar en {{ r.name }}</span></button>
+        {%- endfor %}
+      </div>
+      <div class="tour__rooms" aria-live="polite">
+        {%- for r in jarvisBase.rooms %}
+        <article class="tour__room" id="tour-{{ r.id }}" data-room="{{ r.id }}">
+          <h3 class="tour__name">{{ r.name }}</h3>
+          {%- if r.img %}
+          <figure class="tour__shot">{{ picture(r.img.name, r.img.ws, r.img.w, r.img.h, "Captura de la habitación «" + r.name + "» del Jarvis Control Center", "(min-width: 960px) 460px, 100vw") }}</figure>
+          {%- else %}
+          <p class="tour__noshot">Sin captura publicada</p>
+          {%- endif %}
+          <p class="tour__text">{{ r.text }}</p>
+        </article>
+        {%- endfor %}
+      </div>
     </div>
+    <figure class="shots__item tour__end">
+      {{ picture("jarvis-telegram", [640, 885], 885, 470, "Respuesta de Jarvis por Telegram: resume que una simulación no muestra migraciones destructivas ni capacidades nuevas y recomienda seguir por la vía manual, con verificación previa", "(min-width: 960px) 720px, 100vw") }}
+      <figcaption>Y para terminar, Telegram: Jarvis revisa un plan de actualización y propone el siguiente paso, a la espera de mi aprobación.</figcaption>
+    </figure>
   </div>
 </section>
 {%- if not site.isCommercial %}

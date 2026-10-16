@@ -42,9 +42,10 @@
     <button class="chip" type="button" aria-pressed="false" data-scenario="recordatorios">Recordatorios de fechas</button>
   </div>
   <p class="sim__badge"><strong>Ejemplo ilustrativo.</strong> Correos, facturas y documentos inventados.</p>
+  {% include "partials/sim-scene.njk" %}
 
   {#- ========== Correo ========== -#}
-  <section class="sim__scenario is-on" data-scenario-panel="correo" aria-label="Clasificar el correo entrante">
+  <section class="sim__scenario is-on" data-scenario-panel="correo" data-obj="sobre" aria-label="Clasificar el correo entrante">
     <p class="sim__kind">Con IA</p>
     <div class="sim__samples" role="group" aria-label="Elige un correo de muestra">
       <button class="sim__sample" type="button" aria-pressed="true" data-pick-variant="urgente"><span class="sim__sample-tag">Incidencia urgente</span>«El servidor no responde desde esta mañana»</button>
@@ -53,19 +54,19 @@
     </div>
     {{ track(fases) }}
     <div class="sim__panel">
-      <div data-variant="urgente">
+      <div data-variant="urgente" data-tag="Incidencia">
         <div class="sim__body" data-step-body="0"><p class="sim__what">Qué le pasa al dato</p><div class="sim__mail"><p><strong>Asunto:</strong> El servidor no responde desde esta mañana</p><p>«No podemos entrar en la aplicación y tenemos clientes esperando.»</p></div><p>Llega a la bandeja de trabajo y pone en marcha el flujo.</p></div>
         <div class="sim__body" data-step-body="1"><p class="sim__what">Qué le pasa al dato</p><p>Un modelo de lenguaje lo lee y propone: <strong>Incidencia · prioridad alta</strong>, porque habla de un servicio caído y de clientes esperando.</p><p class="sim__note">Seguridad de la clasificación: alta.</p></div>
         <div class="sim__body" data-step-body="2"><p class="sim__what">Qué le pasa al dato</p><p>La clasificación es clara, así que no hace falta revisarla. Queda registrada por si quieres comprobarla después.</p></div>
         <div class="sim__body" data-step-body="3"><p class="sim__what">Qué le pasa al dato</p><p class="sim__result">Etiquetado como «Incidencia · alta» y aviso inmediato a quien está de guardia.</p></div>
       </div>
-      <div data-variant="factura" hidden>
+      <div data-variant="factura" data-tag="Factura" hidden>
         <div class="sim__body" data-step-body="0"><p class="sim__what">Qué le pasa al dato</p><div class="sim__mail"><p><strong>Asunto:</strong> Factura de octubre</p><p>«Adjunto la factura del mes. Cualquier duda, me dices.» · factura.pdf</p></div><p>Llega a la bandeja de trabajo y pone en marcha el flujo.</p></div>
         <div class="sim__body" data-step-body="1"><p class="sim__what">Qué le pasa al dato</p><p>El modelo propone: <strong>Factura · prioridad normal</strong>, y detecta un PDF adjunto.</p><p class="sim__note">Seguridad de la clasificación: alta.</p></div>
         <div class="sim__body" data-step-body="2"><p class="sim__what">Qué le pasa al dato</p><p>La clasificación es clara, así que no hace falta revisarla.</p></div>
         <div class="sim__body" data-step-body="3"><p class="sim__what">Qué le pasa al dato</p><p class="sim__result">Etiquetado como «Factura» y el PDF va a la carpeta de facturas pendientes.</p></div>
       </div>
-      <div data-variant="ambiguo" hidden>
+      <div data-variant="ambiguo" data-tag-choice="cat" hidden>
         <div class="sim__body" data-step-body="0"><p class="sim__what">Qué le pasa al dato</p><div class="sim__mail"><p><strong>Asunto:</strong> Una cosa rápida</p><p>«¿Podemos hablar del tema de la semana pasada? Creo que hay algo que no cuadra.»</p></div><p>Llega a la bandeja de trabajo y pone en marcha el flujo.</p></div>
         <div class="sim__body" data-step-body="1"><p class="sim__what">Qué le pasa al dato</p><p>El modelo duda: podría ser una consulta, una incidencia o una factura. Como la seguridad es baja, <strong>no decide solo</strong>.</p></div>
         <div class="sim__body" data-step-body="2" data-needs="cat"><p class="sim__what">Qué le pasa al dato</p><p>Te lo pasa a ti con lo que ha visto. ¿Qué categoría le pones?</p>
@@ -87,7 +88,7 @@
   </section>
 
   {#- ========== Facturas ========== -#}
-  <section class="sim__scenario" data-scenario-panel="facturas" aria-label="Facturas a una hoja de cálculo">
+  <section class="sim__scenario" data-scenario-panel="facturas" data-obj="factura" data-tag="Datos extraídos" aria-label="Facturas a una hoja de cálculo">
     <p class="sim__kind">Con IA</p>
     {{ track(fases) }}
     <div class="sim__panel">
@@ -119,7 +120,7 @@
   </section>
 
   {#- ========== Resumir ========== -#}
-  <section class="sim__scenario" data-scenario-panel="resumir" aria-label="Resumir documentos largos">
+  <section class="sim__scenario" data-scenario-panel="resumir" data-obj="doc" data-tag="Resumen" aria-label="Resumir documentos largos">
     <p class="sim__kind">Con IA</p>
     {{ track(fases) }}
     <div class="sim__panel">
@@ -142,7 +143,7 @@
   </section>
 
   {#- ========== Recordatorios ========== -#}
-  <section class="sim__scenario" data-scenario-panel="recordatorios" aria-label="Recordatorios de fechas">
+  <section class="sim__scenario" data-scenario-panel="recordatorios" data-obj="calendario" data-tag="Aviso" data-noai aria-label="Recordatorios de fechas">
     <p class="sim__kind sim__kind--rules">Aquí no hace falta IA: con reglas basta</p>
     {{ track(fases) }}
     <div class="sim__panel">
