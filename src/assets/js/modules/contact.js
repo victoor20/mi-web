@@ -7,7 +7,7 @@ const MAX_LINKS = 2; // más enlaces que esto en un mensaje es casi siempre spam
 
 // Erratas comunes en el dominio del correo → dominio que probablemente se quería escribir
 const TYPOS = {
-  "gmial.com": "gmail.com", "gmal.com": "gmail.com", "gmai.com": "gmail.com", "gmail.con": "gmail.com", "gmail.cm": "gmail.com", "gnail.com": "gmail.com", "gmail.comm": "gmail.com",
+  "gmial.com": "gmail.com", "gmal.com": "gmail.com", "gmai.com": "gmail.com", "gmail.con": "gmail.com", "gmil.com": "gmail.com", "gmail.cm": "gmail.com", "gnail.com": "gmail.com", "gmail.comm": "gmail.com",
   "hotmial.com": "hotmail.com", "hotmal.com": "hotmail.com", "hotmail.con": "hotmail.com", "hotmai.com": "hotmail.com", "hotmail.es.com": "hotmail.es",
   "outlok.com": "outlook.com", "outlook.con": "outlook.com", "outloo.com": "outlook.com", "outlook.es.com": "outlook.es",
   "yaho.com": "yahoo.es", "yaho.es": "yahoo.es", "yahoo.con": "yahoo.com", "yahooo.com": "yahoo.com", "yahoo.es.com": "yahoo.es",

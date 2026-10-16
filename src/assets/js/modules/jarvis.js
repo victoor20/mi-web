@@ -30,7 +30,7 @@ function mountHologram(root, provider, script, { reduceMotion }) {
   const seeingQ = root.querySelector("[data-seeing-q]");
   const wrap = root.querySelector("[data-arch-wrap]");
   // El botón lleva al esquema solo cuando el usuario lo pulsa (nunca solo)
-  toMap?.addEventListener("click", () => { toMap.dataset.pressed = "1"; toMap.classList.remove("is-breathing"); wrap.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" }); });
+  toMap?.addEventListener("click", () => { toMap.dataset.pressed = "1"; toMap.classList.remove("is-breathing", "is-new"); wrap.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" }); });
   // Los destellos (bolita de la órbita) solo corren mientras el holograma se ve
   if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => root.classList.toggle("is-seen", e.isIntersecting)).observe(root);
   const restart = (el, cls) => { el.classList.remove(cls); void el.getBoundingClientRect(); el.classList.add(cls); };

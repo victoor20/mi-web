@@ -2508,7 +2508,8 @@ a:hover .illo, article:hover .illo, a:focus-visible .illo { filter: drop-shadow(
 .holo__tomap[hidden] { display: none; }
 .holo__tomap:hover { filter: brightness(1.1); transform: translateY(-1px); }
 /* El mismo pulso de anillo del primer aviso, repetido cada 2 s hasta que se pulsa por primera vez */
-@media (prefers-reduced-motion: no-preference) { .holo__tomap.is-breathing { animation: tomap-ring 2s ease-out infinite; } }
+/* Especificidad mayor que .is-new: si no, la animación de un solo pulso (is-new) pisaba a esta y el anillo no se repetía */
+@media (prefers-reduced-motion: no-preference) { .holo__tomap.is-new.is-breathing, .holo__tomap.is-breathing { animation: tomap-ring 2s ease-out infinite; } }
 @keyframes tomap-ring { 0% { box-shadow: 0 0 0 0 rgb(0 208 248 / 0.7); } 70%, 100% { box-shadow: 0 0 0 16px rgb(0 208 248 / 0); } }
 .holo__tomap__arrow { display: inline-block; }
 @media (prefers-reduced-motion: no-preference) {
@@ -2602,18 +2603,21 @@ a:hover .illo, article:hover .illo, a:focus-visible .illo { filter: drop-shadow(
 .lholo__scan { pointer-events: none; }
 .lholo__ring { position: absolute; left: 50%; top: 50%; width: 100%; aspect-ratio: 1; margin: -50% 0 0 -50%; border: 2px solid var(--vr-cyan); border-radius: 50%; opacity: 0; pointer-events: none; }
 @media (prefers-reduced-motion: no-preference) {
-  /* Giro lento sobre su eje, brillo y línea de escaneo: solo mientras se ve (main.js pone .is-live) */
-  .lholo.is-live svg { animation: lholo-spin 22s linear infinite, lholo-glow 5s ease-in-out infinite; }
-  .lholo.is-live .lholo__scan { animation: lholo-scan 4.4s linear infinite; }
-  /* Se materializa: se dibuja el contorno y se rellena de luz */
+  /* Giro lento sobre su eje, brillo y línea de escaneo. Las animaciones existen siempre y solo se PAUSAN fuera de pantalla
+     (main.js pone .is-live): así no se reinician al salir y volver a entrar, y la entrada (se materializa / recibido) suena una sola vez. */
+  .lholo svg { animation: lholo-spin 22s linear infinite paused, lholo-glow 5s ease-in-out infinite paused; }
+  .lholo.is-live svg { animation-play-state: running; }
+  .lholo .lholo__scan { animation: lholo-scan 4.4s linear infinite paused; }
+  .lholo.is-live .lholo__scan { animation-play-state: running; }
+  /* Se materializa: se dibuja el contorno y se rellena de luz (una vez, al cargar) */
   .lholo--draw .lholo__edge { stroke-dasharray: 1; stroke-dashoffset: 1; animation: lholo-draw 1.7s ease-out 0.2s forwards; }
   .lholo--draw .lholo__facet { opacity: 0; animation: lholo-fill 1s ease-out calc(1.2s + var(--i) * 0.08s) forwards; }
-  .lholo--draw.is-live svg { animation-delay: 2.8s, 0s; }
-  /* Recibido: destello y anillos que se expanden */
-  .lholo--recv svg { animation: lholo-flash 1.3s ease-out 1; }
+  .lholo--draw svg { animation-delay: 2.8s, 0s; }
+  /* Recibido: destello y anillos que se expanden (una vez) y después el giro */
+  .lholo--recv svg { animation: lholo-flash 1.3s ease-out 1, lholo-spin 22s linear infinite 1.6s paused, lholo-glow 5s ease-in-out infinite 1.6s paused; }
+  .lholo--recv.is-live svg { animation-play-state: running, running, running; }
   .lholo--recv .lholo__ring { animation: lholo-ring 1.6s ease-out 0.15s forwards; }
   .lholo--recv .lholo__ring--2 { animation-delay: 0.45s; }
-  .lholo--recv.is-live svg { animation: lholo-flash 1.3s ease-out 1, lholo-spin 22s linear infinite 1.6s, lholo-glow 5s ease-in-out infinite 1.6s; }
 }
 @keyframes lholo-spin { to { transform: rotateY(360deg); } }
 @keyframes lholo-glow { 0%, 100% { filter: drop-shadow(0 0 10px rgb(0 208 248 / 0.3)); } 50% { filter: drop-shadow(0 0 22px rgb(0 208 248 / 0.6)); } }
