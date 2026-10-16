@@ -23,9 +23,9 @@ export default {
 
   // Datos del titular (aviso legal y privacidad)
   legal: {
-    fullName: "[NOMBRE Y APELLIDOS]",
-    nif: "[NIF]",
-    address: "[DOMICILIO FISCAL]",
+    fullName: "Víctor José Rocamora Amorós",
+    nif: "48780181X",
+    address: "Avenida de Madrid Nº16, 03330 Crevillent (Alicante)",
     activity: comercial
       ? "Servicios informáticos y consultoría tecnológica como trabajador autónomo"
       : "Web personal con contenido divulgativo y enlaces de afiliado",
