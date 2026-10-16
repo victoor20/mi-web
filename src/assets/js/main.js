@@ -202,6 +202,18 @@ if (finderBox && !reduceMotion.matches) {
   }
 }
 
+/* ---------- Casos: cada etapa de la línea de tiempo se ilumina al llegar a ella (el texto siempre está visible) ---------- */
+const timeline = document.querySelector("[data-tl]");
+if (timeline && "IntersectionObserver" in window && !reduceMotion.matches) {
+  timeline.classList.add("is-armed");
+  const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add("is-lit");
+    io.unobserve(e.target);
+  }), { rootMargin: "0px 0px -35% 0px", threshold: 0 });
+  timeline.querySelectorAll("[data-stage]").forEach((s) => io.observe(s));
+}
+
 /* ---------- Tres pasos (/lo-que-se-hacer/): el destello de las líneas corre solo mientras se ve ---------- */
 const steps3 = document.querySelector("[data-steps3]");
 if (steps3 && "IntersectionObserver" in window) {

@@ -107,6 +107,7 @@ schema: "services"
         <div class="spec__body spec__body--prose">
           <div>
             <p>{{ s.story | markKey(s.key) | safe }}</p>
+            {%- for c in casos %}{% if c.service == s.slug or (c.also and s.slug in c.also) %}<p class="spec__case"><a href="/casos/{{ c.slug }}/">{{ c.link }} →</a></p>{% endif %}{% endfor %}
             {%- if s.guide %}<p><a class="text-link" href="{{ s.guide }}">Leer la guía relacionada</a></p>{% endif %}
             {%- if s.group == "automatizacion" %}<p><a class="text-link" href="/ia/">Lo que estoy aprendiendo en IA</a></p>{% endif %}
           </div>
@@ -130,17 +131,6 @@ schema: "services"
             {%- if s.group == "automatizacion" %}<p><a class="text-link" href="/ia/">Lo que estoy aprendiendo en IA</a></p>{% endif %}
           </div>
         </div>
-        {%- endif %}
-        {%- if casos[s.slug] %}{% set c = casos[s.slug] %}
-        <aside class="case-card" aria-labelledby="caso-{{ s.slug }}">
-          <p class="case-card__tag mono">Caso real · anonimizado</p>
-          <h4 class="case-card__title" id="caso-{{ s.slug }}">{{ c.title }}</h4>
-          <ol class="case-card__steps">
-            {%- for st in c.steps %}<li><strong>{{ st.label }}</strong> {{ st.text }}</li>{% endfor %}
-          </ol>
-          <p class="case-card__result"><span class="mono">Resultado</span>{{ c.result }}</p>
-          <p class="case-card__lesson"><span class="mono">Lo que me llevo</span>{{ c.lesson }}</p>
-        </aside>
         {%- endif %}
       </article>
       {%- endfor %}

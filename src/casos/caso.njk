@@ -1,0 +1,81 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: casos
+  size: 1
+  alias: caso
+permalink: "/casos/{{ caso.slug }}/"
+bodyClass: "page-case"
+criticalSections: ["Casos: página de caso"]
+ogType: "article"
+pccVerification: true
+---
+{%- from "partials/icons.njk" import icon %}
+<header class="page-hero case-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Migas de pan">
+      <ol>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="{{ site.servicesUrl }}">{{ "Servicios" if site.isCommercial else "Lo que sé hacer" }}</a></li>
+        <li aria-current="page">{{ caso.short }}</li>
+      </ol>
+    </nav>
+    <h1 class="page-hero__title case-hero__title">{{ caso.title }}</h1>
+    <p class="page-hero__intro">{{ caso.summary }}</p>
+    <dl class="case-ficha">
+      {%- for d in caso.ficha %}
+      <div><dt>{{ d.label }}</dt><dd>{{ d.text }}</dd></div>
+      {%- endfor %}
+    </dl>
+  </div>
+</header>
+
+<section class="section case-body" aria-label="Recorrido del caso">
+  <div class="wrap">
+    <ol class="tl" data-tl>
+      {%- for st in caso.stages %}
+      <li class="tl__stage" data-stage>
+        <span class="tl__icon">{{ icon(st.icon) }}</span>
+        <div class="tl__content">
+          <h2 class="tl__title"><span class="tl__n">{{ loop.index }}</span>{{ st.title }}</h2>
+          <p>{{ st.text }}</p>
+          {%- if st.checks %}
+          <ul class="checks">
+            {%- for c in st.checks %}
+            <li class="{{ 'is-ok' if c.ok else 'is-ko' }}">
+              <span class="checks__mark" aria-hidden="true">{{ '✓' if c.ok else '✕' }}</span>
+              <span class="checks__name">{{ c.name }}</span>
+              <span class="checks__result"><span class="visually-hidden">{{ 'Resultado: ' }}</span>{{ c.result }}</span>
+            </li>
+            {%- endfor %}
+          </ul>
+          {%- endif %}
+          {%- if st.conclusion %}<p class="tl__conclusion">{{ st.conclusion }}</p>{% endif %}
+        </div>
+      </li>
+      {%- endfor %}
+    </ol>
+
+    <div class="case-end">
+      <section class="case-box" aria-labelledby="caso-resultado">
+        <h2 id="caso-resultado">El resultado</h2>
+        <p>{{ caso.result }}</p>
+      </section>
+      <section class="case-box case-box--lesson" aria-labelledby="caso-leccion">
+        <h2 id="caso-leccion">Lo que me llevo</h2>
+        <p>{{ caso.lesson }}</p>
+      </section>
+    </div>
+    <p class="case-note">{{ caso.note }}</p>
+  </div>
+</section>
+
+<section class="closing" aria-labelledby="cierre-title" data-hide-mobile-cta>
+  <div class="wrap">
+    <h2 class="closing__title" id="cierre-title">{{ caso.cta.text }} <span>{{ caso.cta.label }}.</span></h2>
+    <div class="closing__actions">
+      <a class="btn btn--primary btn--lg" href="/contacto/?servicio={{ caso.cta.servicio }}&amp;origen={{ caso.cta.origen }}" data-magnetic>{{ caso.cta.label }}</a>
+      <a class="btn btn--ghost btn--lg" href="{{ site.servicesUrl }}">Lo que sé hacer</a>
+    </div>
+  </div>
+</section>

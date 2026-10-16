@@ -1,0 +1,20 @@
+{#- Iconos sencillos de línea (24×24) para las líneas de tiempo. Uso: {% from "partials/icons.njk" import icon %}  {{ icon("alerta") }} -#}
+{% macro icon(name) %}
+<svg class="ico" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+{%- if name == "alerta" %}
+  <path d="M12 3.5 22 20.5H2z"/><path d="M12 10v5M12 17.8v.2"/>
+{%- elif name == "copia" %}
+  <rect x="4" y="9" width="12" height="11" rx="2"/><path d="M8 9V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-1"/><path d="M10 14.5l2 2 3.5-4"/>
+{%- elif name == "llave" %}
+  <path d="M14.5 6.5a4 4 0 0 0 4.8 4.8L21 13l-3 3-1.7-1.7a4 4 0 0 1-1.6-4.6L3.5 19.6 4.4 20.5l9.4-9.4a4 4 0 0 1 .7-4.6z"/>
+{%- elif name == "decision" %}
+  <circle cx="5.5" cy="12" r="2"/><path d="M7.5 12H11l4-5h4M11 12l4 5h4"/><path d="M17 5l2 2-2 2M17 15l2 2-2 2"/>
+{%- elif name == "windows" %}
+  <rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/>
+{%- elif name == "juego" %}
+  <rect x="2.5" y="7" width="19" height="10" rx="4.5"/><path d="M7 10v4M5 12h4M16 10.5v.1M18 13.5v.1"/>
+{%- elif name == "escudo" %}
+  <path d="M12 3 20 6v6c0 4.5-3.2 7.6-8 9-4.8-1.4-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5L15.5 10"/>
+{%- endif %}
+</svg>
+{% endmacro %}

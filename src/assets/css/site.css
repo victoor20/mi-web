@@ -843,18 +843,9 @@
 .spec-list--lite .spec { grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.9fr); }
 .spec__body--prose p { font-size: 1.1rem; line-height: 1.75; }
 .spec__key { color: var(--vr-cyan); font-weight: 560; }
-/* Caso real anonimizado dentro de un tema */
-.case-card { grid-column: 1 / -1; margin-top: 0.5rem; padding: clamp(1.1rem, 2.5vw, 1.6rem); border: 1px solid var(--line-strong); border-radius: var(--radius-lg); background: linear-gradient(140deg, rgb(12 140 247 / 0.1), transparent 55%), rgb(6 11 21 / 0.9); }
-.case-card__tag { color: var(--vr-cyan); font-size: 0.66rem; }
-.case-card__title { margin-top: 0.4rem; font-size: clamp(1.2rem, 1.05rem + 0.6vw, 1.55rem); font-weight: 680; letter-spacing: -0.02em; line-height: 1.2; }
-.case-card__steps { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: 0.65rem; counter-reset: cs; }
-.case-card__steps li { position: relative; padding-left: 2rem; color: var(--text-2); line-height: 1.55; counter-increment: cs; }
-.case-card__steps li::before { content: counter(cs); position: absolute; left: 0; top: 0.1rem; width: 1.3rem; height: 1.3rem; border: 1px solid var(--vr-cyan); border-radius: 50%; color: var(--vr-cyan); font-family: var(--font-mono); font-size: 0.68rem; display: grid; place-items: center; }
-.case-card__steps strong { color: var(--text); font-weight: 620; }
-.case-card__result, .case-card__lesson { display: grid; gap: 0.25rem; margin-top: 1rem; padding: 0.85rem 1rem; border-left: 2px solid var(--vr-azure); background: rgb(12 140 247 / 0.07); border-radius: 0 var(--radius) var(--radius) 0; color: var(--text); line-height: 1.5; }
-.case-card__lesson { border-left-color: var(--vr-cyan); background: rgb(0 208 248 / 0.09); }
-.case-card__lesson { color: var(--text); font-weight: 560; }
-.case-card .mono { color: var(--vr-cyan); font-size: 0.64rem; font-weight: 400; }
+/* Enlace discreto al caso real dentro de un tema */
+.spec__case { margin-top: 0.9rem; font-size: 0.98rem; }
+.spec__case a { color: var(--vr-cyan); text-underline-offset: 4px; }
 @media (max-width: 960px) {
   .spec, .spec-list--lite .spec { grid-template-columns: 1fr; }
   .spec__body { grid-template-columns: 1fr; gap: 1.1rem; }
@@ -2252,3 +2243,52 @@ a:hover .illo, article:hover .illo, a:focus-visible .illo { filter: drop-shadow(
 .profile .product { margin-top: 0.6rem; }
 .case-slot { margin-top: 3rem; scroll-margin-top: calc(var(--header-h) + 1.5rem); }
 .case-slot__box { margin-top: 0.9rem; padding: 1.25rem; border: 1px dashed var(--line-strong); border-radius: var(--radius-lg); }
+
+/* ---------- Casos: página de caso ---------- */
+.crumbs ol { list-style: none; margin: 0 0 1.25rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 0.5rem; color: var(--text-3); font-size: 0.92rem; }
+.crumbs li + li::before { content: "›"; margin-right: 0.5rem; color: var(--line-strong); }
+.crumbs a { color: var(--text-2); text-underline-offset: 3px; }
+.crumbs [aria-current] { color: var(--text-2); }
+.case-hero__title { max-width: 26ch; font-size: clamp(1.9rem, 1.1rem + 3vw, 3.3rem); }
+.case-ficha { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 2rem 0 0; max-width: 56rem; }
+.case-ficha div { padding: 0.9rem 1rem; border: 1px solid var(--line-strong); border-radius: var(--radius); background: rgb(6 11 21 / 0.8); }
+.case-ficha dt { color: var(--vr-cyan); font-size: 0.9rem; font-weight: 600; }
+.case-ficha dd { margin: 0.2rem 0 0; color: var(--text); line-height: 1.4; }
+@media (max-width: 760px) { .case-ficha { grid-template-columns: 1fr; } }
+.case-body .wrap { max-width: 52rem; }
+.tl { list-style: none; margin: 0; padding: 0; }
+.tl__stage { position: relative; display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: 1.25rem; padding-bottom: clamp(1.75rem, 4vw, 2.5rem); }
+.tl__stage:last-child { padding-bottom: 0; }
+.tl__stage::before { content: ""; position: absolute; left: 1.5rem; top: 3rem; bottom: 0; width: 2px; margin-left: -1px; background: linear-gradient(180deg, var(--vr-azure), rgb(61 116 255 / 0.25)); }
+.tl__stage:last-child::before { display: none; }
+.tl__icon { display: grid; place-items: center; width: 3rem; height: 3rem; border: 1px solid var(--vr-cyan); border-radius: 50%; background: rgb(0 208 248 / 0.08); color: var(--vr-cyan); transition: box-shadow 0.5s, background-color 0.5s, border-color 0.5s; }
+.ico { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.tl__title { display: flex; align-items: baseline; gap: 0.6rem; font-size: clamp(1.25rem, 1.05rem + 0.7vw, 1.6rem); font-weight: 680; letter-spacing: -0.02em; line-height: 1.2; margin: 0.55rem 0 0.5rem; }
+.tl__n { color: var(--vr-cyan); font-size: 0.95rem; font-weight: 600; }
+.tl__content > p { color: var(--text-2); font-size: 1.05rem; line-height: 1.7; }
+.checks { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: 0.4rem; }
+.checks li { display: grid; grid-template-columns: 1.6rem minmax(0, 1fr) auto; align-items: baseline; gap: 0.5rem; padding: 0.6rem 0.8rem; border: 1px solid var(--line); border-radius: var(--radius); background: rgb(6 11 21 / 0.7); }
+.checks__mark { font-weight: 700; }
+.checks .is-ok { border-color: rgb(0 208 248 / 0.4); }
+.checks .is-ok .checks__mark, .checks .is-ok .checks__result { color: var(--vr-cyan); }
+.checks .is-ko { border-color: rgb(255 138 122 / 0.4); }
+.checks .is-ko .checks__mark, .checks .is-ko .checks__result { color: #ffb4a8; }
+.checks__name { color: var(--text); }
+.checks__result { font-size: 0.92rem; text-align: right; }
+@media (max-width: 560px) { .checks li { grid-template-columns: 1.6rem minmax(0, 1fr); } .checks__result { grid-column: 2; text-align: left; } }
+.tl__conclusion { margin-top: 0.9rem; padding: 0.8rem 1rem; border-left: 2px solid #ff8a7a; background: rgb(255 138 122 / 0.08); border-radius: 0 var(--radius) var(--radius) 0; color: var(--text) !important; font-weight: 560; }
+/* Cada etapa se ilumina al llegar a ella (la pone main.js); el texto nunca se oculta */
+.tl.is-armed .tl__icon { border-color: var(--line-strong); background: transparent; color: var(--text-3); }
+.tl.is-armed .tl__stage::before { opacity: 0.35; }
+.tl.is-armed .tl__stage.is-lit .tl__icon { border-color: var(--vr-cyan); background: rgb(0 208 248 / 0.1); color: var(--vr-cyan); box-shadow: 0 0 0 4px rgb(0 208 248 / 0.1), 0 0 22px rgb(0 208 248 / 0.3); }
+.tl.is-armed .tl__stage.is-lit::before { opacity: 1; }
+.tl__stage::before { transition: opacity 0.6s; }
+.case-end { display: grid; gap: 1rem; margin-top: clamp(2.5rem, 6vw, 3.5rem); }
+.case-box { padding: 1.25rem 1.4rem; border: 1px solid var(--line-strong); border-left: 2px solid var(--vr-azure); border-radius: var(--radius-lg); background: rgb(6 11 21 / 0.85); }
+.case-box h2 { font-size: 1.15rem; font-weight: 650; margin: 0 0 0.4rem; }
+.case-box p { color: var(--text); line-height: 1.65; }
+.case-box--lesson { border-color: var(--vr-cyan); border-left-width: 3px; background: linear-gradient(140deg, rgb(0 208 248 / 0.12), transparent 60%), rgb(6 11 21 / 0.9); box-shadow: 0 0 0 4px rgb(0 208 248 / 0.06), 0 0 30px rgb(0 208 248 / 0.12); }
+.case-box--lesson h2 { color: var(--vr-cyan); font-size: 1.3rem; }
+.case-box--lesson p { font-size: 1.12rem; font-weight: 560; }
+.case-note { margin-top: 1.5rem; color: var(--text-3); font-size: 0.88rem; }
+@media (prefers-reduced-motion: reduce) { .tl__icon, .tl__stage::before { transition: none; } }
