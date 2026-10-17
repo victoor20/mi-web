@@ -10,7 +10,7 @@ for (const f of fs.readdirSync(dir).filter((n) => /^lhr-.*\.json$/.test(n))) {
   const r = JSON.parse(fs.readFileSync(`${dir}/${f}`, "utf8"));
   const path = new URL(r.finalUrl).pathname;
   const c = r.categories;
-  const row = rows.get(path) || { perf: 1, a11y: 1, bp: 1, seo: 1, cls: 0, bad: new Set() };
+  const row = rows.get(path) || { perf: 1, a11y: 1, bp: 1, seo: 1, cls: 0, bad: new Set(), worst: null };
   row.perf = Math.min(row.perf, c.performance.score);
   row.a11y = Math.min(row.a11y, c.accessibility.score);
   row.bp = Math.min(row.bp, c["best-practices"].score);
@@ -19,6 +19,8 @@ for (const f of fs.readdirSync(dir).filter((n) => /^lhr-.*\.json$/.test(n))) {
   for (const cat of ["accessibility", "best-practices", "seo"]) {
     for (const ref of c[cat].auditRefs) { const a = r.audits[ref.id]; if (ref.weight > 0 && a.score !== null && a.score < 1) row.bad.add(a.id); }
   }
+  // Se guarda el run de rendimiento más bajo de los tres, para poder explicar por qué fue el peor
+  if (!row.worst || c.performance.score < row.worst.score) row.worst = { score: c.performance.score, r };
   rows.set(path, row);
   // Qué elementos se desplazan (solo si el CLS es apreciable)
   const shifts = r.audits["layout-shifts"]?.details?.items || [];
@@ -27,8 +29,22 @@ for (const f of fs.readdirSync(dir).filter((n) => /^lhr-.*\.json$/.test(n))) {
     console.log(`::warning title=LHCI CLS ${path}::${r.audits["cumulative-layout-shift"].numericValue.toFixed(3)} → ${top}`);
   }
 }
-for (const [path, r] of rows) {
-  console.log(`::notice title=LHCI ${path}::perf ${r.perf} · a11y ${r.a11y} · bp ${r.bp} · seo ${r.seo} · CLS ${r.cls.toFixed(3)}${r.bad.size ? ` · fallos: ${[...r.bad].join(", ")}` : ""}`);
+for (const [path, row] of rows) {
+  console.log(`::notice title=LHCI ${path}::perf ${row.perf} · a11y ${row.a11y} · bp ${row.bp} · seo ${row.seo} · CLS ${row.cls.toFixed(3)}${row.bad.size ? ` · fallos: ${[...row.bad].join(", ")}` : ""}`);
+  // Si el rendimiento varía o es bajo en alguna de las tres pasadas, se detalla esa pasada: métricas clave,
+  // en qué se fue el hilo principal y las peticiones más lentas. Así se puede diagnosticar sin bajar el artefacto.
+  if (row.worst && row.worst.score < 0.9) {
+    const r = row.worst.r;
+    const a = r.audits;
+    const ms = (id) => Math.round(a[id]?.numericValue ?? NaN);
+    const mtwb = (a["mainthread-work-breakdown"]?.details?.items || [])
+      .slice().sort((x, y) => y.duration - x.duration).slice(0, 3)
+      .map((i) => `${i.groupLabel} ${Math.round(i.duration)}ms`).join(", ");
+    const nr = a["network-requests"]?.details?.items || [];
+    const slowest = nr.slice().sort((x, y) => (y.networkEndTime - y.networkRequestTime) - (x.networkEndTime - x.networkRequestTime)).slice(0, 5)
+      .map((i) => `${(i.url.split("/").pop() || i.url).slice(0, 40)} ${Math.round(i.networkEndTime - i.networkRequestTime)}ms@${Math.round(i.rendererStartTime)}ms`).join(", ");
+    console.log(`::notice title=LHCI detalle ${path}::peor pasada perf ${row.worst.score} · FCP ${ms("first-contentful-paint")}ms · LCP ${ms("largest-contentful-paint")}ms · TBT ${ms("total-blocking-time")}ms · SI ${ms("speed-index")}ms · hilo principal: ${mtwb || "—"} · peticiones más lentas: ${slowest || "—"}`);
+  }
 }
 
 const file = `${dir}/assertion-results.json`;
