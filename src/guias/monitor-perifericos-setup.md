@@ -27,11 +27,11 @@ Revisa resolución, tamaño, tipo de panel, brillo, frecuencia, puertos y ergono
 
 En periféricos, la pregunta no es cuál luce mejor en la ficha, sino cuál se adapta a tu uso. Un teclado compacto ahorra espacio, pero quizá echas en falta el bloque numérico. Un ratón vertical ayuda a algunas personas y no es mágico. Y unos auriculares muy llamativos pueden funcionar peor en reuniones que otros discretos con buen micrófono.
 
-Tres monitores de 27" QHD de referencia (revisa siempre la variante exacta):
+Tres monitores de 27" QHD de referencia, con frecuencias altas por si también juegas (revisa siempre la variante exacta):
 
-{% product "lg-ultragear-27-qhd" %}
-{% product "msi-g274qpf" %}
-{% product "samsung-odyssey-g5-27" %}
+{% product "lg-27g610a-b-qhd-200hz" %}
+{% product "msi-g274qpf-e2-wqhd-180hz" %}
+{% product "samsung-odyssey-g5-g55c-165hz" %}
 
 ## Según cómo trabajes
 

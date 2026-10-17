@@ -19,9 +19,9 @@ verdict:
 workshop: "ssd"
 tool: "ampliar"
 profiles:
-  - { label: "Para la mayoría", who: "El equilibrio sensato para dar el salto a NVMe sin complicarse.", product: "kingston-nv3-1tb" }
-  - { label: "Si quieres ahorrar", who: "Para quien quiere 1 TB sin pagar por la máxima velocidad.", product: "crucial-p3-plus-1tb" }
-  - { label: "Si quieres lo mejor", who: "Un paso por encima en rendimiento, para el equipo principal.", product: "wd-black-sn770-1tb" }
+  - { label: "Para la mayoría", who: "Buena relación precio-rendimiento para dar el salto a NVMe sin complicarse.", product: "kingston-nv3-1tb" }
+  - { label: "Si quieres más margen", who: "Más velocidad dentro de PCIe 4.0, para cargas pesadas.", product: "crucial-p310-1tb" }
+  - { label: "Si quieres lo mejor", who: "Velocidades muy altas, para el equipo principal o para jugar.", product: "wd-black-sn7100-1tb" }
 # Cuando haya un trabajo anonimizado que contar, descomenta y rellena (la sección aparece sola, con su entrada en el índice):
 # caso:
 #   title: "Un caso real"
@@ -49,6 +49,12 @@ Si tu portátil tiene ranura **M.2 NVMe** (compruébalo antes en el manual o la 
 ## Memoria: cuándo merece la pena
 
 Ampliar la RAM ayuda cuando el equipo se queda corto al abrir muchas pestañas, hacer videollamadas, trabajar con documentos pesados o usar varias aplicaciones a la vez. Para Windows actual, 16 GB es una base sensata. El problema: muchos portátiles llevan parte o toda la memoria soldada. Antes de comprar módulos, comprueba ranuras libres, capacidad máxima, tipo de memoria y frecuencia compatible.
+
+Estos kits son módulos **DIMM de sobremesa**: sirven si el equipo que quieres acelerar es una torre. La mayoría de portátiles usan SO-DIMM o llevan la memoria soldada, y ahí no valen; confirma el formato en el manual de tu modelo antes de comprar.
+
+{% product "corsair-vengeance-ddr5-32-6000" %}
+{% product "crucial-pro-ddr5-32-6000-cl36" %}
+{% product "kingston-fury-beast-ddr4-32-3200" %}
 
 ## Qué hacer según tu caso
 

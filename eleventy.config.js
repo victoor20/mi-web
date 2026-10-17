@@ -118,8 +118,12 @@ export default function (eleventyConfig) {
     const pcc = site.affiliate.pccomponentesActive && isSet(p.pccUrl)
       ? `<a class="btn btn--ghost btn--sm" href="${esc(p.pccUrl)}" rel="sponsored nofollow noopener" target="_blank" data-umami-event="afiliado-pccomponentes" data-umami-event-producto="${esc(id)}">Ver en PcComponentes ↗</a>`
       : "";
+    // Foto opcional (SiteStripe o local); sin ella, el glifo de texto. Decorativa: el nombre va justo al lado.
+    const media = isSet(p.image)
+      ? `<div class="product__glyph product__glyph--img" aria-hidden="true"><img src="${esc(p.image)}" alt="" width="160" height="160" loading="lazy" decoding="async"></div>`
+      : `<div class="product__glyph" aria-hidden="true"><span>${esc(p.glyph)}</span></div>`;
     return `<article class="product" data-reveal>
-  <div class="product__glyph" aria-hidden="true"><span>${esc(p.glyph)}</span></div>
+  ${media}
   <div class="product__body">
     <p class="product__cat mono">${esc(p.category)}</p>
     <h3 class="product__name">${esc(p.name)}</h3>

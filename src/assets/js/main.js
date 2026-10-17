@@ -435,13 +435,20 @@ if (stage && isCapable() && "WebGL2RenderingContext" in window) {
       return Boolean(gl);
     } catch { return false; }
   };
-  hero3d = new Promise((resolve) => whenIdle(() => {
-    if (!hasWebGL()) { resolve(); return; }
-    import("/assets/js/hero3d.js")
-      .then((m) => m.initHero3D(stage, stage.dataset.three))
-      .catch((err) => console.warn("Hero 3D desactivado:", err))
-      .finally(resolve);
-  }));
+  // No arranca al cargar: espera al primer gesto (ratón, scroll, toque o tecla). Hasta entonces el logo estático
+  // (el LCP) se queda tal cual, y la carga inicial no paga el coste de compilar WebGL (TBT).
+  const GESTURES = ["pointermove", "pointerdown", "touchstart", "wheel", "scroll", "keydown"];
+  hero3d = new Promise((resolve) => {
+    const start = () => {
+      GESTURES.forEach((t) => window.removeEventListener(t, start, { capture: true }));
+      if (!hasWebGL()) { resolve(); return; }
+      import("/assets/js/hero3d.js")
+        .then((m) => m.initHero3D(stage, stage.dataset.three))
+        .catch((err) => console.warn("Hero 3D desactivado:", err))
+        .finally(resolve);
+    };
+    GESTURES.forEach((t) => window.addEventListener(t, start, { capture: true, passive: true }));
+  });
 }
 
 /* ---------- Campo de destellos ambiental ---------- */

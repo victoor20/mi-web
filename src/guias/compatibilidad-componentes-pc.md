@@ -43,7 +43,7 @@ Como regla práctica: elige la generación que pide la placa, revisa capacidad m
 Algunos kits de referencia, siempre que coincidan con lo que admite tu placa:
 
 {% product "corsair-vengeance-ddr5-32-6000" %}
-{% product "crucial-pro-ddr5-32-5600" %}
+{% product "crucial-pro-ddr5-32-6000-cl36" %}
 {% product "kingston-fury-beast-ddr4-32-3200" %}
 
 ## Almacenamiento: SATA, M.2, NVMe y PCIe
