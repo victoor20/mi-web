@@ -1269,7 +1269,7 @@
 /* ---------- Sobre mí ---------- */
 /* Nombre: las letras llegan fragmentadas desde puntos distintos, con un trazo de luz, y convergen con un rebote corto; terminan de converger (~2,4 s) a la vez que la entrada de la tarjeta del retrato.
    Solo transform y un opacity mínimo de 0,3 (el texto cuenta para el LCP desde el primer pintado); estático con movimiento reducido. */
-.name-fx .nl { display: inline-block; }
+.name-fx .nl { display: inline-block; width: var(--w, auto); } /* --w: ancho de la letra en Archivo, igual con la fuente de reserva */
 @media (prefers-reduced-motion: no-preference) {
   .about-hero .name-fx { animation: none; }
   .name-fx .nl { animation: name-in 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both; animation-delay: calc(0.1s + var(--i) * 0.105s); will-change: transform; }

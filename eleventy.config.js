@@ -118,9 +118,17 @@ export default function (eleventyConfig) {
     const pcc = site.affiliate.pccomponentesActive && isSet(p.pccUrl)
       ? `<a class="btn btn--ghost btn--sm" href="${esc(p.pccUrl)}" rel="sponsored nofollow noopener" target="_blank" data-umami-event="afiliado-pccomponentes" data-umami-event-producto="${esc(id)}">Ver en PcComponentes ↗</a>`
       : "";
-    // Foto opcional (SiteStripe o local); sin ella, el glifo de texto. Decorativa: el nombre va justo al lado.
+    // Foto opcional (enlazada a la tienda o local); sin ella, el glifo de texto. Decorativa: el nombre va justo al lado.
+    // Sin referer: la tienda que sirve la imagen no recibe qué página de la web se está leyendo.
+    // Las fotos de Amazon (._AC_SL1500_.jpg…) se piden a 160 o 320 px cambiando el sufijo de tamaño: la caja mide 72-88 px
+    // y a tamaño completo pesaban 130-170 KB cada una (a 160/320 px, unos 3-19 KB).
+    const amazonSize = (w) => p.image.replace(/\._[A-Z0-9_,]+_\.(jpg|png)$/, `._AC_SL${w}_.$1`);
+    const resized = isSet(p.image) && /^https:\/\/m\.media-amazon\.com\/.+\._[A-Z0-9_,]+_\.(jpg|png)$/.test(p.image);
+    const imgAttrs = resized
+      ? `src="${esc(amazonSize(320))}" srcset="${esc(amazonSize(160))} 160w, ${esc(amazonSize(320))} 320w" sizes="(max-width: 560px) 72px, 88px"`
+      : `src="${esc(p.image)}"`;
     const media = isSet(p.image)
-      ? `<div class="product__glyph product__glyph--img" aria-hidden="true"><img src="${esc(p.image)}" alt="" width="160" height="160" loading="lazy" decoding="async"></div>`
+      ? `<div class="product__glyph product__glyph--img" aria-hidden="true"><img ${imgAttrs} alt="" width="160" height="160" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div>`
       : `<div class="product__glyph" aria-hidden="true"><span>${esc(p.glyph)}</span></div>`;
     return `<article class="product" data-reveal>
   ${media}

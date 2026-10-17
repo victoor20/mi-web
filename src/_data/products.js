@@ -4,8 +4,8 @@
 //   (también vale solo el ASIN). La web extrae el ASIN y genera un enlace limpio /dp/ASIN?tag=prysmotec-21,
 //   así que da igual que la URL traiga slug o parámetros. No uses enlaces cortos amzn.to / amzn.eu.
 //   Si se deja vacío, el enlace lleva a una búsqueda en Amazon con amazonSearch.
-// - image (opcional): foto del producto obtenida con SiteStripe (URL de la imagen) o ruta local /assets/img/...
-//   Sin image, la tarjeta muestra el glifo de texto (glyph). No copies las fotos de la ficha de Amazon.
+// - image (opcional): URL de la foto del producto (se enlaza tal cual, no se descarga). Sin image, la tarjeta
+//   muestra el glifo de texto (glyph).
 // - pccUrl: enlace de afiliado de PcComponentes (solo se muestra con pccomponentesActive: true).
 // - reviewed: fecha de la última comprobación de ficha, variante y disponibilidad.
 export default {
@@ -18,6 +18,7 @@ export default {
     specs: ["DDR5", "DIMM", "2×16 GB"],
     amazonSearch: "Corsair Vengeance DDR5 32GB 6000",
     amazonUrl: "B0BZHW15KF",
+    image: "https://m.media-amazon.com/images/I/71hPdrFDv2L._AC_SL1500_.jpg",
     pccUrl: "",
     reviewed: "[FECHA DE REVISIÓN]",
   },
@@ -29,6 +30,7 @@ export default {
     specs: ["DDR5", "DIMM", "2×16 GB", "CL36"],
     amazonSearch: "Crucial Pro DDR5 32GB 6000 CL36",
     amazonUrl: "B0CTHXMYL8",
+    image: "https://m.media-amazon.com/images/I/51EJt5geVEL._AC_SL1080_.jpg",
     pccUrl: "",
     reviewed: "[FECHA DE REVISIÓN]",
   },
@@ -40,6 +42,7 @@ export default {
     specs: ["DDR4", "DIMM", "2×16 GB"],
     amazonSearch: "Kingston FURY Beast DDR4 32GB 3200",
     amazonUrl: "B097K5Q32R",
+    image: "https://m.media-amazon.com/images/I/5150HvlLv0L._AC_SL1000_.jpg",
     pccUrl: "",
     reviewed: "[FECHA DE REVISIÓN]",
   },
@@ -53,6 +56,7 @@ export default {
     specs: ["M.2 2280", "NVMe PCIe 4.0", "1 TB"],
     amazonSearch: "Kingston NV3 1TB NVMe",
     amazonUrl: "B0DBR3DZWG",
+    image: "https://m.media-amazon.com/images/I/71c5uuoM1bL._AC_SL1500_.jpg",
     pccUrl: "",
     reviewed: "[FECHA DE REVISIÓN]",
   },
@@ -64,6 +68,7 @@ export default {
     specs: ["M.2 2280", "NVMe PCIe Gen4", "1 TB", "hasta 7100 MB/s"],
     amazonSearch: "Crucial P310 1TB",
     amazonUrl: "B0DC8VPSHV",
+    image: "https://m.media-amazon.com/images/I/51lrFzSnxhL._AC_SL1080_.jpg",
     pccUrl: "",
     reviewed: "[FECHA DE REVISIÓN]",
   },
@@ -75,6 +80,7 @@ export default {
     specs: ["M.2 2280", "NVMe", "1 TB", "hasta 7250/6900 MB/s"],
     amazonSearch: "WD_Black SN7100 1TB",
     amazonUrl: "B0DN7CYYSD",
+    image: "https://m.media-amazon.com/images/I/61uDl4amtnL._AC_SL1500_.jpg",
     pccUrl: "",
     reviewed: "[FECHA DE REVISIÓN]",
   },
@@ -88,6 +94,7 @@ export default {
     specs: ["27\"", "QHD 2560×1440", "IPS", "200Hz", "1ms", "FreeSync Premium", "HDR400"],
     amazonSearch: "LG 27G610A-B",
     amazonUrl: "B0FLM15Q5L",
+    image: "https://m.media-amazon.com/images/I/81z1o5y64wL._AC_SL1500_.jpg",
     pccUrl: "",
     reviewed: "[FECHA DE REVISIÓN]",
   },
@@ -99,6 +106,7 @@ export default {
     specs: ["27\"", "WQHD", "Rapid IPS", "180Hz"],
     amazonSearch: "MSI G274QPF E2",
     amazonUrl: "B0CR9ZS4ZK",
+    image: "https://m.media-amazon.com/images/I/71cShFafLEL._AC_SL1500_.jpg",
     pccUrl: "",
     reviewed: "[FECHA DE REVISIÓN]",
   },
@@ -110,6 +118,7 @@ export default {
     specs: ["27\"", "QHD", "Curvo", "165Hz", "AMD FreeSync"],
     amazonSearch: "Samsung Odyssey G5 G55C 27",
     amazonUrl: "B0CP687WQK",
+    image: "https://m.media-amazon.com/images/I/713rvnXTEiL._AC_SL1500_.jpg",
     pccUrl: "",
     reviewed: "[FECHA DE REVISIÓN]",
   },
@@ -123,6 +132,7 @@ export default {
     specs: ["Inalámbrico", "Retroiluminado"],
     amazonSearch: "Logitech MX Keys S",
     amazonUrl: "B07W6JPM9R",
+    image: "https://m.media-amazon.com/images/I/71Z0C48Zp5L._AC_SL1500_.jpg",
     pccUrl: "",
     reviewed: "[FECHA DE REVISIÓN]",
   },
@@ -134,6 +144,7 @@ export default {
     specs: ["Inalámbrico", "Alto rendimiento"],
     amazonSearch: "Logitech MX Master 3S",
     amazonUrl: "B0FHHV6YR5",
+    image: "https://m.media-amazon.com/images/I/618IJzC-fFL._AC_SL1500_.jpg",
     pccUrl: "",
     reviewed: "[FECHA DE REVISIÓN]",
   },
@@ -145,6 +156,7 @@ export default {
     specs: ["Con cable", "Drivers 53mm", "DTS", "USB-C/USB-A"],
     amazonSearch: "HyperX Cloud III",
     amazonUrl: "B0C3BSZ56D",
+    image: "https://m.media-amazon.com/images/I/71AMEEP3HLL._AC_SL1500_.jpg",
     pccUrl: "",
     reviewed: "[FECHA DE REVISIÓN]",
   },

@@ -15,9 +15,14 @@ schema: "person"
     <div>
       <p class="kicker mono">Sobre mí</p>
       {#- Entrada del nombre: cada letra llega desde un punto distinto con un trazo de luz y converge con un rebote corto (CSS, una sola vez al cargar).
-          El texto está completo en el HTML (aria-label en el h1); las letras son decorativas. -#}
+          El texto está completo en el HTML (aria-label en el h1); las letras son decorativas.
+          Cada letra reserva su ancho exacto en Archivo (--w, en em; el espacio va dentro de la letra anterior): así no se
+          desplazan cuando la fuente web sustituye a la de reserva (CLS). Medido con Archivo a peso 740 y letter-spacing
+          -0.035em: si cambian el nombre, la fuente, el peso o el interletraje, hay que volver a medirlo. -#}
+      {%- set nameW = [0.6731, 0.2401, 0.554, 0.324, 0.587, 0.3561, 0.158, 0.7031, 0.587, 0.554, 0.56, 0.8742, 0.587, 0.3561, 0.56] %}
+      {%- set chars = "Víctor Rocamora" | list %}
       <h1 class="page-hero__title name-fx" aria-label="Víctor Rocamora">
-        {%- for ch in "Víctor Rocamora" | list %}{% if ch == " " %} {% else %}<span class="nl" aria-hidden="true" style="--i: {{ loop.index0 }}">{{ ch }}</span>{% endif %}{% endfor -%}
+        {%- for ch in chars %}{% if ch != " " %}{% set sp = chars[loop.index0 + 1] == " " %}<span class="nl" aria-hidden="true" style="--i: {{ loop.index0 }}; --w: {{ (nameW[loop.index0] + (nameW[loop.index0 + 1] if sp else 0)) | round(4) }}em">{{ ch }}{{ " " if sp }}</span>{% endif %}{% endfor -%}
       </h1>
       {%- if c %}
       <p class="page-hero__intro">Técnico de sistemas. Trabajo por mi cuenta arreglando, poniendo a punto y mejorando ordenadores, y estoy orientando mi carrera hacia la ingeniería de IA. Me gusta entender por qué falla algo antes de tocarlo, y dejarlo explicado cuando termino.</p>
