@@ -61,10 +61,10 @@ export default {
   // Analítica sin cookies
   // Copia websiteId y src de Umami: Settings > Websites > Edit > Tracking code
   umami: {
-    websiteId: "[UMAMI_WEBSITE_ID]",
+    websiteId: "8e81312f-afb1-4b7f-a9fd-fdc017dabe87",
     src: "https://cloud.umami.is/script.js",
     // Región de datos de la cuenta, tal como aparece en la política de privacidad: "la Unión Europea" o "Estados Unidos"
-    region: "[REGIÓN DE DATOS DE UMAMI]",
+    region: "la Unión Europea",
   },
   // Search Console se verifica por DNS (TXT en Nominalia). Esto es solo alternativa: el valor de content="..."
   // de la etiqueta HTML de verificación. Con marcador, no se inserta nada.
