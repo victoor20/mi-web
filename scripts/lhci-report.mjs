@@ -29,8 +29,11 @@ for (const f of fs.readdirSync(dir).filter((n) => /^lhr-.*\.json$/.test(n))) {
     console.log(`::warning title=LHCI CLS ${path}::${r.audits["cumulative-layout-shift"].numericValue.toFixed(3)} → ${top}`);
   }
 }
+// GitHub solo admite 10 anotaciones de aviso por paso: todas las URL van en una sola, una por línea (%0A)
+const summary = [...rows].map(([path, row]) =>
+  `${path} → perf ${row.perf} · a11y ${row.a11y} · bp ${row.bp} · seo ${row.seo} · CLS ${row.cls.toFixed(3)}${row.bad.size ? ` · fallos: ${[...row.bad].join(", ")}` : ""}`);
+console.log(`::notice title=LHCI resumen (${rows.size} páginas)::${summary.join("%0A")}`);
 for (const [path, row] of rows) {
-  console.log(`::notice title=LHCI ${path}::perf ${row.perf} · a11y ${row.a11y} · bp ${row.bp} · seo ${row.seo} · CLS ${row.cls.toFixed(3)}${row.bad.size ? ` · fallos: ${[...row.bad].join(", ")}` : ""}`);
   // Si el rendimiento varía o es bajo en alguna de las tres pasadas, se detalla esa pasada: métricas clave,
   // en qué se fue el hilo principal y las peticiones más lentas. Así se puede diagnosticar sin bajar el artefacto.
   if (row.worst && row.worst.score < 0.9) {
