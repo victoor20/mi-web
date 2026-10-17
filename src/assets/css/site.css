@@ -1735,6 +1735,10 @@
 .lost__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
 .lost__fix { margin-top: 1.5rem; }
 .lost__fix[hidden], .lost__hint[hidden], .lost__count[hidden], .lost__win[hidden] { display: none; }
+/* Con JavaScript, lost.js muestra el botón, la pista y el contador nada más arrancar: su sitio se reserva desde el principio
+   (invisibles) para que el bloque, centrado en vertical, no se desplace al aparecer (CLS) */
+.js .lost__hint[hidden], .js .lost__count[hidden] { display: block; visibility: hidden; }
+.js .lost__fix[hidden] { display: inline-flex; visibility: hidden; }
 .lost__status { margin-top: 2.25rem; text-align: center; }
 .lost__hint { color: var(--text-3); font-size: 0.92rem; max-width: 32rem; margin-inline: auto; }
 .lost__count { margin-top: 1.25rem; color: var(--vr-cyan); font-size: 0.85rem; }

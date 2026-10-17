@@ -7,7 +7,6 @@
 // - image (opcional): URL de la foto del producto (se enlaza tal cual, no se descarga). Sin image, la tarjeta
 //   muestra el glifo de texto (glyph).
 // - pccUrl: enlace de afiliado de PcComponentes (solo se muestra con pccomponentesActive: true).
-// - reviewed: fecha de la última comprobación de ficha, variante y disponibilidad.
 export default {
   // ---------- RAM (guías de acelerar el equipo y de compatibilidad) ----------
   "corsair-vengeance-ddr5-32-6000": {
@@ -20,7 +19,6 @@ export default {
     amazonUrl: "B0BZHW15KF",
     image: "https://m.media-amazon.com/images/I/71hPdrFDv2L._AC_SL1500_.jpg",
     pccUrl: "",
-    reviewed: "[FECHA DE REVISIÓN]",
   },
   "crucial-pro-ddr5-32-6000-cl36": {
     name: "Crucial Pro DDR5 32 GB (2×16) 6000 MHz CL36",
@@ -32,7 +30,6 @@ export default {
     amazonUrl: "B0CTHXMYL8",
     image: "https://m.media-amazon.com/images/I/51EJt5geVEL._AC_SL1080_.jpg",
     pccUrl: "",
-    reviewed: "[FECHA DE REVISIÓN]",
   },
   "kingston-fury-beast-ddr4-32-3200": {
     name: "Kingston FURY Beast DDR4 32 GB (2×16) 3200 MHz CL16",
@@ -44,7 +41,6 @@ export default {
     amazonUrl: "B097K5Q32R",
     image: "https://m.media-amazon.com/images/I/5150HvlLv0L._AC_SL1000_.jpg",
     pccUrl: "",
-    reviewed: "[FECHA DE REVISIÓN]",
   },
 
   // ---------- SSD ----------
@@ -58,7 +54,6 @@ export default {
     amazonUrl: "B0DBR3DZWG",
     image: "https://m.media-amazon.com/images/I/71c5uuoM1bL._AC_SL1500_.jpg",
     pccUrl: "",
-    reviewed: "[FECHA DE REVISIÓN]",
   },
   "crucial-p310-1tb": {
     name: "Crucial P310 1 TB PCIe Gen4 NVMe (hasta 7100 MB/s)",
@@ -70,7 +65,6 @@ export default {
     amazonUrl: "B0DC8VPSHV",
     image: "https://m.media-amazon.com/images/I/51lrFzSnxhL._AC_SL1080_.jpg",
     pccUrl: "",
-    reviewed: "[FECHA DE REVISIÓN]",
   },
   "wd-black-sn7100-1tb": {
     name: "WD_Black SN7100 1 TB (hasta 7250/6900 MB/s)",
@@ -82,7 +76,6 @@ export default {
     amazonUrl: "B0DN7CYYSD",
     image: "https://m.media-amazon.com/images/I/61uDl4amtnL._AC_SL1500_.jpg",
     pccUrl: "",
-    reviewed: "[FECHA DE REVISIÓN]",
   },
 
   // ---------- Monitores (guía de monitor y periféricos) ----------
@@ -96,7 +89,6 @@ export default {
     amazonUrl: "B0FLM15Q5L",
     image: "https://m.media-amazon.com/images/I/81z1o5y64wL._AC_SL1500_.jpg",
     pccUrl: "",
-    reviewed: "[FECHA DE REVISIÓN]",
   },
   "msi-g274qpf-e2-wqhd-180hz": {
     name: "MSI G274QPF E2 27\" WQHD 180Hz",
@@ -108,7 +100,6 @@ export default {
     amazonUrl: "B0CR9ZS4ZK",
     image: "https://m.media-amazon.com/images/I/71cShFafLEL._AC_SL1500_.jpg",
     pccUrl: "",
-    reviewed: "[FECHA DE REVISIÓN]",
   },
   "samsung-odyssey-g5-g55c-165hz": {
     name: "Samsung Odyssey G5 G55C 27\" QHD curvo 165Hz",
@@ -120,7 +111,6 @@ export default {
     amazonUrl: "B0CP687WQK",
     image: "https://m.media-amazon.com/images/I/713rvnXTEiL._AC_SL1500_.jpg",
     pccUrl: "",
-    reviewed: "[FECHA DE REVISIÓN]",
   },
 
   // ---------- Periféricos ----------
@@ -134,7 +124,6 @@ export default {
     amazonUrl: "B07W6JPM9R",
     image: "https://m.media-amazon.com/images/I/71Z0C48Zp5L._AC_SL1500_.jpg",
     pccUrl: "",
-    reviewed: "[FECHA DE REVISIÓN]",
   },
   "logitech-mx-master-3s": {
     name: "Logitech MX Master 3S",
@@ -146,7 +135,6 @@ export default {
     amazonUrl: "B0FHHV6YR5",
     image: "https://m.media-amazon.com/images/I/618IJzC-fFL._AC_SL1500_.jpg",
     pccUrl: "",
-    reviewed: "[FECHA DE REVISIÓN]",
   },
   "hyperx-cloud-iii": {
     name: "HyperX Cloud III (cable)",
@@ -158,6 +146,5 @@ export default {
     amazonUrl: "B0C3BSZ56D",
     image: "https://m.media-amazon.com/images/I/71AMEEP3HLL._AC_SL1500_.jpg",
     pccUrl: "",
-    reviewed: "[FECHA DE REVISIÓN]",
   },
 };

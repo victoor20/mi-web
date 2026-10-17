@@ -18,6 +18,13 @@ const paths = [
   "/gracias/",
   "/contacto/enviado/",
   "/privacidad/",
+  "/guias/portatil-estudiar-trabajar/",
+  "/guias/compatibilidad-componentes-pc/",
+  "/guias/monitor-perifericos-setup/",
+  "/guias/transparencia/",
+  "/aviso-legal/",
+  "/cookies/",
+  "/404.html",
 ];
 
 module.exports = {
@@ -27,12 +34,12 @@ module.exports = {
       url: paths.map((p) => `http://localhost${p}`),
       numberOfRuns: 3,
     },
-    // /gracias/ y /contacto/enviado/ son noindex a propósito: Lighthouse les resta SEO por no poder indexarse,
-    // así que a esas dos no se les exige la nota de SEO (todo lo demás, sí).
+    // /gracias/, /contacto/enviado/ y la 404 son noindex a propósito: Lighthouse les resta SEO por no poder indexarse,
+    // así que a esas tres no se les exige la nota de SEO (todo lo demás, sí).
     assert: {
       assertMatrix: [
         {
-          matchingUrlPattern: "^http://localhost/(?!gracias/|contacto/enviado/)",
+          matchingUrlPattern: "^http://localhost/(?!gracias/|contacto/enviado/|404\\.html)",
           assertions: {
             "categories:accessibility": ["error", { minScore: 0.95 }],
             "categories:best-practices": ["error", { minScore: 0.95 }],
@@ -42,7 +49,7 @@ module.exports = {
           },
         },
         {
-          matchingUrlPattern: "^http://localhost/(gracias|contacto/enviado)/",
+          matchingUrlPattern: "^http://localhost/(gracias/|contacto/enviado/|404\\.html)",
           assertions: {
             "categories:accessibility": ["error", { minScore: 0.95 }],
             "categories:best-practices": ["error", { minScore: 0.95 }],
