@@ -242,6 +242,55 @@ export default function encaje(root, { reduceMotion }) {
       panel.querySelector("[data-try]")?.focus();
     });
 
+    // --- Señal de que las piezas se arrastran: una mano coge la primera pieza y la lleva hacia el hueco, cada pocos segundos,
+    // mientras no haya interacción. Desaparece para siempre (en este escenario) al arrastrar una pieza o pulsar «Probar esta pieza».
+    // No existe con movimiento reducido.
+    let handHint = null;
+    const stopHint = () => { if (handHint) { handHint.stop(); handHint = null; } panel.dataset.hinted = "1"; };
+    if (!reduceMotion) {
+      const NS = "http://www.w3.org/2000/svg";
+      const hand = document.createElementNS(NS, "g");
+      hand.setAttribute("class", "fit__hand");
+      hand.setAttribute("aria-hidden", "true");
+      hand.innerHTML = '<g class="fit__hand-icon"><path d="M-8 -1 V-11 a2.3 2.3 0 0 1 4.6 0 V-3 M-3.4 -4 V-14 a2.3 2.3 0 0 1 4.6 0 V-4 M1.2 -4 V-13 a2.3 2.3 0 0 1 4.6 0 V-3 M5.8 -3 V-9 a2.3 2.3 0 0 1 4.6 0 V5 C10.4 12 5.5 16 -0.5 16 C-6 16 -9.5 13 -11.5 8 L-14.5 1.5 a2.1 2.1 0 0 1 3.6 -2.1 L-8 3"/></g>';
+      hand.style.opacity = "0";
+      hand.style.pointerEvents = "none";
+      layer.after(hand);
+      let timer = 0;
+      let running = null;
+      let io = null;
+      let visible = false;
+      const first = pieces[0];
+      const play = () => {
+        if (!visible || panel.dataset.hinted || !panel.classList.contains("is-on") || drag || busy || first.at !== "home") { schedule(1500); return; }
+        // El gesto sale de la pieza y acaba sobre el hueco (coordenadas del SVG)
+        const x1 = first.hx + 4, y1 = first.hy - 6, x2 = hole.x - 6, y2 = hole.y - 4;
+        const k = (x, y, extra = "") => `translate(${x}px, ${y}px) ${extra}`;
+        running = hand.animate([
+          { transform: k(x1 + 18, y1 + 26, "scale(1.7)"), opacity: 0 },
+          { transform: k(x1, y1, "scale(1.7)"), opacity: 1, offset: 0.2 },
+          { transform: k(x1, y1, "scale(1.45)"), opacity: 1, offset: 0.32 },
+          { transform: k(x2, y2, "scale(1.45)"), opacity: 1, offset: 0.78 },
+          { transform: k(x2, y2, "scale(1.7)"), opacity: 1, offset: 0.86 },
+          { transform: k(x2 + 12, y2 + 18, "scale(1.7)"), opacity: 0 },
+        ], { duration: 2400, easing: "ease-in-out" });
+        // La pieza viaja con la mano (solo un empujón visual; vuelve sola a su sitio)
+        const dx = x2 - x1, dy = y2 - y1;
+        first.el.animate([
+          { transform: `translate(${first.hx}px, ${first.hy}px)`, offset: 0.32 },
+          { transform: `translate(${first.hx + dx}px, ${first.hy + dy}px)`, offset: 0.78 },
+          { transform: `translate(${first.hx}px, ${first.hy}px)`, offset: 1 },
+        ], { duration: 2400, easing: "ease-in-out" });
+        running.onfinish = () => { running = null; schedule(3200); };
+      };
+      const schedule = (ms) => { clearTimeout(timer); timer = setTimeout(play, ms); };
+      io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible && !timer) schedule(1200); }, { threshold: 0.5 });
+      io.observe(svg);
+      handHint = { stop() { clearTimeout(timer); running?.cancel(); hand.remove(); io.disconnect(); } };
+    }
+    layer.addEventListener("pointerdown", () => stopHint(), { capture: true });
+    panel.querySelectorAll("[data-try]").forEach((btn) => btn.addEventListener("click", stopHint, { capture: true }));
+
     return {
       layout(isNarrow) {
         // Al colocar las piezas por primera vez (o al cambiar de encuadre) no se anima el salto

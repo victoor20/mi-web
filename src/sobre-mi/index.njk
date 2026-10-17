@@ -14,7 +14,11 @@ schema: "person"
   <div class="wrap about-hero__grid">
     <div>
       <p class="kicker mono">Sobre mí</p>
-      <h1 class="page-hero__title">Víctor Rocamora</h1>
+      {#- Entrada del nombre: cada letra llega desde un punto distinto con un trazo de luz y converge con un rebote corto (CSS, una sola vez al cargar).
+          El texto está completo en el HTML (aria-label en el h1); las letras son decorativas. -#}
+      <h1 class="page-hero__title name-fx" aria-label="Víctor Rocamora">
+        {%- for ch in "Víctor Rocamora" | list %}{% if ch == " " %} {% else %}<span class="nl" aria-hidden="true" style="--i: {{ loop.index0 }}">{{ ch }}</span>{% endif %}{% endfor -%}
+      </h1>
       {%- if c %}
       <p class="page-hero__intro">Técnico de sistemas. Trabajo por mi cuenta arreglando, poniendo a punto y mejorando ordenadores, y estoy orientando mi carrera hacia la ingeniería de IA. Me gusta entender por qué falla algo antes de tocarlo, y dejarlo explicado cuando termino.</p>
       {%- else %}

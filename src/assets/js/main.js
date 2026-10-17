@@ -427,7 +427,16 @@ const whenIdle = (fn) => {
 const stage = document.querySelector("[data-hero-stage]");
 let hero3d = Promise.resolve();
 if (stage && isCapable() && "WebGL2RenderingContext" in window) {
+  // Comprobación previa de WebGL2 (con los mismos atributos que el renderer): si no hay, ni se importa Three.js y la consola queda limpia
+  const hasWebGL = () => {
+    try {
+      const gl = document.createElement("canvas").getContext("webgl2", { failIfMajorPerformanceCaveat: true });
+      gl?.getExtension("WEBGL_lose_context")?.loseContext();
+      return Boolean(gl);
+    } catch { return false; }
+  };
   hero3d = new Promise((resolve) => whenIdle(() => {
+    if (!hasWebGL()) { resolve(); return; }
     import("/assets/js/hero3d.js")
       .then((m) => m.initHero3D(stage, stage.dataset.three))
       .catch((err) => console.warn("Hero 3D desactivado:", err))
