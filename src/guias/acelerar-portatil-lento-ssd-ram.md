@@ -50,12 +50,6 @@ Si tu portátil tiene ranura **M.2 NVMe** (compruébalo antes en el manual o la 
 
 Ampliar la RAM ayuda cuando el equipo se queda corto al abrir muchas pestañas, hacer videollamadas, trabajar con documentos pesados o usar varias aplicaciones a la vez. Para Windows actual, 16 GB es una base sensata. El problema: muchos portátiles llevan parte o toda la memoria soldada. Antes de comprar módulos, comprueba ranuras libres, capacidad máxima, tipo de memoria y frecuencia compatible.
 
-Estos kits son módulos **DIMM de sobremesa**: sirven si el equipo que quieres acelerar es una torre. La mayoría de portátiles usan SO-DIMM o llevan la memoria soldada, y ahí no valen; confirma el formato en el manual de tu modelo antes de comprar.
-
-{% product "corsair-vengeance-ddr5-32-6000" %}
-{% product "crucial-pro-ddr5-32-6000-cl36" %}
-{% product "kingston-fury-beast-ddr4-32-3200" %}
-
 ## Qué hacer según tu caso
 
 **Portátil antiguo con disco mecánico:** primero el SSD, salvo que tenga 4 GB de memoria y vaya claramente corto. Es el cambio que más se nota.

@@ -2212,7 +2212,8 @@
 @keyframes reveal-wipe { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(100% 0 0 0); } }
 @keyframes reveal-sweep { from { transform: translateY(-100%); opacity: 1; } 92% { opacity: 1; } to { transform: translateY(354%); opacity: 0; } }
 
-/* ---------- Sobre mí: hito, trayectoria, insignias y bloques ---------- */
+/* ---------- Sobre mí: hito ---------- */
+/* Crítica en Sobre mí: la banda asoma en la primera pantalla de escritorio y, si llegaba con site.css, se desplazaba (CLS) */
 /* Marco facetado de las fotos: el mismo ángulo cortado del retrato */
 .facet-frame {
   margin: 0;
@@ -2255,6 +2256,7 @@
   .jamA__photos .facet-frame:last-child { transform: none; }
 }
 
+/* ---------- Sobre mí: trayectoria, insignias y bloques ---------- */
 /* Trayectoria: riel compacto con el trazo que se dibuja al hacer scroll */
 .about-path { padding-bottom: clamp(1.25rem, 3vw, 2rem); }
 .about-lite { padding-top: clamp(1rem, 2.5vw, 1.75rem); }
